@@ -20,14 +20,19 @@ class ModelBase(object):
 
 		if cache_path.exists():
 			with open(cache_path, "r") as fp:	
-				response = json.load(fp)
+				cache_payload = json.load(fp)
+				response = cache_payload["response"]
 		else:
 			# TODO: save abnormal responses as well
 			response = self.prompt(**kwargs)
 
 			# Save raw response to file
-			# TODO: Save inputs as well
 			with open(cache_path, "w") as fp:
-				json.dump(response, fp)
+				json.dump({
+					"input": {
+						**kwargs
+					},
+					"response": response
+				}, fp)
 
 		return response
