@@ -19,6 +19,8 @@ class SingleTaskBenchmark(object):
 	def run_pipeline(self, sample_key, input_sample):
 		prompt = self.prompt_fn(input_sample)
 		model_output = self.model.run_model(sample_key, **prompt)
+		if model_output is None:
+			return None
 		filtered_output = self.post_process_fn(model_output)
 
 		return filtered_output

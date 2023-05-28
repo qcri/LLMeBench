@@ -10,14 +10,15 @@ def config():
 		"dataset_args": {},
 		"task": DemographyGenderTask,
 		"task_args": {"test": "useless"},
-		"model": GPTModel,
+		"model": RandomGPTModel,
 		"model_args": {
 			"api_type": "azure",
 			"api_version": "2023-03-15-preview",
 			"api_base": os.environ["AZURE_API_URL"],
 			"api_key": os.environ["AZURE_API_KEY"],
 			"engine_name": "gpt",
-			"class_labels": ["m", "f"]
+			"class_labels": ["m", "f"],
+			"ignore_cache": True
 		},
 		"general_args": {
 			"data_path": "/Users/fahim/QCRI/Projects/2023-LLM-benchmarking-for-arabic/packaging/raw/demography/gender/data/gender-test.txt"

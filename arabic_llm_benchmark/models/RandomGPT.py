@@ -14,4 +14,6 @@ class RandomGPTModel(ModelBase):
         super(RandomGPTModel, self).__init__(**kwargs)
 
     def prompt(self, **kwargs):
+        if random.random() < 0.05:
+            raise ValueError()
         return GPTResponseMock(random.choice(self.class_labels))
