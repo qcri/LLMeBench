@@ -13,7 +13,7 @@ class GPTModel(ModelBase):
         self.message_template = "\n<|im_start|>{}\n{}\n<|im_end|>"
         self.engine_name = engine_name
 
-        super(GPTModel, self).__init__(**kwargs)
+        super(GPTModel, self).__init__(retry_exceptions=(openai.InvalidRequestError,openai.error.Timeout), **kwargs)
 
     # defining a function to create the prompt from the system and user messages
     def create_prompt(self, system_message, messages):
