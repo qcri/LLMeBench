@@ -5,25 +5,55 @@ from pathlib import Path
 
 import importlib
 import utils
+import json
 
 class SingleTaskBenchmark(object):
-	def __init__(self, config, prompt_fn, post_process_fn, cache_dir):
+	def __init__(self, config, prompt_fn, post_process_fn, cache_dir, ignore_cache=False, ignore_postprocessing=True):
+		# Pipeline components
 		self.dataset = config["dataset"](**config["dataset_args"])
 		self.task = config["task"](self.dataset, **config["task_args"])
-		self.model = config["model"](cache_dir=cache_dir, **config["model_args"])
+		self.model = config["model"](**config["model_args"])
 
+		# Caching parameters
+		self.cache_dir = cache_dir
+		if not self.cache_dir.exists():
+			self.cache_dir.mkdir(parents=True)
+		self.ignore_cache = ignore_cache
+		self.ignore_post_processing = ignore_postprocessing
+
+		# Model inference
 		self.prompt_fn = prompt_fn
 		self.post_process_fn = post_process_fn
+
+		# Data parameters
 		self.data_path = config["general_args"]["data_path"]
 
-	def run_pipeline(self, sample_key, input_sample):
-		prompt = self.prompt_fn(input_sample)
-		model_output = self.model.run_model(sample_key, **prompt)
-		if model_output is None:
-			return None
-		filtered_output = self.post_process_fn(model_output)
+	def run_pipeline(self, sample_key, input_sample, cache_payload=None):
+		# Prepare the prompt
+		if "prompt" in cache_payload:
+			prompt = cache_payload["prompt"]
+		else:
+			prompt = self.prompt_fn(input_sample)
+			cache_payload["prompt"] = prompt
 
-		return filtered_output
+		# Run the model
+		if "model_output" in cache_payload:
+			model_output = cache_payload["model_output"]
+
+		if "model_output" not in cache_payload or "response" not in model_output:
+			model_output = self.model.run_model(**prompt)
+			cache_payload["model_output"] = model_output
+
+		if "response" not in model_output:
+			return cache_payload
+
+		if "filtered_output" in cache_payload and not self.ignore_post_processing:
+			filtered_output = cache_payload["filtered_output"]
+		else:
+			filtered_output = self.post_process_fn(model_output["response"])
+			cache_payload["filtered_output"] = filtered_output
+
+		return cache_payload
 
 	def run_benchmark(self):
 		data = self.task.load_data(self.data_path)
@@ -31,13 +61,28 @@ class SingleTaskBenchmark(object):
 		true_labels = []
 		predictions = []
 
-		for sample_idx, (input_sample, label) in enumerate(data):
-			true_labels.append(label)
-			predictions.append(self.run_pipeline(sample_idx, input_sample))
+		for sample_idx, input_sample in enumerate(data):
+			cache_path = self.cache_dir / f"{sample_idx}.json"
+			true_labels.append(input_sample["label"])
 
-		evaluation_score = self.task.evaluate(true_labels, predictions)
+			cache_payload = {"input": input_sample}
+			if cache_path.exists() and not self.ignore_cache:
+				with open(cache_path, "r") as fp:
+					cache_payload = json.load(fp)
 
-		return evaluation_score
+			cache_payload = self.run_pipeline(sample_idx, input_sample["input"], cache_payload)
+			if "filtered_output" in cache_payload:
+				predictions.append(cache_payload["filtered_output"])
+			else:
+				predictions.append(None)
+
+			# Save the cache payload
+			with open(cache_path, "w") as fp:
+				json.dump(cache_payload, fp)
+
+		evaluation_scores = self.task.evaluate(true_labels, predictions)
+
+		return evaluation_scores
 
 class Benchmark(object):
 	def __init__(self, benchmark_dir):
