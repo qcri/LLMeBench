@@ -6,6 +6,9 @@ from pathlib import Path
 import importlib
 import utils
 import json
+import logging
+import traceback
+import sys
 
 class SingleTaskBenchmark(object):
 	def __init__(self, config, prompt_fn, post_process_fn, cache_dir, ignore_cache=False, ignore_postprocessing=True):
@@ -31,16 +34,20 @@ class SingleTaskBenchmark(object):
 	def run_pipeline(self, sample_key, input_sample, cache_payload=None):
 		# Prepare the prompt
 		if "prompt" in cache_payload:
+			logging.info(f"\tLoading prompt from cache")
 			prompt = cache_payload["prompt"]
 		else:
+			logging.info(f"\tGenerating prompt")
 			prompt = self.prompt_fn(input_sample)
 			cache_payload["prompt"] = prompt
 
 		# Run the model
 		if "model_output" in cache_payload:
+			logging.info(f"\tLoading model output from cache")
 			model_output = cache_payload["model_output"]
 
 		if "model_output" not in cache_payload or "response" not in model_output:
+			logging.info(f"\tRunning model")
 			model_output = self.model.run_model(**prompt)
 			cache_payload["model_output"] = model_output
 
@@ -48,10 +55,17 @@ class SingleTaskBenchmark(object):
 			return cache_payload
 
 		if "filtered_output" in cache_payload and not self.ignore_post_processing:
+			logging.info(f"\tLoading post processed output from cache")
 			filtered_output = cache_payload["filtered_output"]
 		else:
-			filtered_output = self.post_process_fn(model_output["response"])
-			cache_payload["filtered_output"] = filtered_output
+			logging.info(f"\tPost processing model outputs")
+			try:
+				filtered_output = self.post_process_fn(model_output["response"])
+				cache_payload["filtered_output"] = filtered_output
+			except Exception as e:
+				exc_info = sys.exc_info()
+				exception_str = ''.join(traceback.format_exception(*exc_info))
+				cache_payload["filtered_output_failure_message"] = exception_str
 
 		return cache_payload
 
@@ -61,7 +75,9 @@ class SingleTaskBenchmark(object):
 		true_labels = []
 		predictions = []
 
+		num_failed = 0
 		for sample_idx, input_sample in enumerate(data):
+			logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
 			cache_path = self.cache_dir / f"{sample_idx}.json"
 			true_labels.append(input_sample["label"])
 
@@ -74,12 +90,16 @@ class SingleTaskBenchmark(object):
 			if "filtered_output" in cache_payload:
 				predictions.append(cache_payload["filtered_output"])
 			else:
+				logging.error(f"\tNo prediction for sample")
+				num_failed += 1
 				predictions.append(None)
 
 			# Save the cache payload
 			with open(cache_path, "w") as fp:
 				json.dump(cache_payload, fp)
 
+		if num_failed > 0:
+			logging.error(f"{num_failed}/{len(data)} samples do not have any predictions")
 		evaluation_scores = self.task.evaluate(true_labels, predictions)
 
 		return evaluation_scores
@@ -111,6 +131,8 @@ def main():
 	parser.add_argument("results_dir", type=Path)
 	parser.add_argument("--ignore_cache", action="store_true")
 	args = parser.parse_args()
+
+	logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 	benchmark = Benchmark(args.benchmark_dir)
 

@@ -5,11 +5,12 @@ from tenacity import retry, wait_random_exponential, stop_after_attempt, retry_i
 
 import traceback
 import sys
+import logging
 
 def log_retry(retry_state):
 	if retry_state.attempt_number == 1:
 		return
-	print(f"Request failed, retry attempt {retry_state.attempt_number}...")
+	logging.warning(f"Request failed, retry attempt {retry_state.attempt_number}...")
 
 class ModelBase(object):
 	def __init__(self, max_retries=2, retry_exceptions=(), **kwargs):
