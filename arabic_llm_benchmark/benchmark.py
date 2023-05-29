@@ -109,6 +109,7 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument("benchmark_dir", type=Path)
 	parser.add_argument("results_dir", type=Path)
+	parser.add_argument("--ignore_cache", action="store_true")
 	args = parser.parse_args()
 
 	benchmark = Benchmark(args.benchmark_dir)
@@ -121,7 +122,7 @@ def main():
 		prompt_fn = run["module"].prompt
 		post_process_fn = run["module"].post_process
 
-		task_benchmark = SingleTaskBenchmark(config, prompt_fn, post_process_fn, cache_dir=args.results_dir / name)
+		task_benchmark = SingleTaskBenchmark(config, prompt_fn, post_process_fn, cache_dir=args.results_dir / name, ignore_cache=args.ignore_cache)
 
 		print(task_benchmark.run_benchmark())
 

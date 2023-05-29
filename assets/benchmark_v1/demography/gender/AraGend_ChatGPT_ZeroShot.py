@@ -20,8 +20,7 @@ def config():
 			"class_labels": ["m", "f"],
 		},
 		"general_args": {
-			"data_path": "/Users/fahim/QCRI/Projects/2023-LLM-benchmarking-for-arabic/packaging/raw/demography/gender/data/gender-test.txt",
-			"ignore_cache": True
+			"data_path": "/Users/fahim/QCRI/Projects/2023-LLM-benchmarking-for-arabic/packaging/raw/demography/gender/data/gender-test.txt"
 		}
 	}
 
