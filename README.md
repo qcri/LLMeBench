@@ -39,7 +39,7 @@ speech
 A sample benchmark is available in `assets/benchmark_v1`. To run the benchmark,
 
 ```bash
-python arabic_llm_benchmark/benchmark.py <benchmark-dir> <results-dir>
+python -m arabic_llm_benchmark <benchmark-dir> <results-dir>
 ```
 
 where `<benchmark-dir>` can point to `assets/benchmark_v1` for example. The

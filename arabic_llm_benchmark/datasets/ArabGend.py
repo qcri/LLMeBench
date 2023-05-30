@@ -2,8 +2,8 @@ from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
 class ArabGendDataset(DatasetBase):
-    def __init__(self):
-        pass
+    def __init__(self, **kwargs):
+        super(ArabGendDataset, self).__init__(**kwargs)
 
     def citation(self):
         return """@article{mubarak2022arabgend,

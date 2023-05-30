@@ -25,7 +25,7 @@ class SingleTaskBenchmark(object):
     ):
         # Pipeline components
         self.dataset = config["dataset"](**config["dataset_args"])
-        self.task = config["task"](self.dataset, **config["task_args"])
+        self.task = config["task"](dataset=self.dataset, **config["task_args"])
         self.model = config["model"](**config["model_args"])
 
         # Caching parameters
@@ -219,7 +219,3 @@ def main():
 
     with open(all_results_path, "w") as fp:
         json.dump(all_results, fp)
-
-
-if __name__ == "__main__":
-    main()
