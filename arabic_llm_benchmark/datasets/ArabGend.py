@@ -1,19 +1,18 @@
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
+
 class ArabGendDataset(DatasetBase):
-	def __init__(self):
-		pass
+    def __init__(self):
+        pass
 
-	def load_data(self, data_path, no_labels=False):
-		# TODO: modify to iterator
-		data = []
-		with open(data_path, "r") as fp:
-			for line_idx, line in enumerate(fp):
-				label, name = line.strip().split("\t")
-				data.append({
-					"input": name,
-					"label": label[-1],
-					"line_number": line_idx
-				})
+    def load_data(self, data_path, no_labels=False):
+        # TODO: modify to iterator
+        data = []
+        with open(data_path, "r") as fp:
+            for line_idx, line in enumerate(fp):
+                label, name = line.strip().split("\t")
+                data.append(
+                    {"input": name, "label": label[-1], "line_number": line_idx}
+                )
 
-		return data
+        return data
