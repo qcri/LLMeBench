@@ -1,7 +1,12 @@
+# Python transient stuff
 *.egg-info
 *__pycache__
 .envs
 *.pyc
 
+# macOS stuff
 *.DS_Store
+
+# Benchmark runs directories
 results
+data

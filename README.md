@@ -20,6 +20,21 @@ Install the dependencies and benchmarking package:
 pip install -e '.[dev]'
 ```
 
+## Get the benchmark data
+Download the benchmark from [here](https://neurox.qcri.org/projects/arabic_llm_benchmark/arabic_llm_benchmark_data.zip), and unzip in into the `Arabic_LLM_Benchmark` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
+
+```bash
+$ ls data/
+MT
+STS
+XNLI
+demography
+factuality_disinformation_harmful_content
+sentiment_emotion_others
+sequence_tagging_ner_pos_etc
+speech
+```
+
 ## Running the benchmark
 A sample benchmark is available in `assets/benchmark_v1`. To run the benchmark,
 
