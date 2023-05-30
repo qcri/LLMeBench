@@ -11,7 +11,7 @@ import traceback
 import sys
 
 class SingleTaskBenchmark(object):
-	def __init__(self, config, prompt_fn, post_process_fn, cache_dir, ignore_cache=False, ignore_postprocessing=True):
+	def __init__(self, config, prompt_fn, post_process_fn, cache_dir, ignore_cache=False, ignore_postprocessing=True, limit=-1):
 		# Pipeline components
 		self.dataset = config["dataset"](**config["dataset_args"])
 		self.task = config["task"](self.dataset, **config["task_args"])
@@ -30,6 +30,7 @@ class SingleTaskBenchmark(object):
 
 		# Data parameters
 		self.data_path = config["general_args"]["data_path"]
+		self.limit = limit
 
 	def run_pipeline(self, sample_key, input_sample, cache_payload=None):
 		# Prepare the prompt
@@ -77,6 +78,8 @@ class SingleTaskBenchmark(object):
 
 		num_failed = 0
 		for sample_idx, input_sample in enumerate(data):
+			if self.limit > 0 and sample_idx >= self.limit:
+				break
 			logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
 			cache_path = self.cache_dir / f"{sample_idx}.json"
 			true_labels.append(input_sample["label"])
@@ -133,6 +136,7 @@ def main():
 	parser.add_argument("results_dir", type=Path)
 	parser.add_argument("-f", "--filter", default="*.py", help="Filter to match specific tasks in the benchmark. Examples are '*ZeroShot*', 'Demography*', '*.py' (default). The .py extension is added automatically if missing.")
 	parser.add_argument("--ignore_cache", action="store_true")
+	parser.add_argument("-l", "--limit", default=-1, type=int, help="Limit the number of input instances that will be processed")
 	args = parser.parse_args()
 
 	logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(asctime)s %(levelname)s %(message)s")
@@ -148,7 +152,7 @@ def main():
 		post_process_fn = run["module"].post_process
 
 		logging.info(f"Running benchmark: {name}")
-		task_benchmark = SingleTaskBenchmark(config, prompt_fn, post_process_fn, cache_dir=args.results_dir / name, ignore_cache=args.ignore_cache)
+		task_benchmark = SingleTaskBenchmark(config, prompt_fn, post_process_fn, cache_dir=args.results_dir / name, ignore_cache=args.ignore_cache, limit=args.limit)
 
 		print(task_benchmark.run_benchmark())
 
