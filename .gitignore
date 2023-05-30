@@ -10,3 +10,6 @@
 # Benchmark runs directories
 results
 data
+
+# Tests
+.coverage
