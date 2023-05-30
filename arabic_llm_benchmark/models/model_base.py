@@ -13,13 +13,13 @@ def log_retry(retry_state):
 	logging.warning(f"Request failed, retry attempt {retry_state.attempt_number}...")
 
 class ModelBase(object):
-	def __init__(self, max_retries=2, retry_exceptions=(), **kwargs):
-		self.max_retries = max_retries
+	def __init__(self, max_tries=5, retry_exceptions=(), **kwargs):
+		self.max_tries = max_tries
 
 		# Instantiate retrying mechanism
 		self.prompt = retry(
 			wait=wait_random_exponential(multiplier=1, max=60),
-			stop=stop_after_attempt(self.max_retries),
+			stop=stop_after_attempt(self.max_tries),
 			retry=retry_if_exception_type(retry_exceptions),
 			before=log_retry,
 			reraise=True
