@@ -6,6 +6,10 @@ class DatasetBase(ABC):
         pass
 
     @abstractmethod
+    def citation(self):
+        pass
+
+    @abstractmethod
     def load_data(self, data_path, no_labels=False):
         """
         Returns a list of dictionaries,

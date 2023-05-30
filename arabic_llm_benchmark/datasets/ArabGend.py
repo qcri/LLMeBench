@@ -5,6 +5,14 @@ class ArabGendDataset(DatasetBase):
     def __init__(self):
         pass
 
+    def citation(self):
+        return """@article{mubarak2022arabgend,
+          title={ArabGend: Gender analysis and inference on {A}rabic Twitter},
+          author={Mubarak, Hamdy and Chowdhury, Shammur Absar and Alam, Firoj},
+          journal={arXiv preprint arXiv:2203.00271},
+          year={2022}
+        }"""
+
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
         data = []
