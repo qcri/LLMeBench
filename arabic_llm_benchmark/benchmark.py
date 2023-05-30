@@ -9,7 +9,7 @@ import traceback
 from glob import glob
 from pathlib import Path
 
-import utils
+from . import utils
 
 
 class SingleTaskBenchmark(object):
@@ -88,10 +88,12 @@ class SingleTaskBenchmark(object):
         predictions = []
 
         num_failed = 0
+        num_processed = 0
         for sample_idx, input_sample in enumerate(data):
             if self.limit > 0 and sample_idx >= self.limit:
                 break
             logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
+            num_processed += 1
             cache_path = self.cache_dir / f"{sample_idx}.json"
             true_labels.append(input_sample["label"])
 
@@ -120,14 +122,18 @@ class SingleTaskBenchmark(object):
             )
         evaluation_scores = self.task.evaluate(true_labels, predictions)
 
-        return evaluation_scores
+        return {
+            "num_processed": num_processed,
+            "num_failed": num_failed,
+            "evaluation_scores": evaluation_scores,
+        }
 
 
 class Benchmark(object):
     def __init__(self, benchmark_dir):
         self.benchmark_dir = Path(benchmark_dir)
 
-    def find_runs(self, filter_str):
+    def find_runs(self, filter_str="*.py"):
         if not filter_str.endswith(".py"):
             filter_str += ".py"
         runs = []
@@ -176,6 +182,15 @@ def main():
 
     runs = benchmark.find_runs(filter_str=args.filter)
 
+    all_results_path = args.results_dir / "all_results.json"
+
+    if not all_results_path.exists():
+        with open(all_results_path, "w") as fp:
+            json.dump({}, fp)
+
+    with open(all_results_path, "r") as fp:
+        all_results = json.load(fp)
+
     for run in runs:
         name = run["name"]
         config = run["module"].config()
@@ -192,7 +207,18 @@ def main():
             limit=args.limit,
         )
 
-        print(task_benchmark.run_benchmark())
+        task_results = task_benchmark.run_benchmark()
+        print(f"{name}:", task_results["evaluation_scores"])
+
+        task_result_path = args.results_dir / name / "results.json"
+
+        with open(task_result_path, "w") as fp:
+            json.dump(task_results, fp)
+
+        all_results[name] = task_results
+
+    with open(all_results_path, "w") as fp:
+        json.dump(all_results, fp)
 
 
 if __name__ == "__main__":
