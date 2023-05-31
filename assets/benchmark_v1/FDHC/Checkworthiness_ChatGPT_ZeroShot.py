@@ -26,18 +26,35 @@ def config():
 	}
 
 def prompt(input_sample):
+
+	## GPT 3.5 - turbo
+	# return {
+	# 	"system_message": "You are an AI assistant that helps people find information.",
+	# 	"messages": [
+	# 		{
+	# 			"sender":"user",
+	# 			"text": f"Classify the \"tweet\" as checkworthy or not_checkworthy. Provide only label.\n\nsentence: {input_sample} \nlabel:"
+	# 		}
+	# 	]
+	# }
+
+	system_prompt = "## INSTRUCTION\nYou are an expert social media content analyst.\n\n"
+	input_sample = f"Classify the \"Tweet\" as SUBJ or OBJ. Provide only label.\n## Tweet: {input_sample} \n## Response:\n"
+
 	return {
-		"system_message": "You are an AI assistant that helps people find information.",
 		"messages": [
 			{
-				"sender":"user",
-				"text": f"Classify the \"tweet\" as checkworthy or not_checkworthy. Provide only label.\n\nsentence: {input_sample} \nlabel:"
+				{"role": "system", "content": f"{system_prompt}"},
+				{"role": "user", "content": f"{input_sample}"},
+
 			}
 		]
 	}
 
+
 def post_process(response):
-	label = response["choices"][0]['text']
+	# label = response["choices"][0]['text']
+	label = response["response"]["choices"][0]["message"]["content"]
 
 	if (label == "checkworthy"):
 		label_fixed = "1"

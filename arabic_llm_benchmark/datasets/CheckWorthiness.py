@@ -13,8 +13,9 @@ class CheckWorthinessDataset(DatasetBase):
 		for index, row in raw_data.iterrows():
 			text = row["tweet_text"]
 			label= str(row["class_label"])
-		# for line in fp:
-		# 	label, name = line.strip().split("\t")
-		#
-			data.append((text, label))
+			data.append({
+				"input": text,
+				"label": label,
+				"line_number": index
+			})
 		return data
