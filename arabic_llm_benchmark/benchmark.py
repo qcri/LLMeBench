@@ -182,6 +182,9 @@ def main():
 
     runs = benchmark.find_runs(filter_str=args.filter)
 
+    if not args.results_dir.exists():
+        args.results_dir.mkdir(parents=True)
+
     all_results_path = args.results_dir / "all_results.json"
 
     if not all_results_path.exists():
