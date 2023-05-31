@@ -78,6 +78,8 @@ class NewDataset(DatasetBase):
 		#   "label": this will be used for evaluation
 ```
 
+Once the `Dataset` is implemented, export it in `arabic_llm_benchmark/datasets/__init__.py`.
+
 ### Task
 Check if the task you are adding to the benchmark already has an implementation in `arabic_llm_benchmark/tasks`. If not, implement a new dataset module (e.g. `arabic_llm_benchmark/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) which subclasses `TaskBase`. See an existing task module for inspiration. Each new task class requires implementing two functions:
 
@@ -95,6 +97,8 @@ class NewTask(TaskBase):
 		# post_process function
 ```
 
+Once the `Task` is implemented, export it in `arabic_llm_benchmark/tasks/__init__.py`.
+
 ### Model
 Next, check if the model you are trying to run the benchmark for has an implementation in `arabic_llm_benchmark/models`. If not, implement a new model module (e.g. `arabic_llm_benchmark/models/QARiB.py`), which implements a class (e.g. `QARiBModel`) which subclasses `ModelBase`. See an existing model module for inspiration. Each new model class requires implementing two functions:
 
@@ -110,6 +114,8 @@ class NewModel(TaskBase):
 		# This function gets the pre-processed input and must
 		# run the actual model and return model outputs
 ```
+
+Once the `Model` is implemented, export it in `arabic_llm_benchmark/models/__init__.py`.
 
 ### Benchmark Asset
 Now that the Dataset, Task and Model are defined, the framework expects a given benchmark asset (e.g. "ArabGender" dataset, "GenderClassification" task, "GPT" model and "ZeroShot" prompting setting) to have a `*.py` file with three functions:
