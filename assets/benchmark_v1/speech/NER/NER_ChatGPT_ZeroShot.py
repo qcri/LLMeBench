@@ -39,16 +39,16 @@ def prompt(input_sample):
 
 def parse_ner_labels(chat_out):
     chat_out = chat_out.replace("),", "\t")
-    fields = chat_out[1:len(chat_out)-2].split("\t") # ignore []
+    fields = chat_out[1 : len(chat_out) - 2].split("\t")  # ignore []
     labels = []
     for f in fields:
         fields2 = f.split(",")
         word = fields2[0]
         label = fields2[1]
-        #print(f)
-        #print(word, label, "\n")
+        # print(f)
+        # print(word, label, "\n")
         label = label.strip().replace("'", "")
-        #print(label)
+        # print(label)
         if label == "PER":
             label = "B-PER"
         elif label == "LOC":
@@ -59,7 +59,7 @@ def parse_ner_labels(chat_out):
             label = "B-OTH"
 
         labels.append(label)
-    #print("\n", labels)
+    # print("\n", labels)
     return labels
 
 
