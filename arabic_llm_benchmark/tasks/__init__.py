@@ -1,4 +1,3 @@
-from .DemographyGender import DemographyGenderTask
-from .CheckWorthiness import CheckWorthinessTask
 from .Attentionworthy import CheckWorthinessTask
+from .DemographyGender import DemographyGenderTask
 from .Subjectivity import SubjectivityTask
