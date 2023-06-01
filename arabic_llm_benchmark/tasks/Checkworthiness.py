@@ -3,7 +3,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
-class AttentionworthyTask(TaskBase):
+class CheckworthinessTask(TaskBase):
     def evaluate(self, gold_labels, pred_labels):
         acc = accuracy_score(gold_labels, pred_labels)
         precision = precision_score(

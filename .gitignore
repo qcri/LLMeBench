@@ -13,3 +13,5 @@ data
 
 # Tests
 .coverage
+
+.idea

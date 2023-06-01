@@ -2,14 +2,14 @@ import os
 
 from arabic_llm_benchmark.datasets import SubjectivityDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import SubjectivityTask
+from arabic_llm_benchmark.tasks import AttentionworthyTask
 
 
 def config():
     return {
         "dataset": SubjectivityDataset,
         "dataset_args": {},
-        "task": SubjectivityTask,
+        "task": AttentionworthyTask,
         "task_args": {"test": "useless"},
         "model": RandomGPTModel,
         "model_args": {
@@ -33,7 +33,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the sentence as Subjective or Objective. Provide only label.\ntext: {input_sample}\nlabel:",
+                "text": f"Classify the sentence by whether it should get the attention of policymakers. Answer by yes or no. If the predicted label is yes then classify the sentence into one of the following categories: asks question, blame authorities, calls for action, Harmful, contains advice, discusses action taken, discusses cure, or other.\n\ntext: {input_sample}\nlabel:",
             }
         ],
     }

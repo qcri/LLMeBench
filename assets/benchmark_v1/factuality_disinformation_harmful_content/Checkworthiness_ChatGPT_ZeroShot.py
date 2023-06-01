@@ -1,16 +1,16 @@
 import os
 
-from arabic_llm_benchmark.datasets import CheckWorthinessDataset
+from arabic_llm_benchmark.datasets import CheckworthinessDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import CheckWorthinessTask
+from arabic_llm_benchmark.tasks import CheckworthinessTask
 
 
 def config():
     return {
-        "dataset": CheckWorthinessDataset,
+        "dataset": CheckworthinessDataset,
         "dataset_args": {},
-        "task": CheckWorthinessTask,
-        "task_args": {"test": "useless"},
+        "task": CheckworthinessTask,
+        "task_args": {},
         "model": RandomGPTModel,
         "model_args": {
             "api_type": "azure",
@@ -19,10 +19,10 @@ def config():
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
             "class_labels": ["checkworthy", "not_checkworthy"],
-            "ignore_cache": True,
+            "max_tries": 3,
         },
         "general_args": {
-            "data_path": "/Users/firojalamqcri/QCRI/ALT_tanbih/LLM_benchmarking_arabic_nlp_tasks/exp_LLM_benchmarking_arabic_nlp_tasks/tasks/factuality_disinformation_harmful_content/checkworthyness/data/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "tasks/factuality_disinformation_harmful_content/checkworthyness/data/CT22_arabic_1A_checkworthy_test_gold.tsv"
         },
     }
 
@@ -38,19 +38,6 @@ def prompt(input_sample):
             }
         ],
     }
-
-    # system_prompt = "## INSTRUCTION\nYou are an expert social media content analyst.\n\n"
-    # input_sample = f"Classify the \"Tweet\" as checkworthy or not_checkworthy. Provide only label.\n## Tweet: {input_sample} \n## Response:\n"
-    #
-    # return {
-    #     "system_message": "You are an AI assistant that helps people find information.",
-    #     "messages": [
-    #         {
-    #             {"role": "system", "content": system_prompt},
-    #             {"role": "user", "content": input_sample},
-    #         }
-    #     ],
-    # }
 
 
 def post_process(response):

@@ -1,4 +1,4 @@
 from .ArabGend import ArabGendDataset
 from .Attentionworthy import AttentionworthyDataset
-from .CheckWorthiness import CheckWorthinessDataset
+from .Checkworthiness import CheckworthinessDataset
 from .Subjectivity import SubjectivityDataset
