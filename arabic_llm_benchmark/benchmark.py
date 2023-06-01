@@ -25,6 +25,7 @@ class SingleTaskBenchmark(object):
     ):
         # Pipeline components
         self.dataset = config["dataset"](**config["dataset_args"])
+        print("Config:", config["task"])
         self.task = config["task"](dataset=self.dataset, **config["task_args"])
         self.model = config["model"](**config["model_args"])
 
@@ -138,6 +139,7 @@ class Benchmark(object):
             filter_str += ".py"
         runs = []
         match_str = str(self.benchmark_dir / "**" / filter_str)
+        print("Str:", match_str)
         for run in glob(match_str, recursive=True):
             module_path = str(Path(run).resolve())
             module_name = Path(run).name

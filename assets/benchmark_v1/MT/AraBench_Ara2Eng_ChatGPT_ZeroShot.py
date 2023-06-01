@@ -2,7 +2,7 @@ import os
 
 from arabic_llm_benchmark.datasets import AraBenchDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import AraBenchTask
+from arabic_llm_benchmark.tasks import MachineTranslationTask
 
 
 def config():
@@ -12,7 +12,7 @@ def config():
             "src": "madar.test.mgr.0.dz.ar",
             "tgt": "madar.test.mgr.0.dz.en",
         },
-        "task": AraBenchTask,
+        "task": MachineTranslationTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
