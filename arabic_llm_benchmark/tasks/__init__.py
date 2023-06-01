@@ -1,2 +1,2 @@
-from .AraBench import AraBenchTask
 from .DemographyGender import DemographyGenderTask
+from .MachineTranslation import MachineTranslationTask

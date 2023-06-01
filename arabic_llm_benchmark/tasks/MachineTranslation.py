@@ -10,11 +10,11 @@ class MachineTranslationTask(TaskBase):
 
     def evaluate(self, reference, candidate):
         score = 0.0
-        if(candidate == None):
-            candidate = ['']*len(reference)
-        if(len(candidate)<len(reference)):
-            for i in range(len(reference)-len(candidate)):
-                candidate.append([''])
+        if candidate == None:
+            candidate = [""] * len(reference)
+        if len(candidate) < len(reference):
+            for i in range(len(reference) - len(candidate)):
+                candidate.append([""])
 
         for i in range(len(reference)):
             score += sentence_bleu(
