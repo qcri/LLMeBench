@@ -13,6 +13,9 @@ class ArabGendDataset(DatasetBase):
           year={2022}
         }"""
 
+    def get_data_sample(self):
+        return {"input": "A name", "label": "m"}
+
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
         data = []
