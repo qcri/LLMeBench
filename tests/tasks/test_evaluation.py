@@ -38,3 +38,19 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
                         + f" encountered was: \n {e}"
                         ""
                     )
+
+    @patch("os.environ")
+    def test_task_evaluation_format(self, os_env_mock):
+        "Test if evaluation function returns a dict"
+        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
+        for asset in self.assets:
+            with self.subTest(msg=asset["name"]):
+                config = asset["module"].config()
+                dataset = config["dataset"](**config["dataset_args"])
+                data_sample = dataset.get_data_sample()
+                task = config["task"](dataset=None, **config["task_args"])
+                evaluation_scores = task.evaluate(
+                    [data_sample["label"]], [data_sample["label"]]
+                )
+
+                self.assertIsInstance(evaluation_scores, dict)
