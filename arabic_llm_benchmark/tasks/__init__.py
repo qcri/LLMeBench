@@ -1,1 +1,2 @@
 from .DemographyGender import DemographyGenderTask
+from .MachineTranslation import MachineTranslationTask
