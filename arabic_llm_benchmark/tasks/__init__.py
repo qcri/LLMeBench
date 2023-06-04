@@ -1,1 +1,3 @@
 from .DemographyGender import DemographyGenderTask
+from .PropagandaMultilabel import PropagandaMultilabelTask
+
