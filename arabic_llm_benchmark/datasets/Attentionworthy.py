@@ -7,6 +7,9 @@ class AttentionworthyDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(AttentionworthyDataset, self).__init__(**kwargs)
 
+    def get_data_sample(self):
+        return {"input": "some tweet", "label": "no_not_interesting"}
+
     def citation(self):
         return """
                 @InProceedings{clef-checkthat:2022:task1,

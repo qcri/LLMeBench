@@ -5,7 +5,10 @@ from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 class CheckworthinessDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(CheckWorthinessDataset, self).__init__(**kwargs)
+        super(CheckworthinessDataset, self).__init__(**kwargs)
+
+    def get_data_sample(self):
+        return {"input": "some tweet", "label": "checkworthy"}
 
     def citation(self):
         return """

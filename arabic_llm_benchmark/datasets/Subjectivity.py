@@ -7,6 +7,9 @@ class SubjectivityDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(SubjectivityDataset, self).__init__(**kwargs)
 
+    def get_data_sample(self):
+        return {"input": "some tweet", "label": "SUBJ"}
+
     def citation(self):
         return """
                 @inproceedings{barron2023clef,
