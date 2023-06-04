@@ -1,10 +1,9 @@
-import os
+import types
 
 import unittest
-from collections import defaultdict
-from unittest import mock
+from unittest.mock import patch
 
-from arabic_llm_benchmark import Benchmark, utils
+from arabic_llm_benchmark import Benchmark
 
 
 class TestBenchmarkAssets(unittest.TestCase):
@@ -17,19 +16,18 @@ class TestBenchmarkAssets(unittest.TestCase):
     def test_required_functions(self):
         "Test if all assets have required functions"
 
-        for asset in self.assets:
-            with self.subTest(msg=asset["name"]):
-                asset["module"].config
-                asset["module"].prompt
-                asset["module"].post_process
+        for asset_idx, asset in enumerate(self.assets):
+            with self.subTest(msg=asset["name"], i=asset_idx):
+                self.assertIsInstance(asset["module"].config, types.FunctionType)
+                self.assertIsInstance(asset["module"].prompt, types.FunctionType)
+                self.assertIsInstance(asset["module"].post_process, types.FunctionType)
 
-    @mock.patch.dict(
-        os.environ,
-        {"AZURE_API_URL": "test_url", "AZURE_API_KEY": "test_key"},
-        clear=True,
-    )
-    def test_config_format(self):
+    @patch("os.environ")
+    def test_config_format(self, os_env_mock):
         "Test if all configs are well defined"
+
+        # Handle environment variables required at runtime
+        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
 
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
