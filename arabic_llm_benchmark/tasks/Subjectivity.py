@@ -10,6 +10,9 @@ from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
 class SubjectivityTask(TaskBase):
+    def __init__(self, **kwargs):
+        super(SubjectivityTask, self).__init__(**kwargs)
+
     def evaluate(self, gold_labels, pred_labels):
         acc = accuracy_score(gold_labels, pred_labels)
         m_prec, m_rec, m_f1, m_s = precision_recall_fscore_support(

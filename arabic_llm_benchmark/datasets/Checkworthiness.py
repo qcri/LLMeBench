@@ -11,7 +11,7 @@ class CheckworthinessDataset(DatasetBase):
         return """
                 @inproceedings{nakov2022overview,
                   title={Overview of the clef--2022 checkthat! lab on fighting the covid-19 infodemic and fake news detection},
-                  author={Nakov, Preslav and Barr{\'o}n-Cede{\~n}o, Alberto and da San Martino, Giovanni and Alam, Firoj and Stru{\ss}, Julia Maria and Mandl, Thomas and M{\'\i}guez, Rub{\'e}n and Caselli, Tommaso and Kutlu, Mucahid and Zaghouani, Wajdi and others},
+                  author={Nakov, Preslav and Barr{\\'o}n-Cede{\\~n}o, Alberto and da San Martino, Giovanni and Alam, Firoj and Stru{\\ss}, Julia Maria and Mandl, Thomas and M{\\'\\i}guez, Rub{\\'e}n and Caselli, Tommaso and Kutlu, Mucahid and Zaghouani, Wajdi and others},
                   booktitle={Experimental IR Meets Multilinguality, Multimodality, and Interaction: 13th International Conference of the CLEF Association, CLEF 2022, Bologna, Italy, September 5--8, 2022, Proceedings},
                   pages={495--520},
                   year={2022},
@@ -20,10 +20,8 @@ class CheckworthinessDataset(DatasetBase):
 
         """
 
-    def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
+    def load_data(self, data_path):
         data = []
-        # with open(data_path, "r") as fp:
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():
             text = row["tweet_text"]

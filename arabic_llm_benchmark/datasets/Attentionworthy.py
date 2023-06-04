@@ -10,7 +10,7 @@ class AttentionworthyDataset(DatasetBase):
     def citation(self):
         return """
                 @InProceedings{clef-checkthat:2022:task1,
-                author = {Nakov, Preslav and Barr\'{o}n-Cede\~{n}o, Alberto and Da San Martino, Giovanni and Alam, Firoj and M\'{\i}guez, Rub\'{e}n and Caselli, Tommaso and Kutlu, Mucahid and Zaghouani, Wajdi and Li, Chengkai and Shaar, Shaden and Mubarak, Hamdy and Nikolov, Alex and Kartal, Yavuz Selim and Beltr\'{a}n, Javier},
+                author = {Nakov, Preslav and Barr\\'{o}n-Cede\\~{n}o, Alberto and Da San Martino, Giovanni and Alam, Firoj and M\\'{\\i}guez, Rub\'{e}n and Caselli, Tommaso and Kutlu, Mucahid and Zaghouani, Wajdi and Li, Chengkai and Shaar, Shaden and Mubarak, Hamdy and Nikolov, Alex and Kartal, Yavuz Selim and Beltr\\'{a}n, Javier},
                 title = "Overview of the {CLEF}-2022 {CheckThat}! Lab Task 1 on Identifying Relevant Claims in Tweets",
                 year = {2022},
                 booktitle = "Working Notes of {CLEF} 2022---Conference and Labs of the Evaluation Forum",
@@ -19,7 +19,7 @@ class AttentionworthyDataset(DatasetBase):
                 }
         """
 
-    def load_data(self, data_path, no_labels=False):
+    def load_data(self, data_path):
         data = []
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():

@@ -4,6 +4,9 @@ from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
 class AttentionworthyTask(TaskBase):
+    def __init__(self, **kwargs):
+        super(AttentionworthyTask, self).__init__(**kwargs)
+
     def evaluate(self, gold_labels, pred_labels):
         acc = accuracy_score(gold_labels, pred_labels)
         precision = precision_score(
