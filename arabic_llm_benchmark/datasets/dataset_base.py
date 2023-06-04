@@ -10,6 +10,10 @@ class DatasetBase(ABC):
         pass
 
     @abstractmethod
+    def get_data_sample(self):
+        pass
+
+    @abstractmethod
     def load_data(self, data_path, no_labels=False):
         """
         Returns a list of dictionaries,
