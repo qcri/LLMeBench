@@ -18,11 +18,21 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "class_labels": ["checkworthy", "not_checkworthy"],
+            "class_labels": [
+                "yes_discusses_action_taken",
+                "harmful",
+                "yes_discusses_cure",
+                "yes_asks_question",
+                "no_not_interesting",
+                "yes_other",
+                "yes_blame_authorities",
+                "yes_contains_advice",
+                "yes_calls_for_action",
+            ],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "tasks/factuality_disinformation_harmful_content/checkworthyness/data/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/data/CT22_arabic_1A_checkworthy_test_gold.tsv"
         },
     }
 

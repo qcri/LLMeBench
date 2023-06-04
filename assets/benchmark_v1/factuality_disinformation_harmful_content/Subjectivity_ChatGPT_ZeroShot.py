@@ -19,10 +19,10 @@ def config():
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
             "class_labels": ["SUBJ", "OBJ"],
-            "ignore_cache": True,
+            "max_tries": 3,
         },
         "general_args": {
-            "data_path": "tasks/factuality_disinformation_harmful_content/subjectivity/data/dev_ar.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/subjectivity/data/dev_ar.tsv"
         },
     }
 
