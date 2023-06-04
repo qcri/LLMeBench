@@ -1,9 +1,9 @@
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class Khouja20StanceDataset(DatasetBase):
+class Khouja20ClaimDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(Khouja20StanceDataset, self).__init__(**kwargs)
+        super(Khouja20ClaimDataset, self).__init__(**kwargs)
 
     def citation(self):
         return """
