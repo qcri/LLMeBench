@@ -24,6 +24,9 @@ class AraBenchDataset(DatasetBase):
             pages = "5094--5107"
         }"""
 
+    def get_data_sample(self):
+        return {"input": "Sentence in language #1", "label": "Sentence in language #2"}
+
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
         data = []
