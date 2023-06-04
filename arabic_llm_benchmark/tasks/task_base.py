@@ -3,8 +3,10 @@ from abc import ABC, abstractmethod
 
 
 class TaskBase(ABC):
-    def __init__(self, dataset, **kwargs):
+    def __init__(self, dataset, seed=2023, **kwargs):
         self.dataset = dataset
+
+        random.seed(seed)
 
     def load_data(self, data_path):
         return self.dataset.load_data(data_path)
