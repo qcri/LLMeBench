@@ -14,4 +14,8 @@ data
 # Tests
 .coverage
 
+# IDE stuff
 .idea
+
+# Temporary
+tmp
