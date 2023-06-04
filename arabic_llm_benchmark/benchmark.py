@@ -116,7 +116,7 @@ class SingleTaskBenchmark(object):
             cache_path = self.cache_dir / f"{sample_idx}.json"
             true_labels.append(input_sample["label"])
 
-            cache_payload = {"input": input_sample}
+            cache_payload = {"input": input_sample["input"]}
             if cache_path.exists() and not self.ignore_cache:
                 with open(cache_path, "r") as fp:
                     cache_payload = json.load(fp)
