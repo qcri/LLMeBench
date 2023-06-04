@@ -14,6 +14,10 @@ class SubjectivityTask(TaskBase):
         super(SubjectivityTask, self).__init__(**kwargs)
 
     def evaluate(self, gold_labels, pred_labels):
+        pred_labels = [
+            p if p else self.get_random_prediction(set(gold_labels))
+            for p in pred_labels
+        ]
         acc = accuracy_score(gold_labels, pred_labels)
         m_prec, m_rec, m_f1, m_s = precision_recall_fscore_support(
             gold_labels, pred_labels, average="macro"

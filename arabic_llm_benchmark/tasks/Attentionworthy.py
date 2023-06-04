@@ -8,6 +8,10 @@ class AttentionworthyTask(TaskBase):
         super(AttentionworthyTask, self).__init__(**kwargs)
 
     def evaluate(self, gold_labels, pred_labels):
+        pred_labels = [
+            p if p else self.get_random_prediction(set(gold_labels))
+            for p in pred_labels
+        ]
         acc = accuracy_score(gold_labels, pred_labels)
         precision = precision_score(
             gold_labels, pred_labels, pos_label="1", average="binary"
