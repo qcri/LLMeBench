@@ -10,6 +10,7 @@
 # Benchmark runs directories
 results
 data
+*.zip
 
 # Tests
 .coverage
