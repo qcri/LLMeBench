@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": FactClaimTask,
         "task_args": {},
-        "model": RandomGPTModel,
+        "model": GPTModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -40,4 +40,11 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    return response["choices"][0]["text"].lower().replace(".", "")
+    raw_response = response["choices"][0]["text"].lower().replace(".", "")
+
+    mapping = {
+        "no": "0",
+        "yes": "1"
+    }
+
+    return mapping[raw_response]
