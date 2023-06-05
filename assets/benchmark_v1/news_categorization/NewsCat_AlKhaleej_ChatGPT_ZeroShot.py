@@ -41,9 +41,9 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["response"]["choices"][0]["message"]["content"]
-    if label == "Objective" or label == "Objective.":
+    if (label == "Objective" or label == "Objective."):
         label_fixed = "OBJ"
-    elif label == "Subjective" or label == "Subjective.":
+    elif (label == "Subjective" or label == "Subjective."):
         label_fixed = "SUBJ"
 
     return label_fixed

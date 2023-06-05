@@ -1,5 +1,6 @@
 import os
 import re
+
 from arabic_llm_benchmark.datasets import SubjectivityDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import AttentionworthyTask
@@ -43,14 +44,14 @@ def post_process(response):
     label = response["response"]["choices"][0]["message"]["content"]
 
     label = label.lower().replace(" - ", ", ").replace(",", "").replace(".", "")
-    label = re.sub('\s+', '_', label)
-    if (label.startswith("no")):
+    label = re.sub("\s+", "_", label)
+    if label.startswith("no"):
         label_fixed = "no_not_interesting"
     elif label == "yes_discusses_covid-19_vaccine_side_effects":
         label_fixed = "yes_discusses_cure"
     elif label == "yes_harmful":
         label_fixed = "harmful"
-    elif (label.startswith("yes")):
+    elif label.startswith("yes"):
         label_fixed = label
 
     return label_fixed
