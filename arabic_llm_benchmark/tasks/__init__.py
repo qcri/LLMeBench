@@ -1,2 +1,5 @@
 from .DemographyGender import DemographyGenderTask
 from .MachineTranslation import MachineTranslationTask
+from .PropagandaMultilabel import PropagandaMultilabelTask
+from .ClaimDetection import ClaimDetectionTask
+from .HarmfulDetection import HarmfulDetectionTask

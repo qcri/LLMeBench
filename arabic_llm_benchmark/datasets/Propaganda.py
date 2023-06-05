@@ -12,6 +12,9 @@ class PropagandaTweetDataset(DatasetBase):
           year={2023}
         }"""
 
+    def get_data_sample(self):
+        return {"input": "Tweet", "label": ["no technique"]}
+
     def load_data(self, data_path):
         data = []
         with open(data_path, mode='r', encoding="utf-8") as infile:
@@ -20,7 +23,5 @@ class PropagandaTweetDataset(DatasetBase):
                 text = tweet["text"]
                 label = tweet["labels"]
                 data.append({"input": text, "label": label, "line_number": index})
-
-        print("Number of examples: {}".format(len(data)))
 
         return data

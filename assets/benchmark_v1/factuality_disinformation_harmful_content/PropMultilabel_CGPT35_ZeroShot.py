@@ -44,7 +44,13 @@ def prompt(input_sample):
 
 
 def fix_label(pred_label):
-    labels = pred_label.split(",")
+    print(pred_label)
+    print("\n")
+
+    if "\n-" in pred_label:
+        labels = pred_label.split("\n-")
+    else:
+        labels = pred_label.split(",")
     labels_fixed = []
 
     for label in labels:
@@ -55,22 +61,27 @@ def fix_label(pred_label):
         # Handle case of single word labels like "Smears" so we just capitalize it
         label_fixed = label.capitalize()
 
-        # print(label)
         if ("slogan" in label):
             label_fixed = "Slogans"
+        if ("smear" in label):
+            label_fixed = "Smears"
+        if ("doublt" in label):
+            label_fixed = "Doubt"
+        if ("repetition" in label):
+            label_fixed = "Repetition"
         if ("loaded" in label or "Loaded" in label):
             label_fixed = "Loaded Language"
-        if ("prejudice" in label or "fear" in label):
+        if ("prejudice" in label or "fear" in label or "mongering" in label):
             label_fixed = "Appeal to fear/prejudice"
         if ("terminating" in label or "thought" in label):
             label_fixed = "Thought-terminating cliché"
         if ("calling" in label or label == "name c"):
             label_fixed = "Name calling/Labeling"
-        if ("minimisation" in label):
+        if ("minimisation" in label or label == "exaggeration minim"):
             label_fixed = "Exaggeration/Minimisation"
-        if ("glittering" in label):
+        if ("glittering" in label or "virtue" in label):
             label_fixed = "Glittering generalities (Virtue)"
-        if ("flag" in label):
+        if ("flag" in label or "waving" in label):
             label_fixed = "Flag-waving"
         if ("obfuscation" in label):
             label_fixed = "Obfuscation, Intentional vagueness, Confusion"
@@ -78,7 +89,7 @@ def fix_label(pred_label):
             label_fixed = "Causal Oversimplification"
         if ("authority" in label):
             label_fixed = "Appeal to authority"
-        if ("dictatorship" in label or "black" in label):
+        if ("dictatorship" in label or "black" in label or "white" in label):
             label_fixed = "Black-and-white Fallacy/Dictatorship"
         if ("herring" in label or "irrelevant" in label):
             label_fixed = "Presenting Irrelevant Data (Red Herring)"
@@ -90,19 +101,16 @@ def fix_label(pred_label):
             label_fixed = "Whataboutism"
 
         # Unusual cases
-        if ("mongering" in label):
-            label_fixed = "Appeal to fear/prejudice"
-        if ("white" in label):
-            label_fixed = "Black-and-white Fallacy/Dictatorship"
-        if (label == "exaggeration minim"):
-            label_fixed = "Exaggeration/Minimisation"
-        if (label == "" or label == "no" or label == "appeal to history" or label == "appeal to emotion"
+        if (label == "" or label == " " or label == "no" or label == "appeal to history" or label == "appeal to emotion"
                 or label == "appeal to" or label == "appeal" or label == "appeal to author" or label == "emotional appeal"
                 or "no techn" in label or "hashtag" in label or "theory" in label or "specific mention" in label
                 or "religious" in label or "gratitude" in label):
             label_fixed = "no technique"
 
         labels_fixed.append(label_fixed)
+
+    print(labels_fixed)
+    print("\n")
 
     return labels_fixed
 
