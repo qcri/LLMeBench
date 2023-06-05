@@ -1,8 +1,9 @@
+import itertools
+
+from sklearn import preprocessing
 from sklearn.metrics import f1_score
 
 from arabic_llm_benchmark.tasks.task_base import TaskBase
-from sklearn import preprocessing
-import itertools
 
 
 class PropagandaMultilabelTask(TaskBase):
@@ -15,12 +16,16 @@ class PropagandaMultilabelTask(TaskBase):
         # Handle cases when model fails!
         # Flatten true labels as it is a list of lists
         predicted_labels = [
-            p if p else self.get_random_prediction(set(itertools.chain.from_iterable(true_labels)))
+            p
+            if p
+            else self.get_random_prediction(
+                set(itertools.chain.from_iterable(true_labels))
+            )
             for p in predicted_labels
         ]
 
         # Load a pre-defined list of propaganda techniques
-        with open(self.techniques_fpath, 'r', encoding="utf-8") as f:
+        with open(self.techniques_fpath, "r", encoding="utf-8") as f:
             techniques = [label.strip() for label in f.readlines()]
 
         # Binarize labels and use them for multi-label evaluation
