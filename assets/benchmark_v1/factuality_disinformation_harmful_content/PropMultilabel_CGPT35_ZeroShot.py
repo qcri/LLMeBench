@@ -44,9 +44,6 @@ def prompt(input_sample):
 
 
 def fix_label(pred_label):
-    print(pred_label)
-    print("\n")
-
     if "\n-" in pred_label:
         labels = pred_label.split("\n-")
     else:
@@ -109,8 +106,6 @@ def fix_label(pred_label):
 
         labels_fixed.append(label_fixed)
 
-    print(labels_fixed)
-    print("\n")
 
     return labels_fixed
 
