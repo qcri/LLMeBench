@@ -25,7 +25,6 @@ class SingleTaskBenchmark(object):
     ):
         # Pipeline components
         self.dataset = config["dataset"](**config["dataset_args"])
-        print("Config:", config["task"])
         self.task = config["task"](dataset=self.dataset, **config["task_args"])
         self.model = config["model"](**config["model_args"])
 
@@ -45,6 +44,8 @@ class SingleTaskBenchmark(object):
         self.limit = limit
 
     def run_pipeline(self, sample_key, input_sample, cache_payload=None):
+        summarized_payload = {}
+
         # Prepare the prompt
         if "prompt" in cache_payload:
             logging.info(f"\tLoading prompt from cache")
@@ -65,31 +66,48 @@ class SingleTaskBenchmark(object):
             cache_payload["model_output"] = model_output
 
         if "response" not in model_output:
-            return cache_payload
+            summarized_payload["model_output"] = model_output["failure_exception"]
+            return cache_payload, summarized_payload
+        else:
+            summarized_payload["model_output"] = self.model.summarize_response(
+                model_output["response"]
+            )
 
         if "filtered_output" in cache_payload and not self.ignore_post_processing:
             logging.info(f"\tLoading post processed output from cache")
             filtered_output = cache_payload["filtered_output"]
+            summarized_payload["filtered_output"] = filtered_output
         else:
             logging.info(f"\tPost processing model outputs")
             try:
                 filtered_output = self.post_process_fn(model_output["response"])
                 cache_payload["filtered_output"] = filtered_output
+                summarized_payload["filtered_output"] = filtered_output
             except Exception as e:
                 exc_info = sys.exc_info()
                 exception_str = "".join(traceback.format_exception(*exc_info))
                 cache_payload["filtered_output_failure_message"] = exception_str
+                summarized_payload["filtered_output"] = cache_payload[
+                    "filtered_output_failure_message"
+                ]
 
-        return cache_payload
+        return cache_payload, summarized_payload
 
     def run_benchmark(self):
+        full_summary_path = self.cache_dir / "summary.jsonl"
+        failed_summary_path = self.cache_dir / "summary_failed.jsonl"
+
         data = self.task.load_data(self.data_path)
 
         true_labels = []
         predictions = []
 
-        num_failed = 0
         num_processed = 0
+        full_summary_fp = open(full_summary_path, "w")
+
+        num_failed = 0
+        failed_summary_fp = open(failed_summary_path, "w")
+
         for sample_idx, input_sample in enumerate(data):
             if self.limit > 0 and sample_idx >= self.limit:
                 break
@@ -103,19 +121,33 @@ class SingleTaskBenchmark(object):
                 with open(cache_path, "r") as fp:
                     cache_payload = json.load(fp)
 
-            cache_payload = self.run_pipeline(
+            summarized_payload = {
+                "input": input_sample["input"],
+                "label": input_sample["label"],
+            }
+
+            cache_payload, partial_summarized_payload = self.run_pipeline(
                 sample_idx, input_sample["input"], cache_payload
             )
+
+            summarized_payload.update(partial_summarized_payload)
+
             if "filtered_output" in cache_payload:
                 predictions.append(cache_payload["filtered_output"])
+                full_summary_fp.write(json.dumps(summarized_payload) + "\n")
             else:
                 logging.error(f"\tNo prediction for sample")
                 num_failed += 1
                 predictions.append(None)
+                full_summary_fp.write(json.dumps(summarized_payload) + "\n")
+                failed_summary_fp.write(json.dumps(summarized_payload) + "\n")
 
             # Save the cache payload
             with open(cache_path, "w") as fp:
                 json.dump(cache_payload, fp)
+
+        full_summary_fp.close()
+        failed_summary_fp.close()
 
         if num_failed > 0:
             logging.error(
@@ -139,7 +171,6 @@ class Benchmark(object):
             filter_str += ".py"
         runs = []
         match_str = str(self.benchmark_dir / "**" / filter_str)
-        print("Str:", match_str)
         for run in glob(match_str, recursive=True):
             module_path = str(Path(run).resolve())
             module_name = Path(run).name
@@ -213,7 +244,7 @@ def main():
         )
 
         task_results = task_benchmark.run_benchmark()
-        print(f"{name}:", task_results["evaluation_scores"])
+        logging.info(f"{name}:", task_results["evaluation_scores"])
 
         task_result_path = args.results_dir / name / "results.json"
 
