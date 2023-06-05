@@ -12,7 +12,7 @@ def config():
         "dataset": PropagandaTweetDataset,
         "dataset_args": {},
         "task": PropagandaMultilabelTask,
-        "task_args": {"techniques_path": "arabic_llm_benchmark/data/factuality_disinformation_harmful_content/propaganda/classes.txt"},
+        "task_args": {"techniques_path": "data/factuality_disinformation_harmful_content/propaganda/classes.txt"},
         "model": GPTModel,
         "model_args": {
             "api_type": "azure",
@@ -22,7 +22,7 @@ def config():
             "engine_name": "gpt",
             "max_tries": 3,
         },
-        "general_args": {"data_path": "arabic_llm_benchmark/data/factuality_disinformation_harmful_content/propaganda/task1_test_gold_label_final.json"},
+        "general_args": {"data_path": "data/factuality_disinformation_harmful_content/propaganda/task1_test_gold_label_final.json"},
     }
 
 

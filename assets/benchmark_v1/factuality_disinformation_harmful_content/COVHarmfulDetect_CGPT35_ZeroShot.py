@@ -21,7 +21,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "arabic_llm_benchmark/data/factuality_disinformation_harmful_content/harmful"
+            "data_path": "data/factuality_disinformation_harmful_content/harmful"
                          "/CT22_arabic_1C_harmful_test_gold.tsv"},
     }
 
