@@ -42,9 +42,6 @@ def prompt(input_sample):
 def post_process(response):
     raw_response = response["choices"][0]["text"].lower().replace(".", "")
 
-    mapping = {
-        "no": "0",
-        "yes": "1"
-    }
+    mapping = {"no": "0", "yes": "1"}
 
     return mapping[raw_response]
