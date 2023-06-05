@@ -1,24 +1,24 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArabicSequenceTagging_SegmentationDataset
+from arabic_llm_benchmark.datasets import ArabicSegmentationDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import ArabicSequenceTagging_SegmentationTask
+from arabic_llm_benchmark.tasks import ArabicSegmentationTask
 
 
 def config():
     return {
-        "dataset": ArabicSequenceTagging_SegmentationDataset,
+        "dataset": ArabicSegmentationDataset,
         "dataset_args": {},
-        "task": ArabicSequenceTagging_SegmentationTask,
+        "task": ArabicSegmentationTask,
         "task_args": {},
-        "model": RandomGPTModel,
+        "model": GPTModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "class_labels": ["m", "f"],
+            # "class_labels": ["m", "f"],
             "max_tries": 3,
         },
         "general_args": {
