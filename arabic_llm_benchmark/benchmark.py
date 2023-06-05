@@ -244,7 +244,7 @@ def main():
         )
 
         task_results = task_benchmark.run_benchmark()
-        logging.info(f"{name}:", task_results["evaluation_scores"])
+        logging.info(f"{name}: {task_results['evaluation_scores']}")
 
         task_result_path = args.results_dir / name / "results.json"
 
