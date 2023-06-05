@@ -10,11 +10,11 @@ from arabic_llm_benchmark.tasks import PropagandaMultilabelTask
 def config():
     return {
         "dataset": PropagandaTweetDataset,
-        "dataset_args": {},
-        "task": PropagandaMultilabelTask,
-        "task_args": {
+        "dataset_args": {
             "techniques_path": "data/factuality_disinformation_harmful_content/propaganda/classes.txt"
         },
+        "task": PropagandaMultilabelTask,
+        "task_args": {},
         "model": GPTModel,
         "model_args": {
             "api_type": "azure",
