@@ -28,16 +28,17 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"Translate the following to English, output only the translation:\n {input_sample}",
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information.",
+        },
+        {
+            "role": "user",
+            "content": f"Translate the following to English, output only the translation:\n {input_sample}",
+        },
+    ]
 
 
 def post_process(response):
-    return response["choices"][0]["text"]
+    return response["choices"][0]["message"]["content"]

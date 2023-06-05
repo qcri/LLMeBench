@@ -26,16 +26,17 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"If the following person name can be considered as male, write 'm' without explnanation, and if it can be considered as female, write 'f' without explnanation.\n {input_sample}",
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information.",
+        },
+        {
+            "role": "user",
+            "content": f"If the following person name can be considered as male, write 'm' without explnanation, and if it can be considered as female, write 'f' without explnanation.\n {input_sample}",
+        },
+    ]
 
 
 def post_process(response):
-    return response["choices"][0]["text"]
+    return response["choices"][0]["message"]["content"]
