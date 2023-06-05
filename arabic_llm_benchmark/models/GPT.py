@@ -15,8 +15,7 @@ class GPTModel(ModelBase):
         self.engine_name = engine_name
 
         super(GPTModel, self).__init__(
-            retry_exceptions=(openai.InvalidRequestError, openai.error.Timeout),
-            **kwargs
+            retry_exceptions=(openai.error.Timeout,), **kwargs
         )
 
     # defining a function to create the prompt from the system and user messages
@@ -27,6 +26,17 @@ class GPTModel(ModelBase):
             prompt += self.message_template.format(message["sender"], message["text"])
         prompt += "\n<|im_start|>assistant\n"
         return prompt
+
+    def summarize_response(self, response):
+        if (
+            "choices" in response
+            and isinstance(response["choices"], list)
+            and len(response["choices"]) > 0
+            and "text" in response["choices"][0]
+        ):
+            return response["choices"][0]["text"]
+
+        return None
 
     def prompt(self, **kwargs):
         system_message = kwargs["system_message"]

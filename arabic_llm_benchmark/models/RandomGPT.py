@@ -21,6 +21,17 @@ class RandomGPTModel(ModelBase):
             retry_exceptions=(RandomGPTException,), **kwargs
         )
 
+    def summarize_response(self, response):
+        if (
+            "choices" in response
+            and isinstance(response["choices"], list)
+            and len(response["choices"]) > 0
+            and "text" in response["choices"][0]
+        ):
+            return response["choices"][0]["text"]
+
+        return None
+
     def prompt(self, **kwargs):
         if random.random() < 0.5:
             raise RandomGPTException()
