@@ -3,13 +3,13 @@ import itertools
 from sklearn import preprocessing
 from sklearn.metrics import f1_score
 
+from arabic_llm_benchmark.datasets.Propaganda import PropagandaTweetDataset as pdataset
+
 from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
 class PropagandaMultilabelTask(TaskBase):
     def __init__(self, **kwargs):
-        # Get the path to the file listing the target techniques
-        self.techniques_fpath = kwargs["techniques_path"]
         super(PropagandaMultilabelTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
@@ -24,9 +24,8 @@ class PropagandaMultilabelTask(TaskBase):
             for p in predicted_labels
         ]
 
-        # Load a pre-defined list of propaganda techniques
-        with open(self.techniques_fpath, "r", encoding="utf-8") as f:
-            techniques = [label.strip() for label in f.readlines()]
+        # Need the pre-defined list of techniques
+        techniques = self.dataset.get_predefined_techniques()
 
         # Binarize labels and use them for multi-label evaluation
         mlb = preprocessing.MultiLabelBinarizer()
