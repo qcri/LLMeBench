@@ -21,7 +21,7 @@ class CovidHarmfulDataset(DatasetBase):
     def load_data(self, data_path):
         formatted_data = []
 
-        data = pd.read_csv(data_path, sep='\t')
+        data = pd.read_csv(data_path, sep="\t")
         for index, tweet in data.iterrows():
             text = tweet["tweet_text"]
             label = str(tweet["class_label"])

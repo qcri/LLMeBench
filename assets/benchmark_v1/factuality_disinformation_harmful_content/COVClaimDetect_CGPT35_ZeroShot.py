@@ -22,7 +22,8 @@ def config():
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/claim_covid19"
-                         "/CT22_arabic_1B_claim_test_gold.tsv"},
+            "/CT22_arabic_1B_claim_test_gold.tsv"
+        },
     }
 
 
@@ -33,7 +34,7 @@ def prompt(input_sample):
             {
                 "sender": "user",
                 "text": "Does this sentence contain a factual claim? Answer only by yes or no."
-                        "\n\nsentence: " + input_sample + "label: \n"
+                "\n\nsentence: " + input_sample + "label: \n",
             }
         ],
     }

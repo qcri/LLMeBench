@@ -17,7 +17,7 @@ class PropagandaTweetDataset(DatasetBase):
 
     def load_data(self, data_path):
         data = []
-        with open(data_path, mode='r', encoding="utf-8") as infile:
+        with open(data_path, mode="r", encoding="utf-8") as infile:
             json_data = json.load(infile)
             for index, tweet in enumerate(json_data):
                 text = tweet["text"]

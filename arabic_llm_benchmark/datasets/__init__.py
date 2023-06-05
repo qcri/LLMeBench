@@ -1,5 +1,5 @@
-from .ArabGend import ArabGendDataset
 from .AraBench import AraBenchDataset
-from .Propaganda import PropagandaTweetDataset
+from .ArabGend import ArabGendDataset
 from .Claim import CovidClaimDataset
 from .Harmful import CovidHarmfulDataset
+from .Propaganda import PropagandaTweetDataset

@@ -14,6 +14,6 @@ class HarmfulDetectionTask(TaskBase):
             for p in predicted_labels
         ]
 
-        f1 = f1_score(true_labels, predicted_labels, pos_label='1', average='binary')
+        f1 = f1_score(true_labels, predicted_labels, pos_label="1", average="binary")
 
         return {"F1 (POS)": f1}

@@ -22,7 +22,8 @@ def config():
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/harmful"
-                         "/CT22_arabic_1C_harmful_test_gold.tsv"},
+            "/CT22_arabic_1C_harmful_test_gold.tsv"
+        },
     }
 
 
@@ -33,9 +34,7 @@ def prompt(input_sample):
             {
                 "sender": "user",
                 "text": "Classify the sentence as harmful or not harmful. Answer only by yes or no. Provide only "
-                        "label.\n\n" +
-                        "sentence: " + input_sample +
-                        "label: \n"
+                "label.\n\n" + "sentence: " + input_sample + "label: \n",
             }
         ],
     }
@@ -48,7 +47,11 @@ def post_process(response):
     if pred_label.startswith("harmful") or pred_label.startswith("yes"):
         pred_label = "1"
 
-    if pred_label.startswith("no") or pred_label == "label: safe" or "not harmful" in pred_label:
+    if (
+        pred_label.startswith("no")
+        or pred_label == "label: safe"
+        or "not harmful" in pred_label
+    ):
         pred_label = "0"
 
     return pred_label
