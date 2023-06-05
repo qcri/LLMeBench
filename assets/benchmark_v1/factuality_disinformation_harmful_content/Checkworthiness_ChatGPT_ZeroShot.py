@@ -44,7 +44,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f'Classify the "tweet" as checkworthy or not_checkworthy. Provide only label.\n\nsentence: {input_sample} \nlabel:',
+                "text": f'Classify the "tweet" as checkworthy or not_checkworthy. Provide only label.\n\nsentence: {input_sample}label: ',
             }
         ],
     }
