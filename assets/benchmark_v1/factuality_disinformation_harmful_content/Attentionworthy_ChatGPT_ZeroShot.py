@@ -1,5 +1,5 @@
 import os
-
+import re
 from arabic_llm_benchmark.datasets import SubjectivityDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import AttentionworthyTask
@@ -33,7 +33,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the sentence by whether it should get the attention of policymakers. Answer by yes or no. If the predicted label is yes then classify the sentence into one of the following categories: asks question, blame authorities, calls for action, Harmful, contains advice, discusses action taken, discusses cure, or other.\n\ntext: {input_sample}\nlabel:",
+                "text": f"Classify the sentence by whether it should get the attention of policymakers. Answer by yes or no. If the predicted label is yes then classify the sentence into one of the following categories: asks question, blame authorities, calls for action, Harmful, contains advice, discusses action taken, discusses cure, or other.\n\ntext: {input_sample}label: ",
             }
         ],
     }
@@ -41,4 +41,16 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["response"]["choices"][0]["message"]["content"]
-    return label
+
+    label = label.lower().replace(" - ", ", ").replace(",", "").replace(".", "")
+    label = re.sub('\s+', '_', label)
+    if (label.startswith("no")):
+        label_fixed = "no_not_interesting"
+    elif label == "yes_discusses_covid-19_vaccine_side_effects":
+        label_fixed = "yes_discusses_cure"
+    elif label == "yes_harmful":
+        label_fixed = "harmful"
+    elif (label.startswith("yes")):
+        label_fixed = label
+
+    return label_fixed

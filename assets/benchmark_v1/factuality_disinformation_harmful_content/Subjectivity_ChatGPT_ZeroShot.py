@@ -33,7 +33,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the sentence as Subjective or Objective. Provide only label.\ntext: {input_sample}\nlabel:",
+                "text": f"Classify the sentence as Subjective or Objective. Provide only label.\n\ntext: {input_sample}label: ",
             }
         ],
     }
@@ -41,4 +41,9 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["response"]["choices"][0]["message"]["content"]
-    return label
+    if (label == "Objective" or label == "Objective."):
+        label_fixed = "OBJ"
+    elif (label == "Subjective" or label == "Subjective."):
+        label_fixed = "SUBJ"
+
+    return label_fixed
