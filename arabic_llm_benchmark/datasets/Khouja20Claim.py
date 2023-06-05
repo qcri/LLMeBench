@@ -24,6 +24,6 @@ class Khouja20ClaimDataset(DatasetBase):
             next(fp)  # skip the header
             for line in fp:
                 claim_s, fake_flag = line.strip().split(",")
-                data.append({"input": fake_flag, "label": claim_s})
+                data.append({"input": claim_s, "label": fake_flag})
 
         return data
