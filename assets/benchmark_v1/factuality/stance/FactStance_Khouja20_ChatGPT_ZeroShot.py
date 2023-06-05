@@ -33,7 +33,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f'Can you check if first sentence agree or disagree with second sentence? Answer only with agree or disagree with lower case \n\n first-sentence:  {input_sample["input"]["sentence_1"]}\n  second-sentence: {input_sample["input"]["sentence_2"]}\n label: \n',
+                "text": f'Can you check if first sentence agree or disagree with second sentence? Answer only with agree or disagree with lower case \n\n first-sentence:  {input_sample["sentence_1"]}\n  second-sentence: {input_sample["sentence_2"]}\n label: \n',
             }
         ],
     }

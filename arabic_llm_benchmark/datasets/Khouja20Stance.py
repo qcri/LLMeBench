@@ -17,8 +17,8 @@ class Khouja20StanceDataset(DatasetBase):
     def get_data_sample(self):
         return {
             "input": {
-                "sentence_1": "Sentence in language #1",
-                "sentence_2": "Sentence in language #2",
+                "sentence_1": "الجملة الاولى",
+                "sentence_2": "الجملة الثانية",
             },
             "label": "agree",
         }

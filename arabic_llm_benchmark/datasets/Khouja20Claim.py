@@ -15,16 +15,15 @@ class Khouja20ClaimDataset(DatasetBase):
         }"""
 
     def get_data_sample(self):
-        return {"input": "Sentence in language #1", "label": "yes"}
+        return {"input": "الجملة بالعربية", "label": "yes"}
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
         data = []
         with open(data_path, "r") as fp:
-            for line_idx, line in enumerate(fp):
+            next(fp)  # skip the header
+            for line in fp:
                 claim_s, fake_flag = line.strip().split(",")
-                data.append(
-                    {"input": fake_flag, "label": claim_s[-1], "line_number": line_idx}
-                )
+                data.append({"input": fake_flag, "label": claim_s})
 
         return data
