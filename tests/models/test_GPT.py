@@ -37,15 +37,11 @@ class TestAssetsForGPTPrompts(unittest.TestCase):
                 data_sample = dataset.get_data_sample()
                 prompt = asset["module"].prompt(data_sample["input"])
 
-                self.assertIsInstance(prompt, dict)
-                self.assertIn("system_message", prompt)
-                self.assertIsInstance(prompt["system_message"], str)
-                self.assertIn("messages", prompt)
-                self.assertIsInstance(prompt["messages"], list)
+                self.assertIsInstance(prompt, list)
 
-                for message in prompt["messages"]:
+                for message in prompt:
                     self.assertIsInstance(message, dict)
-                    self.assertIn("sender", message)
-                    self.assertIsInstance(message["sender"], str)
-                    self.assertIn("text", message)
-                    self.assertIsInstance(message["text"], str)
+                    self.assertIn("role", message)
+                    self.assertIsInstance(message["role"], str)
+                    self.assertIn("content", message)
+                    self.assertIsInstance(message["content"], str)
