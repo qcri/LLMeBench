@@ -45,12 +45,12 @@ class ArabicSegmentationTask(TaskBase):
             t = re.sub(r"[^\w+\+]", " ", t)
             if p == None:
                 # return unsegmented text!
-                p = t.replace('+','').split()
+                p = t.replace("+", "").split()
             else:
                 p = p.split()
 
             t = t.split()
-            
+
             if len(p) < len(t):
                 for i in range(len(t) - len(p)):
                     p.append("")
