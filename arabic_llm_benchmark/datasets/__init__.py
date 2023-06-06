@@ -6,3 +6,5 @@ from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .Subjectivity import SubjectivityDataset
+from .ArabicSegmentation import ArabicSegmentationDataset
+

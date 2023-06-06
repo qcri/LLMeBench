@@ -1,5 +1,6 @@
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
+from .ArabicSegmentation import ArabicSegmentationTask
 from .DemographyGender import DemographyGenderTask
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .MachineTranslation import MachineTranslationTask
