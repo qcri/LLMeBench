@@ -1,14 +1,14 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import SubjectivityDataset
+from arabic_llm_benchmark.datasets import AttentionworthyDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import AttentionworthyTask
 
 
 def config():
     return {
-        "dataset": SubjectivityDataset,
+        "dataset": AttentionworthyDataset,
         "dataset_args": {},
         "task": AttentionworthyTask,
         "task_args": {"test": "useless"},

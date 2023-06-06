@@ -32,7 +32,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/data/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/CT22_arabic_1A_checkworthy_test_gold.tsv"
         },
     }
 

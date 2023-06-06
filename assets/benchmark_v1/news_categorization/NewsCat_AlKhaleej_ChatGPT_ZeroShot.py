@@ -1,15 +1,18 @@
 import os
+import random
 
-from arabic_llm_benchmark.datasets import SubjectivityDataset
+from arabic_llm_benchmark.datasets import NewsCatAlKhaleejDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import SubjectivityTask
+from arabic_llm_benchmark.tasks import NewsCatAlKhaleejTask
+
+random.seed(1333)
 
 
 def config():
     return {
-        "dataset": SubjectivityDataset,
+        "dataset": NewsCatAlKhaleejDataset,
         "dataset_args": {},
-        "task": SubjectivityTask,
+        "task": NewsCatAlKhaleejTask,
         "task_args": {"test": "useless"},
         "model": RandomGPTModel,
         "model_args": {
@@ -22,7 +25,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/subjectivity/data/dev_ar.tsv"
+            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
         },
     }
 
@@ -33,7 +36,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the sentence as Subjective or Objective. Provide only label.\n\ntext: {input_sample}label: ",
+                "text": f"Classify the following news article into one of the following categories: sports, medical, finance, tech, politics, medical, sports, politics, or culture.\n\narticle: {input_sample}\ncategory: \n",
             }
         ],
     }
@@ -41,9 +44,18 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["response"]["choices"][0]["message"]["content"]
-    if (label == "Objective" or label == "Objective."):
-        label_fixed = "OBJ"
-    elif (label == "Subjective" or label == "Subjective."):
-        label_fixed = "SUBJ"
+    label_fixed = label.lower()
+    label_fixed = label_fixed.replace("category: ", "")
+    label_fixed = label_fixed.replace("science/physics", "tech")
+    label_fixed = label_fixed.replace("health/nutrition", "medical")
+    if len(label_fixed.split("\s+")) > 1:
+        label_fixed = label_fixed.split("\s+")[0]
+    label_fixed = random.choice(label_fixed.split("/")).strip()
+    if "science/physics" in label_fixed:
+        label_fixed = label_fixed.replace("science/physics", "tech")
+    if label_fixed.startswith("culture"):
+        label_fixed = label_fixed.split("(")[0]
+
+        label_fixed = label_fixed.replace("culture.", "culture")
 
     return label_fixed

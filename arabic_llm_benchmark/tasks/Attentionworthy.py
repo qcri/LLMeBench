@@ -13,17 +13,15 @@ class AttentionworthyTask(TaskBase):
             for p in pred_labels
         ]
         acc = accuracy_score(gold_labels, pred_labels)
-        precision = precision_score(
-            gold_labels, pred_labels, pos_label="1", average="binary"
-        )
-        recall = recall_score(gold_labels, pred_labels, pos_label="1", average="binary")
-        f1 = f1_score(gold_labels, pred_labels, pos_label="1", average="binary")
+        precision = precision_score(gold_labels, pred_labels, average="weighted")
+        recall = recall_score(gold_labels, pred_labels, average="weighted")
+        f1 = f1_score(gold_labels, pred_labels, average="weighted")
         results = {
             "accuracy": acc,
-            "precision": precision,
-            "recall": recall,
-            "f1": f1,
-            # "msg": "performance with respect to the positive class. F1 (Pos) - official measure. Ref: CheckThat-2022"
+            "w-precision": precision,
+            "w-recall": recall,
+            "w-f1": f1,
+            "msg": "performance with respect weighted-F1. W-F1 - official measure. Ref: CheckThat-2022",
         }
 
         return results
