@@ -17,14 +17,16 @@ class ArabicSegmentationTask(TaskBase):
         ref = []
         for t, p in zip(true_labels, predicted_labels):
             # print("P:",type(p),len(p), p)
-            if ("Sorry, I cannot") in p:
+            if p is None or ("Sorry, I cannot") in p:
                 # print("Sorry!")
                 p = None
             elif "'+ '" in p:
+                # Result as raw text
                 p = re.sub(r"'\+ '", "+", str(p))
                 s = list(eval(p))
                 p = " ".join(["".join([e[v] for v in e]) for e in s])
-            else:
+            elif ": " in p:
+                # Result as pseudo json
                 s = (
                     re.sub("\([^\)]+\)", "", p)
                     .replace("+}", "}")
@@ -37,6 +39,8 @@ class ArabicSegmentationTask(TaskBase):
                 s = re.sub(r"{([^:]+):", r'{"\1":', s)
                 s = list(eval(s))
                 p = " ".join(["".join([e[v] for v in e]) for e in s])
+            else:
+                p = None
             # remove punctuation!
             t = re.sub(r"[^\w+\+]", " ", t)
             t = t.split()

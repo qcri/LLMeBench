@@ -25,6 +25,12 @@ class ArabicSegmentationDataset(DatasetBase):
             pages = "432--441"
         }"""
 
+    def get_data_sample(self):
+        return {
+            "input": "Original sentence",
+            "label": "Sentence with segmented words",
+        }
+
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
         data = []
