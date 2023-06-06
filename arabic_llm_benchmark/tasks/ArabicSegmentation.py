@@ -28,7 +28,7 @@ class ArabicSegmentationTask(TaskBase):
             elif ": " in p:
                 # Result as pseudo json
                 s = (
-                    re.sub("\([^\)]+\)", "", p)
+                    re.sub(r"\([^\)]+\)", "", p)
                     .replace("+}", "}")
                     .replace("}+", "+")
                     .replace("+{", "+")
@@ -43,12 +43,14 @@ class ArabicSegmentationTask(TaskBase):
                 p = None
             # remove punctuation!
             t = re.sub(r"[^\w+\+]", " ", t)
-            t = t.split()
             if p == None:
-                p = [""] * len(t)
+                # return unsegmented text!
+                p = t.replace('+','').split()
             else:
                 p = p.split()
 
+            t = t.split()
+            
             if len(p) < len(t):
                 for i in range(len(t) - len(p)):
                     p.append("")
