@@ -37,6 +37,10 @@ class ModelBase(object):
     def prompt(self, **kwargs):
         pass
 
+    @abstractmethod
+    def summarize_response(self, response):
+        pass
+
     def run_model(self, **kwargs):
         try:
             response = self.prompt(**kwargs)
@@ -44,5 +48,4 @@ class ModelBase(object):
         except Exception as e:
             exc_info = sys.exc_info()
             exception_str = "".join(traceback.format_exception(*exc_info))
-
-        return {"failure_exception": exception_str}
+            return {"failure_exception": exception_str}
