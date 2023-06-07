@@ -18,7 +18,6 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "max_tries": 10,
             "max_tries": 3,
         },
         "general_args": {
