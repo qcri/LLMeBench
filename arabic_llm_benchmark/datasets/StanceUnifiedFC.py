@@ -1,37 +1,48 @@
+import json
+
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class StanceKhouja20Dataset(DatasetBase):
+class StanceUnifiedFCDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(StanceKhouja20Dataset, self).__init__(**kwargs)
+        super(StanceUnifiedFCDataset, self).__init__(**kwargs)
 
     def citation(self):
         return """
-        @article{khouja2020stance,
-            title={Stance prediction and claim verification: An Arabic perspective},
-            author={Khouja, Jude},
-            journal={arXiv preprint arXiv:2005.10410},
-            year={2020}
-        }"""
+            @inproceedings{baly2018integrating,
+              title = "Integrating Stance Detection and Fact Checking in a Unified Corpus",
+                author = "Baly, Ramy  and
+                  Mohtarami, Mitra  and
+                  Glass, James  and
+                  M{\`a}rquez, Llu{\'\i}s  and
+                  Moschitti, Alessandro  and
+                  Nakov, Preslav",
+                booktitle = "Proceedings of the 2018 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 2 (Short Papers)",
+                year = "2018",
+            }
+        """
 
     def get_data_sample(self):
         return {
             "input": {
-                "sentence_1": "الجملة الاولى",
-                "sentence_2": "الجملة الثانية",
+                "claim": "الجملة الاولى",
+                "claim-fact": "الجملة الاولى",
+                "article": "الجملة الثانية",
             },
             "label": "agree",
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
-        with open(data_path, "r") as fp:
-            next(fp)  # skip header
-            for line_idx, line in enumerate(fp):
-                s1, s2, label = line.strip().split(",")
+
+        with open(data_path, "r") as json_file:
+            for line in json_file:
+                json_obj = json.loads(line)
                 data.append(
-                    {"input": {"sentence_1": s1, "sentence_2": s2}, "label": label}
+                    {
+                        "input": json_obj,
+                        "label": json_obj["stance"],
+                    }
                 )
 
         return data

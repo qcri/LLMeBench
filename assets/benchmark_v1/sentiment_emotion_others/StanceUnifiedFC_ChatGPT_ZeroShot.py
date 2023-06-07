@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import StanceKhouja20Dataset
+from arabic_llm_benchmark.datasets import StanceUnifiedFCDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import StanceKhouja20Task
+from arabic_llm_benchmark.tasks import StanceUnifiedFCTask
 
 
 def config():
     return {
-        "dataset": StanceKhouja20Dataset,
+        "dataset": StanceUnifiedFCDataset,
         "dataset_args": {},
-        "task": StanceKhouja20Task,
+        "task": StanceUnifiedFCTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -28,11 +28,18 @@ def config():
 
 
 def prompt(input_sample):
+    article = input_sample["article"]
+    article_arr = article.split()
+    if len(article_arr) > 2200:
+        article_str = " ".join(article_arr[:2200])
+    else:
+        article_str = article
+
     prompt_string = (
         f"Identify the stance of text with respect to the article as only agree, disagree, discuss or unrelated.\n"
         f'\ntext: {input_sample["claim"]}'
         f'\nclaim-text: {input_sample["claim-fact"]}'
-        f'\narticle: {input_sample["article"]}'
+        f"\narticle: {article_str}"
         f"\nstance: \n"
     )
 

@@ -9,4 +9,5 @@ from .Harmful import CovidHarmfulDataset
 from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .Propaganda import PropagandaTweetDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
+from .StanceUnifiedFC import StanceUnifiedFCDataset
 from .Subjectivity import SubjectivityDataset
