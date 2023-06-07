@@ -18,7 +18,7 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "max_tries": 3,
+            "max_tries": 10,
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/claim_covid19"
