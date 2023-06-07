@@ -6,6 +6,7 @@ from pathlib import Path
 
 import arabic_llm_benchmark.tasks as tasks
 from arabic_llm_benchmark import Benchmark, utils
+from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
 class TestTaskExports(unittest.TestCase):
@@ -33,7 +34,7 @@ class TestTaskExports(unittest.TestCase):
                 implemented_class = [
                     c
                     for c in inspect.getmembers(implemented_module, inspect.isclass)
-                    if c[0] != "TaskBase"
+                    if issubclass(c[1], TaskBase) and c[1] != TaskBase
                 ][0]
                 implemented_task = implemented_class[1].__name__
 
