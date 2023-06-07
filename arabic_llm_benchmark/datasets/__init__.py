@@ -7,6 +7,7 @@ from .Claim import CovidClaimDataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .Harmful import CovidHarmfulDataset
 from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
+from .NewsCatASND import NewsCatASNDDataset
 from .Propaganda import PropagandaTweetDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .Subjectivity import SubjectivityDataset
