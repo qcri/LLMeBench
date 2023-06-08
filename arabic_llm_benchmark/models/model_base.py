@@ -41,9 +41,9 @@ class ModelBase(object):
     def summarize_response(self, response):
         pass
 
-    def run_model(self, **kwargs):
+    def run_model(self, processed_input):
         try:
-            response = self.prompt(**kwargs)
+            response = self.prompt(processed_input)
             return {"response": response}
         except Exception as e:
             exc_info = sys.exc_info()
