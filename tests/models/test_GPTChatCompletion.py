@@ -5,10 +5,10 @@ import unittest
 from unittest.mock import patch
 
 from arabic_llm_benchmark import Benchmark
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 
 
-class TestAssetsForGPTPrompts(unittest.TestCase):
+class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
     @classmethod
     @patch("os.environ")
     def setUpClass(cls, os_env_mock):
@@ -23,7 +23,7 @@ class TestAssetsForGPTPrompts(unittest.TestCase):
         cls.assets = [
             asset
             for asset in all_assets
-            if asset["module"].config()["model"] in [GPTModel, RandomGPTModel]
+            if asset["module"].config()["model"] in [GPTChatCompletionModel]
         ]
 
     @patch("os.environ")
@@ -37,15 +37,11 @@ class TestAssetsForGPTPrompts(unittest.TestCase):
                 data_sample = dataset.get_data_sample()
                 prompt = asset["module"].prompt(data_sample["input"])
 
-                self.assertIsInstance(prompt, dict)
-                self.assertIn("system_message", prompt)
-                self.assertIsInstance(prompt["system_message"], str)
-                self.assertIn("messages", prompt)
-                self.assertIsInstance(prompt["messages"], list)
+                self.assertIsInstance(prompt, list)
 
-                for message in prompt["messages"]:
+                for message in prompt:
                     self.assertIsInstance(message, dict)
-                    self.assertIn("sender", message)
-                    self.assertIsInstance(message["sender"], str)
-                    self.assertIn("text", message)
-                    self.assertIsInstance(message["text"], str)
+                    self.assertIn("role", message)
+                    self.assertIsInstance(message["role"], str)
+                    self.assertIn("content", message)
+                    self.assertIsInstance(message["content"], str)
