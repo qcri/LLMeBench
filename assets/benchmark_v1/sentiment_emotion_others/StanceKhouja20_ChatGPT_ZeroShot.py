@@ -42,11 +42,5 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["text"].lower().replace(".", "")
 
-    label_fixed = label.lower()
-    label_fixed = label_fixed.replace("label:", "")
-    label_fixed = label_fixed.replace("text:", "")
-    if label_fixed != "true" or label_fixed != "false":
-        if len(label_fixed.split()) > 1:
-            label_fixed = label_fixed.split()[0]
 
-    return label_fixed
+    return label
