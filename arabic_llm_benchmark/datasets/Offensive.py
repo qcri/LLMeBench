@@ -6,7 +6,12 @@ class OffensiveDataset(DatasetBase):
         super(OffensiveDataset, self).__init__(**kwargs)
 
     def citation(self):
-        return """XXX"""
+        return """@article{zampieri2020semeval,
+          title={SemEval-2020 task 12: Multilingual offensive language identification in social media (OffensEval 2020)},
+          author={Zampieri, Marcos and Nakov, Preslav and Rosenthal, Sara and Atanasova, Pepa and Karadzhov, Georgi and Mubarak, Hamdy and Derczynski, Leon and Pitenis, ...},
+          journal={arXiv preprint arXiv:2006.07235},
+          year={2020}
+        }"""
 
     def get_data_sample(self):
         return {"input": "@USER يلا يا خوخة يا مهزئة ع دراستك", "label": "OFF"}
