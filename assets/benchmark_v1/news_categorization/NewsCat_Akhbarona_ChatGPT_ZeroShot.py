@@ -14,7 +14,7 @@ def config():
         "dataset_args": {},
         "task": NewsCatAkhbaronaTask,
         "task_args": {"test": "useless"},
-        "model": RandomGPTModel,
+        "model": GPTModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
