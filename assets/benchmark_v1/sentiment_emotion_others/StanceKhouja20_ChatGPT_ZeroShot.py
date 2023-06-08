@@ -42,5 +42,4 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["text"].lower().replace(".", "")
 
-
     return label
