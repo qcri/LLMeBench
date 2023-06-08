@@ -9,4 +9,5 @@ from .MachineTranslation import MachineTranslationTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .PropagandaMultilabel import PropagandaMultilabelTask
 from .StanceKhouja20 import StanceKhouja20Task
+from .STSTrack2 import STSTrack2Task
 from .Subjectivity import SubjectivityTask
