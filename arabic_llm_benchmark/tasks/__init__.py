@@ -4,3 +4,4 @@ from .FactStance import FactStanceTask
 from .MachineTranslation import MachineTranslationTask
 from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask
+from .Offensive import OffensiveTask
