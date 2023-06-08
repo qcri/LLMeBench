@@ -30,15 +30,14 @@ class STSTrack1Dataset(DatasetBase):
         #   "label": this will be used for evaluation
         # return False
         rt = 1
-        paths = data_path.split(";")
-        data_path = paths[0]
-        gt_data_path = paths[1]
+        input_data_path = data_path + "/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"
+        gt_data_path = data_path + "/STS2017.gs/STS.gs.track1.ar-ar.txt"
         if rt == 0:
-            data = pd.read_csv(data_path, sep="\t")
+            data = pd.read_csv(input_data_path, sep="\t")
             return data
         else:
             sentences = []
-            with open(data_path) as f:
+            with open(input_data_path) as f:
                 for line in f:
                     line = line.rstrip("\r\n")
                     sentences.append(line)
