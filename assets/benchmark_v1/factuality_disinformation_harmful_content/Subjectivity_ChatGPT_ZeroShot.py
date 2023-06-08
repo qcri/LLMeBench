@@ -10,8 +10,8 @@ def config():
         "dataset": SubjectivityDataset,
         "dataset_args": {},
         "task": SubjectivityTask,
-        "task_args": {"test": "useless"},
-        "model": RandomGPTModel,
+        "task_args": {},
+        "model": GPTModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -40,7 +40,7 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["response"]["choices"][0]["message"]["content"]
+    label = response["choices"][0]["text"]
     if label == "Objective" or label == "Objective.":
         label_fixed = "OBJ"
     elif label == "Subjective" or label == "Subjective.":

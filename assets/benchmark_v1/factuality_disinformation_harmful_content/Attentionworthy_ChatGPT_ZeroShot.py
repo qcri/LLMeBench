@@ -51,7 +51,7 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["response"]["choices"][0]["message"]["content"]
+    label = response["choices"][0]["text"]
 
     label = label.lower().replace(" - ", ", ").replace(",", "").replace(".", "")
     label = re.sub("\s+", "_", label)

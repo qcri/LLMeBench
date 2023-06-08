@@ -41,8 +41,7 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    # label = response["choices"][0]['text']
-    label = response["response"]["choices"][0]["message"]["content"]
+    label = response["choices"][0]["text"]
 
     if label == "checkworthy":
         label_fixed = "1"
