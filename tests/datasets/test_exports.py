@@ -6,6 +6,7 @@ from pathlib import Path
 
 import arabic_llm_benchmark.datasets as datasets
 from arabic_llm_benchmark import utils
+from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
 class TestDatasetExports(unittest.TestCase):
@@ -33,7 +34,7 @@ class TestDatasetExports(unittest.TestCase):
                 implemented_class = [
                     c
                     for c in inspect.getmembers(implemented_module, inspect.isclass)
-                    if c[0] != "DatasetBase"
+                    if issubclass(c[1], DatasetBase) and c[1] != DatasetBase
                 ][0]
                 implemented_dataset = implemented_class[1].__name__
 
