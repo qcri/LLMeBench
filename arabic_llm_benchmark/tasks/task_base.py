@@ -14,6 +14,9 @@ class TaskBase(ABC):
     def get_random_prediction(self, label_set):
         return random.choice(list(label_set))
 
+    def get_random_continuous_prediction(self, range_set):
+        return random.uniform(range_set[0], range_set[1])
+
     @abstractmethod
     def evaluate(self, true_labels, predicted_labels):
         pass
