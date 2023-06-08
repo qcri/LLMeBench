@@ -14,7 +14,7 @@ def config():
         "dataset_args": {},
         "task": NewsCatAlKhaleejTask,
         "task_args": {"test": "useless"},
-        "model": RandomGPTModel,
+        "model": GPTModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -43,7 +43,7 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["response"]["choices"][0]["message"]["content"]
+    label = response["choices"][0]["text"]
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
