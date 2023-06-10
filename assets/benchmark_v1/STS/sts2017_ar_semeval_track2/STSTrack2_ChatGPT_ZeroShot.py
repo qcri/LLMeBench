@@ -1,7 +1,7 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import STSTrack1Dataset
+from arabic_llm_benchmark.datasets import STSTrack2Dataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import STSTrack2Task
 
