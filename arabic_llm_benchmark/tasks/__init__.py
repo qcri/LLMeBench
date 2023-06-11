@@ -6,6 +6,8 @@ from .DemographyGender import DemographyGenderTask
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .HarmfulDetection import HarmfulDetectionTask
 from .MachineTranslation import MachineTranslationTask
+from .NewsCatAkhbarona import NewsCatAkhbaronaTask
+from .NewsCatAlArabiya import NewsCatAlArabiyaTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .PropagandaMultilabel import PropagandaMultilabelTask
 from .StanceKhouja20 import StanceKhouja20Task
