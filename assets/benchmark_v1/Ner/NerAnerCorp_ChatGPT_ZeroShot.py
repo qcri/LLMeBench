@@ -1,18 +1,18 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import Aqmar
+from arabic_llm_benchmark.datasets import AqmarDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import Ner
+from arabic_llm_benchmark.tasks import NERTask
 
 
 def config():
     return {
-        "dataset": Aqmar,
+        "dataset": AqmarDataset,
         "dataset_args": {"test_filenames": ["ANERCorp_CamelLab_test.txt"]
                                 
 },
-        "task": Ner,
+        "task": NERTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
