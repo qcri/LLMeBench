@@ -8,3 +8,4 @@ from .Offensive import OffensiveDataset
 from .HateSpeech import HateSpeechDataset
 from .Adult import AdultDataset
 from .Spam import SpamDataset
+from .DialectID import DialectIDDataset
