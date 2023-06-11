@@ -40,4 +40,6 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    return response["choices"][0]["text"].lower().replace(".", "")
+    label = response["choices"][0]["text"].lower().replace(".", "")
+
+    return label

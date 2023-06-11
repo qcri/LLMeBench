@@ -1,18 +1,18 @@
 import os
 import random
 
-from arabic_llm_benchmark.datasets import NewsCatAlKhaleejDataset
+from arabic_llm_benchmark.datasets import NewsCatAkhbaronaDataset
 from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import NewsCatAlKhaleejTask
+from arabic_llm_benchmark.tasks import NewsCatAkhbaronaTask
 
 random.seed(1333)
 
 
 def config():
     return {
-        "dataset": NewsCatAlKhaleejDataset,
+        "dataset": NewsCatAkhbaronaDataset,
         "dataset_args": {},
-        "task": NewsCatAlKhaleejTask,
+        "task": NewsCatAkhbaronaTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -25,7 +25,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
+            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv"
         },
     }
 
@@ -36,7 +36,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the following news article into one of the following categories: sports, medical, finance, tech, politics, medical, sports, politics, or culture.\n\narticle: {input_sample}\ncategory: \n",
+                "text": f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\narticle: {input_sample}\ncategory: \n",
             }
         ],
     }
