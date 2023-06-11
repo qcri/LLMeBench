@@ -10,3 +10,5 @@ from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .PropagandaMultilabel import PropagandaMultilabelTask
 from .StanceKhouja20 import StanceKhouja20Task
 from .Subjectivity import SubjectivityTask
+from .Sentiment import SentimentTask
+
