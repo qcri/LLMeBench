@@ -21,7 +21,17 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "class_labels": ["sports", "medical", "finance", "tech", "politics", "medical", "sports", "politics", "culture"],  
+            "class_labels": [
+                "sports",
+                "medical",
+                "finance",
+                "tech",
+                "politics",
+                "medical",
+                "sports",
+                "politics",
+                "culture",
+            ],
             "max_tries": 3,
         },
         "general_args": {
@@ -31,7 +41,6 @@ def config():
 
 
 def prompt(input_sample):
-
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
