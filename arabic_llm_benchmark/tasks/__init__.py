@@ -5,3 +5,5 @@ from .MachineTranslation import MachineTranslationTask
 from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask
 from .Offensive import OffensiveTask
+from .HateSpeech import HateSpeechTask
+from .Adult import AdultTask

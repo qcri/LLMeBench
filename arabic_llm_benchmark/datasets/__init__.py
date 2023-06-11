@@ -5,3 +5,5 @@ from .Khouja20Stance import Khouja20StanceDataset
 from .Location import LocationDataset
 from .NameInfo import NameInfoDataset
 from .Offensive import OffensiveDataset
+from .HateSpeech import HateSpeechDataset
+from .Adult import AdultDataset
