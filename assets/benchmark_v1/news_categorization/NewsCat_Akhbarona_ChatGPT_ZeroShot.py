@@ -43,7 +43,7 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["response"]["choices"][0]["message"]["content"]
+    label = response["choices"][0]["text"]
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
