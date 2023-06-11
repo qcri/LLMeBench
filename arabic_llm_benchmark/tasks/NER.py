@@ -7,7 +7,7 @@ class NERTask(TaskBase):
     def __init__(self, **kwargs):
         super(NERTask, self).__init__(**kwargs)
 
-    def _clean_ground_truth(ground_truth):
+    def _clean_ground_truth(self, ground_truth):
         cleaned_version = []
         for i, elem in enumerate(ground_truth):
             if "I-MIS" in elem:
