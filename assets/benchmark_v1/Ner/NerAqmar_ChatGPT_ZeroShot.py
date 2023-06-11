@@ -1,14 +1,37 @@
 import os
 import re
+
 from arabic_llm_benchmark.datasets import Aqmar
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import Ner 
+from arabic_llm_benchmark.tasks import Ner
 
 
 def config():
     return {
         "dataset": Aqmar,
-        "dataset_args": {},
+        "dataset_args": {"test_filenames": [
+                                        "Crusades.txt",
+                                        "Islamic_Golden_Age.txt",
+                                        "Islamic_History.txt",
+                                        "Ibn_Tolun_Mosque.txt",
+                                        "Ummaya_Mosque.txt",
+                                        "Enrico_Fermi.txt",
+                                        "Light.txt",
+                                        "Periodic_Table.txt",
+                                        "Physics.txt",
+                                        "Razi.txt",
+                                        "Summer_Olympics2004.txt",
+                                        "Christiano_Ronaldo.txt",
+                                        "Football.txt",
+                                        "Portugal_football_team.txt",
+                                        "Soccer_Worldcup.txt",
+                                        "Computer.txt",
+                                        "Computer_Software.txt",
+                                        "Internet.txt",
+                                        "Richard_Stallman.txt",
+                                        "X_window_system.txt"]
+                                
+},
         "task": Ner,
         "task_args": {},
         "model": GPTModel,
@@ -18,10 +41,21 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "class_labels": ["B-PERS", "I-PERS", "B-LOC", "I-LOC", "B-ORG", "I-ORG", "B-MISC", "I-MISC"],
+            "class_labels": [
+                "B-PERS",
+                "I-PERS",
+                "B-LOC",
+                "I-LOC",
+                "B-ORG",
+                "I-ORG",
+                "B-MISC",
+                "I-MISC",
+            ],
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0"},
+        "general_args": {
+            "data_path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0"
+        },
     }
 
 
@@ -38,28 +72,49 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    possible_tags = ["B-PER", "I-PER", "B-LOC", "I-LOC", "B-ORG", "I-ORG", "O", "B-MISC", "I-MISC"]
-    mapping = {"PER-B": "B-PER", "PER-I": "I-PER", "ORG-B": "B-ORG", "ORG-I": "I-ORG", "LOC-B": "B-LOC", "LOC-I": "I-LOC", "MISC-B": "B-MISC", "MISC-I": "I-MISC"}       
+    possible_tags = [
+        "B-PER",
+        "I-PER",
+        "B-LOC",
+        "I-LOC",
+        "B-ORG",
+        "I-ORG",
+        "O",
+        "B-MISC",
+        "I-MISC",
+    ]
+    mapping = {
+        "PER-B": "B-PER",
+        "PER-I": "I-PER",
+        "ORG-B": "B-ORG",
+        "ORG-I": "I-ORG",
+        "LOC-B": "B-LOC",
+        "LOC-I": "I-LOC",
+        "MISC-B": "B-MISC",
+        "MISC-I": "I-MISC",
+    }
 
     matches = re.findall(r"\((.*?)\)", response)
-    if matches: 
+    if matches:
         cleaned_response = []
-        for match in matches: 
+        for match in matches:
             elements = match.split(",")
-            try: 
-                cleaned_response.append(elements[1]) 
-            except: 
+            try:
+                cleaned_response.append(elements[1])
+            except:
                 cleaned_response.append("O")
 
-        cleaned_response = [sample.replace("'", "").strip() for sample in cleaned_response]
-        final_cleaned_response=[] 
-        for elem in cleaned_response: 
-            if elem in possible_tags: 
-                final_cleaned_response.append(elem) 
-            elif elem in mapping: 
+        cleaned_response = [
+            sample.replace("'", "").strip() for sample in cleaned_response
+        ]
+        final_cleaned_response = []
+        for elem in cleaned_response:
+            if elem in possible_tags:
+                final_cleaned_response.append(elem)
+            elif elem in mapping:
                 final_cleaned_response.append(mapping[elem])
-            else: 
+            else:
                 final_cleaned_response.append("O")
-    else: 
-        final_cleaned_response = [] 
+    else:
+        final_cleaned_response = None
     return final_cleaned_response
