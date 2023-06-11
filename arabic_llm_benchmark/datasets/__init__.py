@@ -1,5 +1,6 @@
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+from .ArabicPOS import ArabicPOSDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset

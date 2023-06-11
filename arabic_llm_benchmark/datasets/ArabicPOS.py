@@ -39,8 +39,8 @@ class ArabicPOSDataset(DatasetBase):
             for line_idx, line in enumerate(fp):
                 data.append(
                     {
-                        "input": line.strip().split('\t')[0],
-                        "label": line.strip().split('\t')[1],
+                        "input": line.strip().split("\t")[0],
+                        "label": line.strip().split("\t")[1],
                         "line_number": line_idx,
                     }
                 )
