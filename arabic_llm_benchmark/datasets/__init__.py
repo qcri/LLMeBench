@@ -9,6 +9,7 @@ from .Harmful import CovidHarmfulDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
 from .NewsCatAlArabiya import NewsCatAlArabiyaDataset
 from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
+from .NewsCatASND import NewsCatASNDDataset
 from .Propaganda import PropagandaTweetDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
