@@ -11,4 +11,5 @@ from .NewsCatAlArabiya import NewsCatAlArabiyaTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .PropagandaMultilabel import PropagandaMultilabelTask
 from .StanceKhouja20 import StanceKhouja20Task
+from .StanceUnifiedFC import StanceUnifiedFCTask
 from .Subjectivity import SubjectivityTask
