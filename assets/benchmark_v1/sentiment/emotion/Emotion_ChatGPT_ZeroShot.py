@@ -18,7 +18,7 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["__label__ADS", "__label__NOTADS"],
+            "class_labels": ["anger", "disgust","fear","joy","love","optimism","pessimism","sadness","surprise","trust"],
             "max_tries": 3,
         },
         "general_args": {
