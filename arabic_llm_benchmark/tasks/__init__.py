@@ -8,7 +8,6 @@ from .HarmfulDetection import HarmfulDetectionTask
 from .MachineTranslation import MachineTranslationTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .PropagandaMultilabel import PropagandaMultilabelTask
+from .Sentiment import SentimentTask
 from .StanceKhouja20 import StanceKhouja20Task
 from .Subjectivity import SubjectivityTask
-from .Sentiment import SentimentTask
-

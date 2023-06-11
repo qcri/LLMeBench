@@ -21,8 +21,6 @@ class SentimentDataset(DatasetBase):
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 text, label = line.strip().split("\t")
-                data.append(
-                    {"input": text, "label": label, "line_number": line_idx}
-                )
+                data.append({"input": text, "label": label, "line_number": line_idx})
 
         return data
