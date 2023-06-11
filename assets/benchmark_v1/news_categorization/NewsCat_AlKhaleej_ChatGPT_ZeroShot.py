@@ -2,7 +2,7 @@ import os
 import random
 
 from arabic_llm_benchmark.datasets import NewsCatAlKhaleejDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
+from arabic_llm_benchmark.models import GPTModel
 from arabic_llm_benchmark.tasks import NewsCatAlKhaleejTask
 
 random.seed(1333)
@@ -13,7 +13,7 @@ def config():
         "dataset": NewsCatAlKhaleejDataset,
         "dataset_args": {},
         "task": NewsCatAlKhaleejTask,
-        "task_args": {"test": "useless"},
+        "task_args": {},
         "model": GPTModel,
         "model_args": {
             "api_type": "azure",
@@ -21,7 +21,7 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "class_labels": ["SUBJ", "OBJ"],
+            "class_labels": ["SUBJ", "OBJ"],  #TODO: Fix
             "max_tries": 3,
         },
         "general_args": {
