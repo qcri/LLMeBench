@@ -9,3 +9,4 @@ from .HateSpeech import HateSpeechTask
 from .Adult import AdultTask
 from .Spam import SpamTask
 from .DialectID import DialectIDTask
+from .Lemmatization import LemmatizationTask

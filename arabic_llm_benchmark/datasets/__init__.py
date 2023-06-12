@@ -9,3 +9,4 @@ from .HateSpeech import HateSpeechDataset
 from .Adult import AdultDataset
 from .Spam import SpamDataset
 from .DialectID import DialectIDDataset
+from .Lemmatization import LemmatizationDataset
