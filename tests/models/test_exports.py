@@ -6,6 +6,7 @@ from pathlib import Path
 
 import arabic_llm_benchmark.models as models
 from arabic_llm_benchmark import utils
+from arabic_llm_benchmark.models.model_base import ModelBase
 
 
 class TestDatasetExports(unittest.TestCase):
@@ -33,7 +34,7 @@ class TestDatasetExports(unittest.TestCase):
                 implemented_class = [
                     c
                     for c in inspect.getmembers(implemented_module, inspect.isclass)
-                    if c[0].endswith("Model")
+                    if issubclass(c[1], ModelBase) and c[1] != ModelBase
                 ][0]
                 implemented_model = implemented_class[1].__name__
 
