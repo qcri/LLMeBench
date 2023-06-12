@@ -12,6 +12,7 @@ from .NewsCatAkhbarona import NewsCatAkhbaronaTask
 from .NewsCatAlArabiya import NewsCatAlArabiyaTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .NewsCatASND import NewsCatASNDTask
+from .Offensive import OffensiveTask
 from .PropagandaMultilabel import PropagandaMultilabelTask
 from .StanceKhouja20 import StanceKhouja20Task
 from .StanceUnifiedFC import StanceUnifiedFCTask
