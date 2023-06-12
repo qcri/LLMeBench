@@ -36,7 +36,7 @@ class AqmarDataset(DatasetBase):
         
         data = []
 
-        for fname in self.test_fnames:
+        for fname in self.test_filenames:
             path = Path(data_path) / fname
             with open(path, "r") as reader:
                 current_sentence = []
