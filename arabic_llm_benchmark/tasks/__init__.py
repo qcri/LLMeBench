@@ -4,6 +4,7 @@ from .Checkworthiness import CheckworthinessTask
 from .ClaimDetection import ClaimDetectionTask
 from .DemographyGender import DemographyGenderTask
 from .DemographyLocation import DemographyLocationTask
+from .DemographyNameInfo import DemographyNameInfoTask
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .HarmfulDetection import HarmfulDetectionTask
 from .MachineTranslation import MachineTranslationTask

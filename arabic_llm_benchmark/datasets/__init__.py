@@ -7,6 +7,7 @@ from .Claim import CovidClaimDataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .Harmful import CovidHarmfulDataset
 from .Location import LocationDataset
+from .NameInfo import NameInfoDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
 from .NewsCatAlArabiya import NewsCatAlArabiyaDataset
 from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
