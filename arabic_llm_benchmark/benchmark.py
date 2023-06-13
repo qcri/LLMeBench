@@ -41,13 +41,16 @@ class SingleTaskBenchmark(object):
 
         # Data parameters
         self.data_path = config["general_args"]["data_path"]
-        self.train_data_path = config["general_args"]["train_data_path"]
-        self.n_shots = config["general_args"]["n_shots"]
+        self.zeroshot = True
+        if "fewshot" in config["general_args"]:
+            self.zeroshot = False
+            self.train_data_path = config["general_args"]["fewshot"]["train_data_path"]
+            self.n_shots = config["general_args"]["fewshot"]["n_shots"]
 
         self.limit = limit
 
     def run_pipeline(
-        self, sample_key, input_sample, few_shots_data, cache_payload=None
+        self, sample_key, input_sample, few_shot_examples, cache_payload=None
     ):
         summarized_payload = {}
 
@@ -57,7 +60,10 @@ class SingleTaskBenchmark(object):
             prompt = cache_payload["prompt"]
         else:
             logging.info(f"\tGenerating prompt")
-            prompt = self.prompt_fn(input_sample, few_shots_data)
+            if few_shot_examples:
+                prompt = self.prompt_fn(input_sample, few_shot_examples)
+            else:
+                prompt = self.prompt_fn(input_sample)
             cache_payload["prompt"] = prompt
 
         # Run the model
@@ -103,8 +109,12 @@ class SingleTaskBenchmark(object):
         failed_summary_path = self.cache_dir / "summary_failed.jsonl"
 
         data = self.dataset.load_data(self.data_path)
-        train_data = self.dataset.load_data(self.train_data_path)
-        few_shots_data = self.dataset.prepare_fewshots(data, train_data, self.n_shots)
+        few_shots_data = None
+        if not self.zeroshot:
+            train_data = self.dataset.load_data(self.train_data_path)
+            few_shots_data = self.dataset.prepare_fewshots(
+                data, train_data, self.n_shots
+            )
 
         true_labels = []
         predictions = []
@@ -123,6 +133,11 @@ class SingleTaskBenchmark(object):
             cache_path = self.cache_dir / f"{sample_idx}.json"
             true_labels.append(input_sample["label"])
 
+            if few_shots_data:
+                curr_few_shot_examples = few_shots_data[sample_idx]
+            else:
+                curr_few_shot_examples = None
+
             cache_payload = {"input": input_sample}
             if cache_path.exists() and not self.ignore_cache:
                 with open(cache_path, "r") as fp:
@@ -134,7 +149,7 @@ class SingleTaskBenchmark(object):
             }
 
             cache_payload, partial_summarized_payload = self.run_pipeline(
-                sample_idx, input_sample["input"], few_shots_data, cache_payload
+                sample_idx, input_sample["input"], curr_few_shot_examples, cache_payload
             )
 
             summarized_payload.update(partial_summarized_payload)
