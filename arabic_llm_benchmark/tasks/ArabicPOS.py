@@ -90,11 +90,10 @@ class ArabicPOSTask(TaskBase):
     def evaluate(self, true_labels, predicted_labels):
         # split sentence into words
         attrs = vars(self)
-        # print("P:",len(predicted_labels), " t:",len(true_labels))
         hyp = []
         ref = []
         for t, p in zip(true_labels, predicted_labels):
-            # print("P:",type(p),len(p), p)
+            #print("P:",type(p),len(p), p)
             if p is None or ("Sorry, I cannot") in p:
                 # print("Sorry!")
                 p = None
@@ -105,18 +104,9 @@ class ArabicPOSTask(TaskBase):
                 p = " ".join(["".join([e[v] for v in e]) for e in s])
             elif ": " in p:
                 # Result as pseudo json
-                s = (
-                    re.sub(r"\([^\)]+\)", "", p)
-                    .replace("+}", "}")
-                    .replace("}+", "+")
-                    .replace("+{", "+")
-                    .replace(": {", ": ")
-                    .replace("}}", "}")
-                )
-                s = re.sub(r":\s?(?![{\[\s])([^,}]+)", r': "\1"', s)
-                s = re.sub(r"{([^:]+):", r'{"\1":', s)
-                s = list(eval(s))
-                p = " ".join(["".join([e[v] for v in e]) for e in s])
+                pattern = r"(\w+)(\W)*:(\W)*([^\']+)'"
+                matches = re.finditer(pattern, p)
+                p = " ".join([m.group(4) for m in matches])
             else:
                 p = None
             # # remove punctuation!
@@ -132,7 +122,7 @@ class ArabicPOSTask(TaskBase):
             if len(p) < len(t):
                 for i in range(len(t) - len(p)):
                     p.append("")
-            # print("PP0:",len(p),p)
+
             mp = []
             for tag in p:
                 tag = tag.replace("'", "")
@@ -146,8 +136,8 @@ class ArabicPOSTask(TaskBase):
             p = mp
 
             # p = [mapTags[tag.replace('\'','')] for tag in p]
-            # print("PP1:",len(p),p)
-            # print("TT1:",len(t),t)
+            #print("PP1:",len(p),p)
+            #print("TT1:",len(t),t)
             hyp += p[: len(t)]
             ref += t
         # print("ph:",len(hyp),hyp)
