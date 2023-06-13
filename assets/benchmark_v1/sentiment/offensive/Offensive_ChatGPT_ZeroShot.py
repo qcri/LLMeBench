@@ -1,15 +1,15 @@
 import os
 
 from arabic_llm_benchmark.datasets import OffensiveDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import FactStanceTask
+from arabic_llm_benchmark.models import GPTModel
+from arabic_llm_benchmark.tasks import OffensiveTask
 
 
 def config():
     return {
         "dataset": OffensiveDataset,
         "dataset_args": {},
-        "task": FactStanceTask,
+        "task": OffensiveTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {

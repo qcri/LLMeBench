@@ -27,7 +27,7 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
                 config = asset["module"].config()
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
-                task = config["task"](dataset=None, **config["task_args"])
+                task = config["task"](dataset=dataset, **config["task_args"])
                 try:
                     task.evaluate([data_sample["label"]], [None])
                 except Exception as e:
@@ -48,7 +48,7 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
                 config = asset["module"].config()
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
-                task = config["task"](dataset=None, **config["task_args"])
+                task = config["task"](dataset=dataset, **config["task_args"])
                 evaluation_scores = task.evaluate(
                     [data_sample["label"]], [data_sample["label"]]
                 )

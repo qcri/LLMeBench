@@ -18,15 +18,13 @@ class AdultDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
-        #Format: text \t adult_label
+        # Format: text \t adult_label
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 fields = line.split("\t")
                 label = fields[0]
-                text = fields[4]                        
-                data.append(
-                    {"input": text, "label": label, "line_number": line_idx}
-                )
+                text = fields[4]
+                data.append({"input": text, "label": label, "line_number": line_idx})
 
         return data

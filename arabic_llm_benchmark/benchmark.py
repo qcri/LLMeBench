@@ -62,7 +62,7 @@ class SingleTaskBenchmark(object):
 
         if "model_output" not in cache_payload or "response" not in model_output:
             logging.info(f"\tRunning model")
-            model_output = self.model.run_model(**prompt)
+            model_output = self.model.run_model(prompt)
             cache_payload["model_output"] = model_output
 
         if "response" not in model_output:
