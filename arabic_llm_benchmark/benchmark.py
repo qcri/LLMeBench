@@ -41,9 +41,12 @@ class SingleTaskBenchmark(object):
 
         # Data parameters
         self.data_path = config["general_args"]["data_path"]
+        self.train_data_path = config["general_args"]["train_data_path"]
+        self.n_shots = config["general_args"]["n_shots"]
+
         self.limit = limit
 
-    def run_pipeline(self, sample_key, input_sample, cache_payload=None):
+    def run_pipeline(self, sample_key, input_sample, few_shots_data, cache_payload=None):
         summarized_payload = {}
 
         # Prepare the prompt
@@ -52,7 +55,7 @@ class SingleTaskBenchmark(object):
             prompt = cache_payload["prompt"]
         else:
             logging.info(f"\tGenerating prompt")
-            prompt = self.prompt_fn(input_sample)
+            prompt = self.prompt_fn(input_sample,few_shots_data)
             cache_payload["prompt"] = prompt
 
         # Run the model
@@ -98,6 +101,8 @@ class SingleTaskBenchmark(object):
         failed_summary_path = self.cache_dir / "summary_failed.jsonl"
 
         data = self.task.load_data(self.data_path)
+        train_data = self.task.load_train_data(self.train_data_path)
+        few_shots_data = self.task.prepare_fewshots(data, train_data, self.n_shots)
 
         true_labels = []
         predictions = []
@@ -127,24 +132,24 @@ class SingleTaskBenchmark(object):
             }
 
             cache_payload, partial_summarized_payload = self.run_pipeline(
-                sample_idx, input_sample["input"], cache_payload
+                sample_idx, input_sample["input"], few_shots_data, cache_payload
             )
 
             summarized_payload.update(partial_summarized_payload)
 
             if "filtered_output" in cache_payload:
                 predictions.append(cache_payload["filtered_output"])
-                full_summary_fp.write(json.dumps(summarized_payload) + "\n")
+                full_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
             else:
                 logging.error(f"\tNo prediction for sample")
                 num_failed += 1
                 predictions.append(None)
-                full_summary_fp.write(json.dumps(summarized_payload) + "\n")
-                failed_summary_fp.write(json.dumps(summarized_payload) + "\n")
+                full_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
+                failed_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
 
             # Save the cache payload
             with open(cache_path, "w") as fp:
-                json.dump(cache_payload, fp)
+                json.dump(cache_payload, fp,ensure_ascii=False)
 
         full_summary_fp.close()
         failed_summary_fp.close()
@@ -249,9 +254,9 @@ def main():
         task_result_path = args.results_dir / name / "results.json"
 
         with open(task_result_path, "w") as fp:
-            json.dump(task_results, fp)
+            json.dump(task_results, fp, ensure_ascii=False)
 
         all_results[name] = task_results
 
     with open(all_results_path, "w") as fp:
-        json.dump(all_results, fp)
+        json.dump(all_results, fp, ensure_ascii=False)
