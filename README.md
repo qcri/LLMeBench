@@ -17,7 +17,7 @@ source .envs/arabic_llm_benchmark/bin/activate
 
 Install the dependencies and benchmarking package:
 ```bash
-pip install -e '.[dev]'
+pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the benchmark data
