@@ -18,14 +18,12 @@ class OffensiveDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
-        #Format: text \t offensive_label
+        # Format: text \t offensive_label
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 text, label = line.split("\t")
                 label = label.strip()
-                data.append(
-                    {"input": text, "label": label, "line_number": line_idx}
-                )
+                data.append({"input": text, "label": label, "line_number": line_idx})
 
         return data
