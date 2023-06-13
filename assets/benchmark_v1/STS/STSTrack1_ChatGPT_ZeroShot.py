@@ -31,11 +31,11 @@ def config():
 
 def prompt(input_sample):
     return {
-        "system_message": "You are an AI assistant that helps people find information.",
+        "system_message": "Your role is to find similarity between two sentences",
         "messages": [
             {
                 "sender": "user",
-                "text": f"Given two sentences, produce a continuous valued similarity score on a scale from 0 to 5, with 0  indicating that the semantics of the sentences are completely independent and 5 signifying semantic equivalence. The output should be exactly in form Similarity score =.\n {input_sample}",
+                "text": f"Given two sentences, produce a continuous valued similarity score on a scale from 0 to 5, with 0 indicating that the semantics of the sentences are completely independent and 5 signifying semantic equivalence. The output should be exactly in form Similarity score =.\n {input_sample}",
             }
         ],
     }
@@ -43,12 +43,11 @@ def prompt(input_sample):
 
 def post_process(response):
     raw_response = response["choices"][0]["text"]
-    regex_float = r"\b\d+\.\d+\.?\b"
 
     if "Similarity score =" in raw_response:
-        # output = raw_response.replace("Similarity score = ", "")
-        match = re.findall(regex_float, raw_response)[0]
-        score = float(match)
+        pred_num = raw_response.split("Similarity score = ")[1].strip().split(" ")[0].rstrip(".")
+        score = float(pred_num)
+
     else:
         score = None
 

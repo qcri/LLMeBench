@@ -31,19 +31,14 @@ def config():
 
 
 def prompt(input_sample, examples):
-    sent1, sent2 = input_sample.split("\t")
-    prompt_string = (
-        f'Given sentence1 and sentence2, compute semantic similarity between them using a score on a scale from 0.0 '
-        f'to 5.0, with 0.0 indicating least similarity between the sentences, and 5.0 signifying very strong semantic '
-        f'similarity. The output should be exactly in form score=\n\n'
-        f"sentence1: {sent1}\n"
-        f"sentence2: {sent2}\n"
-        f"score= \n"
-    )
+    prompt_string = f"Given two sentences, produce a continuous valued similarity score on a " \
+                    f"scale from 0 to 5, with 0 indicating that the semantics of the sentences are " \
+                    f"completely independent and 5 signifying semantic equivalence. The output " \
+                    f"should be exactly in form Similarity score =. \n{input_sample}"
     return [
         {
             "role": "system",
-            "content": "As an AI system, your role is to compute semantic similarity between two Arabic sentences.",
+            "content": "You are an AI assistant that helps people find information.",
         },
         {
             "role": "user",
@@ -53,14 +48,16 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
-    raw_response = response["choices"][0]["message"]["content"].lower().strip()
-    regex_float = r"\b\d+\.\d+\.?\b"
+    raw_response = response["choices"][0]["message"]["content"]
 
-    if "score=" in raw_response:
-        match = re.findall(regex_float, raw_response)[0]
-        score = float(match)
+    if "Similarity score =" in raw_response:
+        pred_num = raw_response.split("Similarity score = ")[1].strip().split(" ")[0].rstrip(".")
+        score = float(pred_num)
+
     else:
-        print(raw_response)
         score = None
 
     return score
+
+
+
