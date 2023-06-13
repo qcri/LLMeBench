@@ -9,7 +9,6 @@ from .DemographyNameInfo import DemographyNameInfoTask
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .HarmfulDetection import HarmfulDetectionTask
 from .MachineTranslation import MachineTranslationTask
-from .HateSpeech import HateSpeechTask
 from .Spam import SpamTask
 from .NewsCatAkhbarona import NewsCatAkhbaronaTask
 from .NewsCatAlArabiya import NewsCatAlArabiyaTask
