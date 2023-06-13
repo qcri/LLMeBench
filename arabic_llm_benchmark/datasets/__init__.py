@@ -1,6 +1,5 @@
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
-from .HateSpeech import HateSpeechDataset
 from .Adult import AdultDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .Attentionworthy import AttentionworthyDataset
