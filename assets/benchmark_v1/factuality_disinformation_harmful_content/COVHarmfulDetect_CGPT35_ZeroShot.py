@@ -21,15 +21,12 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/harmful"
-            "/CT22_arabic_1C_harmful_test_gold.tsv",
-            "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
-            "n_shots": 3,
+            "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
         },
     }
 
 
-def prompt(input_sample, examples):
+def prompt(input_sample):
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
