@@ -145,7 +145,7 @@ def post_process(response):
 The benchmarking module allows one to run a specific asset instead of the entire benchmark using the `--filter` option. It is also a good idea to use the `--limit` option to limit the tests to few (e.g. 5 samples). Sample command below:
 
 ```bash
-python -m arabic_llm_benchmark --filter 'demography/gender/AraGend_ChatGPT_ZeroShot' --limit 5 <benchmark-dir> <results-dir>
+python -m arabic_llm_benchmark --filter 'demography/gender/AraGend_ChatGPT_ZeroShot' --limit 5 --ignore_cache <benchmark-dir> <results-dir>
 ```
 
 Make sure to also run `scripts/run_tests.sh` before submitting your code, and once you are ready, you can commit your changes locally and push them to a remote branch:
@@ -155,3 +155,25 @@ git push origin feat/sarcasm_task
 ```
 
 and open a _pull request_ by going to the [repository webpage](https://github.com/qcri/Arabic_LLM_Benchmark)
+
+### Creating Few Shot Assets
+The framework has some preliminary support to automatically select N examples per test sample based on sentence similarity (using langchain's implementation). This will be expanded in the future to have more few shot example selection mechanism (e.g Random, Class based etc.). For now, a config needs to have the following keys to enable the few shot pipeline:
+
+```python
+"general_args": {
+        "data_path": "...",
+        # ...other general args
+        "fewshot": {
+            "train_data_path": "... path to train data ...",
+            "n_shots": 3, # number of few shot examples
+        },
+    },
+```
+
+and the prompt function needs to accept two parameters:
+
+```python
+def prompt(input_sample, examples):
+	# "examples" will contain the few shots samples selected
+	# for this particular test sample
+```
