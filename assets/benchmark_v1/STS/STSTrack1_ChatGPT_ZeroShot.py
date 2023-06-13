@@ -24,18 +24,20 @@ def config():
         },
         "general_args": {
             "data_path": "data/STS/semeval-2017",
+            'train_data_path': "none",
+            'n_shots': 2
             # "ground_truth_data_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"
         },
     }
 
 
-def prompt(input_sample):
+def prompt(input_sample,examples):
     return {
-        "system_message": "Your role is to find similarity between two sentences",
+        "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
             {
                 "sender": "user",
-                "text": f"Given two sentences, produce a continuous valued similarity score on a scale from 0 to 5, with 0 indicating that the semantics of the sentences are completely independent and 5 signifying semantic equivalence. The output should be exactly in form Similarity score =.\n {input_sample}",
+                "text": f"Given two sentences, produce a continuous valued similarity score on a scale from 0 to 5, with 0 indicating that the semantics of the sentences are completely independent and 5 signifying semantic equivalence. The output should be exactly in form Similarity score =.\n{input_sample}",
             }
         ],
     }
