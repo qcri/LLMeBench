@@ -29,3 +29,4 @@ from .STSTrack1 import STSTrack1Task
 from .STSTrack2 import STSTrack2Task
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
+from .QA import QATask
