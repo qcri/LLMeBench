@@ -30,3 +30,4 @@ from .STSArSemEval17Track2 import STSArSemEval17Track2Dataset
 from .STSQ2Q import Q2QSimDataset
 from .Subjectivity import SubjectivityDataset
 from .XNLI import XNLIDataset
+from .AraQA import AraQADataset
