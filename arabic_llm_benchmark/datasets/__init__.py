@@ -1,7 +1,6 @@
 from .Adult import AdultDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
-from .Spam import SpamDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
@@ -16,6 +15,7 @@ from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .NewsCatASND import NewsCatASNDDataset
 from .Offensive import OffensiveDataset
 from .Propaganda import PropagandaTweetDataset
+from .Spam import SpamDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
 from .Subjectivity import SubjectivityDataset
