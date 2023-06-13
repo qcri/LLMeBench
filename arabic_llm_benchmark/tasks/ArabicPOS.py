@@ -93,7 +93,7 @@ class ArabicPOSTask(TaskBase):
         hyp = []
         ref = []
         for t, p in zip(true_labels, predicted_labels):
-            #print("P:",type(p),len(p), p)
+            # print("P:",type(p),len(p), p)
             if p is None or ("Sorry, I cannot") in p:
                 # print("Sorry!")
                 p = None
@@ -136,8 +136,8 @@ class ArabicPOSTask(TaskBase):
             p = mp
 
             # p = [mapTags[tag.replace('\'','')] for tag in p]
-            #print("PP1:",len(p),p)
-            #print("TT1:",len(t),t)
+            # print("PP1:",len(p),p)
+            # print("TT1:",len(t),t)
             hyp += p[: len(t)]
             ref += t
         # print("ph:",len(hyp),hyp)

@@ -1,3 +1,4 @@
+from .ArabicDiacritization import ArabicDiacritizationTask
 from .ArabicPOS import ArabicPOSTask
 from .ArabicSegmentation import ArabicSegmentationTask
 from .Attentionworthy import AttentionworthyTask
