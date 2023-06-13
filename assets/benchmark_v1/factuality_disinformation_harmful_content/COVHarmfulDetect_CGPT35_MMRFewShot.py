@@ -21,10 +21,11 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/harmful"
-            "/CT22_arabic_1C_harmful_test_gold.tsv",
-            "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
-            "n_shots": 3,
+            "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
+            "fewshot": {
+                "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
+                "n_shots": 3,
+            },
         },
     }
 
@@ -44,7 +45,7 @@ def prompt(input_sample, examples):
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
-    for example in examples[input_sample]:
+    for example in examples:
         # Found chatgpt confused when using 0 and 1 in the prompt
         label = "no" if example["label"] == "0" else "yes"
         out_prompt = (
