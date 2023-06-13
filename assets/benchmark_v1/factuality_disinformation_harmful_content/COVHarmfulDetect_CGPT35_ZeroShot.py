@@ -24,12 +24,12 @@ def config():
             "data_path": "data/factuality_disinformation_harmful_content/harmful"
             "/CT22_arabic_1C_harmful_test_gold.tsv",
             "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
-            "n_shots": 3
+            "n_shots": 3,
         },
     }
 
 
-def prompt(input_sample,examples):
+def prompt(input_sample, examples):
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
@@ -46,7 +46,11 @@ def post_process(response):
     pred_label = response["choices"][0]["text"]
     pred_label = pred_label.replace(".", "").strip().lower()
 
-    if pred_label.startswith("harmful") or pred_label.startswith("yes") or "label: harmful" in pred_label:
+    if (
+        pred_label.startswith("harmful")
+        or pred_label.startswith("yes")
+        or "label: harmful" in pred_label
+    ):
         pred_label = "1"
 
     if (

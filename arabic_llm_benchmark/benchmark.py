@@ -46,7 +46,9 @@ class SingleTaskBenchmark(object):
 
         self.limit = limit
 
-    def run_pipeline(self, sample_key, input_sample, few_shots_data, cache_payload=None):
+    def run_pipeline(
+        self, sample_key, input_sample, few_shots_data, cache_payload=None
+    ):
         summarized_payload = {}
 
         # Prepare the prompt
@@ -55,7 +57,7 @@ class SingleTaskBenchmark(object):
             prompt = cache_payload["prompt"]
         else:
             logging.info(f"\tGenerating prompt")
-            prompt = self.prompt_fn(input_sample,few_shots_data)
+            prompt = self.prompt_fn(input_sample, few_shots_data)
             cache_payload["prompt"] = prompt
 
         # Run the model
@@ -139,17 +141,23 @@ class SingleTaskBenchmark(object):
 
             if "filtered_output" in cache_payload:
                 predictions.append(cache_payload["filtered_output"])
-                full_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
+                full_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
             else:
                 logging.error(f"\tNo prediction for sample")
                 num_failed += 1
                 predictions.append(None)
-                full_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
-                failed_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
+                full_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
+                failed_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
 
             # Save the cache payload
             with open(cache_path, "w") as fp:
-                json.dump(cache_payload, fp,ensure_ascii=False)
+                json.dump(cache_payload, fp, ensure_ascii=False)
 
         full_summary_fp.close()
         failed_summary_fp.close()

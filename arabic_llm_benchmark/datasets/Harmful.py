@@ -2,6 +2,7 @@ import pandas as pd
 
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
+
 class CovidHarmfulDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CovidHarmfulDataset, self).__init__(**kwargs)
@@ -20,7 +21,7 @@ class CovidHarmfulDataset(DatasetBase):
     def load_data(self, data_path):
         formatted_data = []
 
-        with open(data_path,"r",encoding='utf-8') as in_file:
+        with open(data_path, "r", encoding="utf-8") as in_file:
             next(in_file)
             for index, line in enumerate(in_file):
                 tweet = [str(s.strip()) for s in line.split("\t")]
@@ -29,6 +30,13 @@ class CovidHarmfulDataset(DatasetBase):
                 label = tweet[4]
                 twt_id = tweet[1]
 
-                formatted_data.append({"input": text, "label": label, "line_number": index, "input_id": twt_id})
+                formatted_data.append(
+                    {
+                        "input": text,
+                        "label": label,
+                        "line_number": index,
+                        "input_id": twt_id,
+                    }
+                )
 
         return formatted_data
