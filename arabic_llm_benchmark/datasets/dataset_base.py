@@ -53,7 +53,7 @@ class DatasetBase(ABC):
         # Dedup train set against test set by doc ID before selecting examples
         # We discovered some datasets had overlap between train and test
         if deduplicate:
-            train_data = self.deduplicate_train_test(target_data, train_data)
+            train_data = self.deduplicate_train_test(train_data, target_data)
 
         # TODO: MaxMarginalRelevanceExampleSelector should be generalized
         # TODO: Need to handle not str inputs
