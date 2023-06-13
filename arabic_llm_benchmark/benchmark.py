@@ -100,9 +100,9 @@ class SingleTaskBenchmark(object):
         full_summary_path = self.cache_dir / "summary.jsonl"
         failed_summary_path = self.cache_dir / "summary_failed.jsonl"
 
-        data = self.task.load_data(self.data_path)
-        train_data = self.task.load_train_data(self.train_data_path)
-        few_shots_data = self.task.prepare_fewshots(data, train_data, self.n_shots)
+        data = self.dataset.load_data(self.data_path)
+        train_data = self.dataset.load_data(self.train_data_path)
+        few_shots_data = self.dataset.prepare_fewshots(data, train_data, self.n_shots)
 
         true_labels = []
         predictions = []
