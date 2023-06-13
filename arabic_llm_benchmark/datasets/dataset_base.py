@@ -49,8 +49,7 @@ class DatasetBase(ABC):
         return final_train_data
 
     def prepare_fewshots(self, target_data, train_data, n_shots, deduplicate=True):
-        """Prepares fewshot samples _per test instance_"""
-        few_shots_per_input = []
+        """Returns a generator for fewshot samples _per test instance_"""
 
         # Dedup train set against test set by doc ID before selecting examples
         # We discovered some datasets had overlap between train and test
@@ -73,6 +72,4 @@ class DatasetBase(ABC):
             examples = example_selector.select_examples(input_sample)
 
             # Quick way to pre-compute examples for all test data at once.
-            few_shots_per_input.append(examples)
-
-        return few_shots_per_input
+            yield examples

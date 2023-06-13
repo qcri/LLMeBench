@@ -7,6 +7,7 @@ import sys
 import traceback
 
 from glob import glob
+from itertools import zip_longest
 from pathlib import Path
 
 from . import utils
@@ -109,7 +110,7 @@ class SingleTaskBenchmark(object):
         failed_summary_path = self.cache_dir / "summary_failed.jsonl"
 
         data = self.dataset.load_data(self.data_path)
-        few_shots_data = None
+        few_shots_data = []
         if not self.zeroshot:
             train_data = self.dataset.load_data(self.train_data_path)
             few_shots_data = self.dataset.prepare_fewshots(
@@ -125,18 +126,15 @@ class SingleTaskBenchmark(object):
         num_failed = 0
         failed_summary_fp = open(failed_summary_path, "w")
 
-        for sample_idx, input_sample in enumerate(data):
+        for sample_idx, (input_sample, few_shot_examples) in enumerate(
+            zip_longest(data, few_shots_data, fillvalue=None)
+        ):
             if self.limit > 0 and sample_idx >= self.limit:
                 break
             logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
             num_processed += 1
             cache_path = self.cache_dir / f"{sample_idx}.json"
             true_labels.append(input_sample["label"])
-
-            if few_shots_data:
-                curr_few_shot_examples = few_shots_data[sample_idx]
-            else:
-                curr_few_shot_examples = None
 
             cache_payload = {"input": input_sample}
             if cache_path.exists() and not self.ignore_cache:
@@ -149,7 +147,7 @@ class SingleTaskBenchmark(object):
             }
 
             cache_payload, partial_summarized_payload = self.run_pipeline(
-                sample_idx, input_sample["input"], curr_few_shot_examples, cache_payload
+                sample_idx, input_sample["input"], few_shot_examples, cache_payload
             )
 
             summarized_payload.update(partial_summarized_payload)
