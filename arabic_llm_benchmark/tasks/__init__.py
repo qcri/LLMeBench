@@ -10,6 +10,7 @@ from .DialectID import DialectIDTask
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .HarmfulDetection import HarmfulDetectionTask
 from .MachineTranslation import MachineTranslationTask
+from .NER import NERTask
 from .NewsCatAkhbarona import NewsCatAkhbaronaTask
 from .NewsCatAlArabiya import NewsCatAlArabiyaTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
