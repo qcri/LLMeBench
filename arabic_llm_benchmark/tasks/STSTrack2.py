@@ -10,10 +10,7 @@ class STSTrack2Task(TaskBase):
         super(STSTrack2Task, self).__init__(**kwargs)
 
     def evaluate(self, true_scores, predicted_scores):
-        print(true_scores)
-        print(predicted_scores)
         score_range = [0, 5]
-        self.get_random_prediction
         predicted_scores = [
             p if p is not None else self.get_random_continuous_prediction(score_range)
             for p in predicted_scores
