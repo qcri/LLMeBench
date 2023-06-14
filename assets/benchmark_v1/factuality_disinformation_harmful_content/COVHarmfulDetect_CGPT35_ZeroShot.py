@@ -21,8 +21,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/harmful"
-            "/CT22_arabic_1C_harmful_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
         },
     }
 
@@ -44,7 +43,11 @@ def post_process(response):
     pred_label = response["choices"][0]["text"]
     pred_label = pred_label.replace(".", "").strip().lower()
 
-    if pred_label.startswith("harmful") or pred_label.startswith("yes"):
+    if (
+        pred_label.startswith("harmful")
+        or pred_label.startswith("yes")
+        or "label: harmful" in pred_label
+    ):
         pred_label = "1"
 
     if (
