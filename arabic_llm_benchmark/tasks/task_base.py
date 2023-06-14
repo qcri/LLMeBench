@@ -8,9 +8,6 @@ class TaskBase(ABC):
 
         random.seed(seed)
 
-    def load_data(self, data_path):
-        return self.dataset.load_data(data_path)
-
     def get_random_prediction(self, label_set):
         return random.choice(list(label_set))
 
