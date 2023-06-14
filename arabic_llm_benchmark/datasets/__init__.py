@@ -16,6 +16,7 @@ from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .NewsCatASND import NewsCatASNDDataset
 from .Offensive import OffensiveDataset
 from .Propaganda import PropagandaTweetDataset
+from .QADI import QADIDataset
 from .Spam import SpamDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
