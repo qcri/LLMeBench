@@ -1,7 +1,8 @@
 import os
+import re
 
 from arabic_llm_benchmark.datasets import Q2QSimDataset
-from arabic_llm_benchmark.models import GPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import Q2QSimDetectionTask
 
 
@@ -11,15 +12,16 @@ def config():
         "dataset_args": {},
         "task": Q2QSimDetectionTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": "gpt-4-32k",
             "max_tries": 3,
         },
+
         "general_args": {
             "data_path": "data/STS/nsurl-2019-task8/test.tsv",
         },
@@ -28,20 +30,23 @@ def config():
 
 def prompt(input_sample):
     q1,q2 = input_sample.split("\t")
-    prompt = f"Are the two questions below semantically similar? The output should be exactly in form yes or no.\n\nQ1: {q1}\nQ2: {q2}\nlabel: "
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": prompt,
-            }
-        ],
-    }
+    prompt = f"Are the following two questions semantically similar (i.e., asking for similar information)? The output should be exactly in form yes or no.\n\n{input_sample}"
+    #prompt = f"Are the two questions below semantically similar (i.e., asking for similar information)? The output should be exactly in form yes or no.\n\nQ1: {q1}\nQ2: {q2}\nlabel: "
+
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information.",
+        },
+        {
+            "role": "user",
+            "content": prompt,
+        },
+    ]
 
 
 def post_process(response):
-    input_label = response["choices"][0]["text"]
+    input_label = response["choices"][0]["message"]["content"]
     input_label = input_label.replace(".", "").strip().lower()
     pred_label = ""
 
