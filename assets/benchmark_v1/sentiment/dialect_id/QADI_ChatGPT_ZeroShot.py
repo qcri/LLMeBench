@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import DialectIDDataset
+from arabic_llm_benchmark.datasets import QADIDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import DialectIDTask
 
 
 def config():
     return {
-        "dataset": DialectIDDataset,
+        "dataset": QADIDataset,
         "dataset_args": {},
         "task": DialectIDTask,
         "task_args": {},
@@ -18,8 +18,24 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["__label__EG", "__label__DZ", "__label__SD", "__label__YE", "__label__SY", "__label__AE", "__label__JO", "__label__LY", "__label__PS", "__label__OM", "__label__QA", "__label__BH", "__label__MSA", "__label__SA", "__label__IQ", "__label__MA"],          
-
+            "class_labels": [
+                "EG",
+                "DZ",
+                "SD",
+                "YE",
+                "SY",
+                "AE",
+                "JO",
+                "LY",
+                "PS",
+                "OM",
+                "QA",
+                "BH",
+                "MSA",
+                "SA",
+                "IQ",
+                "MA",
+            ],
             "max_tries": 3,
         },
         "general_args": {
