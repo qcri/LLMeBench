@@ -25,8 +25,7 @@ def config():
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_train.tsv",
-                "n_shots": 3,
+                "train_data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_train.tsv"
             },
         },
     }
