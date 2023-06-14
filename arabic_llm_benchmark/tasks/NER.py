@@ -23,12 +23,9 @@ class NERTask(TaskBase):
         all_predictions = []
 
         for true_label, pred_labels in zip(true_labels, predicted_labels):
-            if pred_labels is None:
-                continue
-
             ground_truth = self._clean_ground_truth(true_label.split())
 
-            if len(pred_labels) == 0:
+            if pred_labels is None or len(pred_labels) == 0:
                 pred_labels = ["O"] * len(ground_truth)
 
             if len(ground_truth) == len(pred_labels):
