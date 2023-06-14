@@ -33,7 +33,9 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": "You are an Arabic AI assistant, an expert at detecting sarcasm in Arabic text. Say yes if the tweet is sarcastic and say no if the tweet is not sarcastic: \"" + input_sample + "\""
+            "content": 'You are an Arabic AI assistant, an expert at detecting sarcasm in Arabic text. Say yes if the tweet is sarcastic and say no if the tweet is not sarcastic: "'
+            + input_sample
+            + '"',
         },
     ]
 
@@ -47,4 +49,3 @@ def post_process(response):
         return "TRUE"
     else:
         return None
-

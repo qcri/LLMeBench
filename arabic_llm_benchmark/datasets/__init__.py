@@ -3,6 +3,7 @@ from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
+from .ArSarcasm import ArSarcasmDataset
 from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
@@ -22,4 +23,3 @@ from .Spam import SpamDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
 from .Subjectivity import SubjectivityDataset
-from .ArSarcasm import ArSarcasmDataset

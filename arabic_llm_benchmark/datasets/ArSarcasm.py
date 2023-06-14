@@ -15,9 +15,15 @@ class ArSarcasmDataset(DatasetBase):
 
     def load_data(self, data_path):
         data = []
-        with open(data_path, 'r') as fp:
+        with open(data_path, "r") as fp:
             reader = csv.DictReader(fp)
             for line_idx, row in enumerate(reader):
-                data.append({"input": row['tweet'], "label": row['sarcasm'],  "line_number": line_idx})
+                data.append(
+                    {
+                        "input": row["tweet"],
+                        "label": row["sarcasm"],
+                        "line_number": line_idx,
+                    }
+                )
 
         return data
