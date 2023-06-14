@@ -15,11 +15,14 @@ class LemmatizationDataset(DatasetBase):
         """
 
     def get_data_sample(self):
-        return {"input": "فيلم جاذبية يتصدر ترشيحات جوائز", "label": "فيلم جاذبية تصدر ترشيح جائزة"}
+        return {
+            "input": "فيلم جاذبية يتصدر ترشيحات جوائز",
+            "label": "فيلم جاذبية تصدر ترشيح جائزة",
+        }
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
-        #Format: words \t lemmas
+        # Format: words \t lemmas
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):

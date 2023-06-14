@@ -5,7 +5,6 @@ from arabic_llm_benchmark.models import GPTModel
 from arabic_llm_benchmark.tasks import OffensiveTask
 
 
-
 def config():
     return {
         "dataset": OffensiveDataset,

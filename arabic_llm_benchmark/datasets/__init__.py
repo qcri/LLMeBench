@@ -2,7 +2,6 @@ from .Adult import AdultDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
-from .Lemmatization import LemmatizationDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
@@ -10,6 +9,7 @@ from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .Harmful import CovidHarmfulDataset
+from .Lemmatization import LemmatizationDataset
 from .Location import LocationDataset
 from .NameInfo import NameInfoDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
