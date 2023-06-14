@@ -16,7 +16,7 @@ class ArabicSegmentationTask(TaskBase):
         hyp = []
         ref = []
         for t, p in zip(true_labels, predicted_labels):
-            #print("P:",type(p),len(p), p)
+            # print("P:",type(p),len(p), p)
             if p is None or ("Sorry, I ") in p:
                 # print("Sorry!")
                 p = None
@@ -38,18 +38,18 @@ class ArabicSegmentationTask(TaskBase):
                 s = re.sub(r":\s?(?![{\[\s])([^,}]+)", r': "\1"', s)
                 s = re.sub(r"{([^:]+):", r'{"\1":', s)
                 s = re.sub(r"}}]", r"}]", s)
-                s = re.sub(r'\'','"',s)
-                s = re.sub(r' ([^\"\']+):','"\1":', s)
-                #s = re.sub(r'{\"\'([^\']+)\'\"}: [\"\']*([^\']+)[\"\']*,')
-                s = s.replace('Here is the segmented sentence:','')
-                s = re.sub(r' *Here.+:','', s)
-                s = re.sub(r'", "','+',s)
-                s = re.sub(r'"\+','+', s)
-                s = re.sub(r'""','"',s)
-                #print("Here: \"",s,"\"")
+                s = re.sub(r"\'", '"', s)
+                s = re.sub(r" ([^\"\']+):", '"\1":', s)
+                # s = re.sub(r'{\"\'([^\']+)\'\"}: [\"\']*([^\']+)[\"\']*,')
+                s = s.replace("Here is the segmented sentence:", "")
+                s = re.sub(r" *Here.+:", "", s)
+                s = re.sub(r'", "', "+", s)
+                s = re.sub(r'"\+', "+", s)
+                s = re.sub(r'""', '"', s)
+                # print("Here: \"",s,"\"")
                 try:
                     s = list(eval(s))
-                
+
                     p = " ".join(["".join([e[v] for v in e]) for e in s])
                 except Exception as e:
                     p = t.replace("+", "")
@@ -68,8 +68,8 @@ class ArabicSegmentationTask(TaskBase):
             if len(p) < len(t):
                 for i in range(len(t) - len(p)):
                     p.append("")
-            #print("PP1:",len(p),p)
-            #print("TT1:",len(t),t)
+            # print("PP1:",len(p),p)
+            # print("TT1:",len(t),t)
             hyp += p[: len(t)]
             ref += t
         # print("ph:",len(hyp),hyp)
