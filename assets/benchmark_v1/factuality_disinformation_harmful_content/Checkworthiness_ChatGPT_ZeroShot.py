@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import Khouja20ClaimDataset
+from arabic_llm_benchmark.datasets import CheckworthinessDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import FactClaimTask
+from arabic_llm_benchmark.tasks import CheckworthinessTask
 
 
 def config():
     return {
-        "dataset": Khouja20ClaimDataset,
+        "dataset": CheckworthinessDataset,
         "dataset_args": {},
-        "task": FactClaimTask,
+        "task": CheckworthinessTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -22,26 +22,30 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/CT22_arabic_1A_checkworthy_test_gold.tsv"
         },
     }
 
 
 def prompt(input_sample):
+    ## GPT 3.5 - turbo
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
             {
                 "sender": "user",
-                "text": f"Does this sentence contain a factual claim? Answer only by yes or no.\n {input_sample}",
+                "text": f'Classify the "tweet" as checkworthy or not_checkworthy. Provide only label.\n\nsentence: {input_sample}label: ',
             }
         ],
     }
 
 
 def post_process(response):
-    raw_response = response["choices"][0]["text"].lower().replace(".", "")
+    label = response["choices"][0]["text"]
 
-    mapping = {"no": "0", "yes": "1"}
+    if label == "checkworthy":
+        label_fixed = "1"
+    elif label == "Not_checkworthy." or label == "not_checkworthy":
+        label_fixed = "0"
 
-    return mapping[raw_response]
+    return label_fixed

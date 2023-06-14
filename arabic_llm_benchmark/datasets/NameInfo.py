@@ -15,8 +15,8 @@ class NameInfoDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
-        #Format:
-        #جورج واشنطن	United Kingdom	GB
+        # Format:
+        # جورج واشنطن	United Kingdom	GB
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):

@@ -12,4 +12,6 @@ class DemographyNameInfoTask(TaskBase):
             p if p else self.get_random_prediction(set(true_labels))
             for p in predicted_labels
         ]
-        return {"weighted F1": f1_score(true_labels, predicted_labels, average="weighted")}
+        return {
+            "weighted F1": f1_score(true_labels, predicted_labels, average="weighted")
+        }
