@@ -35,7 +35,16 @@ class TestAssetsForGPTPrompts(unittest.TestCase):
                 config = asset["module"].config()
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
-                prompt = asset["module"].prompt(data_sample["input"])
+                if "fewshot" in config["general_args"]:
+                    prompt = asset["module"].prompt(
+                        data_sample["input"],
+                        [
+                            data_sample
+                            for _ in range(config["general_args"]["fewshot"]["n_shots"])
+                        ],
+                    )
+                else:
+                    prompt = asset["module"].prompt(data_sample["input"])
 
                 self.assertIsInstance(prompt, dict)
                 self.assertIn("system_message", prompt)
