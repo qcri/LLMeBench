@@ -23,6 +23,7 @@ class SingleTaskBenchmark(object):
         ignore_cache=False,
         ignore_postprocessing=True,
         limit=-1,
+        n_shots=0,
     ):
         # Pipeline components
         self.dataset = config["dataset"](**config["dataset_args"])
@@ -46,9 +47,12 @@ class SingleTaskBenchmark(object):
         if "fewshot" in config["general_args"]:
             self.zeroshot = False
             self.train_data_path = config["general_args"]["fewshot"]["train_data_path"]
-            self.n_shots = config["general_args"]["fewshot"]["n_shots"]
 
         self.limit = limit
+        self.n_shots = n_shots
+
+    def is_zeroshot(self):
+        return self.zeroshot
 
     def run_pipeline(
         self, sample_key, input_sample, few_shot_examples, cache_payload=None
@@ -219,7 +223,9 @@ def main():
         "-f",
         "--filter",
         default="*.py",
-        help="Filter to match specific tasks in the benchmark. Examples are '*ZeroShot*', 'Demography*', '*.py' (default). The .py extension is added automatically if missing.",
+        help="Filter to match specific tasks in the benchmark."
+        " Examples are '*ZeroShot*', 'Demography*', '*.py' (default)."
+        " The .py extension is added automatically if missing.",
     )
     parser.add_argument("--ignore_cache", action="store_true")
     parser.add_argument(
@@ -229,6 +235,19 @@ def main():
         type=int,
         help="Limit the number of input instances that will be processed",
     )
+
+    group = parser.add_argument_group("Few Shot Experiments")
+    group.add_argument(
+        "-n",
+        "--n_shots",
+        default=0,
+        type=int,
+        help="Number of samples to select for few shot learning."
+        " Defaults to zero, i.e. Zero shot learning."
+        " When this argument is 0, only zero shot assets will be run,"
+        " and when it is non-zero, only few shot experiments will be run.",
+    )
+
     args = parser.parse_args()
 
     logging.basicConfig(
