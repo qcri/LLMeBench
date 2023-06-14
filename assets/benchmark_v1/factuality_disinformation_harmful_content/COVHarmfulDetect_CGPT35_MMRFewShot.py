@@ -47,9 +47,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     for example in examples:
         # Found chatgpt confused when using 0 and 1 in the prompt
         label = "no" if example["label"] == "0" else "yes"
-        out_prompt = (
-            out_prompt + "Sentence: " + example["input"] + "\nLabel: " + label + "\n\n"
-        )
+        out_prompt = out_prompt + "Sentence: " + example["input"] + "\nLabel: " + label + "\n\n"
 
     # Append the sentence we want the model to predict for but leave the Label blank
     out_prompt = out_prompt + "Sentence: " + input_sample + "\nLabel: \n"
@@ -88,6 +86,6 @@ def post_process(response):
 
     if pred_label == "":
         print(input_label)
-        pred_label = "0"
+        pred_label = None
 
     return pred_label
