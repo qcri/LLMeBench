@@ -21,3 +21,4 @@ from .Spam import SpamDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
 from .Subjectivity import SubjectivityDataset
+from .STSQ2Q import STSQ2QDataset
