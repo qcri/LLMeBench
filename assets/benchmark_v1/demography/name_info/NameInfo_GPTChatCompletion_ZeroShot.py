@@ -139,7 +139,6 @@ def prompt(input_sample):
     ]
 
 
-
 def post_process(response):
     out = response["choices"][0]["message"]["content"]
     return out.lower()
