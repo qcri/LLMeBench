@@ -1,5 +1,3 @@
-import pandas as pd
-
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
@@ -33,17 +31,16 @@ class STSTrack2Dataset(DatasetBase):
         gt_data_path = data_path + "/STS2017.gs/STS.gs.track2.ar-en.txt"
 
         sentences = []
-        with open(input_data_path) as f:
+        with open(input_data_path, encoding="utf-8") as f:
             for line in f:
                 line = line.rstrip("\r\n")
                 sentences.append(line)
-        f.close()
+
         labels = []
         with open(gt_data_path) as f:
             for line in f:
                 line = float(line.rstrip("\r\n"))
                 labels.append(line)
-            f.close()
 
         return [{"input": s, "label": l} for (s, l) in zip(sentences, labels)]
 
