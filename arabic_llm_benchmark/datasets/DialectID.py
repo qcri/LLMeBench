@@ -1,7 +1,7 @@
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class DialectIDDataset(DatasetBase):
+class QADIDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(DialectIDDataset, self).__init__(**kwargs)
 

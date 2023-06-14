@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import DialectIDDataset
+from arabic_llm_benchmark.datasets import QADIDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import DialectIDTask
 
 
 def config():
     return {
-        "dataset": DialectIDDataset,
+        "dataset": QADIDataset,
         "dataset_args": {},
         "task": DialectIDTask,
         "task_args": {},

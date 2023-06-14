@@ -6,7 +6,6 @@ from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset
-from .DialectID import DialectIDDataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .Harmful import CovidHarmfulDataset
 from .Location import LocationDataset
@@ -17,6 +16,7 @@ from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .NewsCatASND import NewsCatASNDDataset
 from .Offensive import OffensiveDataset
 from .Propaganda import PropagandaTweetDataset
+from .QADI import QADIDataset
 from .Spam import SpamDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
