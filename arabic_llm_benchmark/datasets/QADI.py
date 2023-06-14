@@ -16,7 +16,7 @@ class QADIDataset(DatasetBase):
         """
 
     def get_data_sample(self):
-        return {"input": "طب ماتمشي هو حد ماسك فيك", "label": "__label__EG"}
+        return {"input": "طب ماتمشي هو حد ماسك فيك", "label": "EG"}
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
