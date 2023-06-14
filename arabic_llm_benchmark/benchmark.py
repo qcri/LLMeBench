@@ -32,8 +32,6 @@ class SingleTaskBenchmark(object):
 
         # Caching parameters
         self.cache_dir = cache_dir
-        if not self.cache_dir.exists():
-            self.cache_dir.mkdir(parents=True)
         self.ignore_cache = ignore_cache
         self.ignore_post_processing = ignore_postprocessing
 
@@ -110,6 +108,15 @@ class SingleTaskBenchmark(object):
         return cache_payload, summarized_payload
 
     def run_benchmark(self):
+        # Handle cache
+        if not self.is_zeroshot():
+            self.cache_dir = self.cache_dir / f"{self.n_shots}_shot"
+
+        # Create parent directory
+        if not self.cache_dir.exists():
+            self.cache_dir.mkdir(parents=True)
+
+        # Local cache
         full_summary_path = self.cache_dir / "summary.jsonl"
         failed_summary_path = self.cache_dir / "summary_failed.jsonl"
 
@@ -141,6 +148,10 @@ class SingleTaskBenchmark(object):
             true_labels.append(input_sample["label"])
 
             cache_payload = {"input": input_sample}
+
+            if few_shot_examples is not None:
+                cache_payload = {"few_shot_examples": few_shot_examples}
+
             if cache_path.exists() and not self.ignore_cache:
                 with open(cache_path, "r") as fp:
                     cache_payload = json.load(fp)
@@ -286,15 +297,31 @@ def main():
             cache_dir=args.results_dir / name,
             ignore_cache=args.ignore_cache,
             limit=args.limit,
+            n_shots=args.n_shots,
         )
+
+        if task_benchmark.is_zeroshot() and args.n_shots > 0:
+            logging.warning(
+                f"{name}: Skipping because asset is zero shot and --n_shots is non zero"
+            )
+            continue
+
+        if not task_benchmark.is_zeroshot() and args.n_shots == 0:
+            logging.warning(
+                f"{name}: Skipping because asset is few shot and --n_shots is zero"
+            )
+            continue
 
         task_results = task_benchmark.run_benchmark()
         logging.info(f"{name}: {task_results['evaluation_scores']}")
 
-        task_result_path = args.results_dir / name / "results.json"
+        task_result_path = task_benchmark.cache_dir / "results.json"
 
         with open(task_result_path, "w") as fp:
             json.dump(task_results, fp, ensure_ascii=False)
+
+        if not task_benchmark.is_zeroshot():
+            name = f"{name}_{task_benchmark.n_shots}"
 
         all_results[name] = task_results
 
