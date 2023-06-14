@@ -3,11 +3,11 @@ import pandas as pd
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class STSQ2QDataset(DatasetBase):
+class Q2QSimDataset(DatasetBase):
     def __init__(self, **kwargs):
         # custom_param_1/2 are passed from `dataset_args` in the benchmark
         # config
-        super(STSQ2QDataset, self).__init__(**kwargs)
+        super(Q2QSimDataset, self).__init__(**kwargs)
 
     def citation(self):
         # This function returns a string with the bib entry for the dataset
@@ -30,7 +30,8 @@ class STSQ2QDataset(DatasetBase):
         #   "label": this will be used for evaluation
         # return False
         data = []
-        with open(data_path) as f:
+        with open(data_path, encoding="utf-8") as f:
+            next(f)
             for line in f:
                 line = line.rstrip("\r\n").split("\t")
                 data.append({"input": line[1] + "\t" + line[2], "label": line[3]})
