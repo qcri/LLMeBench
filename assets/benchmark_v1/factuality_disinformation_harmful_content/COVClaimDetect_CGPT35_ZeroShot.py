@@ -21,15 +21,12 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/claim_covid19"
-            "/CT22_arabic_1B_claim_test_gold.tsv",
-            "train_data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_train.tsv",
-            "n_shots": 3
+            "data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv"
         },
     }
 
 
-def prompt(input_sample,examples):
+def prompt(input_sample):
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
@@ -47,9 +44,19 @@ def post_process(response):
     input_label = input_label.replace(".", "").strip().lower()
     pred_label = ""
 
-    if "yes" in input_label or "contains a factual claim" in input_label or "label: 1" in input_label:
+    if (
+        "yes" in input_label
+        or "contains a factual claim" in input_label
+        or "label: 1" in input_label
+    ):
         pred_label = "1"
-    if input_label == "no" or "label: 0" in input_label or "label: no" in input_label or "not contain a factual claim" in input_label or "doesn't contain a factual claim" in input_label:
+    if (
+        input_label == "no"
+        or "label: 0" in input_label
+        or "label: no" in input_label
+        or "not contain a factual claim" in input_label
+        or "doesn't contain a factual claim" in input_label
+    ):
         pred_label = "0"
 
     if pred_label == "":

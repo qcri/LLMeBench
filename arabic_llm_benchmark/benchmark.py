@@ -7,6 +7,7 @@ import sys
 import traceback
 
 from glob import glob
+from itertools import zip_longest
 from pathlib import Path
 
 from . import utils
@@ -41,12 +42,17 @@ class SingleTaskBenchmark(object):
 
         # Data parameters
         self.data_path = config["general_args"]["data_path"]
-        self.train_data_path = config["general_args"]["train_data_path"]
-        self.n_shots = config["general_args"]["n_shots"]
+        self.zeroshot = True
+        if "fewshot" in config["general_args"]:
+            self.zeroshot = False
+            self.train_data_path = config["general_args"]["fewshot"]["train_data_path"]
+            self.n_shots = config["general_args"]["fewshot"]["n_shots"]
 
         self.limit = limit
 
-    def run_pipeline(self, sample_key, input_sample, few_shots_data, cache_payload=None):
+    def run_pipeline(
+        self, sample_key, input_sample, few_shot_examples, cache_payload=None
+    ):
         summarized_payload = {}
 
         # Prepare the prompt
@@ -55,7 +61,10 @@ class SingleTaskBenchmark(object):
             prompt = cache_payload["prompt"]
         else:
             logging.info(f"\tGenerating prompt")
-            prompt = self.prompt_fn(input_sample,few_shots_data)
+            if few_shot_examples:
+                prompt = self.prompt_fn(input_sample, few_shot_examples)
+            else:
+                prompt = self.prompt_fn(input_sample)
             cache_payload["prompt"] = prompt
 
         # Run the model
@@ -100,9 +109,13 @@ class SingleTaskBenchmark(object):
         full_summary_path = self.cache_dir / "summary.jsonl"
         failed_summary_path = self.cache_dir / "summary_failed.jsonl"
 
-        data = self.task.load_data(self.data_path)
-        train_data = self.task.load_train_data(self.train_data_path)
-        few_shots_data = self.task.prepare_fewshots(data, train_data, self.n_shots)
+        data = self.dataset.load_data(self.data_path)
+        few_shots_data = []
+        if not self.zeroshot:
+            train_data = self.dataset.load_data(self.train_data_path)
+            few_shots_data = self.dataset.prepare_fewshots(
+                data, train_data, self.n_shots
+            )
 
         true_labels = []
         predictions = []
@@ -113,7 +126,9 @@ class SingleTaskBenchmark(object):
         num_failed = 0
         failed_summary_fp = open(failed_summary_path, "w")
 
-        for sample_idx, input_sample in enumerate(data):
+        for sample_idx, (input_sample, few_shot_examples) in enumerate(
+            zip_longest(data, few_shots_data, fillvalue=None)
+        ):
             if self.limit > 0 and sample_idx >= self.limit:
                 break
             logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
@@ -132,24 +147,30 @@ class SingleTaskBenchmark(object):
             }
 
             cache_payload, partial_summarized_payload = self.run_pipeline(
-                sample_idx, input_sample["input"], few_shots_data, cache_payload
+                sample_idx, input_sample["input"], few_shot_examples, cache_payload
             )
 
             summarized_payload.update(partial_summarized_payload)
 
             if "filtered_output" in cache_payload:
                 predictions.append(cache_payload["filtered_output"])
-                full_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
+                full_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
             else:
                 logging.error(f"\tNo prediction for sample")
                 num_failed += 1
                 predictions.append(None)
-                full_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
-                failed_summary_fp.write(json.dumps(summarized_payload,ensure_ascii=False) + "\n")
+                full_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
+                failed_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
 
             # Save the cache payload
             with open(cache_path, "w") as fp:
-                json.dump(cache_payload, fp,ensure_ascii=False)
+                json.dump(cache_payload, fp, ensure_ascii=False)
 
         full_summary_fp.close()
         failed_summary_fp.close()

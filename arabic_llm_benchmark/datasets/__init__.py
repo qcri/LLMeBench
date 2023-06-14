@@ -2,6 +2,7 @@ from .Adult import AdultDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
+from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset
