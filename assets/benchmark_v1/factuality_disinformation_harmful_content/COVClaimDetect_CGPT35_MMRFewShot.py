@@ -1,5 +1,7 @@
 import os
 
+import pandas as pd
+
 from arabic_llm_benchmark.datasets import CovidClaimDataset
 from arabic_llm_benchmark.models import GPTModel
 from arabic_llm_benchmark.tasks import ClaimDetectionTask
@@ -21,22 +23,44 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv",
+            "fewshot": {
+                "train_data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_train.tsv"
+            },
         },
     }
 
 
-def prompt(input_sample):
+def prompt(input_sample, examples):
+    base_prompt = "Does this sentence contain a factual claim? Answer only by yes or no. Provide only label.\n"
+
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
             {
                 "sender": "user",
-                "text": "Does this sentence contain a factual claim? Answer only by yes or no."
-                "\n\nsentence: " + input_sample + "label: \n",
+                "text": few_shot_prompt(input_sample, base_prompt, examples),
             }
         ],
     }
+
+
+def few_shot_prompt(input_sample, base_prompt, examples):
+    out_prompt = base_prompt + "\n"
+    for example in examples:
+        # Found chatgpt confused when using 0 and 1 in the prompt
+        label = "no" if example["label"] == "0" else "yes"
+        out_prompt = (
+            out_prompt + "Sentence: " + example["input"] + "\nLabel: " + label + "\n\n"
+        )
+
+    # Append the sentence we want the model to predict for but leave the Label blank
+    out_prompt = out_prompt + "Sentence: " + input_sample + "\nLabel: \n"
+
+    # print("=========== FS Prompt =============\n")
+    # print(out_prompt)
+
+    return out_prompt
 
 
 def post_process(response):
