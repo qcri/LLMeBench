@@ -9,9 +9,7 @@ from arabic_llm_benchmark.tasks import NERTask
 def config():
     return {
         "dataset": AqmarDataset,
-        "dataset_args": {"test_filenames": ["ANERCorp_CamelLab_test.txt"]
-                                
-},
+        "dataset_args": {"test_filenames": ["ANERCorp_CamelLab_test.txt"]},
         "task": NERTask,
         "task_args": {},
         "model": GPTModel,
@@ -33,9 +31,7 @@ def config():
             ],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp"
-        },
+        "general_args": {"data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp"},
     }
 
 

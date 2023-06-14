@@ -21,7 +21,7 @@ class NERTask(TaskBase):
     def evaluate(self, true_labels, predicted_labels):
         all_ground_truths = []
         all_predictions = []
-      
+
         for true_label, pred_labels in zip(true_labels, predicted_labels):
             if pred_labels is None:
                 continue
@@ -41,7 +41,7 @@ class NERTask(TaskBase):
                 all_ground_truths.extend(ground_truth)
                 all_predictions.extend(pred_labels)
             else:
-                pred_labels = pred_labels[:len(ground_truth)]
+                pred_labels = pred_labels[: len(ground_truth)]
                 all_ground_truths.extend(ground_truth)
                 all_predictions.extend(pred_labels)
 

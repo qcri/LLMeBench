@@ -1,12 +1,12 @@
-
-
-from arabic_llm_benchmark.datasets.dataset_base import DatasetBase 
 from pathlib import Path
 
+from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
+
+
 class AqmarDataset(DatasetBase):
-    def __init__(self, test_filenames,  **kwargs):
+    def __init__(self, test_filenames, **kwargs):
         super(AqmarDataset, self).__init__(**kwargs)
-        self.test_filenames= test_filenames  # There wil be multiple test files for Aqmar but only one for AnerCorp
+        self.test_filenames = test_filenames  # There wil be multiple test files for Aqmar but only one for AnerCorp
 
     def citation(self):
         return """@inproceedings{mohit-etal-2012-recall,
@@ -33,7 +33,6 @@ class AqmarDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
-        
         data = []
 
         for fname in self.test_filenames:
