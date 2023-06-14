@@ -48,8 +48,6 @@ def config():
     }
 
 
-
-
 def prompt(input_sample):
     return [
         {
@@ -61,7 +59,6 @@ def prompt(input_sample):
             "content": f"Map the following locations to one of the Arab countries. Write ONLY the country code in ISO 3166-1 alpha-2 format without explanation. If the country is outside Arab countries, write ONLY 'OTHERS', and if the location cannot be mapped to any country in the world, write ONLY 'UNK' without any explanation\n {input_sample}",
         },
     ]
-
 
 
 def post_process(response):
