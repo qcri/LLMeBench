@@ -40,3 +40,6 @@ class TestBenchmarkAssets(unittest.TestCase):
                 self.assertIn("model", config)
                 self.assertIn("model_args", config)
                 self.assertIn("general_args", config)
+
+                if "fewshot" in config["general_args"]:
+                    self.assertIn("train_data_path", config["general_args"]["fewshot"])
