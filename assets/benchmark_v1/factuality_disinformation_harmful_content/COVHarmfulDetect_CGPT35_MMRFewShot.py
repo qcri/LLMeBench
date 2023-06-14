@@ -89,6 +89,6 @@ def post_process(response):
 
     if pred_label == "":
         print(input_label)
-        pred_label = "0"
+        pred_label = None
 
     return pred_label
