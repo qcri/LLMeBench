@@ -32,7 +32,7 @@ class RandomGPTModel(ModelBase):
 
         return None
 
-    def prompt(self, **kwargs):
+    def prompt(self, processed_input):
         if random.random() < 0.5:
             raise RandomGPTException()
         return GPTResponseMock(random.choice(self.class_labels))
