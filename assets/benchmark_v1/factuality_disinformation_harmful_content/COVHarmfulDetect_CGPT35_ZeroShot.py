@@ -55,6 +55,6 @@ def post_process(response):
         or pred_label == "label: safe"
         or "not harmful" in pred_label
     ):
-        pred_label = "0"
+        pred_label = None
 
     return pred_label
