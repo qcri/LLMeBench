@@ -20,20 +20,18 @@ class DialectIDDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
-        #Format: dialect_id_label \t text
+        # Format: dialect_id_label \t text
         data = []
         with open(data_path, "r") as fp:
-            for line_idx, line in enumerate(fp):            
+            for line_idx, line in enumerate(fp):
                 fields = line.split()
                 label = fields[0]
                 label = label.replace("__label__", "")
 
-                text = ''
-                for j in range(1,len(fields)):
+                text = ""
+                for j in range(1, len(fields)):
                     text += f"{fields[j]} "
-                
-                data.append(
-                    {"input": text, "label": label, "line_number": line_idx}
-                )
+
+                data.append({"input": text, "label": label, "line_number": line_idx})
 
         return data
