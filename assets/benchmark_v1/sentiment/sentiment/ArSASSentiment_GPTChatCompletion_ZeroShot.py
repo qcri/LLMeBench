@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import SentimentDataset
+from arabic_llm_benchmark.datasets import ArSASSentimentDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import SentimentTask
 
 
 def config():
     return {
-        "dataset": SentimentDataset,
+        "dataset": ArSASSentimentDataset,
         "dataset_args": {},
         "task": SentimentTask,
         "task_args": {},

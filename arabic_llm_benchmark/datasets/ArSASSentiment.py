@@ -1,9 +1,9 @@
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class SentimentDataset(DatasetBase):
+class ArSASSentimentDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(SentimentDataset, self).__init__(**kwargs)
+        super(ArSASSentimentDataset, self).__init__(**kwargs)
 
     def citation(self):
         return """@inproceedings{Elmadany2018ArSASA,
