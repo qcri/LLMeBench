@@ -3,9 +3,9 @@ from sklearn.metrics import f1_score
 from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
-class FactClaimTask(TaskBase):
+class OffensiveTask(TaskBase):
     def __init__(self, **kwargs):
-        super(FactClaimTask, self).__init__(**kwargs)
+        super(OffensiveTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
         predicted_labels = [
