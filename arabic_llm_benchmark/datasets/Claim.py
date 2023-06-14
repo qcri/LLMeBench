@@ -21,11 +21,22 @@ class CovidClaimDataset(DatasetBase):
     def load_data(self, data_path):
         formatted_data = []
 
-        data = pd.read_csv(data_path, sep="\t")
-        for index, tweet in data.iterrows():
-            text = tweet["tweet_text"]
-            label = str(tweet["class_label"])
+        with open(data_path, "r", encoding="utf-8") as in_file:
+            next(in_file)
+            for index, line in enumerate(in_file):
+                tweet = [str(s.strip()) for s in line.split("\t")]
 
-            formatted_data.append({"input": text, "label": label, "line_number": index})
+                text = tweet[3]
+                label = tweet[4]
+                twt_id = tweet[1]
+
+                formatted_data.append(
+                    {
+                        "input": text,
+                        "label": label,
+                        "line_number": index,
+                        "input_id": twt_id,
+                    }
+                )
 
         return formatted_data
