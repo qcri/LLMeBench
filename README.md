@@ -165,7 +165,6 @@ The framework has some preliminary support to automatically select N examples pe
         # ...other general args
         "fewshot": {
             "train_data_path": "... path to train data ...",
-            "n_shots": 3, # number of few shot examples
         },
     },
 ```
@@ -177,3 +176,5 @@ def prompt(input_sample, examples):
 	# "examples" will contain the few shots samples selected
 	# for this particular test sample
 ```
+
+To run the actual few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--nshots` is set to something greater than zero, only few shot assets are run.
