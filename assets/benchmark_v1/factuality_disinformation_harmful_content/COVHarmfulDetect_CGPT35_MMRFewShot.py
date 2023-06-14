@@ -23,8 +23,7 @@ def config():
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
-                "n_shots": 3,
+                "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv"
             },
         },
     }
