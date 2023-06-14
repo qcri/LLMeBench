@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import StanceKhouja20Dataset
+from arabic_llm_benchmark.datasets import SpamDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import StanceKhouja20Task
+from arabic_llm_benchmark.tasks import SpamTask
 
 
 def config():
     return {
-        "dataset": StanceKhouja20Dataset,
+        "dataset": SpamDataset,
         "dataset_args": {},
-        "task": StanceKhouja20Task,
+        "task": SpamTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -17,12 +17,12 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
-            "class_labels": ["agree", "disagree"],
+            "engine_name": os.environ["ENGINE_NAME"],
+            "class_labels": ["__label__ADS", "__label__NOTADS"],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/test.csv"
+            "data_path": "data/sentiment_emotion_others/spam/ArabicAds-test.txt"
         },
     }
 
@@ -33,11 +33,15 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f'Can you check if first sentence agree or disagree with second sentence? Say only agree or disagree.\n\n first-sentence: {input_sample["sentence_1"]}\nsecond-sentence: {input_sample["sentence_2"]}\n label: \n',
+                "text": f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}",
             }
         ],
     }
 
 
 def post_process(response):
-    return response["choices"][0]["text"].lower().replace(".", "")
+    out = response["choices"][0]["text"]
+    j = out.find(".")
+    if j > 0:
+        out = out[0:j]
+    return out
