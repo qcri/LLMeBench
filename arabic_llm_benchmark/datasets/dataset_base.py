@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -17,7 +18,7 @@ class DatasetBase(ABC):
     def get_data_sample(self):
         pass
 
-    @abstractmethod
+    @abstractmethodgit 
     def load_data(self, data_path, no_labels=False):
         """
         Returns a list of dictionaries,
