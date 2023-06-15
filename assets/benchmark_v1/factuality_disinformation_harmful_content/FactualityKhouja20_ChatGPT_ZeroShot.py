@@ -41,11 +41,11 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["choices"][0]["text"].lower().replace(".", "")
-    if("label: true" in label or label=="true"):
-        label_fixed="true"
-    elif("label: false" in label or label=="false"):
-        label_fixed="false"
+    if "label: true" in label or label == "true":
+        label_fixed = "true"
+    elif "label: false" in label or label == "false":
+        label_fixed = "false"
     else:
-        label_fixed=None
+        label_fixed = None
 
     return label_fixed
