@@ -17,26 +17,50 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
-            "class_labels": ["m", "f"],
-            "max_tries": 3,
+            "engine_name": "qvoice-gpt4",
+            "class_labels": ["Female", "Male"],
+            "max_tries": 30,
         },
-        "general_args": {"data_path": "data/demography/gender/gender-test.txt"},
+        "general_args": {
+            "data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt"
+        },
     }
 
 
 def prompt(input_sample):
+    prompt_string = (
+        f"Identify the gender from the following name as 'Female' or 'Male'.\n\n"
+        f"name: {input_sample}"
+        f"gender: \n"
+    )
+
     return [
         {
             "role": "system",
-            "content": "You are an AI assistant that helps people find information.",
+            "content": "You are an expert to identify the gender from a person's name.",
         },
         {
             "role": "user",
-            "content": f"If the following person name can be considered as male, write 'm' without explnanation, and if it can be considered as female, write 'f' without explnanation.\n {input_sample}",
+            # "content": f"If the following person name can be considered as male, write 'm' without explnanation, and if it can be considered as female, write 'f' without explnanation.\n {input_sample}",
+            "content": prompt_string,
         },
     ]
 
 
 def post_process(response):
-    return response["choices"][0]["message"]["content"]
+    label = response["choices"][0]["message"]["content"]
+    # label = label.replace("gender:", "").strip()
+    if "gender: Female" in label or "\nFemale" in label or label == "Female":
+        label = "Female"
+    elif (
+        "gender: Male" in label
+        or "\nMale" in label
+        or "likely to be 'Male'" in label
+        or label == "Male"
+        or "typically a 'Male' name" in label
+    ):
+        label = "Male"
+    else:
+        label = None
+
+    return label
