@@ -19,15 +19,21 @@ class BLOOMPetalFailure(Exception):
 
 class BLOOMPetalModel(ModelBase):
     def __init__(
-        self, api_url, timeout=20, temperature=1e-7, top_p=0.95, max_tokens=800, **kwargs
+        self, api_url, timeout=20, temperature=0, top_p=0.95, max_tokens=800, **kwargs
     ):
         # API parameters
         self.api_url = api_url
         self.api_timeout = timeout
         self.request_header = {"type": "open_inference_session", "max_length": 1024}
 
-        # GPT parameters
+        # BLOOM parameters
+        tolerance = 1e-7
         self.temperature = temperature
+        if self.temperature < tolerance:
+            # Currently, the model inference fails if temperature
+            # is exactly 0, so we nudge it slightly to work around
+            # the issue
+            self.temperature += tolerance
         self.top_p = top_p
         self.max_tokens = max_tokens
 
