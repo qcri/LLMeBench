@@ -1,14 +1,14 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import STSTrack1Dataset
+from arabic_llm_benchmark.datasets import STSArSemEval17Track1Dataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import STSTrack1Task
 
 
 def config():
     return {
-        "dataset": STSTrack1Dataset,
+        "dataset": STSArSemEval17Track1Dataset,
         "dataset_args": {},
         "task": STSTrack1Task,
         "task_args": {},
@@ -23,18 +23,17 @@ def config():
         },
         "general_args": {
             "data_path": "data/STS/semeval-2017",
-            'train_data_path' : "none",
-            'n_shots' : 2
-            # "ground_truth_data_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"
         },
     }
 
 
-def prompt(input_sample, examples):
-    prompt_string = f"Given two sentences, produce a continuous valued similarity score on a " \
-                    f"scale from 0 to 5, with 0 indicating that the semantics of the sentences are " \
-                    f"completely independent and 5 signifying semantic equivalence. The output " \
-                    f"should be exactly in form Similarity score =. \n{input_sample}"
+def prompt(input_sample):
+    prompt_string = (
+        f"Given two sentences, produce a continuous valued similarity score on a "
+        f"scale from 0 to 5, with 0 indicating that the semantics of the sentences are "
+        f"completely independent and 5 signifying semantic equivalence. The output "
+        f"should be exactly in form Similarity score =. \n{input_sample}"
+    )
     return [
         {
             "role": "system",
@@ -51,13 +50,14 @@ def post_process(response):
     raw_response = response["choices"][0]["message"]["content"]
 
     if "Similarity score =" in raw_response:
-        pred_num = raw_response.split("Similarity score = ")[1].strip().split(" ")[0].rstrip(".")
+        pred_num = (
+            raw_response.split("Similarity score = ")[1]
+            .strip()
+            .split(" ")[0]
+            .rstrip(".")
+        )
         score = float(pred_num)
-
     else:
         score = None
 
     return score
-
-
-

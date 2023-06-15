@@ -3,14 +3,11 @@ import pandas as pd
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class STSTrack1Dataset(DatasetBase):
+class STSArSemEval17Track1Dataset(DatasetBase):
     def __init__(self, **kwargs):
-        # custom_param_1/2 are passed from `dataset_args` in the benchmark
-        # config
-        super(STSTrack1Dataset, self).__init__(**kwargs)
+        super(STSArSemEval17Track1Dataset, self).__init__(**kwargs)
 
     def citation(self):
-        # This function returns a string with the bib entry for the dataset
         return """
         @inproceedings{cer2017semeval,
             title={SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Cross-lingual Focused Evaluation},
@@ -24,19 +21,8 @@ class STSTrack1Dataset(DatasetBase):
         return {"input": "الجملة بالعربية", "label": 1.2}
 
     def load_data(self, data_path):
-        # This function loads the data and _must_ return a list of
-        # dictionaries, where each dictionary has atleast two keys
-        #   "input": this will be sent to the prompt generator
-        #   "label": this will be used for evaluation
-        # return False
-        #rt = 1
         input_data_path = data_path + "/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"
         gt_data_path = data_path + "/STS2017.gs/STS.gs.track1.ar-ar.txt"
-        # if rt == 0:
-        #     data = pd.read_csv(input_data_path, sep="\t")
-        #     return data
-        # else:
-        #     sentences = []
 
         sentences = []
         with open(input_data_path) as f:
@@ -51,12 +37,3 @@ class STSTrack1Dataset(DatasetBase):
                 labels.append(line)
 
         return [{"input": s, "label": l} for (s, l) in zip(sentences, labels)]
-
-    def load_train_data(self, train_data_path):
-        return None
-
-    def dedup_train_test(self, target_data, train_data):
-        return None
-
-    def prepare_fewshots(self, target_data, train_data, n_shots):
-        return []

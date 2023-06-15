@@ -1,14 +1,14 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import STSTrack1Dataset
+from arabic_llm_benchmark.datasets import STSArSemEval17Track1Dataset
 from arabic_llm_benchmark.models import GPTModel
 from arabic_llm_benchmark.tasks import STSTrack1Task
 
 
 def config():
     return {
-        "dataset": STSTrack1Dataset,
+        "dataset": STSArSemEval17Track1Dataset,
         "dataset_args": {},
         "task": STSTrack1Task,
         "task_args": {},
@@ -24,14 +24,11 @@ def config():
         },
         "general_args": {
             "data_path": "data/STS/semeval-2017",
-            'train_data_path': "none",
-            'n_shots': 2
-            # "ground_truth_data_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"
         },
     }
 
 
-def prompt(input_sample,examples):
+def prompt(input_sample):
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
@@ -47,11 +44,14 @@ def post_process(response):
     raw_response = response["choices"][0]["text"]
 
     if "Similarity score =" in raw_response:
-        pred_num = raw_response.split("Similarity score = ")[1].strip().split(" ")[0].rstrip(".")
+        pred_num = (
+            raw_response.split("Similarity score = ")[1]
+            .strip()
+            .split(" ")[0]
+            .rstrip(".")
+        )
         score = float(pred_num)
-
     else:
         score = None
-
 
     return score
