@@ -27,6 +27,14 @@ class AttentionworthyDataset(DatasetBase):
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():
             text = row["tweet_text"]
+            input_id = row["tweet_id"]
             label = str(row["class_label"]).lower()
-            data.append({"input": text, "label": label, "line_number": index})
+            data.append(
+                {
+                    "input": text,
+                    "label": label,
+                    "input_id": input_id,
+                    "line_number": index,
+                }
+            )
         return data
