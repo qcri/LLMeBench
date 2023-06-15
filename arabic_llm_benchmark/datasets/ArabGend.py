@@ -18,14 +18,10 @@ class ArabGendDataset(DatasetBase):
         return {"input": "A name", "label": "m"}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
         with open(data_path, "r") as fp:
-            next(fp)
             for line_idx, line in enumerate(fp):
                 name, label = line.strip().split("\t")
-                # label = label.replace("__label__", "")
-
                 data.append({"input": name, "label": label, "line_number": line_idx})
 
         return data

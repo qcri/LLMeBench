@@ -41,7 +41,6 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            # "content": f"If the following person name can be considered as male, write 'm' without explnanation, and if it can be considered as female, write 'f' without explnanation.\n {input_sample}",
             "content": prompt_string,
         },
     ]
