@@ -18,7 +18,10 @@ class STSArSemEval17Track1Dataset(DatasetBase):
         }"""
 
     def get_data_sample(self):
-        return {"input": "الجملة بالعربية", "label": 1.2}
+        return {
+            "input": {"sentence_1": "الجملة بالعربية", "sentence_2": "الجملة بالعربية"},
+            "label": 5.0,
+        }
 
     def load_data(self, data_path):
         input_data_path = data_path + "/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"
@@ -27,8 +30,13 @@ class STSArSemEval17Track1Dataset(DatasetBase):
         sentences = []
         with open(input_data_path) as f:
             for line in f:
-                line = line.rstrip("\r\n")
-                sentences.append(line)
+                sentence_1, sentence_2 = line.rstrip("\r\n").split("\t")
+                sentences.append(
+                    {
+                        "sentence_1": sentence_1,
+                        "sentence_2": sentence_2,
+                    }
+                )
 
         labels = []
         with open(gt_data_path) as f:
