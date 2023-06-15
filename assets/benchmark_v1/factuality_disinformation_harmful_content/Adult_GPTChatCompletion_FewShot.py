@@ -24,7 +24,7 @@ def config():
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
+                "train_data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv", # TODO need to change the file
             },
         },
     }
