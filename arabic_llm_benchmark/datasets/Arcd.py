@@ -42,7 +42,7 @@ class ArcdDataset(DatasetBase):
                     question_id = qa["id"]
                     answers = qa["answers"]
 
-                    sample = {"context ":context, "question": question, "question id": question_id, "answers": answers}
+                    sample = {"context":context, "question": question, "question_id": question_id, "answers": answers}
 
                     data.append( 
                         {"input":sample, "label": "NA", "line_number": total_quests }
