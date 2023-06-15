@@ -26,7 +26,7 @@ def config():
             "data_path": "data/STS/nsurl-2019-task8/test.tsv",
             "fewshot": {
                 "train_data_path": "data/STS/nsurl-2019-task8/train.tsv",
-                "n_shots": 5
+                "n_shots": 3
             }
         },
     }
