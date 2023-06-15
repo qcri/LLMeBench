@@ -25,9 +25,10 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "Classify the sentence as checkworthy or not checkworthy. Provide only label.\n\n" + \
-            "sentence: " + input_sample + \
-            "label: \n"
+        "prompt": "Classify the sentence as checkworthy or not checkworthy. Provide only label.\n\n"
+        + "sentence: "
+        + input_sample
+        + "label: \n"
     }
 
 
@@ -40,7 +41,11 @@ def post_process(response):
 
     if label == "checkworthy":
         label_fixed = "1"
-    elif label == "Not_checkworthy." or label == "not_checkworthy" or label == "not checkworthy":
+    elif (
+        label == "Not_checkworthy."
+        or label == "not_checkworthy"
+        or label == "not checkworthy"
+    ):
         label_fixed = "0"
 
     return label_fixed

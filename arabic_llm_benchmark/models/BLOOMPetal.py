@@ -1,5 +1,6 @@
-from websockets.sync.client import connect
 import json
+
+from websockets.sync.client import connect
 
 from arabic_llm_benchmark.models.model_base import ModelBase
 
@@ -8,13 +9,15 @@ class BLOOMPetalFailure(Exception):
     def __init__(self, failure_type, failure_message):
         self.type_mapping = {
             "processing": "Model Inference failure",
-            "connection": "Failed to connect to BLOOM Petal server"
+            "connection": "Failed to connect to BLOOM Petal server",
         }
         self.type = failure_type
         self.failure_message = failure_message
 
     def __str__(self):
-        return f"{self.type_mapping.get(self.type, self.type)}: \n {self.failure_message}"
+        return (
+            f"{self.type_mapping.get(self.type, self.type)}: \n {self.failure_message}"
+        )
 
 
 class BLOOMPetalModel(ModelBase):
@@ -42,10 +45,8 @@ class BLOOMPetalModel(ModelBase):
         )
 
     def summarize_response(self, response):
-        if (
-            "outputs" in response
-        ):
-            return response['outputs']
+        if "outputs" in response:
+            return response["outputs"]
 
         return None
 
@@ -69,8 +70,8 @@ class BLOOMPetalModel(ModelBase):
                 response = json.loads(received_message)
 
                 if not response["ok"]:
-                    raise BLOOMPetalFailure("processing", response['traceback'])    
+                    raise BLOOMPetalFailure("processing", response["traceback"])
             else:
-                raise BLOOMPetalFailure(connect_message['traceback'])
+                raise BLOOMPetalFailure(connect_message["traceback"])
 
         return response
