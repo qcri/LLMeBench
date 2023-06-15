@@ -18,7 +18,7 @@ class DatasetBase(ABC):
     def get_data_sample(self):
         pass
 
-    @abstractmethodgit
+    @abstractmethod
     def load_data(self, data_path, no_labels=False):
         """
         Returns a list of dictionaries,
