@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import AraQADataset
+from arabic_llm_benchmark.datasets import ArcdDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import QATask
 
 
 def config():
     return {
-        "dataset": AraQADataset,
+        "dataset": ArcdDataset,
         "dataset_args": {},
         "task": QATask,
         "task_args": {},
@@ -21,7 +21,7 @@ def config():
             "class_labels": "NA",
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/QA"},
+        "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},
     }
 
 
@@ -31,7 +31,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:",
+                "text": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['input']['context']}\nQuestion:{input_sample['input']['question']}\nAnswer:",
             }
         ],
     }
