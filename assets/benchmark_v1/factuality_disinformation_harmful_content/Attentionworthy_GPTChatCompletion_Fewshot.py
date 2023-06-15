@@ -57,9 +57,6 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     # Append the sentence we want the model to predict for but leave the Label blank
     out_prompt = out_prompt + "tweet: " + input_sample + "\nlabel: \n"
 
-    # print("=========== FS Prompt =============\n")
-    # print(out_prompt)
-
     return out_prompt
 
 
@@ -68,7 +65,7 @@ def prompt(input_sample, examples):
     return [
         {
             "role": "system",
-            "content": "You are social media expert. You can annotate important tweets and require attention from journalists, fact-checker, and government entities.",
+            "content": "You are social media expert. You can annotate important tweets that require attention from journalists, fact-checker, and government entities.",
         },
         {
             "role": "user",
