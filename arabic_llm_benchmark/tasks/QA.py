@@ -57,21 +57,20 @@ class QATask(TaskBase):
         
     def evaluate(self, dataset, predictions):
         f1 = exact_match = total = 0
-        for article in dataset:
-            for paragraph in article['paragraphs']:
-                for qa in paragraph['qas']:
-                    total += 1
-                    if qa['id'] not in predictions:
-                        message = 'Unanswered question ' + qa['id'] + \
-                                ' will receive score 0.'
-                        print(message, file=sys.stderr)
-                        continue
-                    ground_truths = list(map(lambda x: x['text'], qa['answers']))
-                    prediction = predictions[qa['id']]
-                    exact_match += self.metric_max_over_ground_truths(
-                        self.exact_match_score, prediction, ground_truths)
-                    f1 += self.metric_max_over_ground_truths(
-                        self.f1_score, prediction, ground_truths)
+        for elem in dataset:
+            sample = elem["input"]
+            total += 1
+            if sample['question_id'] not in predictions:
+                message = 'Unanswered question ' + sample['question_id'] + \
+                        ' will receive score 0.'
+                print(message, file=sys.stderr)
+                continue
+            ground_truths = list(map(lambda x: x['text'], sample['answers']))
+            prediction = predictions[sample['question_id']]
+            exact_match += self.metric_max_over_ground_truths(
+                self.exact_match_score, prediction, ground_truths)
+            f1 += self.metric_max_over_ground_truths(
+                self.f1_score, prediction, ground_truths)
 
         exact_match = 100.0 * exact_match / total
         f1 = 100.0 * f1 / total
