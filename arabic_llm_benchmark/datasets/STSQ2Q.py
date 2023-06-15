@@ -34,6 +34,7 @@ class Q2QSimDataset(DatasetBase):
             next(f)
             for line in f:
                 line = line.rstrip("\r\n").split("\t")
-                data.append({"input": line[1] + "\t" + line[2], "label": line[3]})
+                # Using -index to handle both train and test file with diff # of columns
+                data.append({"input": line[-3] + "\t" + line[-2], "label": line[-1]})
 
         return data
