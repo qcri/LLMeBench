@@ -44,3 +44,11 @@ def prompt(input_sample):
             "content": prompt_string,
         },
     ]
+
+
+def post_process(response):
+    out = response["choices"][0]["message"]["content"]
+    j = out.find(".")
+    if j > 0:
+        out = out[0:j]
+    return out
