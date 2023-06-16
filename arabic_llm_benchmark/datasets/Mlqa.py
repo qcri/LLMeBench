@@ -6,13 +6,11 @@ class MlqaDataset(DatasetBase):
         super(MlqaDataset, self).__init__(**kwargs)
 
     def citation(self):
-        return """
-        @article{lewis2019mlqa,
-        title={MLQA: Evaluating Cross-lingual Extractive Question Answering},
-        author={Lewis, Patrick and O\u{g}uz, Barlas and Rinott, Ruty and Riedel, Sebastian and Schwenk, Holger},
+        return """ @article{lewis2019mlqa,
+        title=MLQA: Evaluating Cross-lingual Extractive Question Answering,
+        author={Lewis, Patrick and Ouguz, Barlas and Rinott, Ruty and Riedel, Sebastian and Schwenk, Holger},
         journal={arXiv preprint arXiv:1910.07475},
-        year={2019}
-}"""
+        year={2019} """
 
     def get_data_sample(self):
         return {"input": {"context": "context for the questions. Usually a snippet of a wikipedia article", 
