@@ -59,7 +59,7 @@ class QATask(TaskBase):
                 total += 1
                 continue
             total += 1
-            ground_truths = list(ground_truth)
+            ground_truths =list(ground_truth)
             #prediction = cleaned_predictions[elem[0]['question_id']]
             exact_match += self.metric_max_over_ground_truths(
                 self.exact_match_score, prediction, ground_truths)
