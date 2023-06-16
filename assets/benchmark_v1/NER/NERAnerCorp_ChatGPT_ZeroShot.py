@@ -1,15 +1,15 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import AqmarDataset
+from arabic_llm_benchmark.datasets import AnerCorpDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import NERTask
 
 
 def config():
     return {
-        "dataset": AqmarDataset,
-        "dataset_args": {"test_filenames": ["ANERCorp_CamelLab_test.txt"]},
+        "dataset": AnerCorpDataset,
+        "dataset_args": {},
         "task": NERTask,
         "task_args": {},
         "model": GPTModel,
@@ -31,7 +31,9 @@ def config():
             ],
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp"},
+        "general_args": {
+            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt"
+        },
     }
 
 
