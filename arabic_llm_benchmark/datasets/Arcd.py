@@ -43,6 +43,6 @@ class ArcdDataset(DatasetBase):
                     sample = {"context":context, "question": question, "question_id": question_id}
 
                     data.append( 
-                        {"input":sample, "label": answers}
+                        {"input":sample, "label": answers[0]["text"]}
                     )
         return data
