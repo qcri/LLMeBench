@@ -165,10 +165,10 @@ def prompt(input_sample, examples):
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
-    country_dict=config()["model_args"]["class_labels"]
+    country_dict = config()["model_args"]["class_labels"]
     if "country: " in label:
         label_fixed = label.replace("country: ", "").lower().strip()
-    elif(label in country_dict):
+    elif label in country_dict:
         label_fixed = label.lower().strip()
     elif (
         "I'm sorry, but I cannot predict the country" in label
