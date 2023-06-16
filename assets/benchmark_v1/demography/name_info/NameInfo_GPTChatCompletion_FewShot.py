@@ -125,11 +125,11 @@ def config():
         "general_args": {
             "data_path": "data/demographic_attributes/name_info/wikidata_test.txt",
             "fewshot": {
-                "train_data_path": "data/demographic_attributes/name_info/wikidata_test.txt", # TODO need to change the file
+                "train_data_path": "data/demographic_attributes/name_info/wikidata_test.txt",  # TODO need to change the file
             },
         },
-
     }
+
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n\n"
@@ -148,10 +148,9 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
     return out_prompt
 
+
 def prompt(input_sample, examples):
-    base_prompt = (
-        f"Label the country of the following person 'name'. Write ONLY the country code in ISO 3166-1 alpha-2 format."
-    )
+    base_prompt = f"Label the country of the following person 'name'. Write ONLY the country code in ISO 3166-1 alpha-2 format."
     return [
         {
             "role": "system",
@@ -166,11 +165,16 @@ def prompt(input_sample, examples):
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
-
-    if("name: " in label):
-        label_fixed = label.replace("name: ", "").lower()
-    elif("I'm sorry, but I cannot predict the country" in label or "I cannot predict the country" in label):
-        label_fixed="NameIssue"
+    country_dict=config()["model_args"]["class_labels"]
+    if "country: " in label:
+        label_fixed = label.replace("country: ", "").lower().strip()
+    elif(label in country_dict):
+        label_fixed = label.lower().strip()
+    elif (
+        "I'm sorry, but I cannot predict the country" in label
+        or "I cannot predict the country" in label
+    ):
+        label_fixed = "NameIssue"
     else:
         label_fixed = None
 
