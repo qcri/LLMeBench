@@ -21,9 +21,7 @@ class ArabGendDataset(DatasetBase):
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
-                label, name = line.strip().split("\t")
-                data.append(
-                    {"input": name, "label": label[-1], "line_number": line_idx}
-                )
+                name, label = line.strip().split("\t")
+                data.append({"input": name, "label": label, "line_number": line_idx})
 
         return data
