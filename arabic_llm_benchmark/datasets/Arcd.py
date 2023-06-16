@@ -22,7 +22,7 @@ class ArcdDataset(DatasetBase):
                           "question": "question to be answered", 
                           "question_id": "a unique question id"}, 
                 
-                "label": {"text": "answer text", 'answer_start': 0}}
+                "label": "answer text"}
 
     def load_data(self, data_path, no_labels=False):
         data = []
