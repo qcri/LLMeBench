@@ -8,7 +8,7 @@ class NewsCatAkhbaronaDataset(DatasetBase):
         super(NewsCatAkhbaronaDataset, self).__init__(**kwargs)
 
     def get_data_sample(self):
-        return {"input": "some tweet", "label": "checkworthy"}
+        return {"input": "some tweet", "label": "religion"}
 
     def citation(self):
         return """
@@ -34,7 +34,7 @@ class NewsCatAkhbaronaDataset(DatasetBase):
             lines = " ".join(lines).strip()
             label = row["class_label"]
 
-            entry = {"id": filename, "input": lines, "label": label}
+            entry = {"input_id": filename, "input": lines, "label": label}
             data.append(entry)
 
         return data
