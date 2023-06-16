@@ -28,6 +28,7 @@ class QATask(TaskBase):
         return white_space_fix(remove_articles(remove_punc(lower(s))))
     
 
+
     def f1_score(self, prediction, ground_truth):
         prediction_tokens = self.normalize_answer(prediction).split()
         ground_truth_tokens = self.normalize_answer(ground_truth).split()
@@ -44,29 +45,22 @@ class QATask(TaskBase):
     def exact_match_score(self, prediction, ground_truth):
         return (self.normalize_answer(prediction) == self.normalize_answer(ground_truth))
     
-
-        
     def metric_max_over_ground_truths(self, metric_fn, prediction, ground_truths):
         scores_for_ground_truths = []
         for ground_truth in ground_truths:
             score = metric_fn(prediction, ground_truth)
             scores_for_ground_truths.append(score)
         return max(scores_for_ground_truths)
-    
 
-        
-    def evaluate(self, dataset, predictions):
+    def evaluate(self, true_labels, predicted_labels):
         f1 = exact_match = total = 0
-        for elem in dataset:
-            sample = elem["input"]
-            total += 1
-            if sample['question_id'] not in predictions:
-                message = 'Unanswered question ' + sample['question_id'] + \
-                        ' will receive score 0.'
-                print(message, file=sys.stderr)
+        for ground_truth, prediction in zip(true_labels, predicted_labels):
+            if prediction is None: 
                 continue
-            ground_truths = list(map(lambda x: x['text'], sample['answers']))
-            prediction = predictions[sample['question_id']]
+                
+            total += 1
+            ground_truths = list(ground_truth)
+            #prediction = cleaned_predictions[elem[0]['question_id']]
             exact_match += self.metric_max_over_ground_truths(
                 self.exact_match_score, prediction, ground_truths)
             f1 += self.metric_max_over_ground_truths(

@@ -31,11 +31,15 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['input']['context']}\nQuestion:{input_sample['input']['question']}\nAnswer:",
+                "text": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:",
             }
         ],
     }
 
 
 def post_process(response):
-    return response["choices"][0]["text"]
+
+    try: 
+        return response["choices"][0]["text"]
+    except: 
+        return "Failed Request"
