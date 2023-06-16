@@ -2,6 +2,7 @@ from .Adult import AdultDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+<<<<<<< HEAD
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
 from .ArSASSentiment import ArSASSentimentDataset
@@ -32,3 +33,4 @@ from .Subjectivity import SubjectivityDataset
 from .XNLI import XNLIDataset
 from .AraQA import AraQADataset
 from .Arcd import ArcdDataset
+from .Mlqa import MlqaDataset
