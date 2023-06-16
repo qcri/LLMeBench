@@ -35,3 +35,4 @@ from .AraQA import AraQADataset
 from .Arcd import ArcdDataset
 from .Mlqa import MlqaDataset
 from .Tydiqa import TydiQADataset
+from .Xquad import XquadDataset
