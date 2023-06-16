@@ -174,7 +174,7 @@ def post_process(response):
         "I'm sorry, but I cannot predict the country" in label
         or "I cannot predict the country" in label
     ):
-        label_fixed = "NameIssue" # TODO need to fix this
+        label_fixed = "NameIssue"  # TODO need to fix this
     else:
         label_fixed = None
 
