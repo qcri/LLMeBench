@@ -29,8 +29,6 @@ def config():
 
 
 def prompt(input_sample):
-    input_sample = f"{input_sample['sentence_1']}\t{input_sample['sentence_2']}"
-
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [

@@ -28,8 +28,6 @@ def config():
 
 
 def prompt(input_sample):
-    input_sample = f"{input_sample['sentence_1']}\t{input_sample['sentence_2']}"
-
     prompt_string = (
         f"Given two sentences, produce a continuous valued similarity score on a "
         f"scale from 0 to 5, with 0 indicating that the semantics of the sentences are "
