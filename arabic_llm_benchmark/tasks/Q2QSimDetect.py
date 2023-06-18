@@ -7,7 +7,6 @@ class Q2QSimDetectionTask(TaskBase):
         super(Q2QSimDetectionTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
-        # Handle cases when model fails!
         predicted_labels = [
             p if p else self.get_random_prediction(set(true_labels))
             for p in predicted_labels
