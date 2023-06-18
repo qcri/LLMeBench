@@ -126,6 +126,7 @@ def config():
             "data_path": "data/demographic_attributes/name_info/wikidata_test.txt",
             "fewshot": {
                 "train_data_path": "data/demographic_attributes/name_info/wikidata_test.txt",  # TODO need to change the file
+                "deduplicate": False
             },
         },
     }
@@ -164,12 +165,12 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"]
+    label = response["choices"][0]["message"]["content"].strip()
     country_dict = config()["model_args"]["class_labels"]
     if "country: " in label:
-        label_fixed = label.replace("country: ", "").lower().strip()
-    elif label in country_dict:
-        label_fixed = label.lower().strip()
+        label_fixed = label.replace("country: ", "").lower()
+    elif label.lower() in country_dict:
+        label_fixed = label.lower()
     elif (
         "I'm sorry, but I cannot predict the country" in label
         or "I cannot predict the country" in label
