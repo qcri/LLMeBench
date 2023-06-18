@@ -21,4 +21,5 @@ from .Sentiment import SentimentTask
 from .Spam import SpamTask
 from .StanceKhouja20 import StanceKhouja20Task
 from .StanceUnifiedFC import StanceUnifiedFCTask
+from .STSTrack1 import STSTrack1Task
 from .Subjectivity import SubjectivityTask

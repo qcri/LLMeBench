@@ -21,4 +21,5 @@ from .QADI import QADIDataset
 from .Spam import SpamDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
+from .STSArSemEval17Track1 import STSArSemEval17Track1Dataset
 from .Subjectivity import SubjectivityDataset
