@@ -25,6 +25,7 @@ def config():
             "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
             "fewshot": {
                 "train_data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",  # TODO need to change the file
+                "deduplicate": False,
             },
         },
     }
@@ -66,8 +67,6 @@ def post_process(response):
     label = response["choices"][0]["message"]["content"]
     label_fixed = label.replace("label:", "").strip()
     if label_fixed.startswith("Please provide the tweet"):
-        label_fixed = None
-    else:
         label_fixed = None
 
     return label_fixed
