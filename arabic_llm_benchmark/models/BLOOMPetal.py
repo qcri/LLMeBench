@@ -22,12 +22,12 @@ class BLOOMPetalFailure(Exception):
 
 class BLOOMPetalModel(ModelBase):
     def __init__(
-        self, api_url, timeout=20, temperature=0, top_p=0.95, max_tokens=800, **kwargs
+        self, api_url, timeout=20, temperature=0, top_p=0.95, max_tokens=1512, **kwargs
     ):
         # API parameters
         self.api_url = api_url
         self.api_timeout = timeout
-        self.request_header = {"type": "open_inference_session", "max_length": 1024}
+        self.request_header = {"type": "open_inference_session", "max_length":1512}
 
         # BLOOM parameters
         tolerance = 1e-7
