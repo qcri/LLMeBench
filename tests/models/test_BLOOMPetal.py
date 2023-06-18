@@ -5,10 +5,10 @@ import unittest
 from unittest.mock import patch
 
 from arabic_llm_benchmark import Benchmark
-from arabic_llm_benchmark.models import GPTChatCompletionModel
+from arabic_llm_benchmark.models import BLOOMPetalModel
 
 
-class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
+class TestAssetsForBLOOMPetalPrompts(unittest.TestCase):
     @classmethod
     @patch("os.environ")
     def setUpClass(cls, os_env_mock):
@@ -19,11 +19,11 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
         benchmark = Benchmark(benchmark_dir="assets")
         all_assets = benchmark.find_runs()
 
-        # Filter out assets not using the GPT model
+        # Filter out assets not using the BLOOMPetal model
         cls.assets = [
             asset
             for asset in all_assets
-            if asset["module"].config()["model"] in [GPTChatCompletionModel]
+            if asset["module"].config()["model"] in [BLOOMPetalModel]
         ]
 
     @patch("os.environ")
@@ -46,11 +46,6 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
                 else:
                     prompt = asset["module"].prompt(data_sample["input"])
 
-                self.assertIsInstance(prompt, list)
-
-                for message in prompt:
-                    self.assertIsInstance(message, dict)
-                    self.assertIn("role", message)
-                    self.assertIsInstance(message["role"], str)
-                    self.assertIn("content", message)
-                    self.assertIsInstance(message["content"], str)
+                self.assertIsInstance(prompt, dict)
+                self.assertIn("prompt", prompt)
+                self.assertIsInstance(prompt["prompt"], str)

@@ -10,6 +10,7 @@ from .DialectID import DialectIDTask
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .HarmfulDetection import HarmfulDetectionTask
 from .MachineTranslation import MachineTranslationTask
+from .NER import NERTask
 from .NewsCatAkhbarona import NewsCatAkhbaronaTask
 from .NewsCatAlArabiya import NewsCatAlArabiyaTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
@@ -20,5 +21,7 @@ from .Sentiment import SentimentTask
 from .Spam import SpamTask
 from .StanceKhouja20 import StanceKhouja20Task
 from .StanceUnifiedFC import StanceUnifiedFCTask
+from .STSTrack1 import STSTrack1Task
+from .STSTrack2 import STSTrack2Task
 from .Subjectivity import SubjectivityTask
 from .Q2QSimDetect import Q2QSimDetectionTask
