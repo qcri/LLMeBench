@@ -20,7 +20,6 @@ def config():
             "engine_name": os.environ["ENGINE_NAME"],
             "max_tries": 3,
         },
-
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
             "fewshot": {

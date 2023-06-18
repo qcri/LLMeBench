@@ -1,5 +1,6 @@
-from arabic_llm_benchmark.tasks.task_base import TaskBase
 from sklearn.metrics import f1_score
+
+from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
 class Q2QSimDetectionTask(TaskBase):

@@ -46,10 +46,7 @@ def post_process(response):
     input_label = input_label.replace(".", "").strip().lower()
     pred_label = ""
 
-    if (
-        "yes" in input_label
-        or "label: 1" in input_label
-    ):
+    if "yes" in input_label or "label: 1" in input_label:
         pred_label = "1"
     if (
         input_label == "no"

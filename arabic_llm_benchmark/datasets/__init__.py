@@ -23,5 +23,5 @@ from .StanceKhouja20 import StanceKhouja20Dataset
 from .StanceUnifiedFC import StanceUnifiedFCDataset
 from .STSArSemEval17Track1 import STSArSemEval17Track1Dataset
 from .STSArSemEval17Track2 import STSArSemEval17Track2Dataset
-from .Subjectivity import SubjectivityDataset
 from .STSQ2Q import Q2QSimDataset
+from .Subjectivity import SubjectivityDataset
