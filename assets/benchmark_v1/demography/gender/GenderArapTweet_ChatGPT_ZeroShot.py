@@ -17,7 +17,7 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "qvoice",
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["Female", "Male"],
             "max_tries": 20,
         },

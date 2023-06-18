@@ -17,7 +17,7 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["m", "f"],
             "max_tries": 3,
         },
@@ -33,7 +33,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"If the following person name can be considered as male, write 'm' without explnanation, and if it can be considered as female, write 'f' without explnanation.\n {input_sample}",
+            "content": f"If the following person name can be considered as male, write 'm' without explanation, and if it can be considered as female, write 'f' without explanation.\n {input_sample}",
         },
     ]
 
