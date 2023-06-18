@@ -74,9 +74,9 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": f"Translate the following to English, output only the translation:\n {input_sample}",
+        "prompt": f"Translate from Arabic into English: {input_sample} \n",
     }
 
 
 def post_process(response):
-    return response["choices"][0]["text"]
+    return response["outputs"].strip().replace("<s>", "").replace("</s>", "")
