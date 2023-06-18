@@ -17,7 +17,6 @@ class AdultDataset(DatasetBase):
         return {"input": "نص عادي", "label": "NOT_ADULT"}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         # Format: text \t adult_label
         data = []
         with open(data_path, "r") as fp:
@@ -25,6 +24,14 @@ class AdultDataset(DatasetBase):
                 fields = line.split("\t")
                 label = fields[0]
                 text = fields[4]
-                data.append({"input": text, "label": label, "line_number": line_idx})
+                input_id = fields[7]
+                data.append(
+                    {
+                        "input": text,
+                        "label": label,
+                        "input_id": input_id,
+                        "line_number": line_idx,
+                    }
+                )
 
         return data
