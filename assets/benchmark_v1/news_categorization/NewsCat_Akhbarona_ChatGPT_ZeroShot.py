@@ -20,9 +20,9 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
-            "class_labels": ["SUBJ", "OBJ"],  # TODO: Fix
-            "max_tries": 3,
+            "engine_name": os.environ["ENGINE_NAME"],
+            "class_labels": ["politics", "religion", "medical", "sports", "tech", "finance", "culture"],
+        "max_tries": 3,
         },
         "general_args": {
             "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv"
@@ -31,12 +31,21 @@ def config():
 
 
 def prompt(input_sample):
+
+    prompt_string = (
+        f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\n"
+        f"article: {input_sample}\n"
+        f"category: \n"
+    )
+
+    print(prompt_string)
+
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\narticle: {input_sample}\ncategory: \n",
+                "text": prompt_string,
             }
         ],
     }
