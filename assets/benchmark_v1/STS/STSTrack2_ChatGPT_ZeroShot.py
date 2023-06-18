@@ -1,14 +1,14 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import STSArSemEval17Track1Dataset
+from arabic_llm_benchmark.datasets import STSArSemEval17Track2Dataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import STSTrack2Task
 
 
 def config():
     return {
-        "dataset": STSArSemEval17Track1Dataset,
+        "dataset": STSArSemEval17Track2Dataset,
         "dataset_args": {},
         "task": STSTrack2Task,
         "task_args": {},
