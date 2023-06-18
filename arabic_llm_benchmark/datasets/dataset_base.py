@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 
 from langchain.embeddings import HuggingFaceEmbeddings
