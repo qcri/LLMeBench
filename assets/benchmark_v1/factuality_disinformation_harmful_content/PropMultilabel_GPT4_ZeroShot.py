@@ -3,7 +3,7 @@ import os
 import regex as re
 
 from arabic_llm_benchmark.datasets import PropagandaTweetDataset
-from arabic_llm_benchmark.models import GPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import PropagandaMultilabelTask
 
 
@@ -15,7 +15,7 @@ def config():
         },
         "task": PropagandaMultilabelTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -31,23 +31,24 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "## INSTRUCTION\nYou are an expert social media content analyst.\n\n",
-        "messages": [
-            {
-                "sender": "user",
-                "text": 'Label this "Text" based on the following propaganda techniques: '
-                + "'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
-                + "\n Answer (only yes/no) in the following format: \n"
-                + "'Doubt': 'yes', "
-                + "'Smears': 'no', \n\n"
-                + "## Text: "
-                + input_sample
-                + "\n\n"
-                + "## Response: \n",
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "## INSTRUCTION\nYou are an expert social media content analyst.\n\n",
+        },
+        {
+            "role": "user",
+            "content": 'Label this "Text" based on the following propaganda techniques: '
+            + "'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
+            + "\n Answer (only yes/no) in the following format: \n"
+            + "'Doubt': 'yes', "
+            + "'Smears': 'no', \n\n"
+            + "## Text: "
+            + input_sample
+            + "\n\n"
+            + "## Response: \n",
+        },
+    ]
 
 
 def fix_label(pred_label):
@@ -141,7 +142,7 @@ def fix_label(pred_label):
 
 
 def post_process(response):
-    pred_label = response["choices"][0]["text"]
+    pred_label = response["choices"][0]["message"]["content"]
     pred_label = fix_label(pred_label)
 
     return pred_label
