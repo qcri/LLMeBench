@@ -6,12 +6,15 @@ class ArabGendDataset(DatasetBase):
         super(ArabGendDataset, self).__init__(**kwargs)
 
     def citation(self):
-        return """@article{mubarak2022arabgend,
-          title={ArabGend: Gender analysis and inference on {A}rabic Twitter},
-          author={Mubarak, Hamdy and Chowdhury, Shammur Absar and Alam, Firoj},
-          journal={arXiv preprint arXiv:2203.00271},
-          year={2022}
-        }"""
+        return """
+            @inproceedings{mubarak2022arabgend,
+              title={ArabGend: Gender Analysis and Inference on Arabic Twitter},
+              author={Mubarak, Hamdy and Chowdhury, Shammur Absar and Alam, Firoj},
+              booktitle={Proceedings of the Eighth Workshop on Noisy User-generated Text (W-NUT 2022)},
+              pages={124--135},
+              year={2022}
+            }        
+            """
 
     def get_data_sample(self):
         return {"input": "A name", "label": "m"}
@@ -21,9 +24,7 @@ class ArabGendDataset(DatasetBase):
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
-                label, name = line.strip().split("\t")
-                data.append(
-                    {"input": name, "label": label[-1], "line_number": line_idx}
-                )
+                name, label = line.strip().split("\t")
+                data.append({"input": name, "label": label, "line_number": line_idx})
 
         return data
