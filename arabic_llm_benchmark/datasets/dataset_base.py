@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.prompts.example_selector import MaxMarginalRelevanceExampleSelector
 from langchain.vectorstores import FAISS
+import logging
 
 
 class DatasetBase(ABC):
