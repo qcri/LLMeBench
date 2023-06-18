@@ -21,7 +21,9 @@ def config():
             "class_labels": ["m", "f"],
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/demography/gender/gender-test.txt"},
+        "general_args": {
+            "data_path": "data/demographic_attributes/gender/gender-test.txt"
+        },
     }
 
 
