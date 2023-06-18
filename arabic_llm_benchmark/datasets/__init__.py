@@ -2,6 +2,7 @@ from .Adult import AdultDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+from .ArapTweet import ArapTweetDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset

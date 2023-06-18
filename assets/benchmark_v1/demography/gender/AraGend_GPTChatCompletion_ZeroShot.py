@@ -17,49 +17,26 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "qvoice-gpt4",
-            "class_labels": ["Female", "Male"],
-            "max_tries": 30,
+            "engine_name": "gpt",
+            "class_labels": ["m", "f"],
+            "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt"
-        },
+        "general_args": {"data_path": "data/demography/gender/gender-test.txt"},
     }
 
 
 def prompt(input_sample):
-    prompt_string = (
-        f"Identify the gender from the following name as 'Female' or 'Male'.\n\n"
-        f"name: {input_sample}"
-        f"gender: \n"
-    )
-
     return [
         {
             "role": "system",
-            "content": "You are an expert to identify the gender from a person's name.",
+            "content": "You are an AI assistant that helps people find information.",
         },
         {
             "role": "user",
-            "content": prompt_string,
+            "content": f"If the following person name can be considered as male, write 'm' without explnanation, and if it can be considered as female, write 'f' without explnanation.\n {input_sample}",
         },
     ]
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"]
-    # label = label.replace("gender:", "").strip()
-    if "gender: Female" in label or "\nFemale" in label or label == "Female":
-        label = "Female"
-    elif (
-        "gender: Male" in label
-        or "\nMale" in label
-        or "likely to be 'Male'" in label
-        or label == "Male"
-        or "typically a 'Male' name" in label
-    ):
-        label = "Male"
-    else:
-        label = None
-
-    return label
+    return response["choices"][0]["message"]["content"]
