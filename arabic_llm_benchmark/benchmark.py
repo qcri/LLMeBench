@@ -45,7 +45,9 @@ class SingleTaskBenchmark(object):
         if "fewshot" in config["general_args"]:
             self.zeroshot = False
             self.train_data_path = config["general_args"]["fewshot"]["train_data_path"]
-            self.deduplicate = config["general_args"]["fewshot"].get("deduplicate", True)
+            self.deduplicate = config["general_args"]["fewshot"].get(
+                "deduplicate", True
+            )
 
         self.limit = limit
         self.n_shots = n_shots
