@@ -48,6 +48,8 @@ def config():
             "data_path": "data/factuality_disinformation_harmful_content/propaganda/task1_test_gold_label_final.json"
         },
     }
+
+
 def prompt(input_sample):
     return {
         "prompt": f'Label this "tweet" based on the following propaganda techniques:\n\n'
@@ -56,7 +58,6 @@ def prompt(input_sample):
         + f"tweet: {input_sample}\n\n"
         + f"labels: \n"
     }
-
 
 
 # def prompt(input_sample):
@@ -72,7 +73,7 @@ def prompt(input_sample):
 
 
 def fix_label(pred_label):
-    class_labels= [
+    class_labels = [
         "no technique",
         "Smears",
         "Exaggeration/Minimisation",
@@ -91,12 +92,13 @@ def fix_label(pred_label):
         "Whataboutism",
         "Black-and-white Fallacy/Dictatorship",
         "Thought-terminating cliché",
-        "Causal Oversimplification"]
+        "Causal Oversimplification",
+    ]
     class_labels = [c.lower() for c in class_labels]
-    
-    pred_labels_bool = [bool(re.search(c.lower(), pred_label)) for c in class_labels ]
+
+    pred_labels_bool = [bool(re.search(c.lower(), pred_label)) for c in class_labels]
     pred_labels = [class_labels[i].lower() for i, c in enumerate(pred_labels_bool) if c]
- 
+
     # if "used in this text" in pred_label:
     #     return ["no technique"]
 
