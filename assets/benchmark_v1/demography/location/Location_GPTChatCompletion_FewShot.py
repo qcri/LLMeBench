@@ -48,6 +48,7 @@ def config():
             "data_path": "data/demographic_attributes/location/arab+others.txt",
             "fewshot": {
                 "train_data_path": "data/demographic_attributes/location/arab+others.txt",  # TODO need to change the file
+                "deduplicate": False,
             },
         },
     }
