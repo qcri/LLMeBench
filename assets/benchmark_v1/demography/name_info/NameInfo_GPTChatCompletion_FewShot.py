@@ -126,7 +126,7 @@ def config():
             "data_path": "data/demographic_attributes/name_info/wikidata_test.txt",
             "fewshot": {
                 "train_data_path": "data/demographic_attributes/name_info/wikidata_test.txt",  # TODO need to change the file
-                "deduplicate": False
+                "deduplicate": False,
             },
         },
     }
