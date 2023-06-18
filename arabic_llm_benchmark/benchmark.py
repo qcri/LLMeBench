@@ -217,7 +217,9 @@ class Benchmark(object):
             asset_name = asset[len(str(self.benchmark_dir)) + 1 : asset.rfind(".")]
 
             if not fnmatch(module_name.lower(), filter_str.lower()):
-                logging.info(f"Skipping {asset[len(str(self.benchmark_dir)) + 1 :]} because of --filter")
+                logging.info(
+                    f"Skipping {asset[len(str(self.benchmark_dir)) + 1 :]} because of --filter"
+                )
                 continue
 
             # Search for sub-assets
@@ -232,7 +234,7 @@ class Benchmark(object):
                         "name": asset_name,
                         "path": asset,
                         "module": asset_module,
-                        "config": config
+                        "config": config,
                     }
                 )
             elif isinstance(config, list):
@@ -243,7 +245,7 @@ class Benchmark(object):
                             "name": f"{asset_name}/{subconfig['name']}",
                             "path": asset,
                             "module": asset_module,
-                            "config": subconfig["config"]
+                            "config": subconfig["config"],
                         }
                     )
             else:

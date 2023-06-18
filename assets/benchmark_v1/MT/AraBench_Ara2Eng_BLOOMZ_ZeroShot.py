@@ -48,26 +48,29 @@ def config():
 
     configs = []
     for testset in sets:
-        configs.append({
-            "name": testset,
-            "config": {
-                "dataset": AraBenchDataset,
-                "dataset_args": {
-                    "src": f"{testset}.ar",
-                    "tgt": f"{testset}.en",
+        configs.append(
+            {
+                "name": testset,
+                "config": {
+                    "dataset": AraBenchDataset,
+                    "dataset_args": {
+                        "src": f"{testset}.ar",
+                        "tgt": f"{testset}.en",
+                    },
+                    "task": MachineTranslationTask,
+                    "task_args": {},
+                    "model": BLOOMPetalModel,
+                    "model_args": {
+                        "api_url": os.environ["API_URL"],
+                        "max_tries": 3,
+                    },
+                    "general_args": {"data_path": "data/MT/"},
                 },
-                "task": MachineTranslationTask,
-                "task_args": {},
-                "model": BLOOMPetalModel,
-                "model_args": {
-                    "api_url": os.environ["API_URL"],
-                    "max_tries": 3,
-                },
-                "general_args": {"data_path": "data/MT/"},
             }
-        })
+        )
 
     return configs
+
 
 def prompt(input_sample):
     return {
