@@ -25,7 +25,7 @@ class XNLIDataset(DatasetBase):
                 }"""
 
     def get_data_sample(self):
-        return {"input": "Test Test", "label": "neutral"}
+        return {"input": "Test\tTest", "label": "neutral"}
 
     def load_data(self, data_path):
         formatted_data = []
