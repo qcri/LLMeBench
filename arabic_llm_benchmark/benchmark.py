@@ -45,6 +45,7 @@ class SingleTaskBenchmark(object):
         if "fewshot" in config["general_args"]:
             self.zeroshot = False
             self.train_data_path = config["general_args"]["fewshot"]["train_data_path"]
+            self.deduplicate = config["general_args"]["fewshot"].get("deduplicate", True)
 
         self.limit = limit
         self.n_shots = n_shots
@@ -124,8 +125,9 @@ class SingleTaskBenchmark(object):
         few_shots_data = []
         if not self.zeroshot:
             train_data = self.dataset.load_data(self.train_data_path)
+
             few_shots_data = self.dataset.prepare_fewshots(
-                data, train_data, self.n_shots
+                data, train_data, self.n_shots, deduplicate=self.deduplicate
             )
 
         true_labels = []
