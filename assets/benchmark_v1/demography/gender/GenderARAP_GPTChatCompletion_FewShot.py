@@ -25,7 +25,7 @@ def config():
             "data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt",
             "fewshot": {
                 "train_data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt",  # TODO need to change the file
-                "deduplicate": False
+                "deduplicate": False,
             },
         },
     }
