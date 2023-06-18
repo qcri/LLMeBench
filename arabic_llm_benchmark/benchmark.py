@@ -96,6 +96,8 @@ class SingleTaskBenchmark(object):
             logging.info(f"\tPost processing model outputs")
             try:
                 filtered_output = self.post_process_fn(model_output["response"])
+                if "filtered_output_failure_message" in cache_payload:
+                    del cache_payload["filtered_output_failure_message"]
                 cache_payload["filtered_output"] = filtered_output
                 summarized_payload["filtered_output"] = filtered_output
             except Exception as e:
