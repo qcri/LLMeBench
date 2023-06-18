@@ -30,10 +30,13 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["choices"][0]["text"]
-    if label == "Objective" or label == "Objective.":
+    label = response["outputs"].strip().lower()
+    label = label.replace("<s>", "")
+    label = label.replace("</s>", "")
+
+    if label == "objective" or label == "objective.":
         label_fixed = "OBJ"
-    elif label == "Subjective" or label == "Subjective.":
+    elif label == "subjective" or label == "subjective.":
         label_fixed = "SUBJ"
 
     return label_fixed
