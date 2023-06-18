@@ -17,18 +17,21 @@ class FactualityKhouja20Dataset(DatasetBase):
         }"""
 
     def get_data_sample(self):
-        return {"input": "الجملة بالعربية", "label": "yes"}
+        return {"input": "الجملة بالعربية", "label": "true", "line_number": "1"}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
-        raw_data = pd.read_csv(data_path, sep=",")
-        for index, row in raw_data.iterrows():
-            sentence = row["claim_s"]
-            label_fixed = str(row["fake_flag"])
-            if label_fixed == "1":
-                label_fixed = "true"
-            elif label_fixed == "0":
-                label_fixed = "false"
-            data.append({"input": sentence, "label": label_fixed})
+        with open(data_path, "r", encoding="utf-8") as f:
+            next(f)
+            for line_idx, line in enumerate(f):
+                sentence, label_fixed = [str(s.strip()) for s in line.split(",")]
+
+                # The dataset uses 1 to reflect false/fake claims
+                if label_fixed == "1":
+                    label_fixed = "false"
+                elif label_fixed == "0":
+                    label_fixed = "true"
+
+                data.append({"input": sentence, "label": label_fixed, "line_number": line_idx})
+
         return data

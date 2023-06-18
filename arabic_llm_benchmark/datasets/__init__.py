@@ -8,6 +8,7 @@ from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
+from .FactualityUnifiedFC import FactualityUnifiedFCDataset
 from .Harmful import CovidHarmfulDataset
 from .Location import LocationDataset
 from .NameInfo import NameInfoDataset
