@@ -1,16 +1,16 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import STSArSemEval17Track1Dataset
+from arabic_llm_benchmark.datasets import STSArSemEval17Track2Dataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import STSTrack1Task
+from arabic_llm_benchmark.tasks import STSTrack2Task
 
 
 def config():
     return {
-        "dataset": STSArSemEval17Track1Dataset,
+        "dataset": STSArSemEval17Track2Dataset,
         "dataset_args": {},
-        "task": STSTrack1Task,
+        "task": STSTrack2Task,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {
@@ -22,8 +22,11 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/STS/semeval-2017",
-        },
+                       "data_path": {
+                                "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track2.ar-en.txt",
+                                "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track2.ar-en.txt"
+            }
+        }
     }
 
 
@@ -57,6 +60,7 @@ def post_process(response):
             .rstrip(".")
         )
         score = float(pred_num)
+
     else:
         score = None
 
