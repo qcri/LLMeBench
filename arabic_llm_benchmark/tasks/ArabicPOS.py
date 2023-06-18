@@ -140,6 +140,6 @@ class ArabicPOSTask(TaskBase):
             # print("TT1:",len(t),t)
             hyp += p[: len(t)]
             ref += t
-        # print("ph:",len(hyp),hyp)
-        # print("tt:",len(ref),ref)
+        print("ph:",len(hyp),hyp)
+        print("tt:",len(ref),ref)
         return {"Macro F1": f1_score(ref, hyp, average="macro")}

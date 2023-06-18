@@ -3,6 +3,7 @@ from .ArabGend import ArabGendDataset
 from .ArabicDiacritization import ArabicDiacritizationDataset
 from .ArabicPOS import ArabicPOSDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
+from .ArabicParsing import ArabicParsingDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset

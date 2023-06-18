@@ -53,8 +53,10 @@ def config():
     configs = []
     for testset in sets:
         configs.append({
-        "dataset": AraBenchDataset,
         "name": testset, 
+        "config": {
+        "dataset": AraBenchDataset,
+        
         "dataset_args": {
             "src": f"{testset}.ar",
             "tgt": f"{testset}.en",
@@ -71,7 +73,7 @@ def config():
             "max_tries": 5,
         },
         "general_args": {"data_path": "data/MT/"},
-    })
+    }})
 
     return configs
 
