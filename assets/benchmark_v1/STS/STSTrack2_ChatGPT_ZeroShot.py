@@ -1,14 +1,14 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import STSTrack2Dataset
+from arabic_llm_benchmark.datasets import STSArSemEval17Track1Dataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import STSTrack2Task
 
 
 def config():
     return {
-        "dataset": STSTrack2Dataset,
+        "dataset": STSArSemEval17Track1Dataset,
         "dataset_args": {},
         "task": STSTrack2Task,
         "task_args": {},
@@ -18,20 +18,17 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": "NA",
             "max_tries": 3,
         },
         "general_args": {
             "data_path": "data/STS/semeval-2017",
-            # "ground_truth_data_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"
-            "train_data_path": "",
-            "n_shots": 3
         },
     }
 
 
-def prompt(input_sample, examples):
+def prompt(input_sample):
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
@@ -47,7 +44,12 @@ def post_process(response):
     raw_response = response["choices"][0]["text"]
 
     if "Similarity score =" in raw_response:
-        pred_num = raw_response.split("Similarity score = ")[1].strip().split(" ")[0].rstrip(".")
+        pred_num = (
+            raw_response.split("Similarity score = ")[1]
+            .strip()
+            .split(" ")[0]
+            .rstrip(".")
+        )
         score = float(pred_num)
 
     else:
