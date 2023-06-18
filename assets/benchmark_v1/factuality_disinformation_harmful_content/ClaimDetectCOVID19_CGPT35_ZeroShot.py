@@ -17,7 +17,8 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": os.environ["ENGINE_NAME"],
+            "class_labels": ["0", "1"],
             "max_tries": 3,
         },
         "general_args": {
@@ -40,26 +41,12 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    input_label = response["choices"][0]["text"]
-    input_label = input_label.replace(".", "").strip().lower()
-    pred_label = ""
+    pred_label = response["choices"][0]["text"]
+    pred_label = pred_label.replace(".", "").strip().lower()
 
-    if (
-        "yes" in input_label
-        or "contains a factual claim" in input_label
-        or "label: 1" in input_label
-    ):
+    if pred_label == "yes" or pred_label == "the sentence contains a factual claim":
         pred_label = "1"
-    if (
-        input_label == "no"
-        or "label: 0" in input_label
-        or "label: no" in input_label
-        or "not contain a factual claim" in input_label
-        or "doesn't contain a factual claim" in input_label
-    ):
+    if pred_label == "no":
         pred_label = "0"
-
-    if pred_label == "":
-        pred_label = None
 
     return pred_label
