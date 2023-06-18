@@ -86,8 +86,11 @@ def post_process(response):
 
     if "similarity score=" in input_label:
         pred_label = float(input_label.split("similarity score= ")[1])
+    elif input_label.replace(".", "").isnumeric():
+        pred_label = float(input_label)
     else:
         print("Issue with predicted score parsing!")
+        print(input_label)
         pred_label = None
 
     return pred_label

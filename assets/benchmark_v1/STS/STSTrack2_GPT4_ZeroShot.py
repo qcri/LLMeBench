@@ -60,7 +60,6 @@ def post_process(response):
             .rstrip(".")
         )
         score = float(pred_num)
-
     else:
         score = None
 
