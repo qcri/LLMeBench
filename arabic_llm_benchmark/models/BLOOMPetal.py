@@ -27,7 +27,7 @@ class BLOOMPetalModel(ModelBase):
         # API parameters
         self.api_url = api_url
         self.api_timeout = timeout
-        self.request_header = {"type": "open_inference_session", "max_length":1512}
+        self.request_header = {"type": "open_inference_session", "max_length": 1512}
 
         # BLOOM parameters
         tolerance = 1e-7
