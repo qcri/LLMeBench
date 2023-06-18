@@ -33,8 +33,9 @@ class XNLIDataset(DatasetBase):
         with open(data_path, "r", encoding="utf-8") as in_file:
             next(in_file)
             for index, line in enumerate(in_file):
-                if not line.startswith("ar"): continue
-                line = [str(s.strip()) for s in line.rstrip('\r\n').split("\t")]
+                if not line.startswith("ar"):
+                    continue
+                line = [str(s.strip()) for s in line.rstrip("\r\n").split("\t")]
 
                 sent1_sent2 = line[6] + "\t" + line[7]
                 label = line[1]
@@ -48,5 +49,5 @@ class XNLIDataset(DatasetBase):
                         "input_id": pid,
                     }
                 )
-        print("loaded %d data samples from file!"%len(formatted_data))
+        print("loaded %d data samples from file!" % len(formatted_data))
         return formatted_data
