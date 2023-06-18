@@ -28,8 +28,7 @@ def config():
 
 
 def prompt(input_sample):
-    q1 = input_sample["sentence_1"]
-    q2 = input_sample["sentence_2"]
+    q1, q2 = input_sample.split("\t")
     input_sample = q1 + "\t" + q2
     prompt = f"Are the following two questions semantically similar (i.e., asking for similar information)? The output should be exactly in form yes or no.\n\n{input_sample}"
     # prompt = f"Are the two questions below semantically similar (i.e., asking for similar information)? The output should be exactly in form yes or no.\n\nQ1: {q1}\nQ2: {q2}\nlabel: "

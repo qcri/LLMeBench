@@ -18,7 +18,7 @@ class STSArSemEval17Track1Dataset(DatasetBase):
         }"""
 
     def get_data_sample(self):
-        return {"input": "الجملة بالعربية", "label": 1.2}
+        return {"input": "الجملة بالعربية\tالجملة بالعربية", "label": 1.2}
 
     def load_data(self, data_path):
         input_data_path = data_path + "/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt"

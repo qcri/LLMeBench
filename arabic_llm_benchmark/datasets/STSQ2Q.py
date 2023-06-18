@@ -18,7 +18,10 @@ class Q2QSimDataset(DatasetBase):
         }"""
 
     def get_data_sample(self):
-        return {"input": "السوال الاول السوال الثاني", "label": "1"}
+        return {
+            "input": "السوال الاول السوال الثاني\tالسوال الاول السوال الثاني",
+            "label": "1",
+        }
 
     def load_data(self, data_path):
         data = []
