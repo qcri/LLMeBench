@@ -17,7 +17,7 @@ class FactualityUnifiedFCDataset(DatasetBase):
                     author = "Baly, Ramy  and
                       Mohtarami, Mitra  and
                       Glass, James  and
-                      M{\`a}rquez, Llu{\'\i}s  and
+                      M{\\`a}rquez, Llu{\\'\\i}s  and
                       Moschitti, Alessandro  and
                       Nakov, Preslav",
                     booktitle = "Proceedings of the 2018 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 2 (Short Papers)",

@@ -17,8 +17,8 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["0", "1"],
-            "engine_name": "gpt",
             "max_tries": 3,
         },
         "general_args": {
