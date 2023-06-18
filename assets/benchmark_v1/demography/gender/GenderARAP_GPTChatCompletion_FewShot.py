@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArabGendDataset
+from arabic_llm_benchmark.datasets import ArapTweetDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import DemographyGenderTask
 
 
 def config():
     return {
-        "dataset": ArabGendDataset,
+        "dataset": ArapTweetDataset,
         "dataset_args": {},
         "task": DemographyGenderTask,
         "task_args": {},
@@ -25,6 +25,7 @@ def config():
             "data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt",
             "fewshot": {
                 "train_data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt",  # TODO need to change the file
+                "deduplicate": False
             },
         },
     }
