@@ -1,5 +1,5 @@
 from .Adult import AdultDataset
-from .AnerCorp import AnerCorpDataset
+from .ANERcorp import ANERcorpDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset

@@ -1,14 +1,14 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import AnerCorpDataset
+from arabic_llm_benchmark.datasets import ANERcorpDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import NERTask
 
 
 def config():
     return {
-        "dataset": AnerCorpDataset,
+        "dataset": ANERcorpDataset,
         "dataset_args": {},
         "task": NERTask,
         "task_args": {},
