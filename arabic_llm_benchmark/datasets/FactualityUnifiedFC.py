@@ -1,14 +1,9 @@
-import pandas as pd
-
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
 class FactualityUnifiedFCDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(FactualityUnifiedFCDataset, self).__init__(**kwargs)
-
-    def get_data_sample(self):
-        return {"input": "some tweet", "label": "True"}
 
     def citation(self):
         return """
@@ -25,17 +20,23 @@ class FactualityUnifiedFCDataset(DatasetBase):
                 }
         """
 
+    def get_data_sample(self):
+        return {"input": "الجملة الاولى", "label": "agree", "input_id": "id"}
+
     def load_data(self, data_path):
         data = []
-        raw_data = pd.read_csv(data_path, sep="\t")
-        for index, row in raw_data.iterrows():
-            text = row["text"]
-            label = str(row["class_label"])
-            data.append(
-                {
-                    "input": text,
-                    "label": label,
-                    "line_number": index,
-                }
-            )
+        with open(data_path, "r", encoding="utf-8") as f:
+            next(f)
+            for line_idx, line in enumerate(f):
+                input_id, sentence, label = [str(s.strip()) for s in line.split("\t")]
+
+                data.append(
+                    {
+                        "input": sentence,
+                        "label": label,
+                        "line_number": line_idx,
+                        "input_id": input_id,
+                    }
+                )
+
         return data
