@@ -1,3 +1,6 @@
+import logging
+import random
+
 from abc import ABC, abstractmethod
 
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -50,10 +53,28 @@ class DatasetBase(ABC):
     def prepare_fewshots(self, target_data, train_data, n_shots, deduplicate=True):
         """Returns a generator for fewshot samples _per test instance_"""
 
+        # Remove empty inputs
+        original_sample_count = len(train_data)
+        train_data = [
+            sample for sample in train_data if len(sample["input"].strip()) > 0
+        ]
+        filtered_sample_count = len(train_data)
+
+        if filtered_sample_count < original_sample_count:
+            logging.warning(
+                f"Filtered out {original_sample_count - filtered_sample_count} due to empty input"
+            )
+
         # Dedup train set against test set by doc ID before selecting examples
         # We discovered some datasets had overlap between train and test
         if deduplicate:
+            original_sample_count = len(train_data)
             train_data = self.deduplicate_train_test(train_data, target_data)
+            filtered_sample_count = len(train_data)
+            if filtered_sample_count < original_sample_count:
+                logging.warning(
+                    f"Filtered out {original_sample_count - filtered_sample_count} due to duplication with test set"
+                )
 
         # TODO: MaxMarginalRelevanceExampleSelector should be generalized
         # TODO: Need to handle not str inputs
@@ -64,11 +85,15 @@ class DatasetBase(ABC):
             train_data, embedding_model, FAISS, input_keys=["input"], k=n_shots
         )
 
-        # TODO: Convert to an iterator
         # For each input sample, get few shot examples
         for idx, input_sample in enumerate(target_data):
-            # Only need the input test content to select examples
-            examples = example_selector.select_examples(input_sample)
+            if len(input_sample["input"].strip()) > 0:
+                examples = example_selector.select_examples(input_sample)
+            else:
+                # Randomly select some train samples
+                logging.warning(
+                    f"Sample with empty input encountered, will pick few shot samples randomly from train"
+                )
+                examples = random.sample(train_data, k=n_shots)
 
-            # Quick way to pre-compute examples for all test data at once.
             yield examples
