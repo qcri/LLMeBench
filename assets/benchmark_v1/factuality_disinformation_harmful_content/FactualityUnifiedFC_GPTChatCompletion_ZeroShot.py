@@ -63,9 +63,9 @@ def post_process(response):
     ):
         label_fixed = None
     elif "label: incorrect" in label or "incorrect" in label:
-        label_fixed = "False"
+        label_fixed = "false"
     elif "label: correct" in label or "correct" in label:
-        label_fixed = "True"
+        label_fixed = "true"
     else:
         label_fixed = None
 
