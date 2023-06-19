@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArcdDataset
+from arabic_llm_benchmark.datasets import ARCDDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import QATask
 
 
 def config():
     return {
-        "dataset": ArcdDataset,
+        "dataset": ARCDDataset,
         "dataset_args": {},
         "task": QATask,
         "task_args": {},
@@ -21,7 +21,7 @@ def config():
             "class_labels": "NA",
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},
+        "general_args": {"data_path": "data/QA/ARCD/arcd-test.json"},
     }
 
 

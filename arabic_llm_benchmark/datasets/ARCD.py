@@ -3,13 +3,13 @@ import json
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class ArcdDataset(DatasetBase):
+class ARCDDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(ArcdDataset, self).__init__(**kwargs)
+        super(ARCDDataset, self).__init__(**kwargs)
 
     def citation(self):
         return """
-                @misc{mozannar2019neural,
+        @misc{mozannar2019neural,
             title={Neural Arabic Question Answering}, 
             author={Hussein Mozannar and Karl El Hajal and Elie Maamary and Hazem Hajj},
             year={2019},
@@ -26,7 +26,7 @@ class ArcdDataset(DatasetBase):
                 "question": "question to be answered",
                 "question_id": "a unique question id",
             },
-            "label": "answer text",
+            "label": ["answer 1", "answer 2"],
         }
 
     def load_data(self, data_path, no_labels=False):
@@ -43,11 +43,18 @@ class ArcdDataset(DatasetBase):
                     question_id = qa["id"]
                     answers = qa["answers"]
 
+                    label = list(map(lambda x: x["text"], qa["answers"]))
+
                     sample = {
                         "context": context,
                         "question": question,
                         "question_id": question_id,
                     }
 
-                    data.append({"input": sample, "label": answers[0]["text"]})
+                    data.append(
+                        {
+                            "input": sample,
+                            "label": label,
+                        }
+                    )
         return data

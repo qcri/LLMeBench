@@ -54,12 +54,10 @@ class QATask(TaskBase):
     def evaluate(self, true_labels, predicted_labels):
         f1, exact_match, total = 0, 0, 0
         for ground_truth, prediction in zip(true_labels, predicted_labels):
-            if prediction is None:
-                total += 1
-                continue
             total += 1
-            ground_truths = list(ground_truth)
-            # prediction = cleaned_predictions[elem[0]['question_id']]
+            if prediction is None:
+                continue
+            ground_truths = ground_truth
             exact_match += self.metric_max_over_ground_truths(
                 self.exact_match_score, prediction, ground_truths
             )
