@@ -77,6 +77,10 @@ def post_process(response):
         label_fixed = "OBJ"
     elif label == "subjective" or label == "subjective.":
         label_fixed = "SUBJ"
+    elif "label: obj" in label or label == "obj" or label == "obj.":
+        label_fixed = "OBJ"
+    elif "label: subj" in label or label == "subj" or label == "subj.":
+        label_fixed = "SUBJ"
     else:
         label_fixed = None
 
