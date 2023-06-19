@@ -123,11 +123,11 @@ class ArabicDiacritizationTask(TaskBase):
         hyp = []
         ref = []
         for t, p in zip(true_labels, predicted_labels):
-            t = t.split()
             if p is None:
-                p = ["UNK"] * len(t)
+                p = re.sub(r'[ًٌٍَُِّْ]','',t).split()
             else:
                 p = p.split()
+            t = t.split()
             if len(p) < len(t):
                 for i in range(len(p) - len(t)):
                     hyp.append("")
