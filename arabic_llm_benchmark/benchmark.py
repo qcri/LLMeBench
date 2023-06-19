@@ -6,7 +6,9 @@ import logging
 import sys
 import traceback
 
+from fnmatch import fnmatch
 from glob import glob
+from itertools import zip_longest
 from pathlib import Path
 
 from . import utils
@@ -22,6 +24,7 @@ class SingleTaskBenchmark(object):
         ignore_cache=False,
         ignore_postprocessing=True,
         limit=-1,
+        n_shots=0,
     ):
         # Pipeline components
         self.dataset = config["dataset"](**config["dataset_args"])
@@ -30,8 +33,6 @@ class SingleTaskBenchmark(object):
 
         # Caching parameters
         self.cache_dir = cache_dir
-        if not self.cache_dir.exists():
-            self.cache_dir.mkdir(parents=True)
         self.ignore_cache = ignore_cache
         self.ignore_post_processing = ignore_postprocessing
 
@@ -41,9 +42,23 @@ class SingleTaskBenchmark(object):
 
         # Data parameters
         self.data_path = config["general_args"]["data_path"]
-        self.limit = limit
+        self.zeroshot = True
+        if "fewshot" in config["general_args"]:
+            self.zeroshot = False
+            self.train_data_path = config["general_args"]["fewshot"]["train_data_path"]
+            self.deduplicate = config["general_args"]["fewshot"].get(
+                "deduplicate", True
+            )
 
-    def run_pipeline(self, sample_key, input_sample, cache_payload=None):
+        self.limit = limit
+        self.n_shots = n_shots
+
+    def is_zeroshot(self):
+        return self.zeroshot
+
+    def run_pipeline(
+        self, sample_key, input_sample, few_shot_examples, cache_payload=None
+    ):
         summarized_payload = {}
 
         # Prepare the prompt
@@ -52,7 +67,10 @@ class SingleTaskBenchmark(object):
             prompt = cache_payload["prompt"]
         else:
             logging.info(f"\tGenerating prompt")
-            prompt = self.prompt_fn(input_sample)
+            if few_shot_examples:
+                prompt = self.prompt_fn(input_sample, few_shot_examples)
+            else:
+                prompt = self.prompt_fn(input_sample)
             cache_payload["prompt"] = prompt
 
         # Run the model
@@ -81,6 +99,8 @@ class SingleTaskBenchmark(object):
             logging.info(f"\tPost processing model outputs")
             try:
                 filtered_output = self.post_process_fn(model_output["response"])
+                if "filtered_output_failure_message" in cache_payload:
+                    del cache_payload["filtered_output_failure_message"]
                 cache_payload["filtered_output"] = filtered_output
                 summarized_payload["filtered_output"] = filtered_output
             except Exception as e:
@@ -94,10 +114,26 @@ class SingleTaskBenchmark(object):
         return cache_payload, summarized_payload
 
     def run_benchmark(self):
+        # Handle cache
+        if not self.is_zeroshot():
+            self.cache_dir = self.cache_dir / f"{self.n_shots}_shot"
+
+        # Create parent directory
+        if not self.cache_dir.exists():
+            self.cache_dir.mkdir(parents=True)
+
+        # Local cache
         full_summary_path = self.cache_dir / "summary.jsonl"
         failed_summary_path = self.cache_dir / "summary_failed.jsonl"
 
-        data = self.task.load_data(self.data_path)
+        data = self.dataset.load_data(self.data_path)
+        few_shots_data = []
+        if not self.zeroshot:
+            train_data = self.dataset.load_data(self.train_data_path)
+
+            few_shots_data = self.dataset.prepare_fewshots(
+                data, train_data, self.n_shots, deduplicate=self.deduplicate
+            )
 
         true_labels = []
         predictions = []
@@ -108,7 +144,9 @@ class SingleTaskBenchmark(object):
         num_failed = 0
         failed_summary_fp = open(failed_summary_path, "w")
 
-        for sample_idx, input_sample in enumerate(data):
+        for sample_idx, (input_sample, few_shot_examples) in enumerate(
+            zip_longest(data, few_shots_data, fillvalue=None)
+        ):
             if self.limit > 0 and sample_idx >= self.limit:
                 break
             logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
@@ -117,6 +155,10 @@ class SingleTaskBenchmark(object):
             true_labels.append(input_sample["label"])
 
             cache_payload = {"input": input_sample}
+
+            if few_shot_examples is not None:
+                cache_payload = {"few_shot_examples": few_shot_examples}
+
             if cache_path.exists() and not self.ignore_cache:
                 with open(cache_path, "r") as fp:
                     cache_payload = json.load(fp)
@@ -127,24 +169,30 @@ class SingleTaskBenchmark(object):
             }
 
             cache_payload, partial_summarized_payload = self.run_pipeline(
-                sample_idx, input_sample["input"], cache_payload
+                sample_idx, input_sample["input"], few_shot_examples, cache_payload
             )
 
             summarized_payload.update(partial_summarized_payload)
 
             if "filtered_output" in cache_payload:
                 predictions.append(cache_payload["filtered_output"])
-                full_summary_fp.write(json.dumps(summarized_payload) + "\n")
+                full_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
             else:
                 logging.error(f"\tNo prediction for sample")
                 num_failed += 1
                 predictions.append(None)
-                full_summary_fp.write(json.dumps(summarized_payload) + "\n")
-                failed_summary_fp.write(json.dumps(summarized_payload) + "\n")
+                full_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
+                failed_summary_fp.write(
+                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                )
 
             # Save the cache payload
             with open(cache_path, "w") as fp:
-                json.dump(cache_payload, fp)
+                json.dump(cache_payload, fp, ensure_ascii=False)
 
         full_summary_fp.close()
         failed_summary_fp.close()
@@ -166,23 +214,50 @@ class Benchmark(object):
     def __init__(self, benchmark_dir):
         self.benchmark_dir = Path(benchmark_dir)
 
-    def find_runs(self, filter_str="*.py"):
-        if not filter_str.endswith(".py"):
-            filter_str += ".py"
-        runs = []
-        match_str = str(self.benchmark_dir / "**" / filter_str)
-        for run in glob(match_str, recursive=True):
-            module_path = str(Path(run).resolve())
-            module_name = Path(run).name
-            runs.append(
-                {
-                    "name": run[len(str(self.benchmark_dir)) + 1 : run.rfind(".")],
-                    "path": run,
-                    "module": utils.import_source_file(Path(module_path), module_name),
-                }
-            )
+    def find_assets(self, filter_str="*.py"):
+        assets = []
+        match_str = str(self.benchmark_dir / "**" / "*.py")
+        for asset in glob(match_str, recursive=True):
+            module_path = str(Path(asset).resolve())
+            module_name = Path(asset).name
+            asset_name = asset[len(str(self.benchmark_dir)) + 1 : asset.rfind(".")]
 
-        return runs
+            if not fnmatch(module_name.lower(), filter_str.lower()):
+                logging.info(
+                    f"Skipping {asset[len(str(self.benchmark_dir)) + 1 :]} because of --filter"
+                )
+                continue
+
+            # Search for sub-assets
+            asset_module = utils.import_source_file(Path(module_path), module_name)
+
+            config = asset_module.config()
+
+            if isinstance(config, dict):
+                # Single config
+                assets.append(
+                    {
+                        "name": asset_name,
+                        "path": asset,
+                        "module": asset_module,
+                        "config": config,
+                    }
+                )
+            elif isinstance(config, list):
+                # Multi config
+                for subconfig in config:
+                    assets.append(
+                        {
+                            "name": f"{asset_name}/{subconfig['name']}",
+                            "path": asset,
+                            "module": asset_module,
+                            "config": subconfig["config"],
+                        }
+                    )
+            else:
+                raise ValueError("Invalid configuration")
+
+        return assets
 
 
 def main():
@@ -193,7 +268,9 @@ def main():
         "-f",
         "--filter",
         default="*.py",
-        help="Filter to match specific tasks in the benchmark. Examples are '*ZeroShot*', 'Demography*', '*.py' (default). The .py extension is added automatically if missing.",
+        help="Filter to match specific tasks in the benchmark."
+        " Examples are '*ZeroShot*', 'Demography*', '*.py' (default)."
+        " The .py extension is added automatically if missing.",
     )
     parser.add_argument("--ignore_cache", action="store_true")
     parser.add_argument(
@@ -203,6 +280,19 @@ def main():
         type=int,
         help="Limit the number of input instances that will be processed",
     )
+
+    group = parser.add_argument_group("Few Shot Experiments")
+    group.add_argument(
+        "-n",
+        "--n_shots",
+        default=0,
+        type=int,
+        help="Number of samples to select for few shot learning."
+        " Defaults to zero, i.e. Zero shot learning."
+        " When this argument is 0, only zero shot assets will be run,"
+        " and when it is non-zero, only few shot experiments will be run.",
+    )
+
     args = parser.parse_args()
 
     logging.basicConfig(
@@ -213,7 +303,7 @@ def main():
 
     benchmark = Benchmark(args.benchmark_dir)
 
-    runs = benchmark.find_runs(filter_str=args.filter)
+    assets = benchmark.find_assets(filter_str=args.filter)
 
     if not args.results_dir.exists():
         args.results_dir.mkdir(parents=True)
@@ -227,11 +317,11 @@ def main():
     with open(all_results_path, "r") as fp:
         all_results = json.load(fp)
 
-    for run in runs:
-        name = run["name"]
-        config = run["module"].config()
-        prompt_fn = run["module"].prompt
-        post_process_fn = run["module"].post_process
+    for asset in assets:
+        name = asset["name"]
+        config = asset["config"]
+        prompt_fn = asset["module"].prompt
+        post_process_fn = asset["module"].post_process
 
         logging.info(f"Running benchmark: {name}")
         task_benchmark = SingleTaskBenchmark(
@@ -241,17 +331,33 @@ def main():
             cache_dir=args.results_dir / name,
             ignore_cache=args.ignore_cache,
             limit=args.limit,
+            n_shots=args.n_shots,
         )
+
+        if task_benchmark.is_zeroshot() and args.n_shots > 0:
+            logging.warning(
+                f"{name}: Skipping because asset is zero shot and --n_shots is non zero"
+            )
+            continue
+
+        if not task_benchmark.is_zeroshot() and args.n_shots == 0:
+            logging.warning(
+                f"{name}: Skipping because asset is few shot and --n_shots is zero"
+            )
+            continue
 
         task_results = task_benchmark.run_benchmark()
         logging.info(f"{name}: {task_results['evaluation_scores']}")
 
-        task_result_path = args.results_dir / name / "results.json"
+        task_result_path = task_benchmark.cache_dir / "results.json"
 
         with open(task_result_path, "w") as fp:
-            json.dump(task_results, fp)
+            json.dump(task_results, fp, ensure_ascii=False)
+
+        if not task_benchmark.is_zeroshot():
+            name = f"{name}_{task_benchmark.n_shots}"
 
         all_results[name] = task_results
 
     with open(all_results_path, "w") as fp:
-        json.dump(all_results, fp)
+        json.dump(all_results, fp, ensure_ascii=False)

@@ -8,11 +8,11 @@ class TaskBase(ABC):
 
         random.seed(seed)
 
-    def load_data(self, data_path):
-        return self.dataset.load_data(data_path)
-
     def get_random_prediction(self, label_set):
         return random.choice(list(label_set))
+
+    def get_random_continuous_prediction(self, score_range):
+        return random.uniform(score_range[0], score_range[1])
 
     @abstractmethod
     def evaluate(self, true_labels, predicted_labels):
