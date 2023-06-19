@@ -31,6 +31,6 @@ from .STSArSemEval17Track1 import STSArSemEval17Track1Dataset
 from .STSArSemEval17Track2 import STSArSemEval17Track2Dataset
 from .STSQ2Q import Q2QSimDataset
 from .Subjectivity import SubjectivityDataset
-from .Tydiqa import TydiQADataset
+from .TyDiQA import TyDiQADataset
 from .XNLI import XNLIDataset
 from .Xquad import XquadDataset

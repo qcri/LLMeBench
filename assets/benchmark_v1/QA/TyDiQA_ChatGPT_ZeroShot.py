@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import TydiQADataset
+from arabic_llm_benchmark.datasets import TyDiQADataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import QATask
 
 
 def config():
     return {
-        "dataset": TydiQADataset,
+        "dataset": TyDiQADataset,
         "dataset_args": {},
         "task": QATask,
         "task_args": {},

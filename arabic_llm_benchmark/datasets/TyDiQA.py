@@ -3,9 +3,9 @@ import json
 from arabic_llm_benchmark.datasets.SQuADBase import SQuADBase
 
 
-class TydiQADataset(SQuADBase):
+class TyDiQADataset(SQuADBase):
     def __init__(self, **kwargs):
-        super(TydiQADataset, self).__init__(**kwargs)
+        super(TyDiQADataset, self).__init__(**kwargs)
 
     def citation(self):
         return """ @article{tydiqa,
