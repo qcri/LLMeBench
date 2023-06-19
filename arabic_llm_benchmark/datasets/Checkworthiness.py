@@ -25,9 +25,17 @@ class CheckworthinessDataset(DatasetBase):
 
     def load_data(self, data_path):
         data = []
-        raw_data = pd.read_csv(data_path, sep="\t")
+        raw_data = pd.read_csv(data_path, sep="\t", dtype={"tweet_id": object})
         for index, row in raw_data.iterrows():
             text = row["tweet_text"]
             label = str(row["class_label"])
-            data.append({"input": text, "label": label, "line_number": index})
+            tweet_id = str(row["tweet_id"])
+            data.append(
+                {
+                    "input": text,
+                    "label": label,
+                    "input_id": tweet_id,
+                    "line_number": index,
+                }
+            )
         return data
