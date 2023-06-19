@@ -21,11 +21,7 @@ class FactualityUnifiedFCDataset(DatasetBase):
         """
 
     def get_data_sample(self):
-        return {
-            "input": "الجملة الاولى",
-            "label": "agree",
-            "input_id": "id"
-        }
+        return {"input": "الجملة الاولى", "label": "agree", "input_id": "id"}
 
     def load_data(self, data_path):
         data = []
@@ -34,6 +30,13 @@ class FactualityUnifiedFCDataset(DatasetBase):
             for line_idx, line in enumerate(f):
                 input_id, sentence, label = [str(s.strip()) for s in line.split("\t")]
 
-                data.append({"input": sentence, "label": label, "line_number": line_idx, "input_id": input_id})
+                data.append(
+                    {
+                        "input": sentence,
+                        "label": label,
+                        "line_number": line_idx,
+                        "input_id": input_id,
+                    }
+                )
 
         return data

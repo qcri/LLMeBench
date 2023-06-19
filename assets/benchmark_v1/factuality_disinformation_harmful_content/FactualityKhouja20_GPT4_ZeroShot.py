@@ -27,8 +27,13 @@ def config():
 
 
 def prompt(input_sample):
-    prompt_text = "Detect whether the information in the sentence is factually true or false. " \
-                  "Answer only by true or false.\n\n" + "Sentence: " + input_sample + "\nlabel: \n"
+    prompt_text = (
+        "Detect whether the information in the sentence is factually true or false. "
+        "Answer only by true or false.\n\n"
+        + "Sentence: "
+        + input_sample
+        + "\nlabel: \n"
+    )
 
     return [
         {
@@ -46,9 +51,17 @@ def post_process(response):
     input_label = response["choices"][0]["message"]["content"]
     input_label = input_label.replace(".", "").strip().lower()
 
-    if ("true" in input_label or "label: 1" in input_label or "label: yes" in input_label):
+    if (
+        "true" in input_label
+        or "label: 1" in input_label
+        or "label: yes" in input_label
+    ):
         pred_label = "true"
-    elif ("false" in input_label or "label: 0" in input_label or "label: no" in input_label):
+    elif (
+        "false" in input_label
+        or "label: 0" in input_label
+        or "label: no" in input_label
+    ):
         pred_label = "false"
     else:
         print("label problem!! " + input_label)

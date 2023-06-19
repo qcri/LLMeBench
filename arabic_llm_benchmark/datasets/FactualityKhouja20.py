@@ -32,6 +32,8 @@ class FactualityKhouja20Dataset(DatasetBase):
                 elif label_fixed == "0":
                     label_fixed = "true"
 
-                data.append({"input": sentence, "label": label_fixed, "line_number": line_idx})
+                data.append(
+                    {"input": sentence, "label": label_fixed, "line_number": line_idx}
+                )
 
         return data
