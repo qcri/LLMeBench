@@ -78,7 +78,4 @@ def emotions_array(labels):
 
 def post_process(response):
     out = emotions_array(response["choices"][0]["text"])
-    # j = out.find(".")
-    # if j > 0:
-    #     out = out[0:j]
     return out
