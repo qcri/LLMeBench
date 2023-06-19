@@ -6,6 +6,7 @@ import logging
 import sys
 import traceback
 
+from fnmatch import fnmatch
 from glob import glob
 from itertools import zip_longest
 from pathlib import Path
@@ -98,6 +99,8 @@ class SingleTaskBenchmark(object):
             logging.info(f"\tPost processing model outputs")
             try:
                 filtered_output = self.post_process_fn(model_output["response"])
+                if "filtered_output_failure_message" in cache_payload:
+                    del cache_payload["filtered_output_failure_message"]
                 cache_payload["filtered_output"] = filtered_output
                 summarized_payload["filtered_output"] = filtered_output
             except Exception as e:
@@ -211,23 +214,50 @@ class Benchmark(object):
     def __init__(self, benchmark_dir):
         self.benchmark_dir = Path(benchmark_dir)
 
-    def find_runs(self, filter_str="*.py"):
-        if not filter_str.endswith(".py"):
-            filter_str += ".py"
-        runs = []
-        match_str = str(self.benchmark_dir / "**" / filter_str)
-        for run in glob(match_str, recursive=True):
-            module_path = str(Path(run).resolve())
-            module_name = Path(run).name
-            runs.append(
-                {
-                    "name": run[len(str(self.benchmark_dir)) + 1 : run.rfind(".")],
-                    "path": run,
-                    "module": utils.import_source_file(Path(module_path), module_name),
-                }
-            )
+    def find_assets(self, filter_str="*.py"):
+        assets = []
+        match_str = str(self.benchmark_dir / "**" / "*.py")
+        for asset in glob(match_str, recursive=True):
+            module_path = str(Path(asset).resolve())
+            module_name = Path(asset).name
+            asset_name = asset[len(str(self.benchmark_dir)) + 1 : asset.rfind(".")]
 
-        return runs
+            if not fnmatch(module_name.lower(), filter_str.lower()):
+                logging.info(
+                    f"Skipping {asset[len(str(self.benchmark_dir)) + 1 :]} because of --filter"
+                )
+                continue
+
+            # Search for sub-assets
+            asset_module = utils.import_source_file(Path(module_path), module_name)
+
+            config = asset_module.config()
+
+            if isinstance(config, dict):
+                # Single config
+                assets.append(
+                    {
+                        "name": asset_name,
+                        "path": asset,
+                        "module": asset_module,
+                        "config": config,
+                    }
+                )
+            elif isinstance(config, list):
+                # Multi config
+                for subconfig in config:
+                    assets.append(
+                        {
+                            "name": f"{asset_name}/{subconfig['name']}",
+                            "path": asset,
+                            "module": asset_module,
+                            "config": subconfig["config"],
+                        }
+                    )
+            else:
+                raise ValueError("Invalid configuration")
+
+        return assets
 
 
 def main():
@@ -273,7 +303,7 @@ def main():
 
     benchmark = Benchmark(args.benchmark_dir)
 
-    runs = benchmark.find_runs(filter_str=args.filter)
+    assets = benchmark.find_assets(filter_str=args.filter)
 
     if not args.results_dir.exists():
         args.results_dir.mkdir(parents=True)
@@ -287,11 +317,11 @@ def main():
     with open(all_results_path, "r") as fp:
         all_results = json.load(fp)
 
-    for run in runs:
-        name = run["name"]
-        config = run["module"].config()
-        prompt_fn = run["module"].prompt
-        post_process_fn = run["module"].post_process
+    for asset in assets:
+        name = asset["name"]
+        config = asset["config"]
+        prompt_fn = asset["module"].prompt
+        post_process_fn = asset["module"].post_process
 
         logging.info(f"Running benchmark: {name}")
         task_benchmark = SingleTaskBenchmark(

@@ -3,6 +3,7 @@ from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
+from .ArapTweet import ArapTweetDataset
 from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
@@ -11,6 +12,7 @@ from .FactualityCOVID19 import FactualityCOVID19Dataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .FactualityUnifiedFC import FactualityUnifiedFCDataset
 from .Harmful import CovidHarmfulDataset
+from .HateSpeech import HateSpeechDataset
 from .Location import LocationDataset
 from .NameInfo import NameInfoDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
