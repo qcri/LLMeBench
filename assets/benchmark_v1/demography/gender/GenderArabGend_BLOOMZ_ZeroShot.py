@@ -17,13 +17,20 @@ def config():
             "class_labels": ["m", "f"],
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/demography/gender/gender-test.txt"},
+        "general_args": {
+            "data_path": "data/demographic_attributes/gender/gender-test.txt"
+        },
     }
 
 
 def prompt(input_sample):
+    prompt_string = (
+        f"Classify the name as male or female. Provide only label. \n\n"
+        f"name: {input_sample}\n"
+        f"label: \n"
+    )
     return {
-        "prompt": f"Classify the name as male or female. Provide only label. \n\nname: {input_sample}\n label: ",
+        "prompt": prompt_string,
     }
 
 
