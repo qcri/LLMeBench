@@ -2,9 +2,9 @@ from .Adult import AdultDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
-<<<<<<< HEAD
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
+from .Arcd import ArcdDataset
 from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
@@ -15,6 +15,7 @@ from .FactualityUnifiedFC import FactualityUnifiedFCDataset
 from .Harmful import CovidHarmfulDataset
 from .HateSpeech import HateSpeechDataset
 from .Location import LocationDataset
+from .Mlqa import MlqaDataset
 from .NameInfo import NameInfoDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
 from .NewsCatAlArabiya import NewsCatAlArabiyaDataset
@@ -30,9 +31,6 @@ from .STSArSemEval17Track1 import STSArSemEval17Track1Dataset
 from .STSArSemEval17Track2 import STSArSemEval17Track2Dataset
 from .STSQ2Q import Q2QSimDataset
 from .Subjectivity import SubjectivityDataset
-from .XNLI import XNLIDataset
-from .AraQA import AraQADataset
-from .Arcd import ArcdDataset
-from .Mlqa import MlqaDataset
 from .Tydiqa import TydiQADataset
+from .XNLI import XNLIDataset
 from .Xquad import XquadDataset
