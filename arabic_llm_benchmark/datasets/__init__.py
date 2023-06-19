@@ -12,6 +12,7 @@ from .FactualityCOVID19 import FactualityCOVID19Dataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .FactualityUnifiedFC import FactualityUnifiedFCDataset
 from .Harmful import CovidHarmfulDataset
+from .HateSpeech import HateSpeechDataset
 from .Location import LocationDataset
 from .NameInfo import NameInfoDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
@@ -29,4 +30,3 @@ from .STSArSemEval17Track2 import STSArSemEval17Track2Dataset
 from .STSQ2Q import Q2QSimDataset
 from .Subjectivity import SubjectivityDataset
 from .XNLI import XNLIDataset
-from .HateSpeech import HateSpeechDataset

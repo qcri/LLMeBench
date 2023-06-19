@@ -11,6 +11,7 @@ from .FactualityCOVID19 import FactualityCOVID19Task
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .FactualityUnifiedFC import FactualityUnifiedFCTask
 from .HarmfulDetection import HarmfulDetectionTask
+from .HateSpeech import HateSpeechTask
 from .MachineTranslation import MachineTranslationTask
 from .NER import NERTask
 from .NewsCatAkhbarona import NewsCatAkhbaronaTask
@@ -28,4 +29,3 @@ from .STSTrack1 import STSTrack1Task
 from .STSTrack2 import STSTrack2Task
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
-from .HateSpeech import HateSpeechTask
