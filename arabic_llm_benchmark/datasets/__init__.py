@@ -33,4 +33,4 @@ from .STSQ2Q import Q2QSimDataset
 from .Subjectivity import SubjectivityDataset
 from .TyDiQA import TyDiQADataset
 from .XNLI import XNLIDataset
-from .Xquad import XquadDataset
+from .XQuAD import XQuADDataset

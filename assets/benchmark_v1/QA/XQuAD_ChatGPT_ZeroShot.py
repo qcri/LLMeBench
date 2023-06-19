@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import XquadDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
+from arabic_llm_benchmark.datasets import XQuADDataset
+from arabic_llm_benchmark.models import GPTModel
 from arabic_llm_benchmark.tasks import QATask
 
 
 def config():
     return {
-        "dataset": XquadDataset,
+        "dataset": XQuADDataset,
         "dataset_args": {},
         "task": QATask,
         "task_args": {},

@@ -3,9 +3,9 @@ import json
 from arabic_llm_benchmark.datasets.SQuADBase import SQuADBase
 
 
-class XquadDataset(SQuADBase):
+class XQuADDataset(SQuADBase):
     def __init__(self, **kwargs):
-        super(XquadDataset, self).__init__(**kwargs)
+        super(XQuADDataset, self).__init__(**kwargs)
 
     def citation(self):
         return """@article{Artetxe:etal:2019,
