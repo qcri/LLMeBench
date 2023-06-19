@@ -21,6 +21,7 @@ from .NewsCatASND import NewsCatASNDTask
 from .Offensive import OffensiveTask
 from .PropagandaMultilabel import PropagandaMultilabelTask
 from .Q2QSimDetect import Q2QSimDetectionTask
+from .QA import QATask
 from .Sentiment import SentimentTask
 from .Spam import SpamTask
 from .StanceKhouja20 import StanceKhouja20Task
@@ -29,4 +30,3 @@ from .STSTrack1 import STSTrack1Task
 from .STSTrack2 import STSTrack2Task
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
-from .QA import QATask
