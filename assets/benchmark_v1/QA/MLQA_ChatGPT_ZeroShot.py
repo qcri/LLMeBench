@@ -1,13 +1,13 @@
 import os
 
-from arabic_llm_benchmark.datasets import MlqaDataset
+from arabic_llm_benchmark.datasets import MLQADataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import QATask
 
 
 def config():
     return {
-        "dataset": MlqaDataset,
+        "dataset": MLQADataset,
         "dataset_args": {},
         "task": QATask,
         "task_args": {},
@@ -21,7 +21,9 @@ def config():
             "class_labels": "NA",
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/QA/mlqa/test-context-ar-question-ar.json"},
+        "general_args": {
+            "data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json"
+        },
     }
 
 

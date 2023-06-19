@@ -3,9 +3,9 @@ import json
 from arabic_llm_benchmark.datasets.SQuADBase import SQuADBase
 
 
-class MlqaDataset(SQuADBase):
+class MLQADataset(SQuADBase):
     def __init__(self, **kwargs):
-        super(MlqaDataset, self).__init__(**kwargs)
+        super(MLQADataset, self).__init__(**kwargs)
 
     def citation(self):
         return """ @article{lewis2019mlqa,

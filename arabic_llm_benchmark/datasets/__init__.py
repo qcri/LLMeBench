@@ -15,7 +15,7 @@ from .FactualityUnifiedFC import FactualityUnifiedFCDataset
 from .Harmful import CovidHarmfulDataset
 from .HateSpeech import HateSpeechDataset
 from .Location import LocationDataset
-from .Mlqa import MlqaDataset
+from .MLQA import MLQADataset
 from .NameInfo import NameInfoDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
 from .NewsCatAlArabiya import NewsCatAlArabiyaDataset
