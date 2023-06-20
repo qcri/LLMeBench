@@ -17,7 +17,7 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt-4-32k",
+            "engine_name": os.environ["ENGINE_NAME"],
             "max_tries": 3,
         },
         "general_args": {
@@ -26,7 +26,9 @@ def config():
                 "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track1.ar-ar.txt",
             },
             "fewshot": {
-                "train_data_path": "data/STS/semeval-2017/ar_sts_data_updated/Ar_STS/ar.STS.All.txt",
+                "train_data_path": [
+                    "data/STS/semeval-2017/ar_sts_data_updated/Ar_STS/ar.STS.All.txt",
+                ]
             },
         },
     }
