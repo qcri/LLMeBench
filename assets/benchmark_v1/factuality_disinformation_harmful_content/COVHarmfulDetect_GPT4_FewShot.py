@@ -1,7 +1,7 @@
 import os
 
 from arabic_llm_benchmark.datasets import CovidHarmfulDataset
-from arabic_llm_benchmark.models import GPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import HarmfulDetectionTask
 
 
@@ -11,20 +11,19 @@ def config():
         "dataset_args": {},
         "task": HarmfulDetectionTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": os.environ["ENGINE_NAME"],
             "max_tries": 3,
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
-                "n_shots": 3,
+                "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv"
             },
         },
     }
@@ -32,15 +31,18 @@ def config():
 
 def prompt(input_sample, examples):
     base_prompt = "Classify the sentence as harmful or not harmful. Answer only by yes or no. Provide only label.\n"
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": few_shot_prompt(input_sample, base_prompt, examples),
-            }
-        ],
-    }
+    prompt = few_shot_prompt(input_sample, base_prompt, examples)
+
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information.",
+        },
+        {
+            "role": "user",
+            "content": prompt,
+        },
+    ]
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
@@ -62,7 +64,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def post_process(response):
-    input_label = response["choices"][0]["text"]
+    input_label = response["choices"][0]["message"]["content"]
     input_label = input_label.replace(".", "").strip().lower()
     pred_label = ""
 
@@ -89,6 +91,6 @@ def post_process(response):
 
     if pred_label == "":
         print(input_label)
-        pred_label = "0"
+        pred_label = None
 
     return pred_label

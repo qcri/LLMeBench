@@ -8,10 +8,14 @@ from arabic_llm_benchmark import Benchmark
 
 class TestBenchmarkAssets(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    @patch("os.environ")
+    def setUpClass(cls, os_env_mock):
+        # Handle environment variables required at runtime
+        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
+
         benchmark = Benchmark(benchmark_dir="assets")
 
-        cls.assets = benchmark.find_runs()
+        cls.assets = benchmark.find_assets()
 
     def test_required_functions(self):
         "Test if all assets have required functions"
@@ -22,28 +26,33 @@ class TestBenchmarkAssets(unittest.TestCase):
                 self.assertIsInstance(asset["module"].prompt, types.FunctionType)
                 self.assertIsInstance(asset["module"].post_process, types.FunctionType)
 
-    @patch("os.environ")
-    def test_config_format(self, os_env_mock):
-        "Test if all configs are well defined"
+    def validate_single_config(self, config):
+        self.assertIn("dataset", config)
+        self.assertIn("dataset_args", config)
+        self.assertIn("task", config)
+        self.assertIn("task_args", config)
+        self.assertIn("model", config)
+        self.assertIn("model_args", config)
+        self.assertIn("general_args", config)
 
-        # Handle environment variables required at runtime
-        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
+        if "fewshot" in config["general_args"]:
+            self.assertIn("train_data_path", config["general_args"]["fewshot"])
+
+    def test_config_format(self):
+        "Test if all configs are well defined"
 
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
-                config = asset["module"].config()
+                config = asset["config"]
 
-                self.assertIn("dataset", config)
-                self.assertIn("dataset_args", config)
-                self.assertIn("task", config)
-                self.assertIn("task_args", config)
-                self.assertIn("model", config)
-                self.assertIn("model_args", config)
-                self.assertIn("general_args", config)
+                self.assertIsInstance(config, (dict, list))
 
-                if "fewshot" in config["general_args"]:
-                    self.assertIn("train_data_path", config["general_args"]["fewshot"])
-                    self.assertIn("n_shots", config["general_args"]["fewshot"])
-                    self.assertIsInstance(
-                        config["general_args"]["fewshot"]["n_shots"], int
-                    )
+                if isinstance(config, dict):
+                    self.validate_single_config(config)
+                else:
+                    for subconfig in config:
+                        self.assertIn("name", subconfig)
+                        self.assertIsInstance(subconfig["name"], str)
+                        self.assertIn("config", subconfig)
+                        self.assertIsInstance(subconfig["config"], dict)
+                        self.validate_single_config(subconfig["config"])
