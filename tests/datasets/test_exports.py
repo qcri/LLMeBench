@@ -36,6 +36,11 @@ class TestDatasetExports(unittest.TestCase):
                     for c in inspect.getmembers(implemented_module, inspect.isclass)
                     if issubclass(c[1], DatasetBase) and c[1] != DatasetBase
                 ][0]
+
+                # Base classes do not need to be exported
+                if inspect.isabstract(implemented_class[1]):
+                    continue
+
                 implemented_dataset = implemented_class[1].__name__
 
                 self.assertIn(
