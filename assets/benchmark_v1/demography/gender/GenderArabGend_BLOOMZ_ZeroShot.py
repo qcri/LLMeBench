@@ -25,10 +25,9 @@ def config():
 
 def prompt(input_sample):
     prompt_string = (
-        f"You are an expert to identify the gender from a person's name.\n\n"
-        f"Identify the gender from the following name as 'Female' or 'Male'.\n"
+        f"Classify the name as male or female. Provide only label. \n\n"
         f"name: {input_sample}\n"
-        f"label: \n"
+        f"label: "
     )
 
     return {
@@ -37,18 +36,14 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["outputs"].strip()
-    label = label.replace("<s>", "")
-    label = label.replace("</s>", "")
-    label = label.lower()
+    content = response["outputs"].strip()
+    content = content.replace("<s>", "")
+    content = content.replace("</s>", "")
+    label = content.lower()
 
-    if "Female." in label or "\nFemale" in label:
-        label = "f"
-    elif "Male." in label or "\nMale" in label:
-        label = "m"
-    elif label.startswith("I'm sorry, but"):
-        label = None
+    if "female" in label:
+        return "f"
+    elif "male" in label:
+        return "m"
     else:
-        label = None
-
-    return label
+        return None
