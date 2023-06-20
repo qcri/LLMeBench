@@ -48,7 +48,7 @@ def post_process(response):
     #         .split(" ")[0]
     #         .rstrip(".")
     try:  # #     )
-        return float(pred_num)/2
+        return float(pred_num) / 2
     except:
         return None
     # else:
