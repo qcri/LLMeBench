@@ -26,9 +26,7 @@ def config():
                 "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track1.ar-ar.txt",
             },
             "fewshot": {
-                "train_data_path": [
-                    "data/STS/semeval-2017/ar_sts_data_updated/Ar_STS/ar.STS.All.txt",
-                ]
+                "train_data_path": "data/STS/semeval-2017/ar_sts_data_updated/Ar_STS/ar.STS.All.txt",
             },
         },
     }
