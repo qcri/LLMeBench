@@ -27,8 +27,8 @@ def prompt(input_sample):
     s1,s2 = input_sample.split("\t")
 
     prompt_string = (
-        f"Given two sentences, produce similarity score on a scale from 0 to 5, with 0 indicating that the semantics of the sentences are completely independent and 5 signifying semantic equivalence. "
-        f"\n\nsentence1: {s1}\nSentence2: {s2}\nThe output should be exactly in form score=\n"
+        f"Given two sentences, produce similarity score from 0 to 5, with 0 indicating that the semantics of the sentences are independent and 5 signifying semantic equivalence. "
+        f"\nsentence1: {s1}\nSentence2: {s2}\n similarity score = "
     )
     return {
             "prompt": prompt_string
@@ -39,17 +39,20 @@ def post_process(response):
     label = response["outputs"].strip().lower()
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
+    pattern = r"\b\d+\.\d*|\d+\b"
+    pred_num = re.findall(pattern, label)[0]
 
-    if "score=" in label:
-        pred_num = (
-            label.split("score= ")[1]
-            .strip()
-            .split(" ")[0]
-            .rstrip(".")
-        )
-        score = float(pred_num)
-    else:
-        print("Issue with label!" + label)
-        score = None
+    # if "score=" in label:
+    #     pred_num = (
+    #         label.split("score= ")[1]
+    #         .strip()
+    #         .split(" ")[0]
+    #         .rstrip(".")
+    try: # #     )
+        return float(pred_num)
+    except:
+       return None
+    # else:
+    #     print("Issue with label!" + label)
+    #     score = None
 
-    return score
