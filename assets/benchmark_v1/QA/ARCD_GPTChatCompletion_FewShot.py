@@ -22,9 +22,9 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/QA/ARCD/arcd-test.json", 
+            "data_path": "data/QA/arcd/arcd-test.json", 
             "fewshot": { 
-                "train_data_path": "data/QA/ARCD/arcd-train.json"
+                "train_data_path": "data/QA/arcd/arcd-train.json"
             }
                          
                 },
