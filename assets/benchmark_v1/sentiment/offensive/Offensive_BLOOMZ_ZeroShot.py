@@ -37,15 +37,4 @@ def post_process(response):
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
 
-    # label_fixed = None
-    #
-    # if label == "checkworthy":
-    #     label_fixed = "1"
-    # elif (
-    #     label == "Not_checkworthy."
-    #     or label == "not_checkworthy"
-    #     or label == "not checkworthy"
-    # ):
-    #     label_fixed = "0"
-
     return label
