@@ -37,7 +37,7 @@ class NewsCatASNDDataset(DatasetBase):
             id = row["ID"]
             text = row["Content"]
             label = row["Class"].lower()
-            entry = {"id": id, "input": text, "label": label}
+            entry = {"input_id": id, "input": text, "label": label}
             data.append(entry)
 
         return data
