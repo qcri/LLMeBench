@@ -35,7 +35,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}",
+            "content": f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}\n",
         },
     ]
 
