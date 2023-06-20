@@ -30,7 +30,7 @@ def config():
                 "B-MISC",
                 "I-MISC",
             ],
-            "max_tries": 30,
+            "max_tries": 50,
         },
         "general_args": {
             "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt", 
@@ -50,14 +50,21 @@ def few_shot_prompt(input_sample, base_prompt, examples):
         tokens = example["input"].split()
         label = example["label"].split() 
         few_shot_sample = list(zip(tokens, label))
-        output_prompt = output_prompt + f"Sentence: {tokens}\n:Labels:{few_shot_sample}\n"
-    output_prompt =  output_prompt + "Sentence: " + input_sample + "\nLabels:"  
+        output_prompt = ( 
+            output_prompt 
+            + f"Sentence: {tokens}\nLabels: {few_shot_sample}\n"
+            )
+    output_prompt = (
+        output_prompt 
+        + f"Sentence: {input_sample}\n"  
+        + "Labels:"  
+    )
     return output_prompt
 
 
 
 def prompt(input_sample, examples):
-    base_prompt = f"Task Description: You are working as a named entity recognition expert and your task is to label a given arabic text with named entity labels. Your task is to identify and label any named entities present in the text. The named entity labels that you will be using are PER (person), LOC (location), ORG (organization) and MISC (miscellaneous). You may encounter multi-word entities, so make sure to label each word of the entity with the appropriate prefix ('B' for first word entity, 'I' for any non-initial word entity). For words which are not part of any named entity, you should return 'O'.\nNote: Your output format should be a list of tuples, where each tuple consists of a word from the input text and its corresponding named entity label.\nHere are some examples:"
+    base_prompt = f"Task Description: You are working as a named entity recognition expert and your task is to label a given arabic text with named entity labels. Your task is to identify and label any named entities present in the text. The named entity labels that you will be using are PER (person), LOC (location), ORG (organization) and MISC (miscellaneous). You may encounter multi-word entities, so make sure to label each word of the entity with the appropriate prefix ('B' for first word entity, 'I' for any non-initial word entity). For words which are not part of any named entity, you should return 'O'.\nNote: Your output format should be a list of tuples, where each tuple consists of a word from the input text and its corresponding named entity label."
     return [
         {
             "role": "system",
