@@ -19,12 +19,17 @@ class HateSpeechDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         # TODO: modify to iterator
-        # Format: text \t hatespeech_label
+        #Format: text \t hatespeech_label
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
-                text, label = line.split("\t")
+                if len(line.split("\t"))==2:
+                    text, label = line.split("\t")
+                else:
+                    text, label = line.split("\t")[:2]
                 label = label.strip()
-                data.append({"input": text, "label": label, "line_number": line_idx})
+                data.append(
+                    {"input": text, "label": label, "line_number": line_idx}
+                )
 
         return data
