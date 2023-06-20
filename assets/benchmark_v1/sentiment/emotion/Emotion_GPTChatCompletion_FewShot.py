@@ -60,7 +60,6 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
     for example in examples:
         # Found chatgpt confused when using 0 and 1 in the prompt
-        # label = "no" if example["label"] == "0" else "yes"
         label_list = ", ".join(map(str, example["label"]))
         out_prompt = (
             out_prompt + "Sentence: " + example["input"] + "\n" + label_list + "\n\n"
@@ -68,9 +67,6 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
     # Append the sentence we want the model to predict for but leave the Label blank
     out_prompt = out_prompt + "Sentence: " + input_sample + "\n"
-
-    # print("=========== FS Prompt =============\n")
-    # print(out_prompt)
 
     return out_prompt
 
@@ -93,7 +89,6 @@ emotions_positions = {
 def emotions_array(labels):
     labels_arr = []
     for x, y in emotions_positions.items():
-        print(x)
         v = 0
         if x in labels:
             v = 1
