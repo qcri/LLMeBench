@@ -41,16 +41,7 @@ def post_process(response):
     pattern = r"\b\d+\.\d*|\d+\b"
     pred_num = re.findall(pattern, label)[0]
 
-    # if "score=" in label:
-    #     pred_num = (
-    #         label.split("score= ")[1]
-    #         .strip()
-    #         .split(" ")[0]
-    #         .rstrip(".")
-    try:  # #     )
+    try:
         return float(pred_num) / 2
     except:
         return None
-    # else:
-    #     print("Issue with label!" + label)
-    #     score = None
