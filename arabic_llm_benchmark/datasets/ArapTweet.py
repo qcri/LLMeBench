@@ -19,9 +19,27 @@ class ArapTweetDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         data = []
-        with open(data_path, "r") as fp:
-            for line_idx, line in enumerate(fp):
-                name, label = line.strip().split("\t")
-                data.append({"input": name, "label": label, "line_number": line_idx})
+        if "test" in data_path:
+            with open(data_path, "r") as fp:
+                for line_idx, line in enumerate(fp):
+                    name, label = line.strip().split("\t")
+                    data.append(
+                        {"input": name, "label": label, "line_number": line_idx}
+                    )
+        else:
+            with open(data_path, "r") as fp:
+                for line_idx, line in enumerate(fp):
+                    arr = line.strip().split("\t")
+                    id = arr[0]
+                    name = arr[1]
+                    label = arr[3]
+                    data.append(
+                        {
+                            "input": name,
+                            "label": label,
+                            "input_id": id,
+                            "line_number": line_idx,
+                        }
+                    )
 
         return data
