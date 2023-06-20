@@ -27,8 +27,9 @@ def prompt(input_sample):
     prompt_string = (
         f"Classify the name as male or female. Provide only label. \n\n"
         f"name: {input_sample}\n"
-        f"label: \n"
+        f"label: "
     )
+
     return {
         "prompt": prompt_string,
     }
@@ -38,11 +39,11 @@ def post_process(response):
     content = response["outputs"].strip()
     content = content.replace("<s>", "")
     content = content.replace("</s>", "")
-    content = content.lower()
+    label = content.lower()
 
-    if "female" in content:
+    if "female" in label:
         return "f"
-    elif "male" in content:
+    elif "male" in label:
         return "m"
     else:
         return None

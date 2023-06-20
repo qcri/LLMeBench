@@ -3,7 +3,7 @@ import random
 import re
 
 from arabic_llm_benchmark.datasets import FactualityKhouja20Dataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
+from arabic_llm_benchmark.models import BLOOMPetalModel
 from arabic_llm_benchmark.tasks import FactualityKhouja20Task
 
 
@@ -16,15 +16,11 @@ def config():
         "dataset_args": {},
         "task": FactualityKhouja20Task,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": BLOOMPetalModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
+            "api_url": os.environ["API_URL"],
             "class_labels": ["true", "false"],
-            "max_tries": 30,
+            "max_tries": 3,
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv"
@@ -33,25 +29,19 @@ def config():
 
 
 def prompt(input_sample):
-    prompt_string = (
-        f'Annotate the "tweet" into one of the following categories: correct or incorrect\n\n'
-        f"tweet: {input_sample}\n"
-        f"label: \n"
-    )
-    return [
-        {
-            "role": "system",
-            "content": "You are a social media expert and a fact-checker.",  # You are capable of identifying and annotating tweets correct or incorrect
-        },
-        {
-            "role": "user",
-            "content": prompt_string,
-        },
-    ]
+    return {
+        "prompt": (
+            f'Annotate the "tweet" into one of the following categories: correct or incorrect\n\n'
+            f"tweet: {input_sample}\n"
+            f"label: \n"
+        )
+    }
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].lower()
+    label = response["outputs"].strip().lower()
+    label = label.replace("<s>", "")
+    label = label.replace("</s>", "")
 
     if (
         label.startswith("I am unable to verify".lower())

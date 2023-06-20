@@ -2,8 +2,9 @@ import os
 import random
 
 from arabic_llm_benchmark.datasets import NewsCatAkhbaronaDataset
-from arabic_llm_benchmark.models import GPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import NewsCatAkhbaronaTask
+
 
 random.seed(1333)
 
@@ -14,7 +15,7 @@ def config():
         "dataset_args": {},
         "task": NewsCatAkhbaronaTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -30,36 +31,50 @@ def config():
                 "finance",
                 "culture",
             ],
-            "max_tries": 3,
+            "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv"
+            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv",
+            "fewshot": {
+                "train_data_path": "data/news_categorization/SANAD_akhbarona_news_cat_train.tsv"
+            },
         },
     }
 
 
-def prompt(input_sample):
-    prompt_string = (
-        f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\n"
-        f"article: {input_sample}\n"
-        f"category: \n"
-    )
+def few_shot_prompt(input_sample, base_prompt, examples):
+    out_prompt = base_prompt + "\n\n"
+    for example in examples:
+        out_prompt = (
+            out_prompt
+            + "article: "
+            + example["input"]
+            + "\ncategory: "
+            + example["label"]
+            + "\n\n"
+        )
+    out_prompt = out_prompt + "article: " + input_sample + "\ncategory: \n"
 
-    print(prompt_string)
+    return out_prompt
 
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": prompt_string,
-            }
-        ],
-    }
+
+def prompt(input_sample, examples):
+    base_prompt = f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture'
+    return [
+        {
+            "role": "system",
+            "content": "You are an expert news editor and know how to categorize news articles.",
+        },
+        {
+            "role": "user",
+            "content": few_shot_prompt(input_sample, base_prompt, examples),
+        },
+    ]
 
 
 def post_process(response):
-    label = response["choices"][0]["text"]
+    label = response["choices"][0]["message"]["content"]
+
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
