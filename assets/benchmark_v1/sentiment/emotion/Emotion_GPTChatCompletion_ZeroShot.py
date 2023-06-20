@@ -18,7 +18,7 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-             "class_labels": [
+            "class_labels": [
                 "anger",
                 "disgust",
                 "fear",
@@ -49,6 +49,7 @@ def prompt(input_sample):
             "content": f"Predict all the possible emotions in the following Arabic sentence without explanation and put them in a Python list. List of emotions is: anger, anticipation, disgust, fear, joy, love, optimism, pessimism, sadness, surprise, and trust.\n Sentence: {input_sample}",
         },
     ]
+
 
 emotions_positions = {
     "anger": 0,
