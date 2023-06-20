@@ -27,9 +27,9 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl",
+            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl\ttest\t" + os.environ["TEST_FOLD"],
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_train.tsv",
+                "train_data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl\ttrain\t" + os.environ["TEST_FOLD"],
             },
         },
     }
