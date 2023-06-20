@@ -1,7 +1,7 @@
 import os
 
 from arabic_llm_benchmark.datasets import SpamDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import SpamTask
 
 
@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": SpamTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -28,19 +28,20 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}\n",
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information.",
+        },
+        {
+            "role": "user",
+            "content": f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}\n",
+        },
+    ]
 
 
 def post_process(response):
-    out = response["choices"][0]["text"]
+    out = response["choices"][0]["message"]["content"]
     j = out.find(".")
     if j > 0:
         out = out[0:j]
