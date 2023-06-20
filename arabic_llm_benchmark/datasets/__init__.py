@@ -10,6 +10,7 @@ from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset
+from .Emotion import EmotionDataset
 from .FactualityCOVID19 import FactualityCOVID19Dataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .FactualityUnifiedFC import FactualityUnifiedFCDataset
