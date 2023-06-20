@@ -4,9 +4,41 @@ from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
 class AqmarDataset(DatasetBase):
-    def __init__(self, test_filenames, **kwargs):
+    def __init__(self, **kwargs):
         super(AqmarDataset, self).__init__(**kwargs)
-        self.test_filenames = test_filenames  # There wil be multiple test files for Aqmar but only one for AnerCorp
+        self.dev_filenames = kwargs.get("dev_filenames", [
+                    "Damascus.txt", 
+                    "Atom.txt",
+                    "Raul_Gonzales.txt", 
+                    "Linux.txt", 
+                    "Imam_Hussein_Shrine.txt",
+                    "Nuclear_Power.txt", 
+                    "Real_Madrid.txt", 
+                    "Solaris.txt"
+
+            ])
+        self.test_filenames = kwargs.get("test_filenames", [
+                "Crusades.txt",
+                "Islamic_Golden_Age.txt",
+                "Islamic_History.txt",
+                "Ibn_Tolun_Mosque.txt",
+                "Ummaya_Mosque.txt",
+                "Enrico_Fermi.txt",
+                "Light.txt",
+                "Periodic_Table.txt",
+                "Physics.txt",
+                "Razi.txt",
+                "Summer_Olympics2004.txt",
+                "Christiano_Ronaldo.txt",
+                "Football.txt",
+                "Portugal_football_team.txt",
+                "Soccer_Worldcup.txt",
+                "Computer.txt",
+                "Computer_Software.txt",
+                "Internet.txt",
+                "Richard_Stallman.txt",
+                "X_window_system.txt",
+            ])
 
     def citation(self):
         return """@inproceedings{mohit-etal-2012-recall,
@@ -33,9 +65,15 @@ class AqmarDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        split = data_path["split"]
+        data_path = data_path["path"]
+
+        filenames = self.test_filenames
+        if split == "dev":
+            filenames = self.dev_filenames
         data = []
 
-        for fname in self.test_filenames:
+        for fname in filenames:
             path = Path(data_path) / fname
             with open(path, "r") as reader:
                 current_sentence = []
