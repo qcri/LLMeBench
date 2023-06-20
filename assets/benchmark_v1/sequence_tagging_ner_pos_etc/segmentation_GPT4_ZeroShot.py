@@ -3,7 +3,7 @@ import re
 
 from arabic_llm_benchmark.datasets import ArabicSegmentationDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import ArabicSegmentationTask_v4
+from arabic_llm_benchmark.tasks import ArabicSegmentationTask
 
 
 def config():
@@ -22,7 +22,7 @@ def config():
                 "config": {
                     "dataset": ArabicSegmentationDataset,
                     "dataset_args": {},
-                    "task": ArabicSegmentationTask_v4,
+                    "task": ArabicSegmentationTask,
                     "task_args": {},
                     "model": GPTChatCompletionModel,
                     "model_args": {
@@ -31,7 +31,6 @@ def config():
                         "api_base": os.environ["AZURE_API_URL"],
                         "api_key": os.environ["AZURE_API_KEY"],
                         "engine_name": os.environ["ENGINE_NAME"],
-                        # "class_labels": ["m", "f"],
                         "max_tries": 3,
                     },
                     "general_args": {
@@ -62,5 +61,8 @@ def post_process(response):
     text = response["choices"][0]["message"]["content"]
     results = []
     for t in text.split("\n")[1:-1]:
-        results.append(t.split(":")[1].replace('"', "").replace(",", ""))
+        t = t.split(":")[1].replace('"', "").replace(",", "")
+        t = re.sub(r"[^ ]+[A-Za-z]+ ", " ", t)
+        t = re.sub(r"\s+", " ", t)
+        results.append(t.strip())
     return " ".join(results)
