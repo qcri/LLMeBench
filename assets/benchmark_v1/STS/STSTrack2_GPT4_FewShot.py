@@ -17,13 +17,13 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": 'gpt-4-8k',
+            "engine_name": "gpt-4-8k",
             "max_tries": 3,
         },
         "general_args": {
             "data_path": {
                 "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track2.ar-en.txt",
-                "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track2.ar-en.txt"
+                "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track2.ar-en.txt",
             },
             "fewshot": {
                 "train_data_path": "data/STS/semeval-2017/ar_sts_data_updated/En_Ar_STS/en_ar.STS.All.txt",
@@ -34,10 +34,12 @@ def config():
 
 def prompt(input_sample, examples):
     s1, s2 = input_sample.split("\t")
-    base_prompt = "Given two sentences, produce a continuous valued similarity score on a scale " \
-                    "from 0 to 5, with 0 indicating that the semantics of the sentences are " \
-                   "completely independent and 5 signifying semantic equivalence. The output " \
-                   "should be exactly in form Similarity score= ."
+    base_prompt = (
+        "Given two sentences, produce a continuous valued similarity score on a scale "
+        "from 0 to 5, with 0 indicating that the semantics of the sentences are "
+        "completely independent and 5 signifying semantic equivalence. The output "
+        "should be exactly in form Similarity score= ."
+    )
     prompt = few_shot_prompt(s1, s2, base_prompt, examples)
 
     return [
@@ -72,10 +74,17 @@ def few_shot_prompt(s1, s2, base_prompt, examples):
         )
 
     # Append the sentence we want the model to predict for but leave the Label blank
-    out_prompt = out_prompt + "Sentence1: " + s1 + "\nSentence2: " + s2 + "\nSimilarity score= \n"
+    out_prompt = (
+        out_prompt
+        + "Sentence1: "
+        + s1
+        + "\nSentence2: "
+        + s2
+        + "\nSimilarity score= \n"
+    )
 
-    #print("=========== FS Prompt =============\n")
-    #print(out_prompt)
+    # print("=========== FS Prompt =============\n")
+    # print(out_prompt)
 
     return out_prompt
 

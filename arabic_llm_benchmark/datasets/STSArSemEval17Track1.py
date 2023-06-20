@@ -18,28 +18,28 @@ class STSArSemEval17Track1Dataset(DatasetBase):
     def get_data_sample(self):
         return {"input": "الجملة بالعربية\tالجملة بالعربية", "label": 1.2}
 
-    def load_train_data(self,data_path):
+    def load_train_data(self, data_path):
         data = []
         with open(data_path, encoding="utf-8") as f:
             for line in f:
                 line = line.rstrip("\r\n").strip()
-                _,score,s1,s2 = line.split("\t")
+                _, score, s1, s2 = line.split("\t")
 
-                data.append({"input": s1+"\t"+s2, "label": float(score)})
+                data.append({"input": s1 + "\t" + s2, "label": float(score)})
 
         return data
 
     def load_data(self, data_path):
         # A trick to check if load_data is called for test or train data
-        if 'sentences_path' in data_path:
+        if "sentences_path" in data_path:
             sentences = []
-            with open(data_path["sentences_path"],encoding="utf-8") as f:
+            with open(data_path["sentences_path"], encoding="utf-8") as f:
                 for line in f:
                     line = line.rstrip("\r\n")
                     sentences.append(line)
 
             labels = []
-            with open(data_path['gt_data_path']) as f:
+            with open(data_path["gt_data_path"]) as f:
                 for line in f:
                     line = float(line.rstrip("\r\n"))
                     labels.append(line)

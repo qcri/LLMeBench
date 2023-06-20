@@ -23,11 +23,11 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-                       "data_path": {
-                           "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt",
-                           "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track1.ar-ar.txt"
+            "data_path": {
+                "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt",
+                "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track1.ar-ar.txt",
             }
-        }
+        },
     }
 
 
