@@ -56,7 +56,7 @@ class DatasetBase(ABC):
         # Remove empty inputs
         original_sample_count = len(train_data)
         train_data = [
-            sample for sample in train_data if len(sample["input"].strip()) > 0
+            sample for sample in train_data if len(sample["input"]) > 0
         ]
         filtered_sample_count = len(train_data)
 
