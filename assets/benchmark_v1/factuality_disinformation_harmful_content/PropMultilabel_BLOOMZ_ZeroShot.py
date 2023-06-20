@@ -59,19 +59,6 @@ def prompt(input_sample):
         + f"labels: \n"
     }
 
-
-# def prompt(input_sample):
-#     return {
-#         "prompt": f'Label this "tweet" based on the following propaganda techniques:\n\n'
-#         + f"'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
-#         + f"\nAnswer (only yes/no) in the following format: \n"
-#         + f"'Doubt': 'yes', "
-#         + f"'Smears': 'no', \n\n"
-#         + f"tweet: {input_sample}\n\n"
-#         + f"label: \n"
-#     }
-
-
 def fix_label(pred_label):
     class_labels = [
         "no technique",
@@ -99,17 +86,7 @@ def fix_label(pred_label):
     pred_labels_bool = [bool(re.search(c.lower(), pred_label)) for c in class_labels]
     pred_labels = [class_labels[i].lower() for i, c in enumerate(pred_labels_bool) if c]
 
-    # if "used in this text" in pred_label:
-    #     return ["no technique"]
-
     labels_fixed = []
-    # pred_label = pred_label.replace('"', "'").split("', '")
-    # pred_labels = []
-    # for l in pred_label:
-    #     splits = l.replace(",", "").split(":")
-    #     if len(splits)<2 or "no" in splits[1]:
-    #         continue
-    #     pred_labels.append(splits[0].replace("'", ""))
 
     if len(pred_labels) == 0:
         return ["no technique"]
@@ -122,7 +99,6 @@ def fix_label(pred_label):
         # Handle case of single word labels like "Smears" so we just capitalize it
         label_fixed = label.capitalize()
 
-        # print(label)
         if "slogan" in label:
             label_fixed = "Slogans"
         if "loaded" in label:
@@ -177,6 +153,7 @@ def fix_label(pred_label):
         labels_fixed.append(label_fixed)
 
     out_put_labels = []
+
     # Remove no technique label when we have other techniques for the same text
     if len(labels_fixed) > 1:
         for flabel in labels_fixed:
