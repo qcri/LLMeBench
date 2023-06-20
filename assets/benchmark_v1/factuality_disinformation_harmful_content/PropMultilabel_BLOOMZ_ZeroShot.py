@@ -59,6 +59,7 @@ def prompt(input_sample):
         + f"labels: \n"
     }
 
+
 def fix_label(pred_label):
     class_labels = [
         "no technique",
