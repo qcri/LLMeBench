@@ -83,7 +83,7 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
-    response = response["choices"][0]["text"]
+    response = response["choices"][0]["message"]["content"]
     possible_tags = [
         "B-PER",
         "I-PER",
