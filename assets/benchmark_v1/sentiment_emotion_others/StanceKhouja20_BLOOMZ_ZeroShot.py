@@ -33,11 +33,5 @@ def post_process(response):
     label = response["outputs"].strip().lower()
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
-    print(label)
+
     return label
-
-
-# def post_process(response):
-#     label = response["choices"][0]["text"].lower().replace(".", "")
-
-#     return label
