@@ -68,7 +68,6 @@ emotions_positions = {
 def emotions_array(labels):
     labels_arr = []
     for x, y in emotions_positions.items():
-        print(x)
         v = 0
         if x in labels:
             v = 1
