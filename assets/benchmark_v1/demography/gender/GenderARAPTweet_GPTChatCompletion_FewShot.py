@@ -25,7 +25,6 @@ def config():
             "data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt",
             "fewshot": {
                 "train_data_path": "data/demographic_attributes/gender/train-wajdi.tsv",
-                "deduplicate": True,
             },
         },
     }
