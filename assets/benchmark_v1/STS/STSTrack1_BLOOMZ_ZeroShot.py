@@ -24,16 +24,14 @@ def config():
 
 
 def prompt(input_sample):
-    s1,s2 = input_sample.split("\t")
+    s1, s2 = input_sample.split("\t")
 
     prompt_string = (
         # f"Given two sentences, produce similarity score from 0 to 5, with 0 indicating that the semantics of the sentences are independent and 5 signifying semantic equivalence. "
-        f"Given two sentences, produce similarity score from 0 to 5, with 5 meaning that semantics of the sentence are equivalence and 0 meaning that sentences are independent."
+        f"Given two sentences, provide a similarity score from 0 to 5, with 5 meaning that the semantics of the sentence are equivalence and 0 meaning that sentences are independent."
         f"\nsentence1: {s1}\nSentence2: {s2}\n similarity score = "
     )
-    return {
-            "prompt": prompt_string
-        }
+    return {"prompt": prompt_string}
 
 
 def post_process(response):
@@ -49,11 +47,10 @@ def post_process(response):
     #         .strip()
     #         .split(" ")[0]
     #         .rstrip(".")
-    try: # #     )
+    try:  # #     )
         return float(pred_num)
     except:
-       return None
+        return None
     # else:
     #     print("Issue with label!" + label)
     #     score = None
-
