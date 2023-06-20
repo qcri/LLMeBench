@@ -6,6 +6,7 @@ from .ClaimDetection import ClaimDetectionTask
 from .DemographyGender import DemographyGenderTask
 from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask
+from .DialectADI import DialectADITask
 from .DialectID import DialectIDTask
 from .FactualityCOVID19 import FactualityCOVID19Task
 from .FactualityKhouja20 import FactualityKhouja20Task
