@@ -21,8 +21,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/claim_covid19"
-            "/CT22_arabic_1B_claim_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv"
         },
     }
 
@@ -41,12 +40,26 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    pred_label = response["choices"][0]["text"]
-    pred_label = pred_label.replace(".", "").strip().lower()
+    input_label = response["choices"][0]["text"]
+    input_label = input_label.replace(".", "").strip().lower()
+    pred_label = ""
 
-    if pred_label == "yes" or pred_label == "the sentence contains a factual claim":
+    if (
+        "yes" in input_label
+        or "contains a factual claim" in input_label
+        or "label: 1" in input_label
+    ):
         pred_label = "1"
-    if pred_label == "no":
+    if (
+        input_label == "no"
+        or "label: 0" in input_label
+        or "label: no" in input_label
+        or "not contain a factual claim" in input_label
+        or "doesn't contain a factual claim" in input_label
+    ):
         pred_label = "0"
+
+    if pred_label == "":
+        pred_label = None
 
     return pred_label
