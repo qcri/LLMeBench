@@ -50,7 +50,6 @@ def prompt(input_sample):
     ]
 
 
-
 def post_process(response):
     response = response["choices"][0]["message"]["content"]
     possible_tags = [

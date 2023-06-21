@@ -1,6 +1,6 @@
-from email.mime import base
 import os
 import re
+from email.mime import base
 
 from arabic_llm_benchmark.datasets import AqmarDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
@@ -35,38 +35,29 @@ def config():
         "general_args": {
             "data_path": {
                 "split": "test",
-                "path" : "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0"
+                "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
             },
-            "fewshot": {  
+            "fewshot": {
                 "train_data_path": {
                     "split": "dev",
-                    "path" : "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0"
+                    "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
                 }
-            }
+            },
         },
     }
 
 
-
-
 def few_shot_prompt(input_sample, base_prompt, examples):
-
-    output_prompt = base_prompt + "\n" 
-    for example in examples: 
+    output_prompt = base_prompt + "\n"
+    for example in examples:
         tokens = example["input"].split()
-        label = example["label"].split() 
+        label = example["label"].split()
         few_shot_sample = list(zip(tokens, label))
-        output_prompt = ( 
-            output_prompt 
-            + f"Sentence: {tokens}\nLabels: {few_shot_sample}\n"
-            )
-    output_prompt = (
-        output_prompt 
-        + f"Sentence: {input_sample}\n"  
-        + "Labels:"  
-    )
+        output_prompt = (
+            output_prompt + f"Sentence: {tokens}\nLabels: {few_shot_sample}\n"
+        )
+    output_prompt = output_prompt + f"Sentence: {input_sample}\n" + "Labels:"
     return output_prompt
-
 
 
 def prompt(input_sample, examples):
@@ -81,7 +72,6 @@ def prompt(input_sample, examples):
             "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
-
 
 
 def post_process(response):
