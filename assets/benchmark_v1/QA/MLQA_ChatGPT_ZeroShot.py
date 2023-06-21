@@ -22,7 +22,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json"
+            "data_path": "data/QA/mlqa/test-context-ar-question-ar.json"
         },
     }
 
@@ -40,7 +40,5 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    try:
-        return response["choices"][0]["text"]
-    except:
-        return "Failed Request"
+    return response["choices"][0]["text"]
+

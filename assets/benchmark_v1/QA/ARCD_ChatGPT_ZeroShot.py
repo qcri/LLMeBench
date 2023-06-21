@@ -21,7 +21,7 @@ def config():
             "class_labels": "NA",
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/QA/ARCD/arcd-test.json"},
+        "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},
     }
 
 
@@ -38,7 +38,6 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    try:
-        return response["choices"][0]["text"]
-    except:
-        return "Failed Request"
+
+    return response["choices"][0]["text"]
+
