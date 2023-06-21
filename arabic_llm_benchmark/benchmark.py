@@ -157,7 +157,7 @@ class SingleTaskBenchmark(object):
             cache_payload = {"input": input_sample}
 
             if few_shot_examples is not None:
-                cache_payload = {"few_shot_examples": few_shot_examples}
+                cache_payload["few_shot_examples"] = few_shot_examples
 
             if cache_path.exists() and not self.ignore_cache:
                 with open(cache_path, "r") as fp:
