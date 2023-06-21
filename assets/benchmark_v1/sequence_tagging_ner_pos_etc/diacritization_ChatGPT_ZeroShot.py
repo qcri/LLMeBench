@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import XQuADDataset
+from arabic_llm_benchmark.datasets import ArabicDiacritizationDataset
 from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import QATask
+from arabic_llm_benchmark.tasks import ArabicDiacritizationTask
 
 
 def config():
     return {
-        "dataset": XQuADDataset,
+        "dataset": ArabicDiacritizationDataset,
         "dataset_args": {},
-        "task": QATask,
+        "task": ArabicDiacritizationTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -20,17 +20,19 @@ def config():
             "engine_name": os.environ["ENGINE_NAME"],
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/QA/xquad/xquad.ar.json"},
+        "general_args": {
+            "data_path": "data/sequence_tagging_ner_pos_etc/diacritization/WikiNewsTruth.txt"
+        },
     }
 
 
 def prompt(input_sample):
     return {
-        "system_message": "Assistant is a large language model trained by OpenAI.",
+        "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
             {
                 "sender": "user",
-                "text": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:",
+                "text": f"Diacritize fully the following Arabic sentence: {input_sample}",
             }
         ],
     }
