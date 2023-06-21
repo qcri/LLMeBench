@@ -85,6 +85,8 @@ class AqmarDataset(DatasetBase):
                         data.append(
                             {"input": sentence, "label": label, "line_number": line_idx}
                         )
+                        current_sentence = []
+                        current_label = []
                     else:
                         elements = line.strip().split()
                         current_sentence.append(elements[0])

@@ -36,10 +36,16 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
         out_prompt = (
             out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
             + "tweet: "
             + example["input"]
             + "\nlabel: "
@@ -54,7 +60,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = f'Annotate the "tweet" into one of the following categories: correct or incorrect'
+    base_prompt = f'Annotate the "tweet" into one of the following categories: correct or incorrect. Provide only label.'
     return [
         {
             "role": "system",
@@ -74,9 +80,9 @@ def post_process(response):
         "I am unable to categorize".lower()
     ):
         label_fixed = None
-    elif "label: incorrect" in label or "incorrect" in label:
+    elif "label: incorrect" in label or "incorrect" in label or label == "no":
         label_fixed = "no"
-    elif "label: correct" in label or "correct" in label:
+    elif "label: correct" in label or "correct" in label or label == "yes":
         label_fixed = "yes"
     else:
         label_fixed = None

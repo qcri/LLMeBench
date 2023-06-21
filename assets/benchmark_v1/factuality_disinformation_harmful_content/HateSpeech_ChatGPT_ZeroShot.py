@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import SpamDataset
+from arabic_llm_benchmark.datasets import HateSpeechDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import SpamTask
+from arabic_llm_benchmark.tasks import HateSpeechTask
 
 
 def config():
     return {
-        "dataset": SpamDataset,
+        "dataset": HateSpeechDataset,
         "dataset_args": {},
-        "task": SpamTask,
+        "task": HateSpeechTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -18,11 +18,11 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["__label__ADS", "__label__NOTADS"],
+            "class_labels": ["HS", "NOT_HS"],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sentiment_emotion_others/spam/ArabicAds-test.txt"
+            "data_path": "data/factuality_disinformation_harmful_content/hate_speech/OSACT2020-sharedTask-test-tweets-labels.txt"
         },
     }
 
@@ -33,7 +33,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}\n",
+                "text": f'if the following Arabic sentence has hate speech, just say "HS", otherwise, say just "NOT_HS" without explanation: \n {input_sample}',
             }
         ],
     }
