@@ -35,7 +35,7 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
 
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
-                config = asset["module"].config()
+                config = asset["config"]
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
                 if "fewshot" in config["general_args"]:
