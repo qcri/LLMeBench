@@ -6,18 +6,26 @@ class AdultDataset(DatasetBase):
         super(AdultDataset, self).__init__(**kwargs)
 
     def citation(self):
-        return """@article{zampieri2020semeval,
-          title={SemEval-2020 task 12: Multilingual offensive language identification in social media (OffensEval 2020)},
-          author={Zampieri, Marcos and Nakov, Preslav and Rosenthal, Sara and Atanasova, Pepa and Karadzhov, Georgi and Mubarak, Hamdy and Derczynski, Leon and Pitenis, ...},
-          journal={arXiv preprint arXiv:2006.07235},
-          year={2020}
-        }"""
+        return """
+        @inproceedings{mubarak-etal-2021-adult,
+            title = "Adult Content Detection on {A}rabic {T}witter: Analysis and Experiments",
+            author = "Mubarak, Hamdy  and
+              Hassan, Sabit  and
+              Abdelali, Ahmed",
+            booktitle = "Proceedings of the Sixth Arabic Natural Language Processing Workshop",
+            month = apr,
+            year = "2021",
+            address = "Kyiv, Ukraine (Virtual)",
+            publisher = "Association for Computational Linguistics",
+            url = "https://aclanthology.org/2021.wanlp-1.14",
+            pages = "136--144", 
+        }
+        """
 
     def get_data_sample(self):
         return {"input": "نص عادي", "label": "NOT_ADULT"}
 
     def load_data(self, data_path, no_labels=False):
-        # Format: text \t adult_label
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
