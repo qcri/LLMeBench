@@ -17,8 +17,8 @@ class MGBWordsDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         data = []
-        with open(data_path, "rt") as fp: 
-            for line_idx, line in enumerate(fp):
+        with open(data_path, "rt", encoding='UTF8') as fp: 
+            for line in fp:
                 fields = line.split("\t")
                 words = fields[4].split()
                 s = ''
@@ -40,7 +40,7 @@ class MGBWordsDataset(DatasetBase):
                 ref_label = " ".join(ref_label)
 
                 data.append(
-                    {"input": s, "label": ref_label, "line_number": line_idx}
+                    {"input": s, "label": ref_label}
                 )
 
         return data
