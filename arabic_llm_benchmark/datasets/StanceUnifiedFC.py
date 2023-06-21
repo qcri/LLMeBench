@@ -34,32 +34,33 @@ class StanceUnifiedFCDataset(DatasetBase):
             "label": "agree",
         }
 
+    def load_train_data(self, data_path):
+        # TODO: modify to iterator
+        data = []
+        with open(data_path, "r", encoding="utf-8") as fp:
+            next(fp)  # skip header
+            for line_idx, line in enumerate(fp):
+                s1, s2, label = line.strip().split(",")
+
+                # Had to concatenate s1 and s2 this as langchain only accepts strings
+                data.append(
+                        {"input": s1.strip() + "\t" + s2.strip(), "label": label, "line_number": line_idx}
+                )
+
+        return data
+
+
     def load_data(self, data_path, no_labels=False):
         data = []
 
-        data_path, train_or_test, fold_id  = data_path.split('\t')
-        dir_name = os.path.dirname(data_path)
-        fold_path = dir_name + '/train_test_splits.txt'
-        fold_data = pd.read_csv(fold_path, engine='python', delim_whitespace=True, header=None)
-        fold_data[0] = fold_data[0].str.strip(':')
-        fold_data = fold_data.transpose()
-        fold_data.columns = fold_data.loc[0, :].to_list()
-        fold_data.drop(0, inplace=True)
-        if train_or_test =='train':
-            selected_ids = fold_data.drop(fold_id, axis=1).values.flatten().tolist()
-        elif train_or_test =='test':
-            selected_ids = fold_data[fold_id].to_list()
-        
-
-        with open(data_path, "r") as json_file:
-            for line in json_file:
-                json_obj = json.loads(line)
-                
-                if json_obj['id'] in selected_ids:
+        if "train" in data_path:
+            return self.load_train_data(data_path)
+        else:
+            with open(data_path, "r", encoding="utf-8") as json_file:
+                for line in json_file:
+                    json_obj = json.loads(line)
+                    #Had to make input a string instead of a dictionar{claim,article} to get FS to work
                     data.append(
-                        {
-                            "input": json_obj,
-                            "label": json_obj["stance"],
-                        }
-                    )
-        return data
+                            {"input": "claim: " + str(json_obj["claim"])+ "\tarticle: " + str(json_obj["article"]),
+                             "label": json_obj["stance"]})
+            return data

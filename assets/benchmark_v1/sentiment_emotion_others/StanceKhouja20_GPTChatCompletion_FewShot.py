@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from arabic_llm_benchmark.datasets import StanceUnifiedFCDataset
+from arabic_llm_benchmark.datasets import StanceKhouja20Dataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import StanceUnifiedFCTask
+from arabic_llm_benchmark.tasks import StanceKhouja20Task
 
 
 random.seed(1333)
@@ -12,9 +12,9 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": StanceUnifiedFCDataset,
+        "dataset": StanceKhouja20Dataset,
         "dataset_args": {},
-        "task": StanceUnifiedFCTask,
+        "task": StanceKhouja20Task,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {
@@ -23,10 +23,11 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "max_tries": 3,
+            "class_labels": ["agree", "disagree"],
+            "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl",
+            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/test.csv",
             "fewshot": {
                 "train_data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/train.csv"
             },
@@ -35,16 +36,7 @@ def config():
 
 
 def prompt(input_sample,examples):
-    prompt_string = (
-        f"Given a reference claim, and a news article, predict the stance of the article "
-        f"towards the claim. Reply using one of these stances: 'agree' (if article agrees "
-        f"with claim), 'disagree' (if article disagrees with claim), "
-        f"'discuss' (if article discusses claim without specific stance), or 'unrelated' "
-        f"(if article isn't discussing the claim's topic)"
-        f"\n\n"
-    )
-
-    prompt_string = few_shot_prompt(input_sample,prompt_string,examples)
+    prompt_string = "Given a reference sentence and a claim, predict whether the claim agrees or disagrees with the reference sentence. Reply only using 'agree', 'disagree', or use 'other' if the sentence and claim are unrelated.\n\n"
 
     return [
         {
@@ -53,36 +45,36 @@ def prompt(input_sample,examples):
         },
         {
             "role": "user",
-            "content": prompt_string,
+            "content": few_shot_prompt(input_sample,prompt_string,examples),
         },
     ]
-
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt
     for example in examples:
         ref_s = example['input'].split("\t")[0]
         claim = example['input'].split("\t")[1]
-        label = "unrelated" if example["label"] == "other" else example["label"]
 
         out_prompt = (
             out_prompt
-            + "reference claim: "
+            + "reference sentence: "
             + ref_s
-            + "\nnews article: "
+            + "\nclaim: "
             + claim
             + "\nlabel: "
-            + label
+            + example["label"]
             + "\n\n"
         )
 
     # Append the sentence we want the model to predict for but leave the label blank
 
-    claim, article = input_sample.split("article: ")
-    claim = claim.replace("claim:", " ").strip()
-    article = article.strip()
+    ref_s = input_sample.split("\t")[0]
+    claim = input_sample.split("\t")[1]
 
-    out_prompt = out_prompt + f"reference claim: {claim}\n" + f"news article: {article}\nlabel: \n"
+    out_prompt = out_prompt \
+                 + "reference sentence: " + ref_s\
+                 + "\nclaim: " + claim\
+                 + "\nlabel: \n"
 
     #print("=========== FS Prompt =============\n")
     #print(out_prompt)
@@ -91,9 +83,18 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
-    label = label.replace("label:", "")
-    label_fixed = label.lower()
-    label_fixed = label_fixed.split()[0]
-    label_fixed = label_fixed.replace(".", "")
+    label = label.replace("label:", "").strip()
+    #label_fixed = label.replace("stance:", "").strip()
+
+    label_fixed = None
+    #print(label)
+
+    if "unrelated" in label or "other" in label:
+        label_fixed = "other"
+    elif "disagree" in label:
+        label_fixed = "disagree"
+    elif label == "agree":
+        label_fixed = "agree"
+
 
     return label_fixed
