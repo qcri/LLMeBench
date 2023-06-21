@@ -61,8 +61,7 @@ def post_process(response):
     text = response["choices"][0]["text"]
     text = re.sub(r"Here's the segmented sentence in a JSON format:",'',text)
     #print("Pro:",text)
-    pattern = r"[\"\']([^\"\']+)[\'\"]: *[\'\"]([^}]+)[\'\"]"
-    pattern = r"\(\"([^\"]+)\", \"([^\"]+)\"\)"
+    pattern = r"\([\"\']([^\"\']+)[\'\"], [\"\']([^\"\']+)[\'\"]\)"
     matches = re.finditer(pattern, text)
     results = []
     #print("Res0:",results)
