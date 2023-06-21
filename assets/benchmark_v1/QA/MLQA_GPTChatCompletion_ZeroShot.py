@@ -21,7 +21,9 @@ def config():
             "class_labels": "NA",
             "max_tries": 50,
         },
-        "general_args": {"data_path": "data/QA/mlqa/test-context-ar-question-ar.json"},
+        "general_args": {
+            "data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json"
+        },
     }
 
 
