@@ -68,6 +68,10 @@ def post_process(response):
     matches = re.finditer(pattern, text)
     for m in matches:
         results.append(m.group(2))
-    # remove non-Arabic words. They don't need to be segmented
 
-    return " ".join(results)
+    text = " ".join(results)
+
+    # Remove extra spaces
+    text = re.sub(r"\s+", " ", text)
+
+    return text
