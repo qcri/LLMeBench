@@ -33,7 +33,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": 'You are an Arabic AI assistant, an expert at detecting sarcasm in Arabic text. Say yes if the tweet is sarcastic and say no if the tweet is not sarcastic: "'
+            "content": 'You are an AI assistant, an expert at detecting sarcasm in text. Say yes if the tweet is sarcastic and say no if the tweet is not sarcastic: "'
             + input_sample
             + '"',
         },

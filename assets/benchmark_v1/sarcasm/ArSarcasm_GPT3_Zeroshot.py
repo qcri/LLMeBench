@@ -29,25 +29,33 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "## INSTRUCTION\nYou are an expert in sarcasm detection in Arabic.\n\n",
+            "content": "## INSTRUCTION\nYou are an expert in sarcasm detection.\n\n",
         },
         {
             "role": "user",
             "content": (
-                "As an AI language model, you are an expert at detecting sarcasm in Arabic text. "
-                'Determine if the following tweet is sarcastic. Respond with "yes" if the tweet is sarcastic '
-                'and "no" if the tweet is not sarcastic: "' + input_sample + '"'
+                'Determine if the following "tweet" is sarcastic. Respond with "yes" if the tweet is sarcastic '
+                'and "no" if the tweet is not sarcastic\ntweet: ' + input_sample + '\n'
+                'label: \n'
             ),
         },
     ]
 
 
 def post_process(response):
-    content = response["choices"][0]["message"]["content"].strip().lower()
-
-    if "no" in content or "the tweet is not sarcastic" in content:
-        return "FALSE"
-    elif "yes" in content or "the tweet is sarcastic" in content:
-        return "TRUE"
-    else:
+    if not response:
         return None
+    
+
+    choices = response.get("choices")
+    if choices:
+        message = choices[0].get("message")
+        if message:
+            content = message.get("content")
+            if content:
+                content = content.strip().lower()
+                if "no" in content or "the tweet is not sarcastic" in content:
+                    return "FALSE"
+                elif "yes" in content or "the tweet is sarcastic" in content:
+                    return "TRUE"
+    return None
