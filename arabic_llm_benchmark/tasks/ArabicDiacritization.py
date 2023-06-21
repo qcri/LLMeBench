@@ -124,7 +124,7 @@ class ArabicDiacritizationTask(TaskBase):
         ref = []
         for t, p in zip(true_labels, predicted_labels):
             if p is None:
-                p = re.sub(r'[ًٌٍَُِّْ]','',t).split()
+                p = re.sub(r"[ًٌٍَُِّْ]", "", t).split()
             else:
                 p = p.split()
             t = t.split()
