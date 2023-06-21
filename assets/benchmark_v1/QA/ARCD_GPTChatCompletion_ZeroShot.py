@@ -1,4 +1,4 @@
-import os 
+import os
 
 from arabic_llm_benchmark.datasets import ARCDDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
@@ -21,14 +21,11 @@ def config():
             "class_labels": "NA",
             "max_tries": 50,
         },
-        "general_args": {"data_path":  "data/QA/arcd/arcd-test.json"},
+        "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},
     }
 
 
-
-
-def prompt(input_sample): 
-
+def prompt(input_sample):
     return [
         {
             "role": "system",
@@ -36,12 +33,10 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content":f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:",
+            "content": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:",
         },
     ]
 
 
-
-def post_process(response): 
+def post_process(response):
     return response["choices"][0]["message"]["content"]
-
