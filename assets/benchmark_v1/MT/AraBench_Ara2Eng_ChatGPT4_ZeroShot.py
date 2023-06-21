@@ -1,7 +1,7 @@
 import os
 
 from arabic_llm_benchmark.datasets import AraBenchDataset
-from arabic_llm_benchmark.models import GPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import MachineTranslationTask
 
 
@@ -63,7 +63,7 @@ def config():
                     },
                     "task": MachineTranslationTask,
                     "task_args": {},
-                    "model": GPTModel,
+                    "model": GPTChatCompletionModel,
                     "model_args": {
                         "api_type": "azure",
                         "api_version": "2023-03-15-preview",
@@ -81,16 +81,17 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"Translate the following to English, output only the translation:\n {input_sample}",
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information.",
+        },
+        {
+            "role": "user",
+            "content": f"Translate the following to English, output only the translation:\n {input_sample}",
+        },
+    ]
 
 
 def post_process(response):
-    return response["choices"][0]["text"]
+    return response["choices"][0]["message"]["content"]
