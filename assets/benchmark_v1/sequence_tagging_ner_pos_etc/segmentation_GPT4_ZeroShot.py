@@ -31,6 +31,7 @@ def config():
                         "api_base": os.environ["AZURE_API_URL"],
                         "api_key": os.environ["AZURE_API_KEY"],
                         "engine_name": os.environ["ENGINE_NAME"],
+                        # "class_labels": ["m", "f"],
                         "max_tries": 3,
                     },
                     "general_args": {
@@ -51,18 +52,22 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"A word can be composed of one root and one or multiple affixed, segment the following sentence into its morphological constituents::\n{input_sample}\n"
-            + "Output the results in a json format. {word: seg1+seg2+..}.",
+            "content": f"A word can be composed of one root and one or multiple affixed, \
+                    segment the following sentence into its morphological constituents:\n {input_sample}\
+                    The input will be a list of words in the sentence. \
+                    The output format should be a list of tuples, where each tuple consists of a word from the input text and its segmented form joined by a + sign.\
+                    ",
         },
     ]
 
 
 def post_process(response):
-    text = response["choices"][0]["message"]["content"]
     results = []
-    for t in text.split("\n")[1:-1]:
-        t = t.split(":")[1].replace('"', "").replace(",", "")
-        t = re.sub(r"[^ ]+[A-Za-z]+ ", " ", t)
-        t = re.sub(r"\s+", " ", t)
-        results.append(t.strip())
+    text = response["choices"][0]["message"]["content"]
+    pattern = "\([\"']([^\"']+)[\"'], [\"']([^\"']+)[\"']\)"
+    matches = re.finditer(pattern, text)
+    for m in matches:
+        results.append(m.group(2))
+    # remove non-Arabic words. They don't need to be segmented
+
     return " ".join(results)
