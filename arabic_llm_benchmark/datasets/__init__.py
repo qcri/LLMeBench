@@ -38,3 +38,4 @@ from .Subjectivity import SubjectivityDataset
 from .TyDiQA import TyDiQADataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
+from .MGBWords import MGBWordsDataset
