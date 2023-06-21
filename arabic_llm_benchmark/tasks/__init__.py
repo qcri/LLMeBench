@@ -7,7 +7,6 @@ from .ClaimDetection import ClaimDetectionTask
 from .DemographyGender import DemographyGenderTask
 from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask
-from .DialectADI import DialectADITask
 from .DialectID import DialectIDTask
 from .Emotion import EmotionTask
 from .FactualityCOVID19 import FactualityCOVID19Task
