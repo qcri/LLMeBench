@@ -27,11 +27,10 @@ class ArabicDiacritizationDataset(DatasetBase):
     def get_data_sample(self):
         return {
             "input": "Original sentence",
-            "label": "Sentence with segmented words",
+            "label": "Sentence with diacritized words",
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
 
         with open(data_path, "r") as fp:

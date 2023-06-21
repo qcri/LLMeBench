@@ -119,18 +119,25 @@ class ArabicDiacritizationTask(TaskBase):
         super(ArabicDiacritizationTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
-        # split sentence into words
+        # Flatten sentences into a long list of words
         hyp = []
         ref = []
         for t, p in zip(true_labels, predicted_labels):
             if p is None:
+                # Use undiacritized word in case of prediction failiure
                 p = re.sub(r"[ًٌٍَُِّْ]", "", t).split()
             else:
                 p = p.split()
+
             t = t.split()
+
+            # If prediction is missing tokens, pad with empty tokens
             if len(p) < len(t):
                 for i in range(len(p) - len(t)):
                     hyp.append("")
+
+            # If prediction has extra tokens, only consider the first
+            # N tokens, where N == number of gold tokens
             hyp += p[: len(t)]
             ref += t
         return wer(ref, hyp, False)
