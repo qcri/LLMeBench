@@ -35,10 +35,11 @@ class ArabicDiacritizationDataset(DatasetBase):
 
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
+                text, diacritized_text = line.split("\t")
                 data.append(
                     {
-                        "input": line.split("\t")[0],
-                        "label": line.split("\t")[1],
+                        "input": text.strip(),
+                        "label": diacritized_text.strip(),
                         "line_number": line_idx,
                     }
                 )
