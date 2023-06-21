@@ -18,8 +18,11 @@ class MGBWordsDataset(DatasetBase):
     def load_data(self, data_path, no_labels=False):
         data = []
         with open(data_path, "rt", encoding='UTF8') as fp: 
-            for line in fp:
+            for idx, line in enumerate(fp):
+                if idx == 7906: 
+                    break
                 fields = line.split("\t")
+                print(idx, fields)
                 words = fields[4].split()
                 s = ''
                 ref_label = []
@@ -36,7 +39,6 @@ class MGBWordsDataset(DatasetBase):
                     
                     s += f"{word} "
                 s = s.strip()
-                s = s.split()
                 ref_label = " ".join(ref_label)
 
                 data.append(
