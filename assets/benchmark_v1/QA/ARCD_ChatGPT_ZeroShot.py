@@ -38,7 +38,4 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    try:
-        return response["choices"][0]["text"]
-    except:
-        return "Failed Request"
+    return response["choices"][0]["text"]
