@@ -44,34 +44,38 @@ def config():
         "madar.test.nil.0.sd",
         "madar.test.nil.1.eg",
         "madar.test.nil.2.eg",
-        "summa-2M.test.mgr.0.ma", 
-        "summa-AJ.test.msa.0.ms", 
-        "summa-BBC.test.msa.0.ms", 
-        "summa-LBC.test.lev.0.lb", 
-        "summa-Oman.test.glf.0.om", 
+        "summa-2M.test.mgr.0.ma",
+        "summa-AJ.test.msa.0.ms",
+        "summa-BBC.test.msa.0.ms",
+        "summa-LBC.test.lev.0.lb",
+        "summa-Oman.test.glf.0.om",
     ]
     configs = []
     for testset in sets:
-        configs.append({
-        "dataset": AraBenchDataset,
-        "name": testset, 
-        "dataset_args": {
-            "src": f"{testset}.ar",
-            "tgt": f"{testset}.en",
-        },
-        "task": MachineTranslationTask,
-        "task_args": {},
-        "model": GPTChatCompletionModel,
-        "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
-            "max_tries": 5,
-        },
-        "general_args": {"data_path": "data/MT/"},
-    })
+        configs.append(
+            {
+                "name": testset,
+                "config": {
+                    "dataset": AraBenchDataset,
+                    "dataset_args": {
+                        "src": f"{testset}.ar",
+                        "tgt": f"{testset}.en",
+                    },
+                    "task": MachineTranslationTask,
+                    "task_args": {},
+                    "model": GPTChatCompletionModel,
+                    "model_args": {
+                        "api_type": "azure",
+                        "api_version": "2023-03-15-preview",
+                        "api_base": os.environ["AZURE_API_URL"],
+                        "api_key": os.environ["AZURE_API_KEY"],
+                        "engine_name": os.environ["ENGINE_NAME"],
+                        "max_tries": 5,
+                    },
+                    "general_args": {"data_path": "data/MT/"},
+                },
+            }
+        )
 
     return configs
 
