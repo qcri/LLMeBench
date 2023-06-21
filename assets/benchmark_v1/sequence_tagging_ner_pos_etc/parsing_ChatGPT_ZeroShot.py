@@ -1,5 +1,5 @@
 import os
-
+import re
 from arabic_llm_benchmark.datasets import ArabicParsingDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import ArabicParsingTask
@@ -17,12 +17,12 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": os.environ["ENGINE_NAME"],
             # "class_labels": ["m", "f"],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/Parsing/arabic_PADT_test_blind.conll"
+            "data_path": "data/sequence_tagging_ner_pos_etc/Parsing/arabic_PADT_test_gs.conll"
         },
     }
 
@@ -40,4 +40,17 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    return response["choices"][0]["text"]
+    output = response["choices"][0]["text"]
+    results = {}
+    if len(output):
+        output = output.strip().split('\n')
+        
+        for o in output:
+            src, tgt = (re.sub(r'[^0-9]+','\t', o)).split('\t')
+            results[src] = tgt
+        output = results
+    else:
+        output = None
+    print("OO:",output)
+    return output
+

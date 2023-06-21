@@ -1,5 +1,5 @@
 import os
-
+import re
 from arabic_llm_benchmark.datasets import ArabicParsingDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import ArabicParsingTask
@@ -41,5 +41,15 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    output = response['choices'][0]['message']['content'].strip().split('\n')
+    output = response['choices'][0]['message']['content']
+    if len(output):
+        output = output.strip().split('\n')
+        results = {}
+        for o in output:
+            src, tgt = (re.sub(r'[^0-9]+','\t', o)).split('\t')
+            results[src] = tgt
+        output = results
+    else:
+        output = None
+    print("OO:",output)
     return output

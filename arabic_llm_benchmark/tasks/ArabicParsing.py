@@ -23,20 +23,22 @@ class ArabicParsingTask(TaskBase):
         ref = []
         for tdict, pdict in zip(true_labels, predicted_labels):
             thyp = {}
-
-            for p in pdict:
-                #print("pdict:",p)
-                if(len(p.split('\t'))<2):
-                    continue
-                slid,lid = p.split('\t')[:2]
-                thyp[slid] = lid
+            #print("p:",pdict)
+            #print("t:",tdict)
+            if pdict is None:
+                for i in tdict:
+                    thyp.append(0)
+            else:
+                for p in pdict:
+                    thyp[p] = pdict[p]
 
             for l in tdict:
                 ref.append(tdict[l])
                 if(l in thyp):
                     hyp.append(thyp[l])
-                    
                 else:
                     hyp.append(0)
 
+        #print("H:",hyp)
+        #print("R:",ref)
         return {"Macro F1": f1_score(ref, hyp, average="macro")}
