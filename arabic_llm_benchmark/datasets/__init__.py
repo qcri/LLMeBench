@@ -3,6 +3,7 @@ from .ANERcorp import ANERcorpDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+from .ArabicDiacritization import ArabicDiacritizationDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
@@ -11,6 +12,7 @@ from .Attentionworthy import AttentionworthyDataset
 from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset
 from .DialectADI import DialectADIDataset
+from .Emotion import EmotionDataset
 from .FactualityCOVID19 import FactualityCOVID19Dataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .FactualityUnifiedFC import FactualityUnifiedFCDataset

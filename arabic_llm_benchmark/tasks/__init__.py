@@ -1,4 +1,5 @@
 from .Adult import AdultTask
+from .ArabicDiacritization import ArabicDiacritizationTask
 from .ArabicSegmentation import ArabicSegmentationTask
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
@@ -8,6 +9,7 @@ from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask
 from .DialectADI import DialectADITask
 from .DialectID import DialectIDTask
+from .Emotion import EmotionTask
 from .FactualityCOVID19 import FactualityCOVID19Task
 from .FactualityKhouja20 import FactualityKhouja20Task
 from .FactualityUnifiedFC import FactualityUnifiedFCTask

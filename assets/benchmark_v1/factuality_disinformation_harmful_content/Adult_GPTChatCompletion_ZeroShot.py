@@ -22,26 +22,32 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sentiment_emotion_others/adult/adult-test.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv"
         },
     }
 
 
 def prompt(input_sample):
+    prompt_string = (
+        # f'Classify whether the following Arabic sentence is appropriate for children. If not appropriate, just write "ADULT" without explaination, and if appropriate, just write "NOT_ADULT" without explaination \n {input_sample}'
+        f'Given the following tweet, label it as "ADULT" or "NOT_ADULT" based on the content of the tweet.\n\n'
+        f"tweet: {input_sample}\n"
+        f"label: \n"
+    )
     return [
         {
             "role": "system",
-            "content": "You are an AI assistant that is an expert on language that helps people detect adult content.",
+            "content": "You are an expert annotator, you can identify and label adult content within a tweet.",
         },
         {
             "role": "user",
-            "content": f'Classify the following Arabic sentence as adult language (the language used in adult advertisement and porno advertisement) or not adult language without illustruation. In case of adult language, just write "ADULT" without explaination, and in case of not adult language, just write "NOT_ADULT" without explaination \n {input_sample}',
+            "content": prompt_string,
         },
     ]
 
 
 def post_process(response):
-    out = response["choices"][0]["message"]["content"]
+    out = response["choices"][0]["message"]["content"].replace("label: ", "")
     j = out.find(".")
     if j > 0:
         out = out[0:j]
