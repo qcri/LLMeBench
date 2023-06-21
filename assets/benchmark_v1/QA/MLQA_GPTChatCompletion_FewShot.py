@@ -7,6 +7,7 @@ from arabic_llm_benchmark.tasks import QATask
 
 random.seed(3333)
 
+
 def config():
     return {
         "dataset": MLQADataset,
@@ -25,7 +26,9 @@ def config():
         },
         "general_args": {
             "data_path": "data/QA/mlqa/test-context-ar-question-ar.json",
-            "fewshot": {"train_data_path": "data/QA/mlqa/dev-context-ar-question-ar.json"},
+            "fewshot": {
+                "train_data_path": "data/QA/mlqa/dev-context-ar-question-ar.json"
+            },
         },
     }
 

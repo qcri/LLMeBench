@@ -7,6 +7,7 @@ from arabic_llm_benchmark.tasks import QATask
 
 random.seed(3333)
 
+
 def config():
     return {
         "dataset": ARCDDataset,
