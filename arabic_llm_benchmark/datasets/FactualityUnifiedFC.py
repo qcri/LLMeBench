@@ -27,7 +27,9 @@ class FactualityUnifiedFCDataset(DatasetBase):
         data = []
         with open(data_path, "r", encoding="utf-8") as f:
             header = next(f)
-            if "," in header: # A trick to check if we are loading train data for FS from Khouja 20
+            if (
+                "," in header
+            ):  # A trick to check if we are loading train data for FS from Khouja 20
                 for line_idx, line in enumerate(f):
                     sentence, label_fixed = [str(s.strip()) for s in line.split(",")]
 
@@ -38,11 +40,17 @@ class FactualityUnifiedFCDataset(DatasetBase):
                         label_fixed = "true"
 
                     data.append(
-                        {"input": sentence, "label": label_fixed, "line_number": line_idx}
+                        {
+                            "input": sentence,
+                            "label": label_fixed,
+                            "line_number": line_idx,
+                        }
                     )
-            else: # Load test data from UnifiedFC
+            else:  # Load test data from UnifiedFC
                 for line_idx, line in enumerate(f):
-                    input_id, sentence, label = [str(s.strip()) for s in line.split("\t")]
+                    input_id, sentence, label = [
+                        str(s.strip()) for s in line.split("\t")
+                    ]
 
                     data.append(
                         {
