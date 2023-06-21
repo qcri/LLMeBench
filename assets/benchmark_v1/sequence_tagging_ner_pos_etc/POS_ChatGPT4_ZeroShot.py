@@ -99,7 +99,8 @@ def config():
         ('glf','glf.pos/glf.data_5.test.src-trg.sent'),
         ('mgr','mgr.pos/mgr.data_5.test.src-trg.sent'),
         ('lev','lev.pos/lev.data_5.test.src-trg.sent'),
-        ('msa','WikiNewsTruth.txt')
+        ('msa','WikiNewsTruth.txt'),
+        ('XGLUE','XGLUE/ar.test.src-tgt.txt')
     ]
     configs = []
     for name, testset in sets:
@@ -117,7 +118,6 @@ def config():
                     "api_base": os.environ["AZURE_API_URL"],
                     "api_key": os.environ["AZURE_API_KEY"],
                     "engine_name": os.environ["ENGINE_NAME"],
-                    # "class_labels": ["m", "f"],
                     "max_tries": 3,
                 },
                 "general_args": {
