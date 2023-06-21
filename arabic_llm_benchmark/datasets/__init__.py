@@ -3,6 +3,7 @@ from .ANERcorp import ANERcorpDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+from .ArabicDiacritization import ArabicDiacritizationDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset

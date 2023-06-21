@@ -2,7 +2,7 @@ import os
 import re
 
 from arabic_llm_benchmark.datasets import ArabicSegmentationDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import ArabicSegmentationTask
 
 
@@ -24,7 +24,7 @@ def config():
                     "dataset_args": {},
                     "task": ArabicSegmentationTask,
                     "task_args": {},
-                    "model": GPTModel,
+                    "model": GPTChatCompletionModel,
                     "model_args": {
                         "api_type": "azure",
                         "api_version": "2023-03-15-preview",
@@ -45,28 +45,30 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are a linguist that helps in annotating data.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"A word can be composed of one root and one or multiple affixed, \
+    return [
+        {
+            "role": "system",
+            "content": "You are a linguist that helps in annotating data.",
+        },
+        {
+            "role": "user",
+            "content": f"A word can be composed of one root and one or multiple affixed, \
                     segment the following sentence into its morphological constituents:\n {input_sample}\
                     The input will be a list of words in the sentence. \
                     The output format should be a list of tuples, where each tuple consists of a word from the input text and its segmented form joined by a + sign.\
                     ",
-            }
-        ],
-    }
+        },
+    ]
 
 
 def post_process(response):
     results = []
-    text = response["choices"][0]["text"]
+    text = response["choices"][0]["message"]["content"]
     pattern = "\([\"']([^\"']+)[\"'], [\"']([^\"']+)[\"']\)"
     matches = re.finditer(pattern, text)
     for m in matches:
         results.append(m.group(2))
+
     text = " ".join(results)
 
     # Remove extra spaces
