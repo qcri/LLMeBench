@@ -43,9 +43,15 @@ def prompt(input_sample):
 def post_process(response):
     content = response["choices"][0]["message"]["content"].lower()
 
-    if content == "no":
+    if (
+        content.startswith("no")
+        or "\nNo" in content
+        or "tweet is not sarcastic" in content
+        or "answer is no" in content
+        or "would say no" in content
+    ):
         return "FALSE"
-    elif content == "yes":
+    elif content == "yes" or content == "نعم":
         return "TRUE"
     else:
         return None
