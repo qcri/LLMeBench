@@ -36,11 +36,22 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+    for index, example in enumerate(examples):
         label = "no" if example["label"] == "0" else "yes"
+
         out_prompt = (
-            out_prompt + "tweet: " + example["input"] + "\nlabel: " + label + "\n\n"
+            out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
+            + "tweet: "
+            + example["input"]
+            + "\nlabel: "
+            + label
+            + "\n\n"
         )
 
     # Append the sentence we want the model to predict for but leave the Label blank
@@ -50,7 +61,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = f'Annotate the "tweet" into "one" of the following categories: checkworthy or not_checkworthy'
+    base_prompt = f'Annotate the "tweet" into "one" of the following categories: checkworthy or not_checkworthy. Provide only label.'
     return [
         {
             "role": "system",
