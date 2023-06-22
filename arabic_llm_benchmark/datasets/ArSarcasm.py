@@ -33,7 +33,9 @@ class ArSarcasmDataset(DatasetBase):
                 data.append(
                     {
                         "input": row["tweet"],
-                        "label": row["sarcasm"].upper(), # To get it to work on ArSarcasm (True/False) and ArSarcasm-2 (TRUE/FALSE)
+                        "label": row[
+                            "sarcasm"
+                        ].upper(),  # To get it to work on ArSarcasm (True/False) and ArSarcasm-2 (TRUE/FALSE)
                         "line_number": line_idx,
                     }
                 )

@@ -32,8 +32,10 @@ def prompt(input_sample):
             {
                 "sender": "user",
                 "text": 'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic '
-                'and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: ' + input_sample + '\n'
-                'label: \n'
+                'and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: '
+                + input_sample
+                + "\n"
+                "label: \n",
             }
         ],
     }

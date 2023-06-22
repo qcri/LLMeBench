@@ -45,7 +45,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = "Predict whether the following \"tweet\" is sarcastic. Return sarcastic if the tweet is sarcastic and not_sarcastic if the tweet is not sarcastic. Provide only label."
+    base_prompt = 'Predict whether the following "tweet" is sarcastic. Return sarcastic if the tweet is sarcastic and not_sarcastic if the tweet is not sarcastic. Provide only label.'
     return [
         {
             "role": "system",
