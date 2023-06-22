@@ -13,8 +13,8 @@ class SarcasmTask(TaskBase):
             for p in pred_labels
         ]
 
-        # f1 = f1_score(gold_labels, pred_labels, pos_label="TRUE", average="binary")
-        f1 = f1_score(gold_labels, pred_labels, average="macro")
+        f1 = f1_score(gold_labels, pred_labels, pos_label="TRUE", average="binary")
+        # f1 = f1_score(gold_labels, pred_labels, average="macro")
 
         results = {
             "f1": f1,

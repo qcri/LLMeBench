@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": SarcasmTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": GPTModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -19,43 +19,49 @@ def config():
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["TRUE", "FALSE"],
-            "max_tries": 3,
+            "max_tries": 30,
         },
-        "general_args": {"data_path": "data/sarcasm/ArSarcasm/ArSarcasm_testdata.csv"},
+        "general_args": {
+            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_testdata.csv"
+        },
     }
 
 
 def prompt(input_sample):
-    return [
-        {
-            "role": "system",
-            "content": "## INSTRUCTION\nYou are an expert in sarcasm detection.\n\n",
-        },
-        {
-            "role": "user",
-            "content": (
-                'Determine if the following "tweet" is sarcastic. Respond with "yes" if the tweet is sarcastic '
-                'and "no" if the tweet is not sarcastic\ntweet: ' + input_sample + '\n'
-                'label: \n'
-            ),
-        },
-    ]
+    return {
+        "system_message": "You are an AI assistant that helps people find information.",
+        "messages": [
+            {
+                "sender": "user",
+                "text": 'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic '
+                'and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: '
+                + input_sample
+                + "\n"
+                "label: \n",
+            }
+        ],
+    }
 
 
 def post_process(response):
     if not response:
         return None
-    
 
-    choices = response.get("choices")
-    if choices:
-        message = choices[0].get("message")
-        if message:
-            content = message.get("content")
-            if content:
-                content = content.strip().lower()
-                if "no" in content or "the tweet is not sarcastic" in content:
-                    return "FALSE"
-                elif "yes" in content or "the tweet is sarcastic" in content:
-                    return "TRUE"
+    label = response["choices"][0]["text"]
+    content = label.strip().lower()
+    if (
+        "the tweet is not sarcastic" in content
+        or content == "not sarcastic"
+        or content == "no"
+    ):
+        return "FALSE"
+    elif (
+        content == "yes"
+        or "the tweet is sarcastic" in content
+        or content == "sarcastic"
+    ):
+        return "TRUE"
+    else:
+        return None
+
     return None

@@ -19,26 +19,36 @@ def config():
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["TRUE", "FALSE"],
-            "max_tries": 3,
+            "max_tries": 20,
         },
         "general_args": {
-            "data_path": "data/sarcasm/ArSarcasm/ArSarcasm_testdata.csv",
+            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_testdata.csv",
             "fewshot": {
-                "train_data_path": "data/sarcasm/ArSarcasm_Train/ArSarcasm_traindata.csv",
+                "train_data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm_Train/ArSarcasm_traindata.csv",
             },
         },
     }
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
         label = "not_sarcastic" if example["label"] == False else "sarcastic"
         out_prompt = (
-            out_prompt + "tweet: " + example["input"] + "\nlabel: " + label + "\n\n"
+            out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
+            + "tweet: "
+            + example["input"]
+            + "\nlabel: "
+            + label
+            + "\n\n"
         )
 
-    # Append the sentence we want the model to predict for but leave the Label blank
     out_prompt = out_prompt + "tweet: " + input_sample + "\nlabel: \n"
 
     return out_prompt
