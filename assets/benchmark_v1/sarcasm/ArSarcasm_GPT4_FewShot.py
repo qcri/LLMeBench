@@ -22,9 +22,9 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sarcasm/ArSarcasm/ArSarcasm_testdata.csv",
+            "data_path": "data/sarcasm/ArSarcasm-2/testing_data.csv",
             "fewshot": {
-                "train_data_path": "data/sarcasm/ArSarcasm_Train/ArSarcasm_traindata.csv",
+                "train_data_path": "data/sarcasm/ArSarcasm-2/training_data.csv",
             },
         },
     }
@@ -33,7 +33,7 @@ def config():
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n\n"
     for example in examples:
-        label = "not_sarcastic" if example["label"] == False else "sarcastic"
+        label = "not_sarcastic" if example["label"] == "FALSE" else "sarcastic"
         out_prompt = (
             out_prompt + "tweet: " + example["input"] + "\nlabel: " + label + "\n\n"
         )
@@ -45,11 +45,11 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = 'Annotate the "tweet" into "one" of the following categories: sarcastic or not_sarcastic'
+    base_prompt = "Predict whether the following \"tweet\" is sarcastic. Return sarcastic if the tweet is sarcastic and not_sarcastic if the tweet is not sarcastic. Provide only label."
     return [
         {
             "role": "system",
-            "content": f"As an AI system, your role is to analyze tweets and classify them as 'sarcastic' or 'not_sarcastic'. Provide only label and in English.\n",
+            "content": f"You are an expert in sarcasm detection.\n",
         },
         {
             "role": "user",

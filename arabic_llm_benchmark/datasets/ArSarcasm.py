@@ -27,13 +27,13 @@ class ArSarcasmDataset(DatasetBase):
 
     def load_data(self, data_path):
         data = []
-        with open(data_path, "r") as fp:
+        with open(data_path, "r", encoding="utf-8") as fp:
             reader = csv.DictReader(fp)
             for line_idx, row in enumerate(reader):
                 data.append(
                     {
                         "input": row["tweet"],
-                        "label": row["sarcasm"],
+                        "label": row["sarcasm"].upper(), # To get it to work on ArSarcasm (True/False) and ArSarcasm-2 (TRUE/FALSE)
                         "line_number": line_idx,
                     }
                 )
