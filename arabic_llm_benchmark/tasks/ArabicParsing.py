@@ -19,13 +19,15 @@ class ArabicParsingTask(TaskBase):
         # # predicted_labels
         #     0\t1
         #     1\t2
+        print("true_labels", true_labels)
+        print("predicted_labels", predicted_labels)
         hyp = []
         ref = []
         for tdict, pdict in zip(true_labels, predicted_labels):
             thyp = {}
             #print("p:",pdict)
             #print("t:",tdict)
-            if pdict is None:
+            if pdict == None:
                 for i in tdict:
                     thyp.append(0)
             else:
