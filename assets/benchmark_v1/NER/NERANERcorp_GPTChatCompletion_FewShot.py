@@ -1,6 +1,6 @@
-from email.mime import base
 import os
 import re
+from email.mime import base
 
 from arabic_llm_benchmark.datasets import ANERcorpDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
@@ -33,34 +33,25 @@ def config():
             "max_tries": 50,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt", 
-            "fewshot": { 
+            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt",
+            "fewshot": {
                 "train_data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_train.txt"
-            }
+            },
         },
     }
 
 
-
-
 def few_shot_prompt(input_sample, base_prompt, examples):
-
-    output_prompt = base_prompt + "\n" 
-    for example in examples: 
+    output_prompt = base_prompt + "\n"
+    for example in examples:
         tokens = example["input"].split()
-        label = example["label"].split() 
+        label = example["label"].split()
         few_shot_sample = list(zip(tokens, label))
-        output_prompt = ( 
-            output_prompt 
-            + f"Sentence: {tokens}\nLabels: {few_shot_sample}\n"
-            )
-    output_prompt = (
-        output_prompt 
-        + f"Sentence: {input_sample}\n"  
-        + "Labels:"  
-    )
+        output_prompt = (
+            output_prompt + f"Sentence: {tokens}\nLabels: {few_shot_sample}\n"
+        )
+    output_prompt = output_prompt + f"Sentence: {input_sample}\n" + "Labels:"
     return output_prompt
-
 
 
 def prompt(input_sample, examples):
@@ -75,11 +66,6 @@ def prompt(input_sample, examples):
             "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
-
-    
-
-
-
 
 
 def post_process(response):

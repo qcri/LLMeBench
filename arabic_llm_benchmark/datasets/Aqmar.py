@@ -6,18 +6,22 @@ from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 class AqmarDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(AqmarDataset, self).__init__(**kwargs)
-        self.dev_filenames = kwargs.get("dev_filenames", [
-                    "Damascus.txt", 
-                    "Atom.txt",
-                    "Raul_Gonzales.txt", 
-                    "Linux.txt", 
-                    "Imam_Hussein_Shrine.txt",
-                    "Nuclear_Power.txt", 
-                    "Real_Madrid.txt", 
-                    "Solaris.txt"
-
-            ])
-        self.test_filenames = kwargs.get("test_filenames", [
+        self.dev_filenames = kwargs.get(
+            "dev_filenames",
+            [
+                "Damascus.txt",
+                "Atom.txt",
+                "Raul_Gonzales.txt",
+                "Linux.txt",
+                "Imam_Hussein_Shrine.txt",
+                "Nuclear_Power.txt",
+                "Real_Madrid.txt",
+                "Solaris.txt",
+            ],
+        )
+        self.test_filenames = kwargs.get(
+            "test_filenames",
+            [
                 "Crusades.txt",
                 "Islamic_Golden_Age.txt",
                 "Islamic_History.txt",
@@ -38,7 +42,8 @@ class AqmarDataset(DatasetBase):
                 "Internet.txt",
                 "Richard_Stallman.txt",
                 "X_window_system.txt",
-            ])
+            ],
+        )
 
     def citation(self):
         return """@inproceedings{mohit-etal-2012-recall,
