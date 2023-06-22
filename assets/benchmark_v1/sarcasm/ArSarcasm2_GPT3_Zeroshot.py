@@ -21,7 +21,7 @@ def config():
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 1,
         },
-        "general_args": {"data_path": "data/sarcasm/ArSarcasm/ArSarcasm_test.csv"},
+        "general_args": {"data_path": "data/sarcasm/ArSarcasm2/testing_data.csv"},
     }
 
 

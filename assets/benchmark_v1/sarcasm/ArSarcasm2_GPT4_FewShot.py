@@ -22,9 +22,9 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sarcasm/ArSarcasm/ArSarcasm_test.csv",
+            "data_path": "data/sarcasm/ArSarcasm2/testing_data.csv",
             "fewshot": {
-                "train_data_path": "data/sarcasm/ArSarcasm/ArSarcasm_train.csv",
+                "train_data_path": "data/sarcasm/ArSarcasm2/training_data.csv",
             },
         },
     }
