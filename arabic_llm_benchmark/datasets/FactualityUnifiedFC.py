@@ -26,17 +26,39 @@ class FactualityUnifiedFCDataset(DatasetBase):
     def load_data(self, data_path):
         data = []
         with open(data_path, "r", encoding="utf-8") as f:
-            next(f)
-            for line_idx, line in enumerate(f):
-                input_id, sentence, label = [str(s.strip()) for s in line.split("\t")]
+            header = next(f)
+            if (
+                "," in header
+            ):  # A trick to check if we are loading train data for FS from Khouja 20
+                for line_idx, line in enumerate(f):
+                    sentence, label_fixed = [str(s.strip()) for s in line.split(",")]
 
-                data.append(
-                    {
-                        "input": sentence,
-                        "label": label,
-                        "line_number": line_idx,
-                        "input_id": input_id,
-                    }
-                )
+                    # The dataset uses 1 to reflect false/fake claims
+                    if label_fixed == "1":
+                        label_fixed = "false"
+                    elif label_fixed == "0":
+                        label_fixed = "true"
+
+                    data.append(
+                        {
+                            "input": sentence,
+                            "label": label_fixed,
+                            "line_number": line_idx,
+                        }
+                    )
+            else:  # Load test data from UnifiedFC
+                for line_idx, line in enumerate(f):
+                    input_id, sentence, label = [
+                        str(s.strip()) for s in line.split("\t")
+                    ]
+
+                    data.append(
+                        {
+                            "input": sentence,
+                            "label": label,
+                            "line_number": line_idx,
+                            "input_id": input_id,
+                        }
+                    )
 
         return data
