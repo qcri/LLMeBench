@@ -52,5 +52,4 @@ def post_process(response):
         output = results
     else:
         output = None
-    print("OO:", output)
     return output

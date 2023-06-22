@@ -10,22 +10,10 @@ class ArabicParsingTask(TaskBase):
         super(ArabicParsingTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
-        # FLATTEN both arrays
-        #
-        #     true_labels:
-        #         {0: 0
-        #         1: 2}
-        # # predicted_labels
-        #     0\t1
-        #     1\t2
-        print("true_labels", true_labels)
-        print("predicted_labels", predicted_labels)
         hyp = []
         ref = []
         for tdict, pdict in zip(true_labels, predicted_labels):
             thyp = {}
-            # print("p:",pdict)
-            # print("t:",tdict)
             if pdict == None:
                 for i in tdict:
                     thyp[i] = "0"
@@ -40,6 +28,4 @@ class ArabicParsingTask(TaskBase):
                 else:
                     hyp.append(0)
 
-        # print("H:",hyp)
-        # print("R:",ref)
         return {"Macro F1": f1_score(ref, hyp, average="macro")}

@@ -35,7 +35,6 @@ class ArabicParsingDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
         send_id = 0
         sent_lab = {}
@@ -54,7 +53,6 @@ class ArabicParsingDataset(DatasetBase):
                     sent_lab = {}
                     sent_src = []
                 else:
-                    print("LLL:", len(line.split("\t")), line)
                     sent_src.append("\t".join(line.split("\t")[:6]))
                     lid = line.split("\t")[0]
                     sent_lab[lid] = line.split("\t")[6]
