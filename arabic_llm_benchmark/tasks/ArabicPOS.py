@@ -16,21 +16,20 @@ class ArabicPOSTask(TaskBase):
         ref = []
 
         for t, p in zip(true_labels, predicted_labels):
-
-            #print("tt:",t)
-            #print("pp:",p)
+            # print("tt:",t)
+            # print("pp:",p)
             if p == None:
                 continue
             if p is None or ("Sorry, I cannot") in p:
                 # print("Sorry!")
                 p = None
-            #print("P:",type(p),len(p), p)
+            # print("P:",type(p),len(p), p)
             if p == None:
                 # return unsegmented text!
                 p = [""] * len(t)
 
-            t = t.replace('+NSUFF','').replace('DET+','')
-            p = p.replace('+NSUFF','').replace('DET+','')
+            t = t.replace("+NSUFF", "").replace("DET+", "")
+            p = p.replace("+NSUFF", "").replace("DET+", "")
 
             p = p.split()
             t = t.split()
@@ -40,5 +39,5 @@ class ArabicPOSTask(TaskBase):
 
             hyp += p[: len(t)]
             ref += t
-        #print("ph:",len(hyp),len(ref))
+        # print("ph:",len(hyp),len(ref))
         return {"Macro F1": f1_score(ref, hyp, average="macro")}
