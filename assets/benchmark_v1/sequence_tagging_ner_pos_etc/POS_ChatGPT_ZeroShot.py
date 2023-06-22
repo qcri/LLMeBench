@@ -1,5 +1,5 @@
 import os
-import re
+
 from arabic_llm_benchmark.datasets import ArabicPOSDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
 from arabic_llm_benchmark.tasks import ArabicPOSTask
