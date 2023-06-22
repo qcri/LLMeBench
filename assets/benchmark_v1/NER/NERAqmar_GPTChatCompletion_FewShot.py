@@ -1,6 +1,5 @@
 import os
 import re
-from email.mime import base
 
 from arabic_llm_benchmark.datasets import AqmarDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
