@@ -39,21 +39,21 @@ class ArabicParsingDataset(DatasetBase):
         sent_src = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
-                if(len(line.split('\t'))<6):
+                if len(line.split("\t")) < 6:
                     data.append(
                         {
-                            "input": '\n'.join(sent_src),
+                            "input": "\n".join(sent_src),
                             "label": sent_lab,
                             "sent_number": send_id,
                         }
                     )
                     send_id += 1
                     sent_lab = {}
-                    sent_src = []                    
+                    sent_src = []
                 else:
-                    print('LLL:',len(line.split('\t')),line)
-                    sent_src.append('\t'.join(line.split('\t')[:6]))
-                    lid = line.split('\t')[0]
-                    sent_lab[lid] = line.split('\t')[6]
+                    print("LLL:", len(line.split("\t")), line)
+                    sent_src.append("\t".join(line.split("\t")[:6]))
+                    lid = line.split("\t")[0]
+                    sent_lab[lid] = line.split("\t")[6]
 
         return data

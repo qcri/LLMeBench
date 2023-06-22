@@ -1,5 +1,6 @@
 import os
 import re
+
 from arabic_llm_benchmark.datasets import ArabicParsingDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import ArabicParsingTask
@@ -31,25 +32,25 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are a linguist that helps in annotating data.",           
+            "content": "You are a linguist that helps in annotating data.",
         },
         {
             "role": "user",
-            "content":  f"Given the following features (in order: ID, Form, Lemma, CPostTag, POSTag, Features), predict the Head of each token in the following sentence, which is either a value of a related ID or 0. A value of zero means the token attaches to the virtual root node: {input_sample}"
-        }
+            "content": f"Given the following features (in order: ID, Form, Lemma, CPostTag, POSTag, Features), predict the Head of each token in the following sentence, which is either a value of a related ID or 0. A value of zero means the token attaches to the virtual root node: {input_sample}",
+        },
     ]
 
 
 def post_process(response):
-    output = response['choices'][0]['message']['content']
+    output = response["choices"][0]["message"]["content"]
     if len(output):
-        output = output.strip().split('\n')
+        output = output.strip().split("\n")
         results = {}
         for o in output:
-            src, tgt = (re.sub(r'[^0-9]+','\t', o)).split('\t')
+            src, tgt = (re.sub(r"[^0-9]+", "\t", o)).split("\t")
             results[src] = tgt
         output = results
     else:
         output = None
-    print("OO:",output)
+    print("OO:", output)
     return output
