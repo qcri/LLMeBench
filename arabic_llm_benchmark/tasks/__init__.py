@@ -1,5 +1,6 @@
 from .Adult import AdultTask
 from .ArabicDiacritization import ArabicDiacritizationTask
+from .ArabicParsing import ArabicParsingTask
 from .ArabicSegmentation import ArabicSegmentationTask
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
