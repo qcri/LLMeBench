@@ -28,7 +28,10 @@ class ArabicParsingDataset(DatasetBase):
     def get_data_sample(self):
         return {
             "input": "Original sentence",
-            "label": "Sentence with POS tags",
+            "label": {
+                "1": "2",
+                "2": "0",
+            },
         }
 
     def load_data(self, data_path, no_labels=False):
