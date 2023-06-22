@@ -5,7 +5,6 @@ from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
 from .ArabicDiacritization import ArabicDiacritizationDataset
 from .ArabicParsing import ArabicParsingDataset
-from .ArabicPOS import ArabicPOSDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
