@@ -28,7 +28,7 @@ class ArabicParsingTask(TaskBase):
             # print("t:",tdict)
             if pdict == None:
                 for i in tdict:
-                    thyp.append(0)
+                    thyp[i] = "0"
             else:
                 for p in pdict:
                     thyp[p] = pdict[p]
