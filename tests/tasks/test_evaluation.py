@@ -16,7 +16,7 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
 
         # Load the benchmark assets
         benchmark = Benchmark(benchmark_dir="assets")
-        cls.assets = benchmark.find_runs()
+        cls.assets = benchmark.find_assets()
 
     @patch("os.environ")
     def test_task_evaluation_failure(self, os_env_mock):
@@ -24,7 +24,7 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
         os_env_mock.__getitem__.side_effect = lambda x: "test_str"
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
-                config = asset["module"].config()
+                config = asset["config"]
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
                 task = config["task"](dataset=dataset, **config["task_args"])
@@ -45,7 +45,7 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
         os_env_mock.__getitem__.side_effect = lambda x: "test_str"
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
-                config = asset["module"].config()
+                config = asset["config"]
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
                 task = config["task"](dataset=dataset, **config["task_args"])

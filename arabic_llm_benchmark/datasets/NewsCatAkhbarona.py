@@ -34,7 +34,7 @@ class NewsCatAkhbaronaDataset(DatasetBase):
             lines = " ".join(lines).strip()
             label = row["class_label"]
 
-            entry = {"id": filename, "input": lines, "label": label}
+            entry = {"input_id": filename, "input": lines, "label": label}
             data.append(entry)
 
         return data

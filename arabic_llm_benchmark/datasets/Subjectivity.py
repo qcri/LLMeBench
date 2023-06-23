@@ -27,6 +27,9 @@ class SubjectivityDataset(DatasetBase):
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():
             text = row["sentence"]
+            id = row["sentence_id"]
             label = str(row["label"])
-            data.append({"input": text, "label": label, "line_number": index})
+            data.append(
+                {"input": text, "label": label, "input_id": id, "line_number": index}
+            )
         return data
