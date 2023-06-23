@@ -39,7 +39,7 @@ def prompt(input_sample):
         "prompt": "Predict all the possible emotions in the following Arabic sentence without explanation and put them in a Python list. List of emotions is: anger, anticipation, disgust, fear, joy, love, optimism, pessimism, sadness, surprise, and trust.\n\n"
         + "sentence: "
         + input_sample
-        + "label: \n"
+        + "label: "
     }
 
 
