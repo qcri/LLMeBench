@@ -28,7 +28,7 @@ def prompt(input_sample):
         "prompt": "Choose only one sentiment between: Positive, Negative, Neutral, or Mixed for this Arabic sentence. Provide only label.\n\n"
         + "sentence: "
         + input_sample
-        + "label: \n"
+        + "label: "
     }
 
 
