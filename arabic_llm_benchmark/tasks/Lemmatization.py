@@ -8,10 +8,14 @@ class LemmatizationTask(TaskBase):
         super(LemmatizationTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
-        # predicted_labels = [
-        #    p if p else self.get_random_prediction(set(true_labels))
-        #    for p in predicted_labels
-        # ]
+        # Replace failed predictions with unlemmatized word
+        for idx, pred in enumerate(predicted_labels):
+            if pred is None:
+                predicted_labels[idx] = true_labels[idx][0]
+
+        # Trim gold labels to lemmatized words
+        true_labels = [t_l for _, t_l in true_labels]
+
         len1 = len(true_labels)
         len2 = len(predicted_labels)
         if len1 < len2:

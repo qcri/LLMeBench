@@ -16,8 +16,8 @@ class LemmatizationDataset(DatasetBase):
 
     def get_data_sample(self):
         return {
-            "input": "فيلم جاذبية يتصدر ترشيحات جوائز",
-            "label": "فيلم جاذبية تصدر ترشيح جائزة",
+            "input": "جوائز",
+            "label": ("جوائز", "جائزة"),
         }
 
     def load_data(self, data_path, no_labels=False):
@@ -32,8 +32,11 @@ class LemmatizationDataset(DatasetBase):
                 for i, w in enumerate(words):
                     text = w
                     label = lemmas[i]
+
+                    # Supply origin unlemmatized word in the label as well
+                    # to handle failed predictions in evaluate
                     data.append(
-                        {"input": text, "label": label, "line_number": line_idx}
+                        {"input": text, "label": (text, label), "line_number": line_idx}
                     )
 
         return data
