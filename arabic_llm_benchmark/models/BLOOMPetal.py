@@ -67,6 +67,7 @@ class BLOOMPetalModel(ModelBase):
                 encoded_message = json.dumps(params, separators=(",", ":"))
                 websocket.send(encoded_message)
                 received_message = websocket.recv()
+                websocket.close()
                 response = json.loads(received_message)
 
                 if not response["ok"]:
