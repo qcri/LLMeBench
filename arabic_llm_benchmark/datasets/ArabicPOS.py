@@ -32,7 +32,6 @@ class ArabicPOSDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
 
         with open(data_path, "r") as fp:

@@ -156,20 +156,20 @@ def prompt(input_sample):
 def post_process(response):
     text = response["choices"][0]["message"]["content"]
 
-    # text = re.sub(r'}[^}]+','}',text)
-    # text = re.sub(r'[^{]+{','{',text)
+    if "Sorry, I cannot" in text or "Unfortunately" in text:
+        return None
+
     text = re.sub(r"Here's the segmented sentence in a JSON format:", "", text)
-    # print("Pro:",text)
-    pattern = r"[\"\']([^\"\']+)[\'\"]: *[\'\"]([^}]+)[\'\"]"
+
     pattern = r"\(\"([^\"]+)\", \"([^\"]+)\"\)"
     matches = re.finditer(pattern, text)
     results = []
-    # print("Res0:",results)
+
     for m in matches:
         tag = m.group(2)
         ntag = []
         for t in tag.split("+"):
             ntag.append(mapTags[t] if t in mapTags else t)
         results.append("+".join(ntag))
-    # print("Res1:",results)
+
     return " ".join(results)
