@@ -22,7 +22,6 @@ class MGBWordsDataset(DatasetBase):
                 if idx == 7906:
                     break
                 fields = line.split("\t")
-                print(idx, fields)
                 words = fields[4].split()
                 s = ""
                 ref_label = []
