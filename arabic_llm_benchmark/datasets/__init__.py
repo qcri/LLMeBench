@@ -23,6 +23,7 @@ from .Harmful import CovidHarmfulDataset
 from .HateSpeech import HateSpeechDataset
 from .Lemmatization import LemmatizationDataset
 from .Location import LocationDataset
+from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
 from .NameInfo import NameInfoDataset
 from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
