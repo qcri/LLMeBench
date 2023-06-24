@@ -35,7 +35,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/dialect_12_test_merged.tsv"
+            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv"
         },
     }
 
@@ -69,6 +69,24 @@ def post_process(response):
 
     if label in label_list:
         label_fixed = label
+    elif "\n msa" in label:
+        label_fixed = "msa"
+    elif "\n ksa" in label:
+        label_fixed = "ksa"
+    elif "\n pal" in label:
+        label_fixed = "pal"
+    elif "\n egy" in label:
+        label_fixed = "egy"
+    elif "\n yem" in label:
+        label_fixed = "yem"
+    elif "\n syr" in label:
+        label_fixed = "syr"
+    elif "\n jor" in label:
+        label_fixed = "jor"
+    elif "\n ira" in label:
+        label_fixed = "ira"
+    elif "\n kuw" in label:
+        label_fixed = "kuw"
     else:
         label_fixed = None
 
