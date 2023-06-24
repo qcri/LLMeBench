@@ -15,6 +15,7 @@ from .FactualityKhouja20 import FactualityKhouja20Task
 from .FactualityUnifiedFC import FactualityUnifiedFCTask
 from .HarmfulDetection import HarmfulDetectionTask
 from .HateSpeech import HateSpeechTask
+from .Lemmatization import LemmatizationTask
 from .MachineTranslation import MachineTranslationTask
 from .NER import NERTask
 from .NewsCatAkhbarona import NewsCatAkhbaronaTask

@@ -20,6 +20,7 @@ from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .FactualityUnifiedFC import FactualityUnifiedFCDataset
 from .Harmful import CovidHarmfulDataset
 from .HateSpeech import HateSpeechDataset
+from .Lemmatization import LemmatizationDataset
 from .Location import LocationDataset
 from .MLQA import MLQADataset
 from .NameInfo import NameInfoDataset
