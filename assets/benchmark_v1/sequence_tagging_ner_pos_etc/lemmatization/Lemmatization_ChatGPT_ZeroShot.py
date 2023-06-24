@@ -18,7 +18,6 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["lemma1", "lamme2", "..."],
             "max_tries": 3,
         },
         "general_args": {
@@ -41,4 +40,6 @@ def prompt(input_sample):
 
 def post_process(response):
     out = response["choices"][0]["text"].strip()
-    return out
+
+    # TODO: fix hack to handle prediction failure
+    return (None, out)
