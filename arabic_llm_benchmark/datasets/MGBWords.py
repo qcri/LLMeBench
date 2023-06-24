@@ -17,14 +17,14 @@ class MGBWordsDataset(DatasetBase):
 
     def load_data(self, data_path, no_labels=False):
         data = []
-        with open(data_path, "rt", encoding='UTF8') as fp: 
+        with open(data_path, "rt", encoding="UTF8") as fp:
             for idx, line in enumerate(fp):
-                if idx == 7906: 
+                if idx == 7906:
                     break
                 fields = line.split("\t")
                 print(idx, fields)
                 words = fields[4].split()
-                s = ''
+                s = ""
                 ref_label = []
                 for w in words:
                     index1 = w.find("/")
@@ -32,17 +32,15 @@ class MGBWordsDataset(DatasetBase):
                         index1 = len(w)
                         w += "/O"
                     word = w[0:index1]
-                    label = w[index1+1:]
-                    if label == 'B-OTH' or label == 'I-OTH':
-                        label = 'O'
+                    label = w[index1 + 1 :]
+                    if label == "B-OTH" or label == "I-OTH":
+                        label = "O"
                     ref_label.append(label)
-                    
+
                     s += f"{word} "
                 s = s.strip()
                 ref_label = " ".join(ref_label)
 
-                data.append(
-                    {"input": s, "label": ref_label}
-                )
+                data.append({"input": s, "label": ref_label})
 
         return data
