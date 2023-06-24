@@ -1,6 +1,6 @@
 import re
 
-from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
 
 from arabic_llm_benchmark.tasks.task_base import TaskBase
 
@@ -32,4 +32,4 @@ class ArabicPOSTask(TaskBase):
             hyp += p
             ref += t
 
-        return {"Macro F1": f1_score(ref, hyp, average="macro")}
+        return {"Accuracy": accuracy_score(ref, hyp)}
