@@ -60,7 +60,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = f'Annotate the "tweet" into one of the following categories: correct or incorrect. Provide only label.'
+    base_prompt = f'Annotate the "tweet" into one of the following categories: yes or no. Provide only label.'
     return [
         {
             "role": "system",
@@ -76,13 +76,19 @@ def prompt(input_sample, examples):
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
-    if label.startswith("I am unable to verify".lower()) or label.startswith(
-        "I am unable to categorize".lower()
+    if (
+        "label: incorrect" in label
+        or "incorrect" in label
+        or label == "no"
+        or "label: no" in label
     ):
-        label_fixed = None
-    elif "label: incorrect" in label or "incorrect" in label or label == "no":
         label_fixed = "no"
-    elif "label: correct" in label or "correct" in label or label == "yes":
+    elif (
+        "label: correct" in label
+        or "correct" in label
+        or label == "yes"
+        or "label: yes" in label
+    ):
         label_fixed = "yes"
     else:
         label_fixed = None
