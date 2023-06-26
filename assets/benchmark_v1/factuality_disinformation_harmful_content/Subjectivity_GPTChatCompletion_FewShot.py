@@ -32,44 +32,40 @@ def config():
 
 def prompt(input_sample, examples):
     base_prompt = (
-        "Classify the sentence as Subjective or Objective. Provide only label.\n"
+        "Classify the 'sentence' as subjective or objective. Provide only label.\n"
     )
     return [
         {
             "role": "system",
-            # "content": "You are social media expert. You can annotate important tweets and require attention from journalists, fact-checker, and government entities.",
-            "content": "You are an AI assistant that helps people find information.",
+            "content": "You are social media expert. You can annotate important tweets and require attention from journalists, fact-checker, and government entities.",
         },
         {
             "role": "user",
             "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
-    # return {
-    #     "system_message": "You are an AI assistant that helps people find information.",
-    #     "messages": [
-    #         {
-    #             "sender": "user",
-    #             "text": few_shot_prompt(input_sample, base_prompt, examples),
-    #         }
-    #     ],
-    # }
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
-    for example in examples:
-        # Found chatgpt confused when using 0 and 1 in the prompt
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+    for index, example in enumerate(examples):
         label = "objective" if example["label"] == "OBJ" else "subjective"
+
         out_prompt = (
-            out_prompt + "Sentence: " + example["input"] + "\nLabel: " + label + "\n\n"
+            out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
+            + "sentence: "
+            + example["input"]
+            + "\nlabel: "
+            + label
+            + "\n\n"
         )
 
-    # Append the sentence we want the model to predict for but leave the Label blank
-    out_prompt = out_prompt + "Sentence: " + input_sample + "\nLabel: \n"
-
-    # print("=========== FS Prompt =============\n")
-    # print(out_prompt)
+    out_prompt = out_prompt + "sentence: " + input_sample + "\nlabel: \n"
 
     return out_prompt
 
@@ -77,7 +73,11 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
 
-    if label == "objective" or label == "objective.":
+    if "label: objective" in label:
+        label_fixed = "OBJ"
+    elif "label: subjective" in label:
+        label_fixed = "SUBJ"
+    elif label == "objective" or label == "objective.":
         label_fixed = "OBJ"
 
     elif label == "subjective" or label == "subjective.":
