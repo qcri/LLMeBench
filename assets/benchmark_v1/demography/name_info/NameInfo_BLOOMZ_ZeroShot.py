@@ -1,7 +1,7 @@
 import os
 
 from arabic_llm_benchmark.datasets import NameInfoDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
+from arabic_llm_benchmark.models import BLOOMPetalModel
 from arabic_llm_benchmark.tasks import DemographyNameInfoTask
 
 
@@ -11,13 +11,9 @@ def config():
         "dataset_args": {},
         "task": DemographyNameInfoTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": BLOOMPetalModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
+            "api_url": os.environ["API_URL"],
             "class_labels": [
                 "gb",
                 "us",
@@ -120,68 +116,52 @@ def config():
                 "by",
                 "kz",
             ],
-            "max_tries": 30,
+            "max_tries": 10,
         },
         "general_args": {
-            "data_path": "data/demographic_attributes/name_info/wikidata_test.txt",
-            "fewshot": {
-                "train_data_path": "data/demographic_attributes/name_info/wikidata_test.txt",  # TODO need to change the file
-                "deduplicate": False,
-            },
+            "data_path": "data/demographic_attributes/name_info/wikidata_test.txt"
         },
     }
 
 
-def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n"
-    out_prompt = out_prompt + "Here are some examples:\n\n"
+def prompt(input_sample):
+    arr = input_sample.split()
 
-    for index, example in enumerate(examples):
-        out_prompt = (
-            out_prompt
-            + "Example "
-            + str(index)
-            + ":"
-            + "\n"
-            + "name: "
-            + example["input"]
-            + "\ncountry: "
-            + example["label"]
-            + "\n\n"
-        )
+    if len(arr) > 1000:
+        input_sample = " ".join(arr[:1000])
+    else:
+        input_sample = " ".join(arr)
 
-    # Append the sentence we want the model to predict for but leave the Label blank
-    out_prompt = out_prompt + "name: " + input_sample + "\ncountry: \n"
+    prompt_string = (
+        f"You are an expert annotator who can identify the country of a person based on name.\n"
+        f"Label the country of the following person 'name'. Write ONLY the country code in ISO 3166-1 alpha-2 format.\n"
+        f"Provide only label.\n\n"
+        f"name: {input_sample}\n"
+        f"country: \n"
+    )
 
-    return out_prompt
-
-
-def prompt(input_sample, examples):
-    base_prompt = f"Label the country of the following person 'name'. Write ONLY the country code in ISO 3166-1 alpha-2 format."
-    return [
-        {
-            "role": "system",
-            "content": "You are an expert annotator who can identify the country of a person based on name.",
-        },
-        {
-            "role": "user",
-            "content": few_shot_prompt(input_sample, base_prompt, examples),
-        },
-    ]
+    return {
+        "prompt": prompt_string,
+    }
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].strip()
-    country_dict = config()["model_args"]["class_labels"]
-    if "country: " in label:
-        label_fixed = label.replace("country: ", "").lower()
-    elif label.lower() in country_dict:
+    label = response["outputs"].strip()
+    label = label.replace("<s>", "")
+    label = label.replace("</s>", "")
+    label = label.lower()
+
+    label_list = config()["model_args"]["class_labels"]
+
+    if "name: " in label:
+        label_fixed = label.replace("name: ", "").lower()
+    elif label.lower() in label_list:
         label_fixed = label.lower()
     elif (
         "I'm sorry, but I cannot predict the country" in label
         or "I cannot predict the country" in label
     ):
-        label_fixed = "NameIssue"  # TODO need to fix this
+        label_fixed = None
     else:
         label_fixed = None
 
