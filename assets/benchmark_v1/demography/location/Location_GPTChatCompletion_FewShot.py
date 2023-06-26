@@ -55,10 +55,16 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
         out_prompt = (
             out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
             + "user location: "
             + example["input"]
             + "\ncountry code: "
@@ -87,7 +93,7 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].lower()
+    label = response["choices"][0]["message"]["content"]  # .lower()
     country_code_list = config()["model_args"]["class_labels"]
     if "country code: ":
         label_fixed = label.replace("country code: ", "")
