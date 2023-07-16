@@ -1,7 +1,7 @@
 import re
 
-from sklearn.metrics import f1_score
 
+from sklearn.metrics import f1_score
 from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
@@ -41,4 +41,4 @@ class ArabicPOSTask_v4(TaskBase):
             hyp += p[: len(t)]
             ref += t
         #print("ph:",len(hyp),len(ref))
-        return {"Macro F1": f1_score(ref, hyp, average="macro")}
+        return {"Macro averaged F1 Score": f1_score(ref, hyp, average="macro")}
