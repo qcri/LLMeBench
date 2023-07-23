@@ -29,6 +29,7 @@ def config():
 
 def prompt(input_sample):
     ## GPT 3.5 - turbo
+
     return {
         "system_message": "You are an AI assistant that helps people find information.",
         "messages": [
