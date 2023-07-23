@@ -16,7 +16,9 @@ def config():
             "api_url": os.environ["API_URL"],
             "max_tries": 5,
         },
-        "general_args": {"data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json"},
+        "general_args": {
+            "data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json"
+        },
     }
 
 
