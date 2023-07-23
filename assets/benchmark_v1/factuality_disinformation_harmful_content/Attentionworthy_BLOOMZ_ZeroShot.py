@@ -1,12 +1,8 @@
 import os
-import random
 
 from arabic_llm_benchmark.datasets import AttentionworthyDataset
 from arabic_llm_benchmark.models import BLOOMPetalModel
 from arabic_llm_benchmark.tasks import AttentionworthyTask
-
-
-random.seed(1333)
 
 
 def config():
@@ -49,8 +45,5 @@ def post_process(response):
         label_fixed = "harmful"
     elif label.startswith("yes"):
         label_fixed = label
-
-    if label_fixed == None:
-        print("Issue with label! " + label)
 
     return label_fixed

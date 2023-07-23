@@ -63,7 +63,6 @@ def post_process(response):
         pred_label = "0"
 
     if pred_label == "":
-        print("Issue with label! " + input_label)
         pred_label = None
 
     return pred_label
