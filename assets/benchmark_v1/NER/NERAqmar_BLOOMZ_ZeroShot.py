@@ -16,7 +16,6 @@ def config():
             "api_url": os.environ["API_URL"],
             "max_tries": 100,
         },
-        
         "general_args": {
             "data_path": {
                 "split": "test",

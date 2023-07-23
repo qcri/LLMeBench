@@ -16,7 +16,9 @@ def config():
             "api_url": os.environ["API_URL"],
             "max_tries": 100,
         },
-        "general_args": {"data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt"},
+        "general_args": {
+            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt"
+        },
     }
 
 
