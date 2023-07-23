@@ -16,7 +16,7 @@ def config():
             "api_url": os.environ["API_URL"],
             "max_tries": 5,
         },
-        "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},
+        "general_args": {"data_path": "data/QA/ARCD/arcd-test.json"},
     }
 
 
