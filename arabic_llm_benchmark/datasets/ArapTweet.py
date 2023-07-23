@@ -24,20 +24,43 @@ class ArapTweetDataset(DatasetBase):
                 for line_idx, line in enumerate(fp):
                     name, label = line.strip().split("\t")
                     data.append(
-                        {"input": name, "label": label, "line_number": line_idx}
+                        {
+                            "input": name,
+                            "input_id": name,
+                            "label": label,
+                            "line_number": line_idx,
+                        }
                     )
         else:
+            user_ids = set()
             with open(data_path, "r") as fp:
                 for line_idx, line in enumerate(fp):
-                    arr = line.strip().split("\t")
-                    id = arr[0]
-                    name = arr[1]
-                    label = arr[3]
+                    line = line.strip()
+
+                    # Ignore empty lines
+                    if len(line) == 0:
+                        continue
+
+                    arr = line.split("\t")
+
+                    # Ignore lines that do not have all columns
+                    if len(arr) != 6:
+                        continue
+
+                    # Do not add the same user twice
+                    user_id = arr[0].strip()
+                    if user_id in user_ids:
+                        continue
+                    user_ids.add(user_id)
+
+                    # Set `input_id` to name to deduplicate based on same name
+                    name = arr[1].strip()
+                    label = arr[3].strip()
                     data.append(
                         {
                             "input": name,
                             "label": label,
-                            "input_id": id,
+                            "input_id": user_id,
                             "line_number": line_idx,
                         }
                     )

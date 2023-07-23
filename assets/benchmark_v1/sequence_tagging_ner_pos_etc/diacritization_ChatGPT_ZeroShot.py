@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import HateSpeechDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import HateSpeechTask
+from arabic_llm_benchmark.datasets import ArabicDiacritizationDataset
+from arabic_llm_benchmark.models import GPTModel
+from arabic_llm_benchmark.tasks import ArabicDiacritizationTask
 
 
 def config():
     return {
-        "dataset": HateSpeechDataset,
+        "dataset": ArabicDiacritizationDataset,
         "dataset_args": {},
-        "task": HateSpeechTask,
+        "task": ArabicDiacritizationTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -18,11 +18,10 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["HS", "NOT_HS"],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sentiment_emotion_others/hate_speech/OSACT2020-sharedTask-test-tweets-labels.txt"
+            "data_path": "data/sequence_tagging_ner_pos_etc/diacritization/WikiNewsTruth.txt"
         },
     }
 
@@ -33,15 +32,11 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f'if the following Arabic sentence has hate speech, just say "HS", otherwise, say just "NOT_HS" without explanation: \n {input_sample}',
+                "text": f"Diacritize fully the following Arabic sentence: {input_sample}",
             }
         ],
     }
 
 
 def post_process(response):
-    out = response["choices"][0]["text"]
-    j = out.find(".")
-    if j > 0:
-        out = out[0:j]
-    return out
+    return response["choices"][0]["text"]
