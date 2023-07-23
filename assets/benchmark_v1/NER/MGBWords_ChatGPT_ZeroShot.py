@@ -1,14 +1,14 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import AqmarDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
+from arabic_llm_benchmark.datasets import MGBWordsDataset
+from arabic_llm_benchmark.models import GPTModel
 from arabic_llm_benchmark.tasks import NERTask
 
 
 def config():
     return {
-        "dataset": AqmarDataset,
+        "dataset": MGBWordsDataset,
         "dataset_args": {},
         "task": NERTask,
         "task_args": {},
@@ -18,7 +18,7 @@ def config():
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": [
                 "B-PERS",
                 "I-PERS",
@@ -28,14 +28,12 @@ def config():
                 "I-ORG",
                 "B-MISC",
                 "I-MISC",
+                "O",
             ],
-            "max_tries": 3,
+            "max_tries": 50,
         },
         "general_args": {
-            "data_path": {
-                "split": "test",
-                "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-            }
+            "data_path": "data/sequence_tagging_ner_pos_etc/NER/mgb/MGB-words.txt"
         },
     }
 

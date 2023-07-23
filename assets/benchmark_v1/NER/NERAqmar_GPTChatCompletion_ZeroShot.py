@@ -2,7 +2,7 @@ import os
 import re
 
 from arabic_llm_benchmark.datasets import AqmarDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
+from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import NERTask
 
 
@@ -12,13 +12,13 @@ def config():
         "dataset_args": {},
         "task": NERTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": [
                 "B-PERS",
                 "I-PERS",
@@ -29,31 +29,32 @@ def config():
                 "B-MISC",
                 "I-MISC",
             ],
-            "max_tries": 3,
+            "max_tries": 150,
         },
         "general_args": {
             "data_path": {
                 "split": "test",
                 "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-            }
+            },
         },
     }
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "Assistant is a large language model trained by OpenAI.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"Task Description: You are working as a named entity recognition expert and your task is to label a given arabic text with named entity labels. Your task is to identify and label any named entities present in the text. The named entity labels that you will be using are PER (person), LOC (location), ORG (organization) and MISC (miscellaneous). You may encounter multi-word entities, so make sure to label each word of the entity with the appropriate prefix ('B' for first word entity, 'I' for any non-initial word entity). For words which are not part of any named entity, you should return 'O'.\nNote: Your output format should be a list of tuples, where each tuple consists of a word from the input text and its corresponding named entity label.\nInput:{input_sample.split()}",
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "Assistant is a large language model trained by OpenAI.",
+        },
+        {
+            "role": "user",
+            "content": f"Task Description: You are working as a named entity recognition expert and your task is to label a given arabic text with named entity labels. Your task is to identify and label any named entities present in the text. The named entity labels that you will be using are PER (person), LOC (location), ORG (organization) and MISC (miscellaneous). You may encounter multi-word entities, so make sure to label each word of the entity with the appropriate prefix ('B' for first word entity, 'I' for any non-initial word entity). For words which are not part of any named entity, you should return 'O'.\nNote: Your output format should be a list of tuples, where each tuple consists of a word from the input text and its corresponding named entity label.\nInput:{input_sample.split()}",
+        },
+    ]
 
 
 def post_process(response):
-    response = response["choices"][0]["text"]
+    response = response["choices"][0]["message"]["content"]
     possible_tags = [
         "B-PER",
         "I-PER",
