@@ -1,3 +1,4 @@
+import json
 import logging
 import random
 
@@ -50,8 +51,27 @@ class DatasetBase(ABC):
 
         return final_train_data
 
+    def stringify_sample(self, sample):
+        new_sample = sample.copy()
+        new_sample["input"] = json.dumps(new_sample["input"], ensure_ascii=False)
+        return new_sample
+
+    def destringify_sample(self, sample):
+        new_sample = sample.copy()
+        new_sample["input"] = json.loads(new_sample["input"])
+        return new_sample
+
     def prepare_fewshots(self, target_data, train_data, n_shots, deduplicate=True):
         """Returns a generator for fewshot samples _per test instance_"""
+
+        # Stringify inputs for few shot
+        deserialization_required = False
+        if not isinstance(train_data[0]["input"], str):
+            logging.warning(
+                "`input` is not a string, JSON stringifying for few shot preparation"
+            )
+            deserialization_required = True
+            train_data = [self.stringify_sample(sample) for sample in train_data]
 
         # Remove empty inputs
         original_sample_count = len(train_data)
@@ -87,6 +107,8 @@ class DatasetBase(ABC):
 
         # For each input sample, get few shot examples
         for idx, input_sample in enumerate(target_data):
+            if deserialization_required:
+                input_sample = self.stringify_sample(input_sample)
             if len(input_sample["input"].strip()) > 0:
                 examples = example_selector.select_examples(input_sample)
             else:
@@ -95,5 +117,9 @@ class DatasetBase(ABC):
                     f"Sample with empty input encountered, will pick few shot samples randomly from train"
                 )
                 examples = random.sample(train_data, k=n_shots)
+
+            if deserialization_required:
+                # Deserialize example
+                examples = [self.destringify_sample(sample) for sample in examples]
 
             yield examples
