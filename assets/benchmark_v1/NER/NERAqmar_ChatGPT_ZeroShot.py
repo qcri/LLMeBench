@@ -9,30 +9,7 @@ from arabic_llm_benchmark.tasks import NERTask
 def config():
     return {
         "dataset": AqmarDataset,
-        "dataset_args": {
-            "test_filenames": [
-                "Crusades.txt",
-                "Islamic_Golden_Age.txt",
-                "Islamic_History.txt",
-                "Ibn_Tolun_Mosque.txt",
-                "Ummaya_Mosque.txt",
-                "Enrico_Fermi.txt",
-                "Light.txt",
-                "Periodic_Table.txt",
-                "Physics.txt",
-                "Razi.txt",
-                "Summer_Olympics2004.txt",
-                "Christiano_Ronaldo.txt",
-                "Football.txt",
-                "Portugal_football_team.txt",
-                "Soccer_Worldcup.txt",
-                "Computer.txt",
-                "Computer_Software.txt",
-                "Internet.txt",
-                "Richard_Stallman.txt",
-                "X_window_system.txt",
-            ]
-        },
+        "dataset_args": {},
         "task": NERTask,
         "task_args": {},
         "model": GPTModel,
@@ -55,7 +32,10 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0"
+            "data_path": {
+                "split": "test",
+                "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+            }
         },
     }
 

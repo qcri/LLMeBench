@@ -24,8 +24,8 @@ def config():
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",  # TODO need to change the file
-                "deduplicate": False,
+                "train_data_path": "data/factuality_disinformation_harmful_content/adult/adult-train.tsv",
+                "deduplicate": True,
             },
         },
     }
@@ -33,9 +33,14 @@ def config():
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+    for index, example in enumerate(examples):
         out_prompt = (
             out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
             + "tweet: "
             + example["input"]
             + "\nlabel: "
@@ -64,9 +69,16 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
+    if not response:
+        return None
+
     label = response["choices"][0]["message"]["content"]
-    label_fixed = label.replace("label:", "").strip()
-    if label_fixed.startswith("Please provide the tweet"):
+
+    if "label: NOT_ADULT" in label or "NOT_ADULT" == label:
+        label_fixed = "NOT_ADULT"
+    elif "label: ADULT" in label or "ADULT" == label:
+        label_fixed = "ADULT"
+    else:
         label_fixed = None
 
     return label_fixed

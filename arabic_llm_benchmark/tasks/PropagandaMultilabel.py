@@ -15,14 +15,7 @@ class PropagandaMultilabelTask(TaskBase):
     def evaluate(self, true_labels, predicted_labels):
         # Handle cases when model fails!
         # Flatten true labels as it is a list of lists
-        predicted_labels = [
-            p
-            if p
-            else self.get_random_prediction(
-                set(itertools.chain.from_iterable(true_labels))
-            )
-            for p in predicted_labels
-        ]
+        predicted_labels = [p if p else ["no technique"] for p in predicted_labels]
 
         # Need the pre-defined list of techniques
         techniques = self.dataset.get_predefined_techniques()
