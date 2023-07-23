@@ -22,7 +22,7 @@ def config():
                 "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track2.ar-en.txt",
                 "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track2.ar-en.txt",
             }
-        }
+        },
     }
 
 
@@ -44,8 +44,4 @@ def post_process(response):
     pattern = r"\b\d+\.\d*|\d+\b"
     pred_num = re.findall(pattern, label)[0]
 
-    try:
-        return float(pred_num) / 2
-    except:
-        print("Label issue! " + str(label))
-        return None
+    return float(pred_num) / 2

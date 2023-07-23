@@ -44,8 +44,4 @@ def post_process(response):
     pattern = r"\b\d+\.\d*|\d+\b"
     pred_num = re.findall(pattern, label)[0]
 
-    try:
-        return float(pred_num) / 2
-    except:
-        print("Label issue! " + str(label))
-        return None
+    return float(pred_num) / 2
