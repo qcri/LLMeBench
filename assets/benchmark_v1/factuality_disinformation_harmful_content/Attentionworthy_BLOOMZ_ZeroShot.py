@@ -28,13 +28,13 @@ def config():
 
 def prompt(input_sample):
     prompt = (
-        f'Predict whether a tweet should get the attention of policy makers. Use the following categories: yes_discusses_action_taken, harmful, yes_discusses_cure, yes_asks_question, no_not_interesting, yes_other, yes_blame_authorities, yes_contains_advice, yes_calls_for_action\n\n'
+        f"Predict whether a tweet should get the attention of policy makers. Use the following categories: yes_discusses_action_taken, harmful, yes_discusses_cure, yes_asks_question, no_not_interesting, yes_other, yes_blame_authorities, yes_contains_advice, yes_calls_for_action\n\n"
         f"tweet: {input_sample}\n"
         f"label: \n"
     )
     return {
-            "prompt": prompt,
-        }
+        "prompt": prompt,
+    }
 
 
 def post_process(response):

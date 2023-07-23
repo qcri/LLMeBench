@@ -23,15 +23,22 @@ def config():
 
 
 def prompt(input_sample):
-    prompt = "Classify the sentence by whether the information in it can cause harm to the society, an entity or persona. Answer only by yes or no. Provide only label.\n\n" \
-             + "Sentence: " + input_sample + "\nLabel: \n"
+    prompt = (
+        "Classify the sentence by whether the information in it can cause harm to the society, an entity or persona. Answer only by yes or no. Provide only label.\n\n"
+        + "Sentence: "
+        + input_sample
+        + "\nLabel: \n"
+    )
 
     return {
-            "prompt": prompt,
-        }
+        "prompt": prompt,
+    }
+
 
 def post_process(response):
-    input_label = response["outputs"].strip().lower().replace("<s>", "").replace("</s>", "")
+    input_label = (
+        response["outputs"].strip().lower().replace("<s>", "").replace("</s>", "")
+    )
     pred_label = ""
 
     if (
