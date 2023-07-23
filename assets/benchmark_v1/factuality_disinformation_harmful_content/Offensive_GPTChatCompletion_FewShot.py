@@ -24,15 +24,17 @@ def config():
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt",
             "fewshot": {
-            "train_data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-train_OFF.txt",#TO_DO
-        },
+                "train_data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-train_OFF.txt",  # TO_DO
+            },
         },
     }
 
 
 def prompt(input_sample, examples):
-    base_prompt = 'Given a tweet, predict whether it is offensive or not. Answer only by using' \
-                  ' offensive and not_offensive. Here are some examples:\n'
+    base_prompt = (
+        "Given a tweet, predict whether it is offensive or not. Answer only by using"
+        " offensive and not_offensive. Here are some examples:\n"
+    )
 
     return [
         {
@@ -44,6 +46,7 @@ def prompt(input_sample, examples):
             "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
+
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"

@@ -23,8 +23,11 @@ class OffensiveDataset(DatasetBase):
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 splits = line.strip().split("\t")
-                if len(splits) < 2: continue
+                if len(splits) < 2:
+                    continue
                 label = splits[1].strip()
-                data.append({"input": splits[0], "label": label, "line_number": line_idx})
+                data.append(
+                    {"input": splits[0], "label": label, "line_number": line_idx}
+                )
 
         return data

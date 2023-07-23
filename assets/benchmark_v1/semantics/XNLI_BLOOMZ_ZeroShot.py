@@ -38,8 +38,9 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    input_label = response["outputs"].replace("<s>", "").replace("</s>", "").strip().lower()
-
+    input_label = (
+        response["outputs"].replace("<s>", "").replace("</s>", "").strip().lower()
+    )
 
     if "neutral" in input_label or "unknown" in input_label:
         pred_label = "neutral"
@@ -48,7 +49,6 @@ def post_process(response):
     elif "false" in input_label or "contradiction" in input_label:
         pred_label = "contradiction"
     else:
-        print("Label issue!" + input_label)
         pred_label = None
 
     return pred_label
