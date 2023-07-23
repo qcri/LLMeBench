@@ -35,7 +35,7 @@ def config():
     }
 
 
-def prompt(input_sample,examples):
+def prompt(input_sample, examples):
     prompt_string = "Given a reference sentence and a claim, predict whether the claim agrees or disagrees with the reference sentence. Reply only using 'agree', 'disagree', or use 'other' if the sentence and claim are unrelated.\n\n"
 
     return [
@@ -45,15 +45,16 @@ def prompt(input_sample,examples):
         },
         {
             "role": "user",
-            "content": few_shot_prompt(input_sample,prompt_string,examples),
+            "content": few_shot_prompt(input_sample, prompt_string, examples),
         },
     ]
+
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt
     for example in examples:
-        ref_s = example['input'].split("\t")[0]
-        claim = example['input'].split("\t")[1]
+        ref_s = example["input"].split("\t")[0]
+        claim = example["input"].split("\t")[1]
 
         out_prompt = (
             out_prompt
@@ -71,23 +72,28 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     ref_s = input_sample.split("\t")[0]
     claim = input_sample.split("\t")[1]
 
-    out_prompt = out_prompt \
-                 + "reference sentence: " + ref_s\
-                 + "\nclaim: " + claim\
-                 + "\nlabel: \n"
+    out_prompt = (
+        out_prompt
+        + "reference sentence: "
+        + ref_s
+        + "\nclaim: "
+        + claim
+        + "\nlabel: \n"
+    )
 
-    #print("=========== FS Prompt =============\n")
-    #print(out_prompt)
+    # print("=========== FS Prompt =============\n")
+    # print(out_prompt)
 
     return out_prompt
+
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
     label = label.replace("label:", "").strip()
-    #label_fixed = label.replace("stance:", "").strip()
+    # label_fixed = label.replace("stance:", "").strip()
 
     label_fixed = None
-    #print(label)
+    # print(label)
 
     if "unrelated" in label or "other" in label:
         label_fixed = "other"
@@ -95,6 +101,5 @@ def post_process(response):
         label_fixed = "disagree"
     elif label == "agree":
         label_fixed = "agree"
-
 
     return label_fixed

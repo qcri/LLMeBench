@@ -1,5 +1,6 @@
 import json
 import os
+
 import pandas as pd
 
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
@@ -44,11 +45,14 @@ class StanceUnifiedFCDataset(DatasetBase):
 
                 # Had to concatenate s1 and s2 this as langchain only accepts strings
                 data.append(
-                        {"input": s1.strip() + "\t" + s2.strip(), "label": label, "line_number": line_idx}
+                    {
+                        "input": s1.strip() + "\t" + s2.strip(),
+                        "label": label,
+                        "line_number": line_idx,
+                    }
                 )
 
         return data
-
 
     def load_data(self, data_path, no_labels=False):
         data = []
@@ -59,8 +63,14 @@ class StanceUnifiedFCDataset(DatasetBase):
             with open(data_path, "r", encoding="utf-8") as json_file:
                 for line in json_file:
                     json_obj = json.loads(line)
-                    #Had to make input a string instead of a dictionar{claim,article} to get FS to work
+                    # Had to make input a string instead of a dictionar{claim,article} to get FS to work
                     data.append(
-                            {"input": "claim: " + str(json_obj["claim"])+ "\tarticle: " + str(json_obj["article"]),
-                             "label": json_obj["stance"]})
+                        {
+                            "input": "claim: "
+                            + str(json_obj["claim"])
+                            + "\tarticle: "
+                            + str(json_obj["article"]),
+                            "label": json_obj["stance"],
+                        }
+                    )
             return data

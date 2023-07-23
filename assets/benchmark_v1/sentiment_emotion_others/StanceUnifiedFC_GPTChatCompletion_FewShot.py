@@ -34,7 +34,7 @@ def config():
     }
 
 
-def prompt(input_sample,examples):
+def prompt(input_sample, examples):
     prompt_string = (
         f"Given a reference claim, and a news article, predict the stance of the article "
         f"towards the claim. Reply using one of these stances: 'agree' (if article agrees "
@@ -44,7 +44,7 @@ def prompt(input_sample,examples):
         f"\n\n"
     )
 
-    prompt_string = few_shot_prompt(input_sample,prompt_string,examples)
+    prompt_string = few_shot_prompt(input_sample, prompt_string, examples)
 
     return [
         {
@@ -61,8 +61,8 @@ def prompt(input_sample,examples):
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt
     for example in examples:
-        ref_s = example['input'].split("\t")[0]
-        claim = example['input'].split("\t")[1]
+        ref_s = example["input"].split("\t")[0]
+        claim = example["input"].split("\t")[1]
         label = "unrelated" if example["label"] == "other" else example["label"]
 
         out_prompt = (
@@ -82,12 +82,17 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     claim = claim.replace("claim:", " ").strip()
     article = article.strip()
 
-    out_prompt = out_prompt + f"reference claim: {claim}\n" + f"news article: {article}\nlabel: \n"
+    out_prompt = (
+        out_prompt
+        + f"reference claim: {claim}\n"
+        + f"news article: {article}\nlabel: \n"
+    )
 
-    #print("=========== FS Prompt =============\n")
-    #print(out_prompt)
+    # print("=========== FS Prompt =============\n")
+    # print(out_prompt)
 
     return out_prompt
+
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()

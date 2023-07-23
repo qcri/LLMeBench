@@ -32,18 +32,18 @@ def config():
 
 
 def prompt(input_sample):
-    claim,article = input_sample.split("article: ")
-    claim = claim.replace("claim:"," ").strip()
+    claim, article = input_sample.split("article: ")
+    claim = claim.replace("claim:", " ").strip()
     article = article.strip()
 
-    #article = input_sample["article"]
+    # article = input_sample["article"]
     # article_arr = article.split()
     # if len(article_arr) > 2200:
     #     article_str = " ".join(article_arr[:2200])
     # else:
-    #article_str = article
+    # article_str = article
 
-    #(agree, disagree, discuss, or unrelated)
+    # (agree, disagree, discuss, or unrelated)
     prompt_string = (
         f"Given a reference claim, and a news article, predict the stance of the article "
         f"towards the claim. Reply using one of these stances: 'agree' (if article agrees "

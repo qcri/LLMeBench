@@ -58,10 +58,10 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
     label = label.replace("label:", "").strip()
-    #label_fixed = label.replace("stance:", "").strip()
+    # label_fixed = label.replace("stance:", "").strip()
 
     label_fixed = None
-    #print(label)
+    # print(label)
 
     if "unrelated" in label or "other" in label:
         label_fixed = "other"
@@ -69,6 +69,5 @@ def post_process(response):
         label_fixed = "disagree"
     elif label == "agree":
         label_fixed = "agree"
-
 
     return label_fixed
