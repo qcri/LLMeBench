@@ -27,7 +27,6 @@ class ArSarcasmDataset(DatasetBase):
 
     def load_data(self, data_path):
         data = []
-
         with open(data_path, "r", encoding="utf-8") as fp:
             reader = csv.DictReader(fp)
             for line_idx, row in enumerate(reader):

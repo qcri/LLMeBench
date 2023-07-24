@@ -15,11 +15,13 @@ def config():
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {
-            "api_url": os.environ["AZURE_API_URL"],
+            "api_url": os.environ["API_URL"],
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/sarcasm/ArSarcasm/ArSarcasm_testdata.csv"},
+        "general_args": {
+            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv"
+        },
     }
 
 

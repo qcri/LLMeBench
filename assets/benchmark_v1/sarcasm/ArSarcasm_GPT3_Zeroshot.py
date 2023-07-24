@@ -22,7 +22,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_testdata.csv"
+            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv"
         },
     }
 
