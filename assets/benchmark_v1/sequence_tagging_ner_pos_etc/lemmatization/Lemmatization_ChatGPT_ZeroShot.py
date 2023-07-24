@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import AdultDataset
+from arabic_llm_benchmark.datasets import LemmatizationDataset
 from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import AdultTask
+from arabic_llm_benchmark.tasks import LemmatizationTask
 
 
 def config():
     return {
-        "dataset": AdultDataset,
+        "dataset": LemmatizationDataset,
         "dataset_args": {},
-        "task": AdultTask,
+        "task": LemmatizationTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -18,11 +18,10 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["ADULT", "NOT_ADULT"],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sentiment_emotion_others/adult/adult-test.tsv"
+            "data_path": "data/sequence_tagging_ner_pos_etc/lemmatization/WikiNews-26-06-2015-RefLemma.txt"
         },
     }
 
@@ -33,15 +32,14 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f'Classify the following Arabic sentence as adult language (the language used in adult advertisement and porno advertisement) or not adult language without illustruation. In case of adult language, just write "ADULT" without explaination, and in case of not adult language, just write "NOT_ADULT" without explaination \n {input_sample}',
+                "text": f"for every word in the following Arabic sentence, write only the lemma without diacritics separated by a single space without explanation:\n {input_sample}",
             }
         ],
     }
 
 
 def post_process(response):
-    out = response["choices"][0]["text"]
-    j = out.find(".")
-    if j > 0:
-        out = out[0:j]
-    return out
+    out = response["choices"][0]["text"].strip()
+
+    # TODO: fix hack to handle prediction failure
+    return (None, out)

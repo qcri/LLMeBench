@@ -1,4 +1,7 @@
 from .Adult import AdultTask
+from .ArabicDiacritization import ArabicDiacritizationTask
+from .ArabicParsing import ArabicParsingTask
+from .ArabicPOS import ArabicPOSTask
 from .ArabicSegmentation import ArabicSegmentationTask
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
@@ -13,6 +16,7 @@ from .FactualityKhouja20 import FactualityKhouja20Task
 from .FactualityUnifiedFC import FactualityUnifiedFCTask
 from .HarmfulDetection import HarmfulDetectionTask
 from .HateSpeech import HateSpeechTask
+from .Lemmatization import LemmatizationTask
 from .MachineTranslation import MachineTranslationTask
 from .NER import NERTask
 from .NewsCatAkhbarona import NewsCatAkhbaronaTask

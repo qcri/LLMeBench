@@ -14,10 +14,5 @@ class SarcasmTask(TaskBase):
         ]
 
         f1 = f1_score(gold_labels, pred_labels, pos_label="TRUE", average="binary")
-        # f1 = f1_score(gold_labels, pred_labels, average="macro")
 
-        results = {
-            "f1": f1,
-        }
-
-        return results
+        return {"F1 (POS)": f1}
