@@ -41,19 +41,11 @@ def post_process(response):
     label = response["outputs"].strip()
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
-    label = label.lower()
 
     label_list = config()["model_args"]["class_labels"]
 
-    if "name: " in label:
-        label_fixed = label.replace("name: ", "").lower()
-    elif label.lower() in label_list:
-        label_fixed = label.lower()
-    elif (
-        "I'm sorry, but I cannot predict the country" in label
-        or "I cannot predict the country" in label
-    ):
-        label_fixed = None
+    if label in label_list:
+        label_fixed = label
     else:
         label_fixed = None
 
