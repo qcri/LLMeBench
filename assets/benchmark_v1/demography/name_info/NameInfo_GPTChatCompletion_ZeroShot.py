@@ -153,13 +153,10 @@ def post_process(response):
 
     if "name: " in label:
         label_fixed = label.replace("name: ", "").lower()
+    elif "country: " in label:
+        label_fixed = label.replace("country: ", "").lower()
     elif label.lower() in label_list:
         label_fixed = label.lower()
-    elif (
-        "I'm sorry, but I cannot predict the country" in label
-        or "I cannot predict the country" in label
-    ):
-        label_fixed = None
     else:
         label_fixed = None
 
