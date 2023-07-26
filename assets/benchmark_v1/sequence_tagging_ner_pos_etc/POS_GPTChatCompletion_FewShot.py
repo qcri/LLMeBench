@@ -120,7 +120,7 @@ def config():
                         "api_key": os.environ["AZURE_API_KEY"],
                         "engine_name": os.environ["ENGINE_NAME"],
                         # "class_labels": ["m", "f"],
-                        "max_tries": 3,
+                        "max_tries": 30,
                     },
                     "general_args": {
                         "data_path": "data/sequence_tagging_ner_pos_etc/POS/"
@@ -141,18 +141,22 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     for example in examples:
         tokens = example["input"]
         label = example["label"]
+        sample = list(zip(tokens.split(), label.split()))
         output_prompt = (
-            output_prompt + f"Sentence: {tokens}\nLabels: {label}\n"
+            output_prompt + f"Sentence: {tokens}\nLabels: {sample}\n"
         )
     output_prompt = output_prompt + f"Sentence: {input_sample}\n" + "Labels:"
     return output_prompt
 
 
 def prompt(input_sample, examples): 
-    base_prompt = f'Please provide the POS tags for each word in the input sentence.  \
-                 The POS tag label should be chosen from the following tag label set: \
-                 ["ABBREV", "ADJ", "ADV", "CASE", "CONJ", "DET", "EMOT", "FOREIGN", "FUT_PART", "HASH", "MENTION", "NEG_PART", "NOUN", \
-                 "NSUFF", "NUM", "PART", "PREP", "PROG_PART", "PRON", "PUNC", "URL", "V"].'
+    base_prompt = f'Please provide the POS tags for each word in the input sentence. The input will be a list of words in the sentence. \
+                    The output format should be a list of tuples, where each tuple consists of a word from the input text and its \
+                    corresponding POS tag label from the tag label set: \
+                    ["ABBREV", "ADJ", "ADV", "CASE", "CONJ", "DET", "EMOT", "FOREIGN", "FUT_PART", "HASH", "MENTION", "NEG_PART", "NOUN", \
+                    "NSUFF", "NUM", "PART", "PREP", "PROG_PART", "PRON", "PUNC", "URL", "V"].\
+                    Note: Your response should include only a list of tuples, in the order that the words appear in the input sentence, \
+                    with each tuple containing the corresponding POS tag label for a word.'
 
     return [
             {"role":"system","content": "You are a linguist that helps in annotating data."},
@@ -163,32 +167,31 @@ def prompt(input_sample, examples):
         ]
 
 
-# def post_process(response):
-#     text = response["choices"][0]["message"]["content"]
+def post_process(response):
+    text = response["choices"][0]["message"]["content"]
+    matches = re.findall(r"\((.*?)\)", text)
+    if matches: 
+        cleaned_response = [] 
+        for match in matches: 
+            elements = match.split(",")
+            try: 
+                cleaned_response.append(elements[1])
+            except: 
+                if ":" in elements[0]: 
+                    cleaned_response.append("EMOT") 
+                elif len(elements[0].replace("'", "").strip()) == 0: 
+                    cleaned_response.append("PUNCT")
+    
 
-#     #text = re.sub(r'}[^}]+','}',text)
-#     #text = re.sub(r'[^{]+{','{',text)
-#     text = re.sub(r"Here's the segmented sentence in a JSON format:",'',text)
-#     #print("Pro:",text)
-#     pattern = r"[\"\']([^\"\']+)[\'\"]: *[\'\"]([^}]+)[\'\"]"
-#     pattern = r"\(\"([^\"]+)\", \"([^\"]+)\"\)"
-#     matches = re.finditer(pattern, text)
-#     results = []
-#     #print("Res0:",results)]
-#     if matches: 
-#         for m in matches:
-#             tag = m.group(2)
-#             ntag = []
-#             for t in tag.split('+'):
-#                 ntag.append(mapTags[t] if t in mapTags else t)
-#             results.append('+'.join(ntag))
-#     else: 
-#         return response["choices"][0]["message"]["content"]
-
-#     #print("Res1:",results)
-#     return ' '.join(results)
-
+        cleaned_response = [
+            sample.replace("'", "").strip() for sample in cleaned_response
+        ]
+        cleaned_response = " ".join(cleaned_response)
+    else: 
+        cleaned_response = None 
+    return cleaned_response
 
 
-def post_process(response): 
-    return response["choices"][0]["message"]["content"]
+
+
+
