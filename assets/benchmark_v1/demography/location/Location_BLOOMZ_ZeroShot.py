@@ -38,7 +38,7 @@ def config():
                 "ye",
                 "mr",
             ],
-            "max_tries": 10,
+            "max_tries": 2,
         },
         "general_args": {
             "data_path": "data/demographic_attributes/location/arab+others.txt"
@@ -67,9 +67,12 @@ def post_process(response):
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
     label = label.lower()
+    label_list=config()["model_args"]["class_labels"]
 
     if "country code: " in label:
         label_fixed = label.replace("country code: ", "")
+    elif label in label_list:
+        label_fixed=label
     else:
         label_fixed = None
 
