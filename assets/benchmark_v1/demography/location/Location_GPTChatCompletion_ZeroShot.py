@@ -42,7 +42,7 @@ def config():
                 "ye",
                 "mr",
             ],
-            "max_tries": 3,
+            "max_tries": 30,
         },
         "general_args": {
             "data_path": "data/demographic_attributes/location/arab+others.txt"
@@ -51,18 +51,40 @@ def config():
 
 
 def prompt(input_sample):
+    prompt_string = (
+        f"Given the following 'user location', identify and map it to its corresponding 'country code' in accordance with ISO 3166-1 alpha-2. "
+        f"Please write the country code only, with no additional explanations. "
+        f"If the country is not an Arab country, please write 'OTHERS'. If the location doesn't map to a recognized country, write 'UNK'.\n\n"
+        f"user location: {input_sample}\n"
+        f"country code: \n"
+    )
+
     return [
         {
             "role": "system",
-            "content": "You are an AI assistant that helps people find information on locations.",
+            "content": "You are an expert at identifying the ISO 3166-1 alpha-2 country code from the user location mentioned on Twitter.",
         },
         {
             "role": "user",
-            "content": f"Map the following locations to one of the Arab countries. Write ONLY the country code in ISO 3166-1 alpha-2 format without explanation. If the country is outside Arab countries, write ONLY 'OTHERS', and if the location cannot be mapped to any country in the world, write ONLY 'UNK' without any explanation\n {input_sample}",
+            "content": prompt_string,
         },
     ]
 
 
 def post_process(response):
-    out = response["choices"][0]["message"]["content"]
-    return out.lower()
+    label = response["choices"][0]["message"]["content"].lower().strip()
+    country_code_list = config()["model_args"]["class_labels"]
+    if "country code: " in label:
+        # label_fixed = label.replace("country code: ", "").strip()
+        label = label.split("country code: ")[1].strip()
+
+    if label in country_code_list:
+        label_fixed = label
+    elif label == "unk":
+        label_fixed = "UNK"
+    elif label == "others":
+        label_fixed = "OTHERS"
+    else:
+        label_fixed = None
+
+    return label_fixed
