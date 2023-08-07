@@ -116,7 +116,7 @@ def config():
                 "by",
                 "kz",
             ],
-            "max_tries": 10,
+            "max_tries": 3,
         },
         "general_args": {
             "data_path": "data/demographic_attributes/name_info/wikidata_test.txt"
@@ -161,8 +161,6 @@ def post_process(response):
         "I'm sorry, but I cannot predict the country" in label
         or "I cannot predict the country" in label
     ):
-        label_fixed = None
-    else:
         label_fixed = None
 
     return label_fixed
