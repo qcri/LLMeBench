@@ -17,13 +17,13 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
 
         # Load the benchmark assets
         benchmark = Benchmark(benchmark_dir="assets")
-        all_assets = benchmark.find_runs()
+        all_assets = benchmark.find_assets()
 
         # Filter out assets not using the GPT model
         cls.assets = [
             asset
             for asset in all_assets
-            if asset["module"].config()["model"] in [GPTChatCompletionModel]
+            if asset["config"]["model"] in [GPTChatCompletionModel]
         ]
 
     @patch("os.environ")
@@ -35,7 +35,7 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
 
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
-                config = asset["module"].config()
+                config = asset["config"]
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
                 if "fewshot" in config["general_args"]:

@@ -36,7 +36,8 @@ class GPTModel(ModelBase):
         self.message_template = "\n<|im_start|>{}\n{}\n<|im_end|>"
 
         super(GPTModel, self).__init__(
-            retry_exceptions=(openai.error.Timeout,), **kwargs
+            retry_exceptions=(openai.error.Timeout, openai.error.RateLimitError),
+            **kwargs
         )
 
     # defining a function to create the prompt from the system and user messages
@@ -107,7 +108,8 @@ class GPTChatCompletionModel(ModelBase):
         self.presence_penalty = presence_penalty
 
         super(GPTChatCompletionModel, self).__init__(
-            retry_exceptions=(openai.error.Timeout,), **kwargs
+            retry_exceptions=(openai.error.Timeout, openai.error.RateLimitError),
+            **kwargs
         )
 
     def summarize_response(self, response):

@@ -1,6 +1,6 @@
 import re
 
-from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
 
 from arabic_llm_benchmark.tasks.task_base import TaskBase
 
@@ -10,54 +10,25 @@ class ArabicSegmentationTask(TaskBase):
         super(ArabicSegmentationTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
-        # split sentence into words
-        attrs = vars(self)
-        # print("P:",len(predicted_labels), " t:",len(true_labels))
         hyp = []
         ref = []
         for t, p in zip(true_labels, predicted_labels):
-            # print("P:",type(p),len(p), p)
-            if p is None or ("Sorry, I cannot") in p:
-                # print("Sorry!")
-                p = None
-            elif "'+ '" in p:
-                # Result as raw text
-                p = re.sub(r"'\+ '", "+", str(p))
-                s = list(eval(p))
-                p = " ".join(["".join([e[v] for v in e]) for e in s])
-            elif ": " in p:
-                # Result as pseudo json
-                s = (
-                    re.sub(r"\([^\)]+\)", "", p)
-                    .replace("+}", "}")
-                    .replace("}+", "+")
-                    .replace("+{", "+")
-                    .replace(": {", ": ")
-                    .replace("}}", "}")
-                )
-                s = re.sub(r":\s?(?![{\[\s])([^,}]+)", r': "\1"', s)
-                s = re.sub(r"{([^:]+):", r'{"\1":', s)
-                s = list(eval(s))
-                p = " ".join(["".join([e[v] for v in e]) for e in s])
-            else:
-                p = None
-            # remove punctuation!
-            t = re.sub(r"[^\w+\+]", " ", t)
             if p == None:
-                # return unsegmented text!
+                # Use unsegmented text on prediction failure
                 p = t.replace("+", "").split()
             else:
                 p = p.split()
 
             t = t.split()
 
+            # If prediction is missing tokens, pad with empty tokens
             if len(p) < len(t):
                 for i in range(len(t) - len(p)):
                     p.append("")
-            # print("PP1:",len(p),p)
-            # print("TT1:",len(t),t)
+
+            # If prediction has extra tokens, only consider the first
+            # N tokens, where N == number of gold tokens
             hyp += p[: len(t)]
             ref += t
-        # print("ph:",len(hyp),hyp)
-        # print("tt:",len(ref),ref)
-        return {"Macro F1": f1_score(ref, hyp, average="macro")}
+
+        return {"Accuracy": accuracy_score(ref, hyp)}
