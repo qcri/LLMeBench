@@ -1,7 +1,7 @@
 # Arabic LLM Benchmark
 
 ## Installation
-*pip package to me made available soon!*
+*pip package to be made available soon!*
 
 Clone this repository:
 ```bash
@@ -21,7 +21,7 @@ pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the benchmark data
-Download the benchmark from [here](https://neurox.qcri.org/projects/arabic_llm_benchmark/arabic_llm_benchmark_data.zip), and unzip in into the `Arabic_LLM_Benchmark` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
+Download the benchmark from [here](https://neurox.qcri.org/projects/arabic_llm_benchmark/arabic_llm_benchmark_data.zip), and unzip it into the `Arabic_LLM_Benchmark` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
 
 ```bash
 $ ls data/
