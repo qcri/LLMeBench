@@ -1,5 +1,6 @@
 import os
 import re
+
 from arabic_llm_benchmark.datasets import ArabicPOSDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import ArabicPOSTask_v4
@@ -35,7 +36,7 @@ mapTags = {
     "PROPN": "NOUN",
     "NEG": "PART",
     "PART": "PART",
-    "NEG_PART":"PART",
+    "NEG_PART": "PART",
     "IN": "PART",
     "preposition": "PREP",
     "P": "PREP",
@@ -95,12 +96,28 @@ mapTags = {
 
 def config():
     sets = [
-        ("egy", "egy.pos/egy.data_5.test.src-trg.sent", "egy.pos/egy.data_5.dev.src-trg.sent"),
-        ("glf", "glf.pos/glf.data_5.test.src-trg.sent", "glf.pos/glf.data_5.dev.src-trg.sent"),
-        ("mgr", "mgr.pos/mgr.data_5.test.src-trg.sent", "mgr.pos/mgr.data_5.dev.src-trg.sent"),
-        ("lev", "lev.pos/lev.data_5.test.src-trg.sent", "lev.pos/lev.data_5.dev.src-trg.sent"),
-        ("msa", "WikiNewsTruth.txt.POS.tab", "WikiNewsTruthDev.txt"), 
-        ("XGLUE", "XGLUE/ar.test.src-trg.txt", "XGLUE/ar.dev.src-trg.txt")
+        (
+            "egy",
+            "egy.pos/egy.data_5.test.src-trg.sent",
+            "egy.pos/egy.data_5.dev.src-trg.sent",
+        ),
+        (
+            "glf",
+            "glf.pos/glf.data_5.test.src-trg.sent",
+            "glf.pos/glf.data_5.dev.src-trg.sent",
+        ),
+        (
+            "mgr",
+            "mgr.pos/mgr.data_5.test.src-trg.sent",
+            "mgr.pos/mgr.data_5.dev.src-trg.sent",
+        ),
+        (
+            "lev",
+            "lev.pos/lev.data_5.test.src-trg.sent",
+            "lev.pos/lev.data_5.dev.src-trg.sent",
+        ),
+        ("msa", "WikiNewsTruth.txt.POS.tab", "WikiNewsTruthDev.txt"),
+        ("XGLUE", "XGLUE/ar.test.src-trg.txt", "XGLUE/ar.dev.src-trg.txt"),
     ]
     configs = []
     for name, testset, devset in sets:
@@ -123,17 +140,16 @@ def config():
                         "max_tries": 30,
                     },
                     "general_args": {
-                        "data_path": "data/sequence_tagging_ner_pos_etc/POS/"
-                        + testset, 
-                        "fewshot": { 
-                            "train_data_path":  "data/sequence_tagging_ner_pos_etc/POS/" + devset
-                        }
+                        "data_path": "data/sequence_tagging_ner_pos_etc/POS/" + testset,
+                        "fewshot": {
+                            "train_data_path": "data/sequence_tagging_ner_pos_etc/POS/"
+                            + devset
+                        },
                     },
                 },
             }
         )
     return configs
-
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
@@ -143,49 +159,52 @@ def few_shot_prompt(input_sample, base_prompt, examples):
         label = example["label"]
         sample = list(zip(tokens.split(), label.split()))
         output_prompt = (
-            output_prompt + f"Sentence: {tokens.split()}" + "\n" + f"Labels: {sample}" + "\n"
+            output_prompt
+            + f"Sentence: {tokens.split()}"
+            + "\n"
+            + f"Labels: {sample}"
+            + "\n"
         )
-    output_prompt = output_prompt + f"Sentence: {input_sample.split()}" + "\n" + "Labels:"
+    output_prompt = (
+        output_prompt + f"Sentence: {input_sample.split()}" + "\n" + "Labels:"
+    )
     return output_prompt
 
 
-def prompt(input_sample, examples): 
+def prompt(input_sample, examples):
     base_prompt = f'Please provide the POS tags for each word in the input sentence. The input will be a list of words in the sentence. The output format should be a list of tuples, where each tuple consists of a word from the input text and its corresponding POS tag label from the tag label set: ["ABBREV", "ADJ", "ADV", "CASE", "CONJ", "DET", "EMOT", "FOREIGN", "FUT_PART", "HASH", "MENTION", "NEG_PART", "NOUN", "NSUFF", "NUM", "PART", "PREP", "PROG_PART", "PRON", "PUNC", "URL", "V"]. Note: Your response should include only a list of tuples, in the order that the words appear in the input sentence, with each tuple containing the corresponding POS tag label for a word.'
-    
+
     return [
-            {"role":"system","content": "You are a linguist that helps in annotating data."},
-            {
-                "role":"user",
-                "content": few_shot_prompt(input_sample, base_prompt, examples)
-            }
-        ]
+        {
+            "role": "system",
+            "content": "You are a linguist that helps in annotating data.",
+        },
+        {
+            "role": "user",
+            "content": few_shot_prompt(input_sample, base_prompt, examples),
+        },
+    ]
 
 
 def post_process(response):
     text = response["choices"][0]["message"]["content"]
     matches = re.findall(r"\((.*?)\)", text)
-    if matches: 
-        cleaned_response = [] 
-        for match in matches: 
+    if matches:
+        cleaned_response = []
+        for match in matches:
             elements = match.split(",")
-            try: 
+            try:
                 cleaned_response.append(elements[1])
-            except: 
-                if ":" in elements[0]: 
-                    cleaned_response.append("EMOT") 
-                elif len(elements[0].replace("'", "").strip()) == 0: 
+            except:
+                if ":" in elements[0]:
+                    cleaned_response.append("EMOT")
+                elif len(elements[0].replace("'", "").strip()) == 0:
                     cleaned_response.append("PUNCT")
-    
 
         cleaned_response = [
             sample.replace("'", "").strip() for sample in cleaned_response
         ]
         cleaned_response = " ".join(cleaned_response)
-    else: 
-        cleaned_response = None 
+    else:
+        cleaned_response = None
     return cleaned_response
-
-
-
-
-
