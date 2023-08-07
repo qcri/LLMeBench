@@ -52,7 +52,7 @@ def config():
 
 def prompt(input_sample):
     prompt_string = (
-        f"Given the following 'user location', identify and map it to its corresponding 'country code' in accordance with ISO 3166-1 alpha-2. "
+        f"Given the following 'user location', identify and map it to its corresponding country code in accordance with ISO 3166-1 alpha-2. "
         f"Please write the country code only, with no additional explanations. "
         f"If the country is not an Arab country, please write 'OTHERS'. If the location doesn't map to a recognized country, write 'UNK'.\n\n"
         f"user location: {input_sample}\n"
@@ -72,18 +72,14 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].lower().strip()
-    country_code_list = config()["model_args"]["class_labels"]
-    if "country code: " in label:
-        # label_fixed = label.replace("country code: ", "").strip()
-        label = label.split("country code: ")[1].strip()
+    label = response["choices"][0]["message"]["content"].lower()
 
-    if label in country_code_list:
+    label_list = config()["model_args"]["class_labels"]
+
+    if "country code: " in label:
+        label_fixed = label.replace("country code: ", "")
+    elif label in label_list:
         label_fixed = label
-    elif label == "unk":
-        label_fixed = "UNK"
-    elif label == "others":
-        label_fixed = "OTHERS"
     else:
         label_fixed = None
 
