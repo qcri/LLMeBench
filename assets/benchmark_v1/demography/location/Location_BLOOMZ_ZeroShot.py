@@ -67,12 +67,12 @@ def post_process(response):
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
     label = label.lower()
-    label_list=config()["model_args"]["class_labels"]
+    label_list = config()["model_args"]["class_labels"]
 
     if "country code: " in label:
         label_fixed = label.replace("country code: ", "")
     elif label in label_list:
-        label_fixed=label
+        label_fixed = label
     else:
         label_fixed = None
 
