@@ -3,7 +3,7 @@ import re
 
 from arabic_llm_benchmark.datasets import ArabicPOSDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import ArabicPOSTask_v4
+from arabic_llm_benchmark.tasks import ArabicPOSTask
 
 mapTags = {
     "UNK": "UNK",
@@ -127,7 +127,7 @@ def config():
                 "config": {
                     "dataset": ArabicPOSDataset,
                     "dataset_args": {},
-                    "task": ArabicPOSTask_v4,
+                    "task": ArabicPOSTask,
                     "task_args": {},
                     "model": GPTChatCompletionModel,
                     "model_args": {
