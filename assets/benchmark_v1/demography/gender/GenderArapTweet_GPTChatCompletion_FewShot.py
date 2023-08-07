@@ -31,7 +31,7 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
+    out_prompt = base_prompt + "\n"
     out_prompt = out_prompt + "Here are some examples:\n\n"
 
     for index, example in enumerate(examples):
@@ -85,8 +85,6 @@ def post_process(response):
         or label == "Male"
     ):
         fixed_label = "Male"
-    elif label.startswith("I'm sorry, but"):
-        fixed_label = None
     else:
         fixed_label = None
 
