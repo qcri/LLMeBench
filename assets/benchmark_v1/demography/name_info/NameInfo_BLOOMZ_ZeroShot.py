@@ -1,5 +1,6 @@
 import os
 import re
+
 from arabic_llm_benchmark.datasets import NameInfoDataset
 from arabic_llm_benchmark.models import BLOOMPetalModel
 from arabic_llm_benchmark.tasks import DemographyNameInfoTask
@@ -139,7 +140,15 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["outputs"].strip().replace("<s>", "").replace("</s>", "").replace("ISO 3166-1:","").replace("ISO 3166-1","").lower()
+    label = (
+        response["outputs"]
+        .strip()
+        .replace("<s>", "")
+        .replace("</s>", "")
+        .replace("ISO 3166-1:", "")
+        .replace("ISO 3166-1", "")
+        .lower()
+    )
     label_list = config()["model_args"]["class_labels"]
 
     # Regular expressions to catch the pattern
@@ -148,7 +157,10 @@ def post_process(response):
         label = match.group(2).strip().lower()
     if label in label_list:
         label_fixed = label
-    elif "I'm sorry, but I cannot predict the country" in label or "I cannot predict the country" in label:
+    elif (
+        "I'm sorry, but I cannot predict the country" in label
+        or "I cannot predict the country" in label
+    ):
         label_fixed = None
     else:
         label_fixed = None
