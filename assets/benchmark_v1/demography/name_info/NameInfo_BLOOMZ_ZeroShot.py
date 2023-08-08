@@ -125,13 +125,6 @@ def config():
 
 
 def prompt(input_sample):
-    arr = input_sample.split()
-
-    if len(arr) > 1000:
-        input_sample = " ".join(arr[:1000])
-    else:
-        input_sample = " ".join(arr)
-
     prompt_string = (
         f"You are an expert annotator who can identify the country of a person based on name.\n"
         f"Label the country of the following person 'name'. Write ONLY the country code in ISO 3166-1 alpha-2 format.\n"
@@ -147,10 +140,7 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["outputs"].strip()
-    label = label.replace("<s>", "")
-    label = label.replace("</s>", "")
-    label = label.lower()
-
+    label = label.replace("<s>", "").replace("</s>", "").lower()
     label_list = config()["model_args"]["class_labels"]
 
     if "name: " in label:
@@ -161,6 +151,8 @@ def post_process(response):
         "I'm sorry, but I cannot predict the country" in label
         or "I cannot predict the country" in label
     ):
+        label_fixed = None
+    else:
         label_fixed = None
 
     return label_fixed
