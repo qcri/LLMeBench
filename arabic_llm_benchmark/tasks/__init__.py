@@ -4,6 +4,7 @@ from .ArabicParsing import ArabicParsingTask
 from .ArabicPOS import ArabicPOSTask
 from .ArabicSegmentation import ArabicSegmentationTask
 from .Attentionworthy import AttentionworthyTask
+from .BnSentiment import BnSentimentTask
 from .Checkworthiness import CheckworthinessTask
 from .ClaimDetection import ClaimDetectionTask
 from .DemographyGender import DemographyGenderTask
