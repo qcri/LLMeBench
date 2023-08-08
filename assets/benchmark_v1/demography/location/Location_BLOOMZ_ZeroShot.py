@@ -64,13 +64,12 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["outputs"].strip()
-    label = label.replace("<s>", "")
-    label = label.replace("</s>", "")
-    label = label.lower()
-    label_list = config()["model_args"]["class_labels"]
+    label = label.strip().replace("<s>", "").replace("</s>", "").lower()
+    label_list=config()["model_args"]["class_labels"]
 
-    if "country code: " in label:
-        label_fixed = label.replace("country code: ", "")
+    if "country code:" in label:
+        label_fixed = label.replace("country code:", "").strip()
+
     elif label in label_list:
         label_fixed = label
     else:
