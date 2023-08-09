@@ -28,6 +28,10 @@ class StanceUnifiedFCDataset(DatasetBase):
     def get_data_sample(self):
         return {
             "input": {
+                # Train samples
+                "sentence_1": "sentence 1 text",
+                "sentence_2": "sentence 2 text",
+                # Test samples
                 "claim": "الجملة الاولى",
                 "claim-fact": "الجملة الاولى",
                 "article": "الجملة الثانية",
@@ -36,17 +40,17 @@ class StanceUnifiedFCDataset(DatasetBase):
         }
 
     def load_train_data(self, data_path):
-        # TODO: modify to iterator
+        # Training data is used from StanceKhouja as
+        # no native training data is available
         data = []
         with open(data_path, "r", encoding="utf-8") as fp:
             next(fp)  # skip header
             for line_idx, line in enumerate(fp):
                 s1, s2, label = line.strip().split(",")
 
-                # Had to concatenate s1 and s2 this as langchain only accepts strings
                 data.append(
                     {
-                        "input": s1.strip() + "\t" + s2.strip(),
+                        "input": {"sentence_1": s1.strip(), "sentence_2": s2.strip()},
                         "label": label,
                         "line_number": line_idx,
                     }
@@ -66,10 +70,11 @@ class StanceUnifiedFCDataset(DatasetBase):
                     # Had to make input a string instead of a dictionar{claim,article} to get FS to work
                     data.append(
                         {
-                            "input": "claim: "
-                            + str(json_obj["claim"])
-                            + "\tarticle: "
-                            + str(json_obj["article"]),
+                            "input": {
+                                "claim": json_obj["claim"],
+                                "claim-fact": json_obj["claim-fact"],
+                                "article": json_obj["article"],
+                            },
                             "label": json_obj["stance"],
                         }
                     )

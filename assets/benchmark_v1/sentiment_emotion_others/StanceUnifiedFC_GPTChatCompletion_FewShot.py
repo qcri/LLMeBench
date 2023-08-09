@@ -61,8 +61,8 @@ def prompt(input_sample, examples):
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt
     for example in examples:
-        ref_s = example["input"].split("\t")[0]
-        claim = example["input"].split("\t")[1]
+        ref_s = example["input"]["sentence_1"]
+        claim = example["input"]["sentence_2"]
         label = "unrelated" if example["label"] == "other" else example["label"]
 
         out_prompt = (
@@ -78,9 +78,8 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
     # Append the sentence we want the model to predict for but leave the label blank
 
-    claim, article = input_sample.split("article: ")
-    claim = claim.replace("claim:", " ").strip()
-    article = article.strip()
+    claim = input_sample["claim"].strip()
+    article = input_sample["article"].strip()
 
     out_prompt = (
         out_prompt

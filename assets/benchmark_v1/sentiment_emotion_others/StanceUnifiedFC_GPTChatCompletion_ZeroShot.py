@@ -32,9 +32,8 @@ def config():
 
 
 def prompt(input_sample):
-    claim, article = input_sample.split("article: ")
-    claim = claim.replace("claim:", " ").strip()
-    article = article.strip()
+    claim = input_sample["claim"].strip()
+    article = input_sample["article"].strip()
 
     # article = input_sample["article"]
     # article_arr = article.split()
