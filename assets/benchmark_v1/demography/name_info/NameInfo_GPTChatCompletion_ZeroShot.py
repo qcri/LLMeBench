@@ -120,27 +120,47 @@ def config():
                 "by",
                 "kz",
             ],
-            "max_tries": 3,
+            "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/demographic_attributes/name_info/wikidata_test.txt",
+            "data_path": "data/demographic_attributes/name_info/wikidata_test.txt"
         },
     }
 
 
 def prompt(input_sample):
+    prompt_string = (
+        f"Label the country of the following person 'name'. Write ONLY the country code in ISO 3166-1 alpha-2 format.\n\n"
+        f"name: {input_sample}\n"
+        f"country: \n"
+    )
     return [
         {
             "role": "system",
-            "content": "You are an AI assistant that helps people find information on locations.",
+            "content": "You are an expert annotator who can identify the country of a person based on name.",
         },
         {
             "role": "user",
-            "content": f"Predict the country of citizenship of the following person name. Write ONLY the country code in ISO 3166-1 alpha-2 format without explananation.\n {input_sample}",
+            "content": prompt_string,
         },
     ]
 
 
 def post_process(response):
-    out = response["choices"][0]["message"]["content"]
-    return out.lower()
+    label = response["choices"][0]["message"]["content"]
+
+    label_list = config()["model_args"]["class_labels"]
+
+    if "name: " in label:
+        label_fixed = label.replace("name: ", "").lower()
+    elif label.lower() in label_list:
+        label_fixed = label.lower()
+    elif (
+        "I'm sorry, but I cannot predict the country" in label
+        or "I cannot predict the country" in label
+    ):
+        label_fixed = None
+    else:
+        label_fixed = None
+
+    return label_fixed
