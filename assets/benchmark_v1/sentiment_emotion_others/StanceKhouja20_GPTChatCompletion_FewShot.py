@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import StanceKhouja20Dataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import StanceKhouja20Task
-
-
-random.seed(1333)
 
 
 def config():
@@ -53,8 +49,8 @@ def prompt(input_sample, examples):
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt
     for example in examples:
-        ref_s = example["input"].split("\t")[0]
-        claim = example["input"].split("\t")[1]
+        ref_s = example["input"]["sentence_1"]
+        claim = example["input"]["sentence_2"]
 
         out_prompt = (
             out_prompt
@@ -69,8 +65,8 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
     # Append the sentence we want the model to predict for but leave the label blank
 
-    ref_s = input_sample.split("\t")[0]
-    claim = input_sample.split("\t")[1]
+    ref_s = input_sample["sentence_1"]
+    claim = input_sample["sentence_2"]
 
     out_prompt = (
         out_prompt

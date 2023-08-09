@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import StanceKhouja20Dataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import StanceKhouja20Task
-
-
-random.seed(1333)
 
 
 def config():
@@ -33,8 +29,8 @@ def config():
 
 
 def prompt(input_sample):
-    ref_s = input_sample.split("\t")[0]
-    claim = input_sample.split("\t")[1]
+    ref_s = input_sample["sentence_1"]
+    claim = input_sample["sentence_2"]
     prompt_string = (
         f"Given a reference sentence and a claim, predict whether the claim agrees or disagrees with the reference sentence. Reply only using 'agree', 'disagree', or use 'other' if the sentence and claim are unrelated."
         f"\n\n"

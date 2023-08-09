@@ -34,7 +34,7 @@ class StanceKhouja20Dataset(DatasetBase):
                 # Had to concatenate s1 and s2 this as langchain only accepts strings
                 data.append(
                     {
-                        "input": s1.strip() + "\t" + s2.strip(),
+                        "input": {"sentence_1": s1.strip(), "sentence_2": s2.strip()},
                         "label": label,
                         "line_number": line_idx,
                     }
