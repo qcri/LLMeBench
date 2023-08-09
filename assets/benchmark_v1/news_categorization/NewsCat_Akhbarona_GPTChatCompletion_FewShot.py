@@ -43,10 +43,16 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
         out_prompt = (
             out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
             + "article: "
             + example["input"]
             + "\ncategory: "
@@ -79,6 +85,9 @@ def post_process(response):
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
     label_fixed = label_fixed.replace("health/nutrition", "medical")
+    label_fixed = label_fixed.replace("nutrition", "medical")
+    label_fixed = label_fixed.replace("health", "medical")
+
     if len(label_fixed.split("\s+")) > 1:
         label_fixed = label_fixed.split("\s+")[0]
     label_fixed = random.choice(label_fixed.split("/")).strip()

@@ -48,10 +48,16 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
         out_prompt = (
             out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
             + "article: "
             + example["input"]
             + "\ncategory: "
@@ -68,7 +74,8 @@ def prompt(input_sample, examples):
         f"Categorize the following tweet into one of the following categories: "
         f"crime-war-conflict, spiritual, health, politics, human-rights-press-freedom, "
         f"education, business-and-economy, art-and-entertainment, others, "
-        f"science-and-technology, sports, environment"
+        f"science-and-technology, sports, environment\n"
+        f"Provide only label and in English.\n"
     )
 
     return [
@@ -92,5 +99,7 @@ def post_process(response):
     if label_fixed != "true" or label_fixed != "false":
         if len(label_fixed.split()) > 1:
             label_fixed = label_fixed.split()[0]
+    else:
+        label_fixed = None
 
     return label_fixed
