@@ -1,7 +1,7 @@
 import os
 
 from arabic_llm_benchmark.datasets import DialectADIDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel, RandomGPTModel
+from arabic_llm_benchmark.models import BLOOMPetalModel
 from arabic_llm_benchmark.tasks import DialectIDTask
 
 
@@ -11,20 +11,19 @@ def config():
         "dataset_args": {},
         "task": DialectIDTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": BLOOMPetalModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
+            "api_url": os.environ["API_URL"],
             "class_labels": [
+                "EGY",
                 "IRA",
                 "JOR",
                 "KSA",
                 "KUW",
                 "LEB",
                 "LIB",
+                "MOR",
+                "MSA",
                 "PAL",
                 "QAT",
                 "SUD",
@@ -32,36 +31,46 @@ def config():
                 "UAE",
                 "YEM",
             ],
-            "max_tries": 30,
+            "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv"
+            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv",
         },
     }
 
 
 def prompt(input_sample):
+    arr = input_sample.split()
+    if len(arr) > 500:
+        input_sample = arr[:500]
+
     prompt_string = (
-        f'Classify the following "text" into one of the following dialect categories: "IRA", "JOR", "KSA", "KUW", "LEB", "LIB", "PAL", "QAT", "SUD", "SYR", "UAE", "YEM"\n'
+        f'Classify the following "text" into one of the following categories: "EGY", "IRA", "JOR", "KSA", "KUW", "LEB", "LIB", "MOR", "MSA", "PAL", "QAT", "SUD", "SYR", "UAE", "YEM"\n'
         f"Please provide only the label.\n\n"
         f"text: {input_sample}\n"
         f"label: \n"
     )
 
-    return [
-        {
-            "role": "system",
-            "content": "As an expert annotator, you have the ability to identify and annotate 'text' in different dialects.",
-        },
-        {
-            "role": "user",
-            "content": prompt_string,
-        },
-    ]
+    return {
+        "prompt": prompt_string,
+    }
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].lower()
+    label = response["outputs"].strip()
+    label = label.replace("<s>", "")
+    label = label.replace("</s>", "")
+    label = label.lower()
+
+    # label_list = config()["model_args"]["class_labels"]
+    # label_list = [lab.lower() for lab in label_list]
+    #
+    # if "label: " in label:
+    #     label_fixed = label.replace("label: ", "").lower()
+    # elif label.lower() in label_list:
+    #     label_fixed = label.lower()
+    # else:
+    #     label_fixed = None
     label_list = config()["model_args"]["class_labels"]
     label_list = [dialect.lower() for dialect in label_list]
 

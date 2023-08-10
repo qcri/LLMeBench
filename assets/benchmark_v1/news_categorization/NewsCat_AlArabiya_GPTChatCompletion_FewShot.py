@@ -43,10 +43,16 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
         out_prompt = (
             out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
             + "article: "
             + example["input"]
             + "\ncategory: "
@@ -75,18 +81,23 @@ def prompt(input_sample, examples):
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
+    label_list = config()["model_args"]["class_labels"]
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
     label_fixed = label_fixed.replace("health/nutrition", "medical")
-    if len(label_fixed.split("\s+")) > 1:
-        label_fixed = label_fixed.split("\s+")[0]
-    label_fixed = random.choice(label_fixed.split("/")).strip()
-    if "science/physics" in label_fixed:
-        label_fixed = label_fixed.replace("science/physics", "tech")
-    if label_fixed.startswith("culture"):
-        label_fixed = label_fixed.split("(")[0]
 
+    if label_fixed in label_list:
+        label_fixed = label_fixed
+
+    elif "science/physics" in label_fixed:
+        label_fixed = label_fixed.replace("science/physics", "tech")
+    elif label_fixed.startswith("culture"):
+        label_fixed = label_fixed.split("(")[0]
         label_fixed = label_fixed.replace("culture.", "culture")
+    elif "/" in label:
+        label_fixed = random.choice(label_fixed.split("/")).strip()
+    else:
+        label_fixed = None
 
     return label_fixed
