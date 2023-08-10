@@ -67,7 +67,7 @@ class StanceUnifiedFCDataset(DatasetBase):
             with open(data_path, "r", encoding="utf-8") as json_file:
                 for line in json_file:
                     json_obj = json.loads(line)
-                    # Had to make input a string instead of a dictionar{claim,article} to get FS to work
+
                     data.append(
                         {
                             "input": {

@@ -24,14 +24,12 @@ class StanceKhouja20Dataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
         with open(data_path, "r", encoding="utf-8") as fp:
             next(fp)  # skip header
             for line_idx, line in enumerate(fp):
                 s1, s2, label = line.strip().split(",")
 
-                # Had to concatenate s1 and s2 this as langchain only accepts strings
                 data.append(
                     {
                         "input": {"sentence_1": s1.strip(), "sentence_2": s2.strip()},

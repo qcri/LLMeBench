@@ -86,10 +86,8 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
     label = label.replace("label:", "").strip()
-    # label_fixed = label.replace("stance:", "").strip()
 
     label_fixed = None
-    # print(label)
 
     if "unrelated" in label or "other" in label:
         label_fixed = "other"
