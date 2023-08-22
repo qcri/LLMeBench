@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import PropagandaSemEval23Dataset
 from arabic_llm_benchmark.models import BLOOMPetalModel
 from arabic_llm_benchmark.tasks import PropagandaMultilabelSemEval23Task
-
-
-random.seed(1333)
 
 
 def config():
@@ -172,9 +168,6 @@ def post_process(response):
         if label == "'no_technique'" or label == "no-technique":
             pred_label = ["no_technique"]
         else:
-            # pred_label = eval(label.strip())
-            # label = label.replace("'", "").replace(" ", "")
-            # pred_label = label.split(",")
             pred_label = fix_label(label.strip())
     except Exception as ex:
         print("Error in parsing {}".format(ex))
