@@ -32,6 +32,7 @@ from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .NewsCatASND import NewsCatASNDDataset
 from .Offensive import OffensiveDataset
 from .Propaganda import PropagandaTweetDataset
+from .PropagandaSemEval23 import PropagandaSemEval23Dataset
 from .QADI import QADIDataset
 from .Spam import SpamDataset
 from .StanceKhouja20 import StanceKhouja20Dataset
