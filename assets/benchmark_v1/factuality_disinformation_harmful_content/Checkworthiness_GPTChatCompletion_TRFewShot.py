@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import CheckworthinessDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import CheckworthinessTask
-
-
-random.seed(1333)
 
 
 def config():
@@ -27,17 +23,41 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_test_gold.tsv",
+            "fewshot": {
+                "train_data_path": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_train.tsv",
+            },
         },
     }
 
 
-def prompt(input_sample):
-    prompt_string = (
-        f'Annotate the "tweet" into "one" of the following categories: checkworthy or not_checkworthy\n\n'
-        f"tweet: {input_sample}\n"
-        f"label: \n"
-    )
+def few_shot_prompt(input_sample, base_prompt, examples):
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+    for index, example in enumerate(examples):
+        label = "no" if example["label"] == "0" else "yes"
+
+        out_prompt = (
+            out_prompt
+            + "Example "
+            + str(example["input_id"])
+            + ":"
+            + "\n"
+            + "tweet: "
+            + example["input"]
+            + "\nlabel: "
+            + label
+            + "\n\n"
+        )
+
+    # Append the sentence we want the model to predict for but leave the Label blank
+    out_prompt = out_prompt + "tweet: " + input_sample + "\nlabel: \n"
+
+    return out_prompt
+
+
+def prompt(input_sample, examples):
+    base_prompt = f'Annotate the "tweet" into "one" of the following categories: checkworthy or not_checkworthy. Provide only label.'
     return [
         {
             "role": "system",
@@ -45,7 +65,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": prompt_string,
+            "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
 

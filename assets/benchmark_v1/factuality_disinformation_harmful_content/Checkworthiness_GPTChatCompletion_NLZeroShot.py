@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import CheckworthinessDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import CheckworthinessTask
-
-
-random.seed(1333)
 
 
 def config():
@@ -27,7 +23,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/dutch/CT22_dutch_1A_checkworthy_test_gold.tsv"
         },
     }
 

@@ -18,15 +18,15 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_test_gold.tsv"
         },
     }
 
 
 def prompt(input_sample):
     return {
-        "prompt": "Classify the sentence as checkworthy or not checkworthy. Provide only label.\n\n"
-        + "sentence: "
+        "prompt": "Classify the tweet as checkworthy or not checkworthy. Provide only label.\n\n"
+        + "tweet: "
         + input_sample
         + "label: \n"
     }
@@ -34,17 +34,16 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["outputs"].strip().lower()
-    label = label.replace("<s>", "")
-    label = label.replace("</s>", "")
+    label = label.replace("<s>", "").replace("</s>", "").strip()
 
     label_fixed = None
 
     if label == "checkworthy":
         label_fixed = "1"
     elif (
-        label == "Not_checkworthy."
-        or label == "not_checkworthy"
+        label == "not_checkworthy."
         or label == "not checkworthy"
+        or label == "no checkworthy"
     ):
         label_fixed = "0"
 
