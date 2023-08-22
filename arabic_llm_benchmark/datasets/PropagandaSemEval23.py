@@ -32,7 +32,7 @@ class PropagandaSemEval23Dataset(DatasetBase):
         """
 
     def get_data_sample(self):
-        return {"input": "text", "label": ["no_technique"]}
+        return {"input": "text", "label": ["no_technique"], "line_number": 0}
 
     def get_predefined_techniques(self):
         # Load a pre-defined list of propaganda techniques, if available
