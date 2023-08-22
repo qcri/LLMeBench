@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import PropagandaSemEval23Dataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import PropagandaMultilabelSemEval23Task
-
-
-random.seed(1333)
 
 
 def config():
