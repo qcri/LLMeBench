@@ -3,8 +3,6 @@ import itertools
 from sklearn import preprocessing
 from sklearn.metrics import f1_score
 
-from arabic_llm_benchmark.datasets.Propaganda import PropagandaTweetDataset as pdataset
-
 from arabic_llm_benchmark.tasks.task_base import TaskBase
 
 
