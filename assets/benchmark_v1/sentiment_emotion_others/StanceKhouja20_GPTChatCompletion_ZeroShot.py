@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import StanceKhouja20Dataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import StanceKhouja20Task
-
-
-random.seed(1333)
 
 
 def config():
@@ -33,18 +29,20 @@ def config():
 
 
 def prompt(input_sample):
+    ref_s = input_sample["sentence_1"]
+    claim = input_sample["sentence_2"]
     prompt_string = (
-        f"Based on your analysis, determine the stance of the 'first sentence' with respect to the 'second sentence'. The possible stances could be 'agree', or 'disagree'."
+        f"Given a reference sentence and a claim, predict whether the claim agrees or disagrees with the reference sentence. Reply only using 'agree', 'disagree', or use 'other' if the sentence and claim are unrelated."
         f"\n\n"
-        f"first sentence: {input_sample['sentence_1']}"
-        f"second sentence: {input_sample['sentence_2']}"
-        f"stance: \n"
+        f"reference sentence: {ref_s}"
+        f"\nclaim: {claim}"
+        f"\nlabel: \n"
     )
 
     return [
         {
             "role": "system",
-            "content": "You are a fact checking expert. Your task is to analyze the stance between two sentences.",
+            "content": "You are a fact checking expert.",
         },
         {
             "role": "user",
@@ -56,11 +54,14 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
     label = label.replace("label:", "").strip()
-    label_fixed = label.replace("stance:", "").strip()
 
-    if label_fixed.startswith("the two sentences are unrelated"):
-        label_fixed = None
-    elif "the stance could be considered 'disagree'" in label_fixed:
+    label_fixed = None
+
+    if "unrelated" in label or "other" in label:
+        label_fixed = "other"
+    elif "disagree" in label:
         label_fixed = "disagree"
+    elif label == "agree":
+        label_fixed = "agree"
 
     return label_fixed

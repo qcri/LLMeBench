@@ -22,15 +22,13 @@ def config():
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
             "class_labels": [
-                "sports",
-                "medical",
-                "finance",
-                "tech",
-                "politics",
-                "medical",
-                "sports",
-                "politics",
                 "culture",
+                "finance",
+                "medical",
+                "politics",
+                "religion",
+                "sports",
+                "tech",
             ],
             "max_tries": 3,
         },
@@ -46,7 +44,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the following news article into one of the following categories: sports, medical, finance, tech, politics, medical, sports, politics, or culture.\n\narticle: {input_sample}\ncategory: \n",
+                "text": f"Classify the following news article into one of the following categories: culture, finance, medical, politics, religion, sports, tech\n\narticle: {input_sample}\ncategory: \n",
             }
         ],
     }
