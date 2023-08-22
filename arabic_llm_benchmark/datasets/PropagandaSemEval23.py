@@ -2,9 +2,6 @@ import json
 import os
 from pathlib import Path
 
-import pandas as pd
-from tqdm import tqdm
-
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
@@ -35,7 +32,7 @@ class PropagandaSemEval23Dataset(DatasetBase):
         """
 
     def get_data_sample(self):
-        return {"input": {"text": "text"}, "label": ["no_technique"]}
+        return {"input": "text", "label": ["no_technique"]}
 
     def get_predefined_techniques(self):
         # Load a pre-defined list of propaganda techniques, if available
