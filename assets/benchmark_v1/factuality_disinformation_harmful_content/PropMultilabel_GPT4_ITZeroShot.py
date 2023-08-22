@@ -188,7 +188,6 @@ def post_process(response):
         if label == "'no_technique'":
             pred_label = ["no_technique"]
         else:
-            # pred_label = eval(label.strip())
             label = label.replace("'", "").replace(" ", "")
             pred_label = label.split(",")
     except Exception as ex:
