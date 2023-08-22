@@ -8,7 +8,12 @@ class CheckworthinessDataset(DatasetBase):
         super(CheckworthinessDataset, self).__init__(**kwargs)
 
     def get_data_sample(self):
-        return {"input": "some tweet", "label": "checkworthy"}
+        return {
+            "input": "some tweet",
+            "label": "checkworthy",
+            "input_id": 0,
+            "line_number": 0,
+        }
 
     def citation(self):
         return """
