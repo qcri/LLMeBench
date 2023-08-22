@@ -1,15 +1,15 @@
 import os
 
-from arabic_llm_benchmark.datasets import BnSentimentDataset
+from arabic_llm_benchmark.datasets import BanglaSentimentDataset
 from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import BnSentimentTask
+from arabic_llm_benchmark.tasks import SentimentTask
 
 
 def config():
     return {
-        "dataset": BnSentimentDataset,
+        "dataset": BanglaSentimentDataset,
         "dataset_args": {},
-        "task": BnSentimentTask,
+        "task": SentimentTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {
