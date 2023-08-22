@@ -1,9 +1,9 @@
 from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
 
 
-class BnSentimentDataset(DatasetBase):
+class BanglaSentimentDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(BnSentimentDataset, self).__init__(**kwargs)
+        super(BanglaSentimentDataset, self).__init__(**kwargs)
 
     def citation(self):
         return """
@@ -24,7 +24,7 @@ class BnSentimentDataset(DatasetBase):
         """
 
     def get_data_sample(self):
-        return {"input": "Tweet", "label": "Positive"}
+        return {"input": "Tweet", "label": "Positive", "line_number": 0}
 
     def load_data(self, data_path):
         data = []

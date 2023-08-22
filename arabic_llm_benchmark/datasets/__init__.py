@@ -12,7 +12,7 @@ from .ARCD import ARCDDataset
 from .ArSarcasm import ArSarcasmDataset
 from .ArSASSentiment import ArSASSentimentDataset
 from .Attentionworthy import AttentionworthyDataset
-from .BnSentiment import BnSentimentDataset
+from .BanglaSentiment import BanglaSentimentDataset
 from .Checkworthiness import CheckworthinessDataset
 from .Claim import CovidClaimDataset
 from .DialectADI import DialectADIDataset
