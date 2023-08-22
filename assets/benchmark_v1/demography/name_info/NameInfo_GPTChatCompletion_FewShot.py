@@ -133,10 +133,16 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n\n"
-    for example in examples:
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
         out_prompt = (
             out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
             + "name: "
             + example["input"]
             + "\ncountry: "

@@ -1,13 +1,9 @@
 import os
-import random
 import re
 
 from arabic_llm_benchmark.datasets import StanceUnifiedFCDataset
 from arabic_llm_benchmark.models import GPTChatCompletionModel
 from arabic_llm_benchmark.tasks import StanceUnifiedFCTask
-
-
-random.seed(1333)
 
 
 def config():
@@ -23,8 +19,7 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["agree", "disagree", "unrelated"],
-            "max_tries": 30,
+            "max_tries": 3,
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl"
@@ -33,26 +28,33 @@ def config():
 
 
 def prompt(input_sample):
-    article = input_sample["article"]
+    claim = input_sample["claim"].strip()
+    article = input_sample["article"].strip()
+
+    # article = input_sample["article"]
     # article_arr = article.split()
     # if len(article_arr) > 2200:
     #     article_str = " ".join(article_arr[:2200])
     # else:
-    article_str = article
+    # article_str = article
 
+    # (agree, disagree, discuss, or unrelated)
     prompt_string = (
-        f"Based on your analysis, determine the stance of the news article towards the claim. The possible stances could be 'agree', 'disagree', or 'unrelated'."
+        f"Given a reference claim, and a news article, predict the stance of the article "
+        f"towards the claim. Reply using one of these stances: 'agree' (if article agrees "
+        f"with claim), 'disagree' (if article disagrees with claim), "
+        f"'discuss' (if article discusses claim without specific stance), or 'unrelated' "
+        f"(if article isn't discussing the claim's topic)"
         f"\n\n"
-        f"claim: {input_sample['claim']}\n"
-        f'\nclaim\'s text: {input_sample["claim-fact"]}'
-        f"news Article: {input_sample['article']}\n\n"
-        f"stance: \n"
+        f"reference claim: {claim}\n"
+        f"news article: {article}\n"
+        f"label: \n"
     )
 
     return [
         {
             "role": "system",
-            "content": "You are a fact checking expert. Your task is to analyze the claim, text of the claim and the associated news article.",
+            "content": "You are a fact checking expert.",
         },
         {
             "role": "user",

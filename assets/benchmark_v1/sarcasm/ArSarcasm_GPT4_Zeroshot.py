@@ -22,7 +22,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sarcasm/ArSarcasm/ArSarcasm_test.csv",
+            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv"
         },
     }
 
@@ -31,27 +31,29 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are an expert in sarcasm detection.\n\n",
+            "content": "## INSTRUCTION\nYou are an expert in sarcasm detection.\n\n",
         },
         {
             "role": "user",
-            "content": (
-                'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic '
-                'and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: '
-                + input_sample
-                + "\n"
-                "label: \n"
-            ),
+            "content": 'You are an AI assistant, an expert at detecting sarcasm in text. Say yes if the tweet is sarcastic and say no if the tweet is not sarcastic: "'
+            + input_sample
+            + '"',
         },
     ]
 
 
 def post_process(response):
-    content = response["choices"][0]["message"]["content"]
-    content = content.strip().lower()
-    if "yes" in content:
-        return "TRUE"
-    elif "no" in content:
-        return "FALSE"
+    content = response["choices"][0]["message"]["content"].lower()
 
-    return None
+    if (
+        content.startswith("no")
+        or "\nNo" in content
+        or "tweet is not sarcastic" in content
+        or "answer is no" in content
+        or "would say no" in content
+    ):
+        return "FALSE"
+    elif content == "yes" or content == "نعم":
+        return "TRUE"
+    else:
+        return None
