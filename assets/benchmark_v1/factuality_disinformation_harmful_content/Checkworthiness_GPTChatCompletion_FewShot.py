@@ -27,9 +27,9 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/CT22_arabic_1A_checkworthy_test_gold.tsv",
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/checkworthyness/CT22_arabic_1A_checkworthy_train.tsv",
+                "train_data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_train.tsv",
             },
         },
     }
