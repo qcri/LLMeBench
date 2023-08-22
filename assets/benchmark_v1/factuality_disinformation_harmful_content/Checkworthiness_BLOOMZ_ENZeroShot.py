@@ -18,15 +18,15 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_test_gold.tsv"
         },
     }
 
 
 def prompt(input_sample):
     return {
-        "prompt": "Classify the sentence as checkworthy or not checkworthy. Provide only label.\n\n"
-        + "sentence: "
+        "prompt": "Classify the tweet as checkworthy or not checkworthy. Provide only label.\n\n"
+        + "tweet: "
         + input_sample
         + "label: \n"
     }
@@ -45,6 +45,7 @@ def post_process(response):
         label == "Not_checkworthy."
         or label == "not_checkworthy"
         or label == "not checkworthy"
+        or label.lower() == "no"
     ):
         label_fixed = "0"
 
