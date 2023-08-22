@@ -45,6 +45,7 @@ def post_process(response):
         label == "Not_checkworthy."
         or label == "not_checkworthy"
         or label == "not checkworthy"
+        or label.lower() == "no"
     ):
         label_fixed = "0"
 
