@@ -2,10 +2,19 @@
 
 This repository contains code for the LLMeBench framework (described in [this paper](https://arxiv.org/abs/2308.04945)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, model and dataset, regardless of language. 
 
+<p align="center">
 <picture>
-<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/14aebcc4-80ed-4b90-b20d-72b08ba4c909" class="center" width="500" height="170"/>
+<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/14aebcc4-80ed-4b90-b20d-72b08ba4c909" width="400" height="140"/>
 </picture>
+</p>
 
+#### Summary and examples of the datasets, tasks, models and metrics currently implemented
+<p align="center">
+<picture>
+<img alt = "Summary and examples of the 53 datasets, 31 tasks, 3 models and metrics currently implemented and
+validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/72c8b59e-5f43-4437-b493-5a52690e5a10" width="420" height="140"/>
+</picture>
+</p>
 
 ## Installation
 *pip package to be made available soon!*
