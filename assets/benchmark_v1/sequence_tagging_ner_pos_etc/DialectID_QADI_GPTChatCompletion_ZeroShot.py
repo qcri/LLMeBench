@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import QADIDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import DialectIDTask
+from llmebench.datasets import QADIDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import DialectIDTask
 
 
 def config():

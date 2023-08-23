@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import EmotionDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import EmotionTask
+from llmebench.datasets import EmotionDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import EmotionTask
 
 
 def config():

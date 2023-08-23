@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import AraBenchDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import MachineTranslationTask
+from llmebench.datasets import AraBenchDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import MachineTranslationTask
 
 
 def config():

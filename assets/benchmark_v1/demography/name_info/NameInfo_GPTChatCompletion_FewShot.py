@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import NameInfoDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import DemographyNameInfoTask
+from llmebench.datasets import NameInfoDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import DemographyNameInfoTask
 
 
 def config():

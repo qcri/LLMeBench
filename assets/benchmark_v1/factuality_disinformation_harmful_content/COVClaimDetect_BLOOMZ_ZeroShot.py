@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import CovidClaimDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import ClaimDetectionTask
+from llmebench.datasets import CovidClaimDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import ClaimDetectionTask
 
 
 def config():

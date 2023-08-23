@@ -2,9 +2,9 @@ import os
 
 import regex as re
 
-from arabic_llm_benchmark.datasets import PropagandaTweetDataset
-from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import PropagandaMultilabelTask
+from llmebench.datasets import PropagandaTweetDataset
+from llmebench.models import GPTModel
+from llmebench.tasks import PropagandaMultilabelTask
 
 
 def config():

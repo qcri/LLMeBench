@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import CheckworthinessDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import CheckworthinessTask
+from llmebench.datasets import CheckworthinessDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import CheckworthinessTask
 
 
 def config():

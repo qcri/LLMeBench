@@ -1,9 +1,9 @@
 import os
 import random
 
-from arabic_llm_benchmark.datasets import MLQADataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import QATask
+from llmebench.datasets import MLQADataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import QATask
 
 random.seed(3333)
 

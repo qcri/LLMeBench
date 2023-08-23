@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import BanglaSentimentDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import SentimentTask
+from llmebench.datasets import BanglaSentimentDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import SentimentTask
 
 
 def config():

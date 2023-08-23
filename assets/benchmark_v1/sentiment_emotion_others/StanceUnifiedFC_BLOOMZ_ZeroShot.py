@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import StanceUnifiedFCDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import StanceUnifiedFCTask
+from llmebench.datasets import StanceUnifiedFCDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import StanceUnifiedFCTask
 
 
 def config():

@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import STSArSemEval17Track2Dataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import STSTrack2Task
+from llmebench.datasets import STSArSemEval17Track2Dataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import STSTrack2Task
 
 
 def config():

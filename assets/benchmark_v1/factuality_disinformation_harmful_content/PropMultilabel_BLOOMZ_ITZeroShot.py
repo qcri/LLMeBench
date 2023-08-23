@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import PropagandaSemEval23Dataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import PropagandaMultilabelSemEval23Task
+from llmebench.datasets import PropagandaSemEval23Dataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import PropagandaMultilabelSemEval23Task
 
 
 def config():

@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import CovidHarmfulDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import HarmfulDetectionTask
+from llmebench.datasets import CovidHarmfulDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import HarmfulDetectionTask
 
 
 def config():

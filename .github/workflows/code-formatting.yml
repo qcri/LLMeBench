@@ -33,7 +33,7 @@ jobs:
           pip install '.[dev]'
       - name: Run ufmt check on framework code
         run: |
-          ufmt check arabic_llm_benchmark
+          ufmt check llmebench
       - name: Run ufmt check on test code
         run: |
           ufmt check tests

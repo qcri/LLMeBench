@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from arabic_llm_benchmark.datasets import FactualityKhouja20Dataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import FactualityKhouja20Task
+from llmebench.datasets import FactualityKhouja20Dataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import FactualityKhouja20Task
 
 
 random.seed(1333)

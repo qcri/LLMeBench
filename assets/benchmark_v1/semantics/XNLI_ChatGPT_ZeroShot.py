@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import XNLIDataset
-from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import XNLITask
+from llmebench.datasets import XNLIDataset
+from llmebench.models import GPTModel
+from llmebench.tasks import XNLITask
 
 
 def config():

@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import NameInfoDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import DemographyNameInfoTask
+from llmebench.datasets import NameInfoDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import DemographyNameInfoTask
 
 
 def config():

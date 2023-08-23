@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArabGendDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import DemographyGenderTask
+from llmebench.datasets import ArabGendDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import DemographyGenderTask
 
 
 def config():

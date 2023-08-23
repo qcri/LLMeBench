@@ -4,16 +4,16 @@ import unittest
 from glob import glob
 from pathlib import Path
 
-import arabic_llm_benchmark.datasets as datasets
-from arabic_llm_benchmark import utils
-from arabic_llm_benchmark.datasets.dataset_base import DatasetBase
+import llmebench.datasets as datasets
+from llmebench import utils
+from llmebench.datasets.dataset_base import DatasetBase
 
 
 class TestDatasetExports(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Search for all implemented datasets
-        framework_dir = Path("arabic_llm_benchmark")
+        framework_dir = Path("llmebench")
         cls.implemented_datasets = [
             dataset_path
             for dataset_path in glob(str(framework_dir / "datasets" / "*.py"))

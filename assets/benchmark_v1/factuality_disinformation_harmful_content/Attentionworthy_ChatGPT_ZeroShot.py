@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import AttentionworthyDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import AttentionworthyTask
+from llmebench.datasets import AttentionworthyDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import AttentionworthyTask
 
 
 def config():

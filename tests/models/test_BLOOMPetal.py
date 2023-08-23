@@ -4,8 +4,8 @@ import unittest
 
 from unittest.mock import patch
 
-from arabic_llm_benchmark import Benchmark
-from arabic_llm_benchmark.models import BLOOMPetalModel
+from llmebench import Benchmark
+from llmebench.models import BLOOMPetalModel
 
 
 class TestAssetsForBLOOMPetalPrompts(unittest.TestCase):
