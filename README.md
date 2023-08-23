@@ -1,4 +1,8 @@
-# Arabic LLM Benchmark
+# LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
+
+This repository contains code for the LLMeBench framework (described in [this paper](https://arxiv.org/abs/2308.049450)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, model and dataset, regardless of language. 
+
+![The architecture of the LLMeBench framework.]()
 
 ## Installation
 *pip package to be made available soon!*
