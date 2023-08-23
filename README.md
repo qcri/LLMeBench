@@ -1,7 +1,8 @@
-![arch_fig_paper](https://github.com/qcri/LLMeBench/assets/3918663/adc863c4-a0dd-4b1e-85cd-1406ac1e3e37)# LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
+# LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
 This repository contains code for the LLMeBench framework (described in [this paper](https://arxiv.org/abs/2308.04945)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, model and dataset, regardless of language. 
-![The architecture of the LLMeBench framework.](https://github.com/qcri/LLMeBench/assets/3918663/c4cd91d3-2978-4aa2-ba01-3606035542bb)
+
+![The architecture of the LLMeBench framework.](https://github.com/qcri/LLMeBench/assets/3918663/acb444f3-6701-4194-9bd3-e7b58adc15d1)
 
 
 ## Installation
