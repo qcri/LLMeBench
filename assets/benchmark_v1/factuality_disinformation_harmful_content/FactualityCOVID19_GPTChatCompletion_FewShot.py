@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from arabic_llm_benchmark.datasets import FactualityCOVID19Dataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import FactualityCOVID19Task
+from llmebench.datasets import FactualityCOVID19Dataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import FactualityCOVID19Task
 
 
 random.seed(1333)

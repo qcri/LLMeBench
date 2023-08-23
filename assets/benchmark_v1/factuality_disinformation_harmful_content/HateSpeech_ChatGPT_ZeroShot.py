@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import HateSpeechDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import HateSpeechTask
+from llmebench.datasets import HateSpeechDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import HateSpeechTask
 
 
 def config():

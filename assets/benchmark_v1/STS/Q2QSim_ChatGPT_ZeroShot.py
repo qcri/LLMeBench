@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import Q2QSimDataset
-from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import Q2QSimDetectionTask
+from llmebench.datasets import Q2QSimDataset
+from llmebench.models import GPTModel
+from llmebench.tasks import Q2QSimDetectionTask
 
 
 def config():

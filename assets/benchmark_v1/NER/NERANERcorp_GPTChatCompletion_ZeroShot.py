@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import ANERcorpDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import NERTask
+from llmebench.datasets import ANERcorpDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import NERTask
 
 
 def config():

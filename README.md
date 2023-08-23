@@ -5,14 +5,14 @@
 
 Clone this repository:
 ```bash
-git clone https://github.com/qcri/Arabic_LLM_Benchmark.git
-cd Arabic_LLM_Benchmark
+git clone https://github.com/qcri/LLMeBench.git
+cd LLMeBench
 ```
 
 Create a virtual environment:
 ```bash
-python -m venv .envs/arabic_llm_benchmark
-source .envs/arabic_llm_benchmark/bin/activate
+python -m venv .envs/llmebench
+source .envs/llmebench/bin/activate
 ```
 
 Install the dependencies and benchmarking package:
@@ -21,7 +21,7 @@ pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the benchmark data
-Download the benchmark from [here](https://neurox.qcri.org/projects/arabic_llm_benchmark/arabic_llm_benchmark_data.zip), and unzip it into the `Arabic_LLM_Benchmark` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
+Download the benchmark from [here](https://neurox.qcri.org/projects/llmebench/arabic_llm_benchmark_data.zip), and unzip it into the `Arabic_LLM_Benchmark` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
 
 ```bash
 $ ls data/
@@ -39,7 +39,7 @@ speech
 A sample benchmark is available in `assets/benchmark_v1`. To run the benchmark,
 
 ```bash
-python -m arabic_llm_benchmark <benchmark-dir> <results-dir>
+python -m llmebench <benchmark-dir> <results-dir>
 ```
 
 where `<benchmark-dir>` can point to `assets/benchmark_v1` for example. The
@@ -58,7 +58,7 @@ git checkout -b feat/sarcasm_task
 ```
 
 ### Dataset
-Check if the dataset used by your task already has an implementation in `arabic_llm_benchmark/datasets`. If not, implement a new dataset module (e.g. `arabic_llm_benchmark/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See an existing dataset module for inspiration. Each new dataset class requires implementing three functions:
+Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See an existing dataset module for inspiration. Each new dataset class requires implementing three functions:
 
 ```python
 class NewDataset(DatasetBase):
@@ -78,10 +78,10 @@ class NewDataset(DatasetBase):
 		#   "label": this will be used for evaluation
 ```
 
-Once the `Dataset` is implemented, export it in `arabic_llm_benchmark/datasets/__init__.py`.
+Once the `Dataset` is implemented, export it in `llmebench/datasets/__init__.py`.
 
 ### Task
-Check if the task you are adding to the benchmark already has an implementation in `arabic_llm_benchmark/tasks`. If not, implement a new dataset module (e.g. `arabic_llm_benchmark/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) which subclasses `TaskBase`. See an existing task module for inspiration. Each new task class requires implementing two functions:
+Check if the task you are adding to the benchmark already has an implementation in `llmebench/tasks`. If not, implement a new dataset module (e.g. `llmebench/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) which subclasses `TaskBase`. See an existing task module for inspiration. Each new task class requires implementing two functions:
 
 ```python
 class NewTask(TaskBase):
@@ -97,10 +97,10 @@ class NewTask(TaskBase):
 		# post_process function
 ```
 
-Once the `Task` is implemented, export it in `arabic_llm_benchmark/tasks/__init__.py`.
+Once the `Task` is implemented, export it in `llmebench/tasks/__init__.py`.
 
 ### Model
-Next, check if the model you are trying to run the benchmark for has an implementation in `arabic_llm_benchmark/models`. If not, implement a new model module (e.g. `arabic_llm_benchmark/models/QARiB.py`), which implements a class (e.g. `QARiBModel`) which subclasses `ModelBase`. See an existing model module for inspiration. Each new model class requires implementing two functions:
+Next, check if the model you are trying to run the benchmark for has an implementation in `llmebench/models`. If not, implement a new model module (e.g. `llmebench/models/QARiB.py`), which implements a class (e.g. `QARiBModel`) which subclasses `ModelBase`. See an existing model module for inspiration. Each new model class requires implementing two functions:
 
 ```python
 class NewModel(TaskBase):
@@ -115,7 +115,7 @@ class NewModel(TaskBase):
 		# run the actual model and return model outputs
 ```
 
-Once the `Model` is implemented, export it in `arabic_llm_benchmark/models/__init__.py`.
+Once the `Model` is implemented, export it in `llmebench/models/__init__.py`.
 
 ### Benchmark Asset
 Now that the Dataset, Task and Model are defined, the framework expects a given benchmark asset (e.g. "ArabGender" dataset, "GenderClassification" task, "GPT" model and "ZeroShot" prompting setting) to have a `*.py` file with three functions:
@@ -145,7 +145,7 @@ def post_process(response):
 The benchmarking module allows one to run a specific asset instead of the entire benchmark using the `--filter` option. It is also a good idea to use the `--limit` option to limit the tests to few (e.g. 5 samples). Sample command below:
 
 ```bash
-python -m arabic_llm_benchmark --filter 'demography/gender/AraGend_ChatGPT_ZeroShot' --limit 5 --ignore_cache <benchmark-dir> <results-dir>
+python -m llmebench --filter 'demography/gender/AraGend_ChatGPT_ZeroShot' --limit 5 --ignore_cache <benchmark-dir> <results-dir>
 ```
 
 Make sure to also run `scripts/run_tests.sh` before submitting your code, and once you are ready, you can commit your changes locally and push them to a remote branch:

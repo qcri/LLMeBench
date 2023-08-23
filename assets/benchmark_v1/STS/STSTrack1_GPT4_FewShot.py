@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import STSArSemEval17Track1Dataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import STSTrack1Task
+from llmebench.datasets import STSArSemEval17Track1Dataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import STSTrack1Task
 
 
 def config():

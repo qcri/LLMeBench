@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from arabic_llm_benchmark.datasets import PropagandaTweetDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import PropagandaMultilabelTask
+from llmebench.datasets import PropagandaTweetDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import PropagandaMultilabelTask
 
 
 random.seed(1333)

@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import Q2QSimDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import Q2QSimDetectionTask
+from llmebench.datasets import Q2QSimDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import Q2QSimDetectionTask
 
 
 def config():

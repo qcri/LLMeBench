@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import StanceUnifiedFCDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import StanceUnifiedFCTask
+from llmebench.datasets import StanceUnifiedFCDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import StanceUnifiedFCTask
 
 
 def config():

@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import XNLIDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import XNLITask
+from llmebench.datasets import XNLIDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import XNLITask
 
 
 def config():

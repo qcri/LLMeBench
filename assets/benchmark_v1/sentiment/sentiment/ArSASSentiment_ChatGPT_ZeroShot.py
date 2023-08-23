@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArSASSentimentDataset
-from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import SentimentTask
+from llmebench.datasets import ArSASSentimentDataset
+from llmebench.models import GPTModel
+from llmebench.tasks import SentimentTask
 
 
 def config():

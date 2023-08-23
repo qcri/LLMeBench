@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from arabic_llm_benchmark.datasets import AttentionworthyDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import AttentionworthyTask
+from llmebench.datasets import AttentionworthyDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import AttentionworthyTask
 
 
 random.seed(1333)

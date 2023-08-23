@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import FactualityKhouja20Dataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import FactualityKhouja20Task
+from llmebench.datasets import FactualityKhouja20Dataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import FactualityKhouja20Task
 
 
 def config():

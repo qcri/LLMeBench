@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from arabic_llm_benchmark.datasets import FactualityUnifiedFCDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import FactualityUnifiedFCTask
+from llmebench.datasets import FactualityUnifiedFCDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import FactualityUnifiedFCTask
 
 
 random.seed(1333)

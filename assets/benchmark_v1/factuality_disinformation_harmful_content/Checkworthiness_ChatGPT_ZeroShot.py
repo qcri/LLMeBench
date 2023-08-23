@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import CheckworthinessDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import CheckworthinessTask
+from llmebench.datasets import CheckworthinessDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import CheckworthinessTask
 
 
 def config():

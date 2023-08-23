@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import XQuADDataset
-from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import QATask
+from llmebench.datasets import XQuADDataset
+from llmebench.models import GPTModel
+from llmebench.tasks import QATask
 
 
 def config():

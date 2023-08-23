@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import AdultDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import AdultTask
+from llmebench.datasets import AdultDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import AdultTask
 
 
 def config():

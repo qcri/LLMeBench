@@ -4,16 +4,16 @@ import unittest
 from glob import glob
 from pathlib import Path
 
-import arabic_llm_benchmark.models as models
-from arabic_llm_benchmark import utils
-from arabic_llm_benchmark.models.model_base import ModelBase
+import llmebench.models as models
+from llmebench import utils
+from llmebench.models.model_base import ModelBase
 
 
 class TestDatasetExports(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Search for all implemented models
-        framework_dir = Path("arabic_llm_benchmark")
+        framework_dir = Path("llmebench")
         cls.implemented_models = [
             model_path
             for model_path in glob(str(framework_dir / "models" / "*.py"))

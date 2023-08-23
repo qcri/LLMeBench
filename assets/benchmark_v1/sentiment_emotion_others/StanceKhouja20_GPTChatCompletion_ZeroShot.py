@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import StanceKhouja20Dataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import StanceKhouja20Task
+from llmebench.datasets import StanceKhouja20Dataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import StanceKhouja20Task
 
 
 def config():

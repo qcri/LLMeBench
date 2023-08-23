@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import EmotionDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import EmotionTask
+from llmebench.datasets import EmotionDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import EmotionTask
 
 
 def config():

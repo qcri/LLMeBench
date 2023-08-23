@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import OffensiveDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import OffensiveTask
+from llmebench.datasets import OffensiveDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import OffensiveTask
 
 
 def config():
