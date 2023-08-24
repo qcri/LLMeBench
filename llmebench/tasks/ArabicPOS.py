@@ -1,6 +1,6 @@
 import itertools
 
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
 
 from llmebench.tasks.task_base import TaskBase
 
@@ -34,4 +34,4 @@ class ArabicPOSTask(TaskBase):
             hyp += p
             ref += t
 
-        return {"Accuracy": accuracy_score(ref, hyp)}
+        return {"Accuracy": f1_score(ref, hyp, average="macro")}
