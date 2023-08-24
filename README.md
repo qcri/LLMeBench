@@ -59,7 +59,7 @@ python -m llmebench --filter '*benchmarking_asset*' --limit n --ignore_cache <be
 ```
 #### Parameters
 - `--filter '*benchmarking_asset*'`: This flag indicates specific tasks in the benchmark to run. The framework will run a wildecard search using '*benchmarking_asset*'.
-- `--limit n`: **(Optional)** Specifiy the number of samples from input data to run through the pipeline to allow effecient testing.
+- `--limit n`: **(Optional)** Specify the number of samples from input data to run through the pipeline to allow effecient testing.
 - `--ignore_cache`: **(Optional)** A flag to ignore loading and saving intermediate model responses from/to cache. 
 - `<benchmark-dir>`: Path of directory where the benchmarking assets to run can be found.
 - `<results-dir>`: Path of directory where to save output results, along with intermediate cached values.
