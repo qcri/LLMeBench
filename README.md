@@ -55,19 +55,30 @@ speech
 A sample benchmark is available in `assets/benchmark_v1`. To run the benchmark,
 
 ```bash
-python -m llmebench --filter '*benchmarking_asset*' <benchmark-dir> <results-dir> --filter 
+python -m llmebench --filter '*benchmarking_asset*' --limit n --ignore_cache <benchmark-dir> <results-dir> 
 ```
 #### Parameters
 - `--filter '*benchmarking_asset*'`: This flag indicates specific tasks in the benchmark to run. The framework will run a wildecard search using '*benchmarking_asset*'.
-- `<benchmark-dir>`: Path of directory where the benchmarking asset to run can be found.
+- `--limit n`: **(Optional)** Specifiy the number of samples from input data to run through the pipeline to allow effecient testing.
+- `--ignore_cache`: **(Optional)** A flag to ignore loading and saving intermediate model responses from/to cache. 
+- `<benchmark-dir>`: Path of directory where the benchmarking assets to run can be found.
 - `<results-dir>`: Path of directory where to save output results, along with intermediate cached values.
 - You might need to also define environment variables such as `AZURE_API_URL` and `AZURE_API_KEY` depending on the benchmark you are running. This can be done by either:
    - `export AZURE_API_KEY="..."` _before_ running the above command, or
    - prepending `AZURE_API_URL="..." AZURE_API_KEY="..."` to the above command.
 
 #### Outputs format
-- `<results-dir>`:
-- 
+- `<results-dir>`: The framework will create a sub-folder per benchmarking asset in this directory. A sub-folder will contain:
+  - **_n.json_**: A file per dataset sample, where *n* indicates sample order in the dataset input file. This file contains input sample, full prompt sent to the model, full model response, and the model output after post-processing as defined in the asset file.
+  - **_summary.jsonl_**: Lists all input samples that successfuly ran through the pipeline, and for each, the raw model prediction, and the post-processed model prediction.
+  -  **_summary_failed.jsonl_**: Lists all input samples that didn't get a successful response from the model, in addition to output model's reason behind failure.
+  -  **_results.json_**: Contains a summary on number of processed and failed input samples, and evaluation results.
+
+#### Caching
+The framework provides caching (if `--ignore_cache` isn't passed), to enable the following: 
+- Allowing users to bypass making API calls for items that have already been successfully processed.
+- Enhancing the post-processing of the models’ output, as post-processing can be performed repeatedly without having to call the API every time. 
+
 ## Adding a new task
 Before adding a new task, make sure you have the latest changes:
 
