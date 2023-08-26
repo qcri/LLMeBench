@@ -1,25 +1,28 @@
-from llmebench.datasets import ArSASDataset
-from llmebench.models import OpenAIModel
+import os
+
+from llmebench.datasets import ArSASSentimentDataset
+from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import SentimentTask
-
-
-def metadata():
-    return {
-        "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Macro-F1": "0.569"},
-    }
 
 
 def config():
     return {
-        "dataset": ArSASDataset,
+        "dataset": ArSASSentimentDataset,
+        "dataset_args": {},
         "task": SentimentTask,
-        "model": OpenAIModel,
+        "task_args": {},
+        "model": GPTChatCompletionModel,
         "model_args": {
+            "api_type": "azure",
+            "api_version": "2023-03-15-preview",
+            "api_base": os.environ["AZURE_API_URL"],
+            "api_key": os.environ["AZURE_API_KEY"],
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
-            "max_tries": 3,
+            "max_tries": 30,
+        },
+        "general_args": {
+            "data_path": "data/sentiment_emotion_others/sentiment/ArSAS-test.txt"
         },
     }
 
@@ -32,7 +35,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"Choose only one sentiment between: Positive, Negative, Neutral, or Mixed for this Arabic sentence: \n {input_sample}",
+            "content": f"Positive, Negative, Neutral, or Mixed: اختر لهذه الجملة باللغة العربيّة: أحد  المشاعر التالية \n {input_sample}",
         },
     ]
 
