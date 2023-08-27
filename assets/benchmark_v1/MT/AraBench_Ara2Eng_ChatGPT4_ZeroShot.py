@@ -44,12 +44,6 @@ def config():
         "madar.test.nil.0.sd",
         "madar.test.nil.1.eg",
         "madar.test.nil.2.eg"]
-    #     "summa-2M.test.mgr.0.ma",
-    #     "summa-AJ.test.msa.0.ms",
-    #     "summa-BBC.test.msa.0.ms",
-    #     "summa-LBC.test.lev.0.lb",
-    #     "summa-Oman.test.glf.0.om",
-    # ]
     configs = []
     for testset in sets:
         configs.append(
