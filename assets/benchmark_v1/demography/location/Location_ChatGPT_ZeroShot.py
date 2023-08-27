@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import LocationDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import DemographyLocationTask
+from llmebench.datasets import LocationDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import DemographyLocationTask
 
 
 def config():

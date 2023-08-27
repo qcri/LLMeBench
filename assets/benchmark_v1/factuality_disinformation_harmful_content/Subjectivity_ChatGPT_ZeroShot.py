@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import SubjectivityDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import SubjectivityTask
+from llmebench.datasets import SubjectivityDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import SubjectivityTask
 
 
 def config():

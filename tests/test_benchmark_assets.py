@@ -3,7 +3,7 @@ import types
 import unittest
 from unittest.mock import patch
 
-from arabic_llm_benchmark import Benchmark
+from llmebench import Benchmark
 
 
 class TestBenchmarkAssets(unittest.TestCase):

@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import MLQADataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import QATask
+from llmebench.datasets import MLQADataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import QATask
 
 
 def config():

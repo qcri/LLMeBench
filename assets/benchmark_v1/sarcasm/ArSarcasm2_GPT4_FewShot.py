@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArSarcasmDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import SarcasmTask
+from llmebench.datasets import ArSarcasmDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import SarcasmTask
 
 
 def config():

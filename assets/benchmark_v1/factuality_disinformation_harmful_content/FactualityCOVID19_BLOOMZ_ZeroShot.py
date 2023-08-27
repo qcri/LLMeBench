@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import FactualityCOVID19Dataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import FactualityCOVID19Task
+from llmebench.datasets import FactualityCOVID19Dataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import FactualityCOVID19Task
 
 
 def config():

@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from arabic_llm_benchmark.datasets import CheckworthinessDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import CheckworthinessTask
+from llmebench.datasets import CheckworthinessDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import CheckworthinessTask
 
 
 random.seed(1333)
@@ -27,9 +27,9 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/CT22_arabic_1A_checkworthy_test_gold.tsv",
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/checkworthyness/CT22_arabic_1A_checkworthy_train.tsv",
+                "train_data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_train.tsv",
             },
         },
     }

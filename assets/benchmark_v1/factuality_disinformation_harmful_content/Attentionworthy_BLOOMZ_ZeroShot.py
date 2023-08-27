@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import AttentionworthyDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import AttentionworthyTask
+from llmebench.datasets import AttentionworthyDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import AttentionworthyTask
 
 
 def config():

@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import MGBWordsDataset
-from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import NERTask
+from llmebench.datasets import MGBWordsDataset
+from llmebench.models import GPTModel
+from llmebench.tasks import NERTask
 
 
 def config():

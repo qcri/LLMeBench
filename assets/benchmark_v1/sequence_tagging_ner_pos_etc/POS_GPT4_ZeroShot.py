@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import ArabicPOSDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import ArabicPOSTask
+from llmebench.datasets import ArabicPOSDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import ArabicPOSTask
 
 mapTags = {
     "UNK": "UNK",

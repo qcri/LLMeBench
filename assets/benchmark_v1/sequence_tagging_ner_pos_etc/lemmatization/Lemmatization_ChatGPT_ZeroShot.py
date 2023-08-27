@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import LemmatizationDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import LemmatizationTask
+from llmebench.datasets import LemmatizationDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import LemmatizationTask
 
 
 def config():

@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArabicDiacritizationDataset
-from arabic_llm_benchmark.models import GPTModel
-from arabic_llm_benchmark.tasks import ArabicDiacritizationTask
+from llmebench.datasets import ArabicDiacritizationDataset
+from llmebench.models import GPTModel
+from llmebench.tasks import ArabicDiacritizationTask
 
 
 def config():

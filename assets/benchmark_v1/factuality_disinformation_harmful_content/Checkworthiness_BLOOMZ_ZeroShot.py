@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import CheckworthinessDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import CheckworthinessTask
+from llmebench.datasets import CheckworthinessDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import CheckworthinessTask
 
 
 def config():
@@ -18,7 +18,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/CT22_arabic_1A_checkworthy_test_gold.tsv"
+            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv"
         },
     }
 

@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import LocationDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import DemographyLocationTask
+from llmebench.datasets import LocationDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import DemographyLocationTask
 
 
 def config():

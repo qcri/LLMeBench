@@ -4,16 +4,16 @@ import unittest
 from glob import glob
 from pathlib import Path
 
-import arabic_llm_benchmark.tasks as tasks
-from arabic_llm_benchmark import Benchmark, utils
-from arabic_llm_benchmark.tasks.task_base import TaskBase
+import llmebench.tasks as tasks
+from llmebench import Benchmark, utils
+from llmebench.tasks.task_base import TaskBase
 
 
 class TestTaskExports(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Search for all implemented tasks
-        framework_dir = Path("arabic_llm_benchmark")
+        framework_dir = Path("llmebench")
         cls.implemented_tasks = [
             task_path
             for task_path in glob(str(framework_dir / "tasks" / "*.py"))

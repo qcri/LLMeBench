@@ -1,9 +1,9 @@
 import os
 import re
 
-from arabic_llm_benchmark.datasets import ArabicParsingDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import ArabicParsingTask
+from llmebench.datasets import ArabicParsingDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import ArabicParsingTask
 
 
 def config():

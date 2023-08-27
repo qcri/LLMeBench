@@ -1,10 +1,10 @@
 import os
 
-from arabic_llm_benchmark.datasets import ArSarcasmDataset
+from llmebench.datasets import ArSarcasmDataset
 
-from arabic_llm_benchmark.models import BLOOMPetalModel
+from llmebench.models import BLOOMPetalModel
 
-from arabic_llm_benchmark.tasks import SarcasmTask
+from llmebench.tasks import SarcasmTask
 
 
 def config():

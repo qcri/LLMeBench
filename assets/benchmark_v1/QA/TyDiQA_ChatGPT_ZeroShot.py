@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import TyDiQADataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import QATask
+from llmebench.datasets import TyDiQADataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import QATask
 
 
 def config():

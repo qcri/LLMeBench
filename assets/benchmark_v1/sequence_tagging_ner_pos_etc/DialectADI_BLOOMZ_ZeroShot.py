@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import DialectADIDataset
-from arabic_llm_benchmark.models import BLOOMPetalModel
-from arabic_llm_benchmark.tasks import DialectIDTask
+from llmebench.datasets import DialectADIDataset
+from llmebench.models import BLOOMPetalModel
+from llmebench.tasks import DialectIDTask
 
 
 def config():

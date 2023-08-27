@@ -1,8 +1,8 @@
 import os
 
-from arabic_llm_benchmark.datasets import SpamDataset
-from arabic_llm_benchmark.models import GPTModel, RandomGPTModel
-from arabic_llm_benchmark.tasks import SpamTask
+from llmebench.datasets import SpamDataset
+from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.tasks import SpamTask
 
 
 def config():

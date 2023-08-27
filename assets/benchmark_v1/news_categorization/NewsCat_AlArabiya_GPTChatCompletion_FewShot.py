@@ -1,9 +1,9 @@
 import os
 import random
 
-from arabic_llm_benchmark.datasets import NewsCatAlArabiyaDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import NewsCatAlArabiyaTask
+from llmebench.datasets import NewsCatAlArabiyaDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import NewsCatAlArabiyaTask
 
 
 random.seed(1333)
