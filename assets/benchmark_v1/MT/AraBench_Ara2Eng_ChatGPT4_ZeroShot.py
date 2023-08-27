@@ -44,11 +44,6 @@ def config():
         "madar.test.nil.0.sd",
         "madar.test.nil.1.eg",
         "madar.test.nil.2.eg",
-        "summa-2M.test.mgr.0.ma",
-        "summa-AJ.test.msa.0.ms",
-        "summa-BBC.test.msa.0.ms",
-        "summa-LBC.test.lev.0.lb",
-        "summa-Oman.test.glf.0.om",
     ]
     configs = []
     for testset in sets:
@@ -84,14 +79,17 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are an AI assistant that helps people find information.",
+            "content": "You are an expert translator specialized in translating texts from Arabic to English. You are concise as you only output the translation of the text without any illustrations or extra details",
         },
         {
             "role": "user",
-            "content": f"Translate the following to English, output only the translation:\n {input_sample}",
+            "content": f"Translate the following text to English.\nText: {input_sample}\nTranslation: ",
         },
     ]
 
 
 def post_process(response):
-    return response["choices"][0]["message"]["content"]
+    response = response["choices"][0]["message"]["content"]
+    response = response.replace('"', "")
+    response = response.strip()
+    return response
