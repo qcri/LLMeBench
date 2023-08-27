@@ -43,7 +43,8 @@ def config():
         "madar.test.nil.0.eg",
         "madar.test.nil.0.sd",
         "madar.test.nil.1.eg",
-        "madar.test.nil.2.eg"]
+        "madar.test.nil.2.eg",
+    ]
 
     configs = []
     for testset in sets:
@@ -88,7 +89,7 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    response = response["choices"][0]["text"] 
-    response = response.replace('"', "") 
+    response = response["choices"][0]["text"]
+    response = response.replace('"', "")
     response = response.strip()
     return response
