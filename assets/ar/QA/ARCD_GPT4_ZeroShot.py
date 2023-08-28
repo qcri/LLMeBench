@@ -1,25 +1,27 @@
+import os
+
 from llmebench.datasets import ARCDDataset
-from llmebench.models import OpenAIModel
+from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import QATask
-
-
-def metadata():
-    return {
-        "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"F1": "0.705"},
-    }
 
 
 def config():
     return {
         "dataset": ARCDDataset,
+        "dataset_args": {},
         "task": QATask,
-        "model": OpenAIModel,
+        "task_args": {},
+        "model": GPTChatCompletionModel,
         "model_args": {
-            "max_tries": 50,
+            "api_type": "azure",
+            "api_version": "2023-03-15-preview",
+            "api_base": os.environ["AZURE_API_URL"],
+            "api_key": os.environ["AZURE_API_KEY"],
+            "engine_name": os.environ["ENGINE_NAME"],
+            "class_labels": "NA",
+            "max_tries": 150,
         },
+        "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},
     }
 
 
@@ -31,7 +33,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:",
+            "content": f"مهمتك هي الإجابة على الأسئلة باللغة العربية بناءً على سياق معين.\nملاحظة: يجب أن تكون إجاباتك مسافات مستخرجة من السياق المحدد دون أي اضافات.\nلست بحاجة إلى تقديم إجابة كاملة.\nالسياق: {input_sample['context']}\n السؤال: {input_sample['question']}\n الجواب:"
         },
     ]
 
