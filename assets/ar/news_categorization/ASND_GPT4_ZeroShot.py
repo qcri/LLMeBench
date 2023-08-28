@@ -1,12 +1,9 @@
 import os
 import random
 
-from arabic_llm_benchmark.datasets import NewsCatASNDDataset
-from arabic_llm_benchmark.models import GPTChatCompletionModel
-from arabic_llm_benchmark.tasks import NewsCatASNDTask
-
-
-random.seed(1333)
+from llmebench.datasets import NewsCatASNDDataset
+from llmebench.models import GPTChatCompletionModel
+from llmebench.tasks import NewsCatASNDTask
 
 
 def config():
