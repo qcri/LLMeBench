@@ -1,7 +1,5 @@
 from llmebench.datasets import ArSarcasmDataset
-
 from llmebench.models import PetalsModel
-
 from llmebench.tasks import SarcasmTask
 
 
@@ -28,9 +26,10 @@ def config():
 
 def prompt(input_sample):
     prompt_string = (
-        f"Predict whether the tweet is sarcastic or not. If it is sarcastic, respond with 'TRUE'. If it is not sarcastic, respond with 'FALSE'.\n\n"
-        f"text: {input_sample}\n"
-        f"label: "
+        'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: '
+        + input_sample
+        + "\n"
+        "label: \n"
     )
     return {
         "prompt": prompt_string,
@@ -41,9 +40,9 @@ def post_process(response):
     label = response["outputs"].strip().lower()
     label = label.replace("<s>", "").replace("</s>", "")
 
-    if label == "true":
+    if label == "yes":
         return "TRUE"
-    elif label == "false":
+    elif label == "no":
         return "FALSE"
     else:
         return None
