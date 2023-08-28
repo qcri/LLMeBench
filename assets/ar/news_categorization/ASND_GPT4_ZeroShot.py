@@ -1,23 +1,27 @@
-from llmebench.datasets import ASNDDataset
-from llmebench.models import OpenAIModel
-from llmebench.tasks import NewsCategorizationTask
+import os
+import random
+
+from arabic_llm_benchmark.datasets import NewsCatASNDDataset
+from arabic_llm_benchmark.models import GPTChatCompletionModel
+from arabic_llm_benchmark.tasks import NewsCatASNDTask
 
 
-def metadata():
-    return {
-        "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Macro-F1": "0.667"},
-    }
+random.seed(1333)
 
 
 def config():
     return {
-        "dataset": ASNDDataset,
-        "task": NewsCategorizationTask,
-        "model": OpenAIModel,
+        "dataset": NewsCatASNDDataset,
+        "dataset_args": {},
+        "task": NewsCatASNDTask,
+        "task_args": {},
+        "model": GPTChatCompletionModel,
         "model_args": {
+            "api_type": "azure",
+            "api_version": "2023-03-15-preview",
+            "api_base": os.environ["AZURE_API_URL"],
+            "api_key": os.environ["AZURE_API_KEY"],
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": [
                 "crime-war-conflict",
                 "spiritual",
@@ -34,23 +38,26 @@ def config():
             ],
             "max_tries": 30,
         },
+        "general_args": {
+            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv"
+        },
     }
 
 
 def prompt(input_sample):
     prompt_string = (
-        f"Categorize the following tweet into one of the following categories: "
-        f"crime-war-conflict, spiritual, health, politics, human-rights-press-freedom, "
-        f"education, business-and-economy, art-and-entertainment, others, "
-        f"science-and-technology, sports, environment\n"
-        f"\ntweet: {input_sample}"
-        f"\ncategory: \n"
+        f"صنف التغريدة التالية إلى واحدة من الفئات التالية: "
+        f"جريمة-حرب-صراع ، روحي ، صحة ، سياسة ، حقوق-الإنسان-حرية-الصحافة ، "
+        f"تعليم ، أعمال-و-اقتصاد ، فن-و-ترفيه ، أخرى ، "
+        f"علم-و-تكنولوجيا ، رياضة ، بيئة\n"
+        f"\nالتغريدة: {input_sample}"
+        f"\nالفئة: \n"
     )
 
     return [
         {
             "role": "system",
-            "content": "You are an expert tweet annotator and know how to categorize news tweet.",
+            "content": "أنت خبير في تصنيف التغريدات وتعرف كيف تصنف تغريدات الأخبار.",
         },
         {
             "role": "user",
@@ -62,11 +69,31 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
-    label_fixed = label.lower()
-    label_fixed = label_fixed.replace("category: ", "")
-    label_fixed = label_fixed.replace("text:", "")
-    if label_fixed != "true" or label_fixed != "false":
-        if len(label_fixed.split()) > 1:
-            label_fixed = label_fixed.split()[0]
+    if "جريمة-حرب-صراع" in label or "صراع-حرب" in label:
+        label_fixed = "crime-war-conflict"
+    elif "روحي" in label:
+        label_fixed = "spiritual"
+    elif "صحة" in label:
+        label_fixed = "health"
+    elif "سياسة" in label:
+        label_fixed = "politics"
+    elif "حقوق-الإنسان-حرية-الصحافة" in label:
+        label_fixed = "human-rights-press-freedom"
+    elif "تعليم" in label:
+        label_fixed = "education"
+    elif "أعمال-و-اقتصاد" in label:
+        label_fixed = "business-and-economy"
+    elif "فن-و-ترفيه" in label or "ترفيه" in label:
+        label_fixed = "art-and-entertainment"
+    elif "أخرى" in label:
+        label_fixed = "others"
+    elif "علم-و-تكنولوجيا" in label:
+        label_fixed = "science-and-technology"
+    elif "رياضة" in label:
+        label_fixed = "sports"
+    elif "بيئة" in label:
+        label_fixed = "environment"
+    else:
+        label_fixed = "others"
 
     return label_fixed
