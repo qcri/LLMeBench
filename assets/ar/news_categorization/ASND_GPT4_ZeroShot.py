@@ -42,14 +42,7 @@ def config():
 
 
 def prompt(input_sample):
-    prompt_string = (
-        f"صنف التغريدة التالية إلى واحدة من الفئات التالية: "
-        f"جريمة-حرب-صراع ، روحي ، صحة ، سياسة ، حقوق-الإنسان-حرية-الصحافة ، "
-        f"تعليم ، أعمال-و-اقتصاد ، فن-و-ترفيه ، أخرى ، "
-        f"علم-و-تكنولوجيا ، رياضة ، بيئة\n"
-        f"\nالتغريدة: {input_sample}"
-        f"\nالفئة: \n"
-    )
+    prompt_string = (f"صنف التغريدة التالية إلى واحدة من الفئات التالية: " f"جريمة-حرب-صراع ، روحي-ديني ، صحة ، سياسة ، حقوق-الإنسان-حرية-الصحافة ، " f"تعليم ، أعمال-اقتصاد ، فن-ترفيه ، أخرى ، " f"علوم-تكنولوجيا ، رياضة ، بيئة\n" f"\nالتغريدة: {input_sample}" f"\nالفئة: \n")
 
     return [
         {
@@ -68,7 +61,7 @@ def post_process(response):
 
     if "جريمة-حرب-صراع" in label or "صراع-حرب" in label:
         label_fixed = "crime-war-conflict"
-    elif "روحي" in label:
+    elif "روحي" in label or "ديني" in label:
         label_fixed = "spiritual"
     elif "صحة" in label:
         label_fixed = "health"
@@ -78,13 +71,13 @@ def post_process(response):
         label_fixed = "human-rights-press-freedom"
     elif "تعليم" in label:
         label_fixed = "education"
-    elif "أعمال-و-اقتصاد" in label:
+    elif "أعمال-و-اقتصاد" in label or "أعمال" in label or "اقتصاد" in label:
         label_fixed = "business-and-economy"
     elif "فن-و-ترفيه" in label or "ترفيه" in label:
         label_fixed = "art-and-entertainment"
     elif "أخرى" in label:
         label_fixed = "others"
-    elif "علم-و-تكنولوجيا" in label:
+    elif "علم-و-تكنولوجيا" in label or "علوم" in label or "تكنولوجيا" in label:
         label_fixed = "science-and-technology"
     elif "رياضة" in label:
         label_fixed = "sports"
