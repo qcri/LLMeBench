@@ -5,12 +5,15 @@ class ArSASSentimentDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArSASSentimentDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@inproceedings{Elmadany2018ArSASA,
-            title={ArSAS : An Arabic Speech-Act and Sentiment Corpus of Tweets},
-            author={AbdelRahim Elmadany and Hamdy Mubarak and Walid Magdy},
-            year={2018}
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{Elmadany2018ArSASA,
+                title={ArSAS : An Arabic Speech-Act and Sentiment Corpus of Tweets},
+                author={AbdelRahim Elmadany and Hamdy Mubarak and Walid Magdy},
+                year={2018}
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "Tweet", "label": "Positive"}

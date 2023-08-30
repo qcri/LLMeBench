@@ -11,25 +11,26 @@ class PropagandaSemEval23Dataset(DatasetBase):
         self.techniques_path = Path(techniques_path) if techniques_path else None
         super(PropagandaSemEval23Dataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """
-        @inproceedings{piskorski-etal-2023-semeval,
-            title = "{S}em{E}val-2023 Task 3: Detecting the Category, the Framing, and the Persuasion Techniques in Online News in a Multi-lingual Setup",
-            author = "Piskorski, Jakub  and
-              Stefanovitch, Nicolas  and
-              Da San Martino, Giovanni  and
-              Nakov, Preslav",
-            booktitle = "Proceedings of the 17th International Workshop on Semantic Evaluation (SemEval-2023)",
-            month = jul,
-            year = "2023",
-            address = "Toronto, Canada",
-            publisher = "Association for Computational Linguistics",
-            url = "https://aclanthology.org/2023.semeval-1.317",
-            doi = "10.18653/v1/2023.semeval-1.317",
-            pages = "2343--2361",
-            abstract = "We describe SemEval-2023 task 3 on Detecting the Category, the Framing, and the Persuasion Techniques in Online News in a Multilingual Setup: the dataset, the task organization process, the evaluation setup, the results, and the participating systems. The task focused on news articles in nine languages (six known to the participants upfront: English, French, German, Italian, Polish, and Russian), and three additional ones revealed to the participants at the testing phase: Spanish, Greek, and Georgian). The task featured three subtasks: (1) determining the genre of the article (opinion, reporting, or satire), (2) identifying one or more frames used in an article from a pool of 14 generic frames, and (3) identify the persuasion techniques used in each paragraph of the article, using a taxonomy of 23 persuasion techniques. This was a very popular task: a total of 181 teams registered to participate, and 41 eventually made an official submission on the test set.",
-        }        
-        """
+    def metadata():
+        return {
+            "language": "multilingual",
+            "citation": """@inproceedings{piskorski-etal-2023-semeval,
+                title = "{S}em{E}val-2023 Task 3: Detecting the Category, the Framing, and the Persuasion Techniques in Online News in a Multi-lingual Setup",
+                author = "Piskorski, Jakub  and
+                  Stefanovitch, Nicolas  and
+                  Da San Martino, Giovanni  and
+                  Nakov, Preslav",
+                booktitle = "Proceedings of the 17th International Workshop on Semantic Evaluation (SemEval-2023)",
+                month = jul,
+                year = "2023",
+                address = "Toronto, Canada",
+                publisher = "Association for Computational Linguistics",
+                url = "https://aclanthology.org/2023.semeval-1.317",
+                doi = "10.18653/v1/2023.semeval-1.317",
+                pages = "2343--2361",
+                abstract = "We describe SemEval-2023 task 3 on Detecting the Category, the Framing, and the Persuasion Techniques in Online News in a Multilingual Setup: the dataset, the task organization process, the evaluation setup, the results, and the participating systems. The task focused on news articles in nine languages (six known to the participants upfront: English, French, German, Italian, Polish, and Russian), and three additional ones revealed to the participants at the testing phase: Spanish, Greek, and Georgian). The task featured three subtasks: (1) determining the genre of the article (opinion, reporting, or satire), (2) identifying one or more frames used in an article from a pool of 14 generic frames, and (3) identify the persuasion techniques used in each paragraph of the article, using a taxonomy of 23 persuasion techniques. This was a very popular task: a total of 181 teams registered to participate, and 41 eventually made an official submission on the test set.",
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "text", "label": ["no_technique"], "line_number": 0}

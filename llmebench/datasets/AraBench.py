@@ -7,22 +7,25 @@ class AraBenchDataset(DatasetBase):
         self.src = src
         self.tgt = tgt
 
-    def citation(self):
-        return """@inproceedings{sajjad-etal-2020-arabench,
-            title = "{A}ra{B}ench: Benchmarking Dialectal {A}rabic-{E}nglish Machine Translation",
-            author = "Sajjad, Hassan  and
-              Abdelali, Ahmed  and
-              Durrani, Nadir  and
-              Dalvi, Fahim",
-            booktitle = "Proceedings of the 28th International Conference on Computational Linguistics",
-            month = dec,
-            year = "2020",
-            address = "Barcelona, Spain (Online)",
-            publisher = "International Committee on Computational Linguistics",
-            url = "https://aclanthology.org/2020.coling-main.447",
-            doi = "10.18653/v1/2020.coling-main.447",
-            pages = "5094--5107"
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{sajjad-etal-2020-arabench,
+                title = "{A}ra{B}ench: Benchmarking Dialectal {A}rabic-{E}nglish Machine Translation",
+                author = "Sajjad, Hassan  and
+                  Abdelali, Ahmed  and
+                  Durrani, Nadir  and
+                  Dalvi, Fahim",
+                booktitle = "Proceedings of the 28th International Conference on Computational Linguistics",
+                month = dec,
+                year = "2020",
+                address = "Barcelona, Spain (Online)",
+                publisher = "International Committee on Computational Linguistics",
+                url = "https://aclanthology.org/2020.coling-main.447",
+                doi = "10.18653/v1/2020.coling-main.447",
+                pages = "5094--5107"
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "Sentence in language #1", "label": "Sentence in language #2"}

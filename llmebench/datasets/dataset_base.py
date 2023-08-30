@@ -13,8 +13,22 @@ class DatasetBase(ABC):
     def __init__(self, **kwargs):
         pass
 
+    @staticmethod
     @abstractmethod
-    def citation(self):
+    def metadata():
+        """
+        Must return a dictionary with the following keys:
+            "citation": str
+                bib-formatted citation for the dataset
+            "language": str|list
+                Can be one of:
+                    "multilingual"
+                    ["ar", "fr", "en"] # List of supported langauges
+                    "ar" # Single supported language
+                Languages should be identified by their IETF language tags
+            "download_url": str (optional)
+                URL to data to automatically download if not present
+        """
         pass
 
     @abstractmethod

@@ -5,13 +5,16 @@ class ArabGendDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArabGendDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@article{mubarak2022arabgend,
-          title={ArabGend: Gender analysis and inference on {A}rabic Twitter},
-          author={Mubarak, Hamdy and Chowdhury, Shammur Absar and Alam, Firoj},
-          journal={arXiv preprint arXiv:2203.00271},
-          year={2022}
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@article{mubarak2022arabgend,
+              title={ArabGend: Gender analysis and inference on {A}rabic Twitter},
+              author={Mubarak, Hamdy and Chowdhury, Shammur Absar and Alam, Firoj},
+              journal={arXiv preprint arXiv:2203.00271},
+              year={2022}
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "A name", "label": "m"}

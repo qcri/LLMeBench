@@ -45,8 +45,10 @@ class AqmarDataset(DatasetBase):
             ],
         )
 
-    def citation(self):
-        return """@inproceedings{mohit-etal-2012-recall,
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{mohit-etal-2012-recall,
                 title = \"Recall-Oriented Learning of Named Entities in {A}rabic {W}ikipedia\",
                 author = \"Mohit, Behrang  and
                 Schneider, Nathan  and
@@ -60,8 +62,8 @@ class AqmarDataset(DatasetBase):
                 publisher = \"Association for Computational Linguistics\",
                 url = \"https://aclanthology.org/E12-1017\",
                 pages = \"162--173\",
-}
-        }"""
+            }""",
+        }
 
     def get_data_sample(self):
         return {

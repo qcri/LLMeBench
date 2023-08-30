@@ -11,10 +11,13 @@ class PropagandaTweetDataset(DatasetBase):
         self.techniques_path = Path(techniques_path) if techniques_path else None
         super(PropagandaTweetDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@article{wanlp2023,
-          year={2023}
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@article{wanlp2023,
+                year={2023}
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "Tweet", "label": ["no technique"]}

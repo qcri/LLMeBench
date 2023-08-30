@@ -5,24 +5,27 @@ class ArabicDiacritizationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArabicDiacritizationDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@article{10.1145/3434235,
-            author = {Darwish, Kareem and Abdelali, Ahmed and Mubarak, Hamdy and Eldesouki, Mohamed},
-            title = {Arabic Diacritic Recovery Using a Feature-Rich BiLSTM Model},
-            year = {2021},
-            issue_date = {March 2021},
-            publisher = {Association for Computing Machinery},
-            address = {New York, NY, USA},
-            volume = {20},
-            number = {2},
-            issn = {2375-4699},
-            url = {https://doi.org/10.1145/3434235},
-            doi = {10.1145/3434235},
-            journal = {ACM Trans. Asian Low-Resour. Lang. Inf. Process.},
-            month = {apr},
-            articleno = {33},
-            numpages = {18},
-            }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@article{10.1145/3434235,
+                author = {Darwish, Kareem and Abdelali, Ahmed and Mubarak, Hamdy and Eldesouki, Mohamed},
+                title = {Arabic Diacritic Recovery Using a Feature-Rich BiLSTM Model},
+                year = {2021},
+                issue_date = {March 2021},
+                publisher = {Association for Computing Machinery},
+                address = {New York, NY, USA},
+                volume = {20},
+                number = {2},
+                issn = {2375-4699},
+                url = {https://doi.org/10.1145/3434235},
+                doi = {10.1145/3434235},
+                journal = {ACM Trans. Asian Low-Resour. Lang. Inf. Process.},
+                month = {apr},
+                articleno = {33},
+                numpages = {18},
+            }""",
+        }
 
     def get_data_sample(self):
         return {

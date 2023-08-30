@@ -5,10 +5,12 @@ class NameInfoDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(NameInfoDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@inproceedings{Under review...}
-            }
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{Under review...}
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "جورج واشنطن", "label": "GB"}
