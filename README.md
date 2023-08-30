@@ -24,8 +24,8 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 - Open-source
 
 ## Quick Start!
-1. [Install](https://github.com/qcri/LLMeBench/tree/main#installation) LLMeBench.
-2. [Get the data](https://github.com/qcri/LLMeBench/tree/main#get-the-benchmark-data).
+1. [Install](https://github.com/qcri/LLMeBench/tree/readme_update1#installation) LLMeBench.
+2. [Get the data](https://github.com/qcri/LLMeBench/tree/readme_update1#get-the-benchmark-data).
 3. Evaluate!
    
    To evaluate GPT-4's zero-shot performance for one task (e.g., Sentiment analysis), 
