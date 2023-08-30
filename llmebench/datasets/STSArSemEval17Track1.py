@@ -5,15 +5,17 @@ class STSArSemEval17Track1Dataset(DatasetBase):
     def __init__(self, **kwargs):
         super(STSArSemEval17Track1Dataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """
-        @inproceedings{cer2017semeval,
-            title={SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Cross-lingual Focused Evaluation},
-            author={Cer, Daniel and Diab, Mona and Agirre, Eneko E and Lopez-Gazpio, I{\~n}igo and Specia, Lucia},
-            booktitle={The 11th International Workshop on Semantic Evaluation (SemEval-2017)},
-            pages={1--14},
-            year={2017}
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{cer2017semeval,
+                title={SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Cross-lingual Focused Evaluation},
+                author={Cer, Daniel and Diab, Mona and Agirre, Eneko E and Lopez-Gazpio, I{\~n}igo and Specia, Lucia},
+                booktitle={The 11th International Workshop on Semantic Evaluation (SemEval-2017)},
+                pages={1--14},
+                year={2017}
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "الجملة بالعربية\tالجملة بالعربية", "label": 1.2}

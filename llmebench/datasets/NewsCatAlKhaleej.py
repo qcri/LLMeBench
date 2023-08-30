@@ -10,18 +10,19 @@ class NewsCatAlKhaleejDataset(DatasetBase):
     def get_data_sample(self):
         return {"input": "some tweet", "label": "checkworthy"}
 
-    def citation(self):
-        return """
-                @article{einea2019sanad,
-                  title={Sanad: Single-label {A}rabic news articles dataset for automatic text categorization},
-                  author={Einea, Omar and Elnagar, Ashraf and Al Debsi, Ridhwan},
-                  journal={Data in brief},
-                  volume={25},
-                  pages={104076},
-                  year={2019},
-                  publisher={Elsevier}
-                }
-        """
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@article{einea2019sanad,
+                title={Sanad: Single-label {A}rabic news articles dataset for automatic text categorization},
+                author={Einea, Omar and Elnagar, Ashraf and Al Debsi, Ridhwan},
+                journal={Data in brief},
+                volume={25},
+                pages={104076},
+                year={2019},
+                publisher={Elsevier}
+            }""",
+        }
 
     def load_data(self, data_path):
         data = []

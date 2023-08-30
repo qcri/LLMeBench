@@ -7,14 +7,16 @@ class FactualityKhouja20Dataset(DatasetBase):
     def __init__(self, **kwargs):
         super(FactualityKhouja20Dataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """
-        @article{khouja2020stance,
-            title={Stance prediction and claim verification: An Arabic perspective},
-            author={Khouja, Jude},
-            journal={arXiv preprint arXiv:2005.10410},
-            year={2020}
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@article{khouja2020stance,
+                title={Stance prediction and claim verification: An Arabic perspective},
+                author={Khouja, Jude},
+                journal={arXiv preprint arXiv:2005.10410},
+                year={2020}
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "الجملة بالعربية", "label": "true", "line_number": "1"}

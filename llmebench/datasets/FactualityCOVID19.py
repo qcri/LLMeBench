@@ -10,9 +10,10 @@ class FactualityCOVID19Dataset(DatasetBase):
     def get_data_sample(self):
         return {"input": "some tweet", "label": "no"}
 
-    def citation(self):
-        return """
-                @inproceedings{alam-etal-2021-fighting-covid,
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{alam-etal-2021-fighting-covid,
                 title = "Fighting the {COVID}-19 Infodemic: Modeling the Perspective of Journalists, Fact-Checkers, Social Media Platforms, Policy Makers, and the Society",
                 author = "Alam, Firoj  and
                   Shaar, Shaden  and
@@ -39,9 +40,8 @@ class FactualityCOVID19Dataset(DatasetBase):
                 url = "https://aclanthology.org/2021.findings-emnlp.56",
                 doi = "10.18653/v1/2021.findings-emnlp.56",
                 pages = "611--649",
-                
-            }
-        """
+            }""",
+        }
 
     def load_data(self, data_path):
         data = []

@@ -7,22 +7,25 @@ class XNLIDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(XNLIDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@InProceedings{conneau2018xnli,
-                  author = "Conneau, Alexis
-                        and Rinott, Ruty
-                        and Lample, Guillaume
-                        and Williams, Adina
-                        and Bowman, Samuel R.
-                        and Schwenk, Holger
-                        and Stoyanov, Veselin",
-                  title = "XNLI: Evaluating Cross-lingual Sentence Representations",
-                  booktitle = "Proceedings of the 2018 Conference on Empirical Methods
-                               in Natural Language Processing",
-                  year = "2018",
-                  publisher = "Association for Computational Linguistics",
-                  location = "Brussels, Belgium",
-                }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@InProceedings{conneau2018xnli,
+                author = "Conneau, Alexis
+                    and Rinott, Ruty
+                    and Lample, Guillaume
+                    and Williams, Adina
+                    and Bowman, Samuel R.
+                    and Schwenk, Holger
+                    and Stoyanov, Veselin",
+                title = "XNLI: Evaluating Cross-lingual Sentence Representations",
+                booktitle = "Proceedings of the 2018 Conference on Empirical Methods
+                           in Natural Language Processing",
+                year = "2018",
+                publisher = "Association for Computational Linguistics",
+                location = "Brussels, Belgium",
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "Test\tTest", "label": "neutral"}
