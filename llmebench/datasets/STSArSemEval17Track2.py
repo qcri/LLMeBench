@@ -10,7 +10,7 @@ class STSArSemEval17Track2Dataset(DatasetBase):
             "language": "ar",
             "citation": """@inproceedings{cer2017semeval,
                 title={SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Cross-lingual Focused Evaluation},
-                author={Cer, Daniel and Diab, Mona and Agirre, Eneko E and Lopez-Gazpio, I{\~n}igo and Specia, Lucia},
+                author={Cer, Daniel and Diab, Mona and Agirre, Eneko E and Lopez-Gazpio, I{\\~n}igo and Specia, Lucia},
                 booktitle={The 11th International Workshop on Semantic Evaluation (SemEval-2017)},
                 pages={1--14},
                 year={2017}
