@@ -1,20 +1,37 @@
 # LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
-This repository contains code for the LLMeBench framework (described in [this paper](https://arxiv.org/abs/2308.04945)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, model and dataset, regardless of language. 
+This repository contains code for the LLMeBench framework (described in [this paper](https://arxiv.org/abs/2308.04945)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+
 
 <p align="center">
 <picture>
-<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/14aebcc4-80ed-4b90-b20d-72b08ba4c909" width="400" height="140"/>
+<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/fe50e5db-4b11-4dfe-afab-57c5e727f312" width="400" height="140"/>
 </picture>
 </p>
 
-#### Summary and examples of the datasets, tasks, models and metrics currently implemented
+## Overview
 <p align="center">
 <picture>
 <img alt = "Summary and examples of the 53 datasets, 31 tasks, 3 models and metrics currently implemented and
-validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/72c8b59e-5f43-4437-b493-5a52690e5a10" width="470" height="160"/>
+validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a9b926c0-8a10-4334-84b2-ad0b4e3e5ceb" width="470" height="140"/>
 </picture>
 </p>
+
+- Currently supports 31 task recipes featuring 3 models. Rigorously tested with 53 datasets associated with 11 languages.
+- Easly extendible to new models accessible through APIs.
+- Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
+- Supports zero- and few-shot learning paradigms.
+- Open-source
+
+## Quick Start!
+1. [Install](https://github.com/qcri/LLMeBench/tree/main#installation) LLMeBench.
+2. [Get the data](https://github.com/qcri/LLMeBench/tree/main#get-the-benchmark-data).
+3. Evaluate!
+   
+   To evaluate GPT-4's zero-shot performance for one task (e.g., Sentiment analysis), 
+```bash
+python -m llmebench --filter '*ArSASSentiment_GPTChatCompletion_ZeroShot*' assets/benchmark_v1 results/ 
+```
 
 ## Installation
 *pip package to be made available soon!*
@@ -25,7 +42,7 @@ git clone https://github.com/qcri/LLMeBench.git
 cd LLMeBench
 ```
 
-Create a virtual environment:
+Create and activate virtual environment:
 ```bash
 python -m venv .envs/llmebench
 source .envs/llmebench/bin/activate
@@ -51,15 +68,17 @@ sequence_tagging_ner_pos_etc
 speech
 ```
 
-## Running the benchmark
-A sample benchmark is available in `assets/benchmark_v1`. To run the benchmark,
+## Usage
+To run the benchmark,
 
 ```bash
-python -m llmebench --filter '*benchmarking_asset*' --limit n --ignore_cache <benchmark-dir> <results-dir> 
+python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --ignore_cache <benchmark-dir> <results-dir> 
 ```
+
 #### Parameters
-- `--filter '*benchmarking_asset*'`: This flag indicates specific tasks in the benchmark to run. The framework will run a wildecard search using '*benchmarking_asset*'.
-- `--limit n`: **(Optional)** Specify the number of samples from input data to run through the pipeline to allow effecient testing.
+- `--filter '*benchmarking_asset*'`: **(Optional)** This flag indicates specific tasks in the benchmark to run. The framework will run a wildecard search using '*benchmarking_asset*'. If not set, the framework will run the entire benchmark.
+- `--limit <k>`: **(Optional)** Specify the number of samples from input data to run through the pipeline, to allow effecient testing.
+- `--n_shots <n>`: **(Optional)** If defined, framework will expect a few shot asset and will run the few shots learning paradigm, setting `n` as the number of shots.
 - `--ignore_cache`: **(Optional)** A flag to ignore loading and saving intermediate model responses from/to cache. 
 - `<benchmark-dir>`: Path of directory where the benchmarking assets to run can be found.
 - `<results-dir>`: Path of directory where to save output results, along with intermediate cached values.
@@ -79,136 +98,14 @@ The framework provides caching (if `--ignore_cache` isn't passed), to enable the
 - Allowing users to bypass making API calls for items that have already been successfully processed.
 - Enhancing the post-processing of the models’ output, as post-processing can be performed repeatedly without having to call the API every time. 
 
-## Adding a new task
-Before adding a new task, make sure you have the latest changes:
+#### Running Few Shot Assets
+The framework has some preliminary support to automatically select `n` examples _per test sample_ based on a maximal marginal relevance-based approach (using [langchain's implementation](https://python.langchain.com/docs/modules/model_io/prompts/example_selectors/mmr)). This will be expanded in the future to have more few shot example selection mechanisms (e.g Random, Class based etc.).
 
-```bash
-git pull
-```
+To run few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--n_shots` is > zero, only few shot assets are run.
 
-Create a new branch for your task
-```bash
-git checkout -b feat/sarcasm_task
-```
-
-### Dataset
-Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See an existing dataset module for inspiration. Each new dataset class requires implementing three functions:
-
-```python
-class NewDataset(DatasetBase):
-	def __init__(self, custom_param_1, custom_param_2, **kwargs):
-		# custom_param_1/2 are passed from `dataset_args` in the benchmark
-		# config
-		...
-		super(NewDataset, self).__init__(**kwargs)
-
-	def citation():
-		# This function returns a string with the bib entry for the dataset
-
-	def load_data(self, data_path):
-		# This function loads the data and _must_ return a list of
-		# dictionaries, where each dictionary has atleast two keys
-		#   "input": this will be sent to the prompt generator
-		#   "label": this will be used for evaluation
-```
-
-Once the `Dataset` is implemented, export it in `llmebench/datasets/__init__.py`.
-
-### Task
-Check if the task you are adding to the benchmark already has an implementation in `llmebench/tasks`. If not, implement a new dataset module (e.g. `llmebench/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) which subclasses `TaskBase`. See an existing task module for inspiration. Each new task class requires implementing two functions:
-
-```python
-class NewTask(TaskBase):
-	def __init__(self, custom_param_1, custom_param_2, **kwargs):
-		# custom_param_1/2 are passed from `task_args` in the benchmark
-		# config
-		...
-		super(NewTask, self).__init__(**kwargs)
-
-	def evaluate(self, true_labels, predicted_labels):
-		# This function gets two lists, the `true_labels` from the
-		# dataset loader, and `predicted_labels` from the
-		# post_process function
-```
-
-Once the `Task` is implemented, export it in `llmebench/tasks/__init__.py`.
-
-### Model
-Next, check if the model you are trying to run the benchmark for has an implementation in `llmebench/models`. If not, implement a new model module (e.g. `llmebench/models/QARiB.py`), which implements a class (e.g. `QARiBModel`) which subclasses `ModelBase`. See an existing model module for inspiration. Each new model class requires implementing two functions:
-
-```python
-class NewModel(TaskBase):
-	def __init__(self, custom_param_1, custom_param_2, **kwargs):
-		# custom_param_1/2 are passed from `model_args` in the benchmark
-		# config
-		...
-		super(NewModel, self).__init__(**kwargs)
-
-	def prompt(self, **kwargs):
-		# This function gets the pre-processed input and must
-		# run the actual model and return model outputs
-```
-
-Once the `Model` is implemented, export it in `llmebench/models/__init__.py`.
-
-### Benchmark Asset
-Now that the Dataset, Task and Model are defined, the framework expects a given benchmark asset (e.g. "ArabGender" dataset, "GenderClassification" task, "GPT" model and "ZeroShot" prompting setting) to have a `*.py` file with three functions:
-
-```python
-def config():
-	# This function returns a dictionary with the dataset, task and model the
-	# current run is targeting along with arguments for each of these, as well
-	# as a path to the dataset itself.
-
-def prompt(input_sample):
-	# This function receives an input_sample and pre-processes it into the
-	# expected input for the model being uses. For instance, GPTModel expects
-	# its input to be a dictionary with two keys, ``system_message`` and a list
-	# of ``messages`` with the ``sender`` and ``text`` in each message.
-	# See the documentation linked with the available models for exact specifications
-
-def post_process(response):
-	# This function takes the output from the model, and post-processes it to
-	# extract the actual prediction. The framework expects this function to
-	# return one of the labels (or None if the model output cannot be parsed
-	# into a label). The output of the function is matched with the gold label
-	# in a task's evaluation function.
-```
-
-### Testing
-The benchmarking module allows one to run a specific asset instead of the entire benchmark using the `--filter` option. It is also a good idea to use the `--limit` option to limit the tests to few (e.g. 5 samples). Sample command below:
-
-```bash
-python -m llmebench --filter 'demography/gender/AraGend_ChatGPT_ZeroShot' --limit 5 --ignore_cache <benchmark-dir> <results-dir>
-```
-
-Make sure to also run `scripts/run_tests.sh` before submitting your code, and once you are ready, you can commit your changes locally and push them to a remote branch:
-
-```bash
-git push origin feat/sarcasm_task
-```
-
-and open a _pull request_ by going to the [repository webpage](https://github.com/qcri/Arabic_LLM_Benchmark)
-
-### Creating Few Shot Assets
-The framework has some preliminary support to automatically select N examples per test sample based on sentence similarity (using langchain's implementation). This will be expanded in the future to have more few shot example selection mechanism (e.g Random, Class based etc.). For now, a config needs to have the following keys to enable the few shot pipeline:
-
-```python
-"general_args": {
-        "data_path": "...",
-        # ...other general args
-        "fewshot": {
-            "train_data_path": "... path to train data ...",
-        },
-    },
-```
-
-and the prompt function needs to accept two parameters:
-
-```python
-def prompt(input_sample, examples):
-	# "examples" will contain the few shots samples selected
-	# for this particular test sample
-```
-
-To run the actual few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--nshots` is set to something greater than zero, only few shot assets are run.
+## Tutorial
+It possible to extend the framework for by at least one of these components:
+- Model
+- Task
+- Dataset
+- Asset
