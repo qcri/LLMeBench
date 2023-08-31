@@ -1,6 +1,6 @@
 # LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
-This repository contains code for the [LLMeBench framework](https://youtu.be/FkQn4UjYA0s?feature=shared) (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+This repository contains code for the [LLMeBench framework](https://youtu.be/FkQn4UjYA0s?feature=shared) (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using [OpenAI's GPT](https://platform.openai.com/docs/guides/gpt) and [BLOOMZ](https://huggingface.co/bigscience/bloomz) models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
 
 <p align="center">
 <picture>
@@ -16,7 +16,7 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 </picture>
 </p>
 
-- Currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Rigorously tested with 53 [datasets](llmebench/datasets) associated with 11 languages, resulting in over 170 [becnhamrking assets](assets/benchmark_v1) ready to run.
+- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 11 languages, resulting in over **170 [becnhamrking assets](assets/benchmark_v1)** ready to run.
 - Easly extendible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
