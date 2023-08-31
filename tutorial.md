@@ -8,7 +8,7 @@ It is possible to extend the framework by at least one of the following componen
 
 
 ## Adding Dataset
-Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See an existing dataset module for inspiration. Each new dataset class requires implementing three functions:
+Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See [existing dataset modules](llmebench/datasets) for inspiration. Each new dataset class requires implementing four functions:
 
 ```python
 class NewDataset(DatasetBase):
@@ -18,20 +18,29 @@ class NewDataset(DatasetBase):
 		...
 		super(NewDataset, self).__init__(**kwargs)
 
-	def citation():
-		# This function returns a string with the bib entry for the dataset
+	def metadata():
+		# This method should return a dictionary that defines metadata
+                  describing the dataset, like: citation or reference, download_url, language etc.
 
+	def get_data_sample(self):
+		# This method should return a dictionary that represents the structure of
+		# a single sample of the data for the purpose of testing and presentation
+		# of NewDataset representation
+	
 	def load_data(self, data_path):
 		# This function loads the data and _must_ return a list of
 		# dictionaries, where each dictionary has atleast two keys
 		#   "input": this will be sent to the prompt generator
 		#   "label": this will be used for evaluation
+		#   "input_id": this optional key will be used for deduplication
 ```
 
-Once the `Dataset` is implemented, export it in `llmebench/datasets/__init__.py`.
+**Note:** in case of few shots assets, the framework provides the functionality of deduplicating the training examples used as few shots against the evaluatin dataset, based on sample IDs. To enable this function, `load_data` should also define `"input_id"` per input sample.
+
+**Once the `Dataset` is implemented, export it in `llmebench/datasets/__init__.py`.**
 
 ## Adding Task
-Check if the task you are adding to the benchmark already has an implementation in `llmebench/tasks`. If not, implement a new dataset module (e.g. `llmebench/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) which subclasses `TaskBase`. See an existing task module for inspiration. Each new task class requires implementing two functions:
+Check if the task you are adding to the benchmark already has an implementation in `llmebench/tasks`. If not, implement a new task module (e.g. `llmebench/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) that subclasses `TaskBase`. See [existing task modules](llmebench/tasks) for inspiration. Each new task class requires implementing two functions:
 
 ```python
 class NewTask(TaskBase):
@@ -47,7 +56,7 @@ class NewTask(TaskBase):
 		# post_process function
 ```
 
-Once the `Task` is implemented, export it in `llmebench/tasks/__init__.py`.
+**Once the `Task` is implemented, export it in `llmebench/tasks/__init__.py`.**
 
 ## Adding Model
 Next, check if the model you are trying to run the benchmark for has an implementation in `llmebench/models`. If not, implement a new model module (e.g. `llmebench/models/QARiB.py`), which implements a class (e.g. `QARiBModel`) which subclasses `ModelBase`. See an existing model module for inspiration. Each new model class requires implementing two functions:
