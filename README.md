@@ -17,7 +17,7 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 </p>
 
 - LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 11 languages, resulting in over **170 [becnhamrking assets](assets/benchmark_v1)** ready to run.
-- Easly extendible to new models accessible through APIs.
+- Easly extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
 - Open-source.
@@ -27,11 +27,11 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 2. [Get the data](https://github.com/qcri/LLMeBench/tree/readme_update1#get-the-benchmark-data).
 3. Evaluate!
    
-   To evaluate a randome baseline performance for one task (e.g., Sentiment analysis) and one dataset, you need to run what we refer to as an "asset" that specifies: dataset, model and task to evaluate as follows:
-```bash
-python -m llmebench --filter '*ArSAS_Random*' assets/benchmark_v1/sentiment/ results/ 
-```
-where `ArSAS` is the dataset name, `Random` is the model name and `assets/benchmark_v1/sentiment/` is the directory where the asset for the sentiment analysis task can be found. 
+   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](llmebench/datasets/ArSASSentiment.py), you need to create an ["asset"](assets/benchmark_v1/sentiment/sentiment/ArSAS_Random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   ```bash
+   python -m llmebench --filter '*ArSAS_Random*' assets/benchmark_v1/sentiment/ results/ 
+   ```
+   where `ArSAS_Random` is the asset name refering to the `ArSAS` dataset name and the `Random` model, and `assets/benchmark_v1/sentiment/` is the directory where the asset for the sentiment analysis task can be found. Results will be saved in a directory called `results`. 
 
 ## Installation
 *pip package to be made available soon!*
@@ -76,13 +76,13 @@ python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --
 ```
 
 #### Parameters
-- `--filter '*benchmarking_asset*'`: **(Optional)** This flag indicates specific tasks in the benchmark to run. The framework will run a wildecard search using '*benchmarking_asset*'. If not set, the framework will run the entire benchmark.
-- `--limit <k>`: **(Optional)** Specify the number of samples from input data to run through the pipeline, to allow effecient testing.
-- `--n_shots <n>`: **(Optional)** If defined, framework will expect a few shot asset and will run the few shots learning paradigm, setting `n` as the number of shots.
+- `--filter '*benchmarking_asset*'`: **(Optional)** This flag indicates specific tasks in the benchmark to run. The framework will run a wildecard search using '*benchmarking_asset*' in the assets directory specified by `<benchmark-dir>`. If not set, the framework will run the entire benchmark.
+- `--limit <k>`: **(Optional)** Specify the number of samples from input data to run through the pipeline, to allow effecient testing. If not set, all the samples in a dataset will be evaluated.
+- `--n_shots <n>`: **(Optional)** If defined, the framework will expect a few-shot asset and will run the few-shot learning paradigm, with `n` as the number of shots. If not set, zero-shot will be assumed.
 - `--ignore_cache`: **(Optional)** A flag to ignore loading and saving intermediate model responses from/to cache. 
-- `<benchmark-dir>`: Path of directory where the benchmarking assets to run can be found.
-- `<results-dir>`: Path of directory where to save output results, along with intermediate cached values.
-- You might need to also define environment variables such as `AZURE_API_URL` and `AZURE_API_KEY` depending on the benchmark you are running. This can be done by either:
+- `<benchmark-dir>`: Path of the directory where the benchmarking assets can be found.
+- `<results-dir>`: Path of the directory where to save output results, along with intermediate cached values.
+- You might need to also define environment variables (like access tokens and API urls, e.g. `AZURE_API_URL` and `AZURE_API_KEY`) depending on the benchmark you are running. This can be done by either:
    - `export AZURE_API_KEY="..."` _before_ running the above command, or
    - prepending `AZURE_API_URL="..." AZURE_API_KEY="..."` to the above command.
 
