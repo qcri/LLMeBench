@@ -4,7 +4,7 @@ This repository contains code for the [LLMeBench framework](https://youtu.be/FkQ
 
 <p align="center">
 <picture>
-<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/7a31ff4b-f8a3-4dc4-ae1e-45ebde033d9b" width="400" height="140"/>
+<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/f1b927ea-fb7f-4dc6-b654-7c141f596067" width="400" height="140"/>
 </picture>
 </p>
 
@@ -16,21 +16,22 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 </picture>
 </p>
 
-- Currently supports 31 task recipes featuring 3 models. Rigorously tested with 53 datasets associated with 11 languages.
+- Currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Rigorously tested with 53 [datasets](llmebench/datasets) associated with 11 languages.
 - Easly extendible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
-- Open-source
+- Open-source.
 
 ## Quick Start!
 1. [Install](https://github.com/qcri/LLMeBench/tree/readme_update1#installation) LLMeBench.
 2. [Get the data](https://github.com/qcri/LLMeBench/tree/readme_update1#get-the-benchmark-data).
 3. Evaluate!
    
-   To evaluate GPT-4's zero-shot performance for one task (e.g., Sentiment analysis), 
+   To evaluate a randome baseline performance for one task (e.g., Sentiment analysis) and one dataset, you need to run what we refer to as an "asset" that specifies: dataset, model and task to evaluate as follows:
 ```bash
-python -m llmebench --filter '*ArSASSentiment_GPTChatCompletion_ZeroShot*' assets/benchmark_v1 results/ 
+python -m llmebench --filter '*ArSAS_Random*' assets/benchmark_v1/sentiment/ results/ 
 ```
+where `ArSAS` is the dataset name, `Random` is the model name and `assets/benchmark_v1/sentiment/` is the directory where the asset for the sentiment analysis task can be found. 
 
 ## Installation
 *pip package to be made available soon!*
