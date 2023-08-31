@@ -2,10 +2,9 @@
 
 This repository contains code for the LLMeBench framework (described in [this paper](https://arxiv.org/abs/2308.04945)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
 
-
 <p align="center">
 <picture>
-<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/fe50e5db-4b11-4dfe-afab-57c5e727f312" width="400" height="140"/>
+<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/7a31ff4b-f8a3-4dc4-ae1e-45ebde033d9b" width="400" height="140"/>
 </picture>
 </p>
 
@@ -104,7 +103,7 @@ The framework has some preliminary support to automatically select `n` examples 
 To run few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--n_shots` is > zero, only few shot assets are run.
 
 ## Tutorial
-It possible to extend the framework for by at least one of these components:
+It is possible to extend the framework by at least one of the following components. Details on implementing each can be found in [Contributing README file]():
 - Model
 - Task
 - Dataset
