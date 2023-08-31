@@ -1,6 +1,6 @@
 # LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
-This repository contains code for the LLMeBench framework (described in [this paper](https://arxiv.org/abs/2308.04945)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+This repository contains code for the [LLMeBench framework](https://youtu.be/FkQn4UjYA0s?feature=shared) (described in [this paper](https://arxiv.org/abs/2308.04945)). The framework currently supports evaluation of a variety of NLP tasks using OpenAI's GPT and BLOOM models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
 
 <p align="center">
 <picture>
@@ -103,8 +103,21 @@ The framework has some preliminary support to automatically select `n` examples 
 To run few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--n_shots` is > zero, only few shot assets are run.
 
 ## Tutorial
-It is possible to extend the framework by at least one of the following components. Details on implementing each can be found in [Contributing README file]():
+It is possible to extend the framework by at least one of the following components. Details on implementing each can be found in [Tutorial README file]():
 - Model
 - Task
 - Dataset
 - Asset
+
+## Citation
+Please cite our paper when referring to this framework!
+```
+@misc{dalvi2023llmebench,
+      title={LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking}, 
+      author={Fahim Dalvi and Maram Hasanain and Sabri Boughorbel and Basel Mousi and Samir Abdaljalil and Nizi Nazar and Ahmed Abdelali and Shammur Absar Chowdhury and Hamdy Mubarak and Ahmed Ali and Majd Hawasly and Nadir Durrani and Firoj Alam},
+      year={2023},
+      eprint={2308.04945},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
