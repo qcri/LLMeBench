@@ -1,10 +1,13 @@
 import os
-
-import regex as re
+import random
+import re
 
 from llmebench.datasets import PropagandaTweetDataset
 from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import PropagandaMultilabelTask
+
+
+random.seed(1333)
 
 
 def config():
@@ -22,7 +25,28 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "max_tries": 3,
+            "class_labels": [
+                "no technique",
+                "Smears",
+                "Exaggeration/Minimisation",
+                "Loaded Language",
+                "Appeal to fear/prejudice",
+                "Name calling/Labeling",
+                "Slogans",
+                "Repetition",
+                "Doubt",
+                "Obfuscation, Intentional vagueness, Confusion",
+                "Flag-waving",
+                "Glittering generalities (Virtue)",
+                "Misrepresentation of Someone's Position (Straw Man)",
+                "Presenting Irrelevant Data (Red Herring)",
+                "Appeal to authority",
+                "Whataboutism",
+                "Black-and-white Fallacy/Dictatorship",
+                "Thought-terminating cliché",
+                "Causal Oversimplification",
+            ],
+            "max_tries": 30,
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/propaganda/task1_test_gold_label_final.json"
@@ -31,22 +55,24 @@ def config():
 
 
 def prompt(input_sample):
+    prompt_string = (
+        f'Label this "tweet" based on the following propaganda techniques:\n\n'
+        f"'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
+        f"\nAnswer (only yes/no) in the following format: \n"
+        f"'Doubt': 'yes', "
+        f"'Smears': 'no', \n\n"
+        f"tweet: {input_sample}\n\n"
+        f"label: \n"
+    )
+
     return [
         {
             "role": "system",
-            "content": "## INSTRUCTION\nYou are an expert social media content analyst.\n\n",
+            "content": "You are an expert social media content analyst.",  # You are capable of identifying and annotating tweets correct or incorrect
         },
         {
             "role": "user",
-            "content": 'Label this "Text" based on the following propaganda techniques: '
-            + "'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
-            + "\n Answer (only yes/no) in the following format: \n"
-            + "'Doubt': 'yes', "
-            + "'Smears': 'no', \n\n"
-            + "## Text: "
-            + input_sample
-            + "\n\n"
-            + "## Response: \n",
+            "content": prompt_string,
         },
     ]
 
@@ -142,7 +168,7 @@ def fix_label(pred_label):
 
 
 def post_process(response):
-    pred_label = response["choices"][0]["message"]["content"]
-    pred_label = fix_label(pred_label)
+    label = response["choices"][0]["message"]["content"].lower()
+    pred_label = fix_label(label)
 
     return pred_label
