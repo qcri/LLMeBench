@@ -16,7 +16,7 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 </picture>
 </p>
 
-- Currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Rigorously tested with 53 [datasets](llmebench/datasets) associated with 11 languages.
+- Currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Rigorously tested with 53 [datasets](llmebench/datasets) associated with 11 languages, resulting in over 170 [becnhamrking assets](assets/benchmark_v1) ready to run.
 - Easly extendible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
