@@ -104,7 +104,7 @@ The framework has some preliminary support to automatically select `n` examples 
 To run few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--n_shots` is > zero, only few shot assets are run.
 
 ## Tutorial
-It is possible to extend the framework by at least one of the following components. Details on implementing each can be found in [Tutorial README file]():
+It is possible to extend the framework by at least one of the following components. Details on implementing each can be found in the [tutorial page](tutorial.md):
 - Model
 - Task
 - Dataset
