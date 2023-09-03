@@ -1,14 +1,13 @@
 # Tutorial: Extending LLMeBench
 It is possible to extend the framework by at least one of the following components:
-- [Dataset](#adding-dataset)
-- [Task](#adding-task)
-- [Model](#adding-model)
-- [Defining a new asset](#benchmark-asset)
+- [Dataset](#adding-dataset-see-demo)
+- [Task](#adding-task-see-demo)
+- [Model](#adding-model-see-demo)
+- [Defining a new asset](#benchmark-asset-see-demo)
   - [Creating Few Shot Assets](#creating-few-shot-assets)
 
 
-## Adding Dataset ([See Demo](https://youtu.be/_sO2PhKhKGA?feature=shared))
-#### 
+## Adding Dataset ([See Demo](https://youtu.be/_sO2PhKhKGA?feature=shared)) 
 Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See [existing dataset modules](llmebench/datasets) for inspiration. Each new dataset class requires implementing four functions:
 
 ```python
@@ -40,8 +39,7 @@ class NewDataset(DatasetBase):
 
 **Once the `Dataset` is implemented, export it in `llmebench/datasets/__init__.py`.**
 
-## Adding Task 
-#### ([See Demo](https://youtu.be/TN1bpWBpSTU?feature=shared))
+## Adding Task ([See Demo](https://youtu.be/TN1bpWBpSTU?feature=shared))
 Check if the task you are adding to the benchmark already has an implementation in `llmebench/tasks`. If not, implement a new task module (e.g. `llmebench/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) that subclasses `TaskBase`. See [existing task modules](llmebench/tasks) for inspiration. Each new task class requires implementing two functions:
 
 ```python
@@ -67,8 +65,7 @@ class NewTask(TaskBase):
 
 **Once the `Task` is implemented, export it in `llmebench/tasks/__init__.py`.**
 
-## Adding Model 
-#### ([See Demo](https://youtu.be/J5H-BD8HQsk?feature=shared))
+## Adding Model ([See Demo](https://youtu.be/J5H-BD8HQsk?feature=shared))
 Next, check if the model you are trying to run the benchmark for has an implementation in `llmebench/models`. If not, implement a new model module (e.g. `llmebench/models/QARiB.py`), which implements a class (e.g. `QARiBModel`) which subclasses `ModelBase`. See an existing model module for inspiration. Each new model class requires implementing three functions:
 
 ```python
@@ -90,8 +87,7 @@ class NewModel(TaskBase):
 
 Once the `Model` is implemented, export it in `llmebench/models/__init__.py`.
 
-### Benchmark Asset 
-#### ([See Demo](https://youtu.be/j6sA5u7LHYM?feature=shared))
+### Benchmark Asset ([See Demo](https://youtu.be/j6sA5u7LHYM?feature=shared))
 Now that the Dataset, Task and Model are defined, the framework expects a given benchmark asset (e.g. "ArabGender" dataset, "GenderClassification" task, "GPT" model and "ZeroShot" prompting setting) to have a `*.py` file with three functions:
 
 ```python
