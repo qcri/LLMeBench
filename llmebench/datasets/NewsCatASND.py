@@ -10,9 +10,10 @@ class NewsCatASNDDataset(DatasetBase):
     def get_data_sample(self):
         return {"input": "some tweet", "label": "crime-war-conflict"}
 
-    def citation(self):
-        return """
-                @inproceedings{chowdhury-etal-2020-improving-arabic,
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{chowdhury-etal-2020-improving-arabic,
                 title = "Improving {A}rabic Text Categorization Using Transformer Training Diversification",
                 author = "Chowdhury, Shammur Absar  and
                   Abdelali, Ahmed  and
@@ -27,8 +28,8 @@ class NewsCatASNDDataset(DatasetBase):
                 publisher = "Association for Computational Linguistics",
                 url = "https://aclanthology.org/2020.wanlp-1.21",
                 pages = "226--236",                
-            }
-        """
+            }""",
+        }
 
     def load_data(self, data_path):
         data = []

@@ -10,10 +10,11 @@ class DialectADIDataset(DatasetBase):
     def get_data_sample(self):
         return {"input": "some tweet", "label": "no_not_interesting"}
 
-    def citation(self):
-        return """
-                TO DO: in house dataset
-        """
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """TO DO: in house dataset""",
+        }
 
     def load_data(self, data_path):
         data = []

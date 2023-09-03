@@ -10,20 +10,21 @@ class StanceUnifiedFCDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(StanceUnifiedFCDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """
-            @inproceedings{baly2018integrating,
-              title = "Integrating Stance Detection and Fact Checking in a Unified Corpus",
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{baly2018integrating,
+                title = "Integrating Stance Detection and Fact Checking in a Unified Corpus",
                 author = "Baly, Ramy  and
                   Mohtarami, Mitra  and
                   Glass, James  and
-                  M{\`a}rquez, Llu{\'\i}s  and
+                  M{\\`a}rquez, Llu{\\'\\i}s  and
                   Moschitti, Alessandro  and
                   Nakov, Preslav",
                 booktitle = "Proceedings of the 2018 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 2 (Short Papers)",
                 year = "2018",
-            }
-        """
+            }""",
+        }
 
     def get_data_sample(self):
         return {

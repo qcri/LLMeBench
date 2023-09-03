@@ -5,14 +5,16 @@ class LemmatizationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(LemmatizationDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@inproceedings{mubarak2018build,
-          title={Build Fast and Accurate Lemmatization for Arabic},
-          author={Mubarak, Hamdy},
-          booktitle={Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
-          year={2018}
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{mubarak2018build,
+                title={Build Fast and Accurate Lemmatization for Arabic},
+                author={Mubarak, Hamdy},
+                booktitle={Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
+                year={2018}
+            }""",
         }
-        """
 
     def get_data_sample(self):
         return {

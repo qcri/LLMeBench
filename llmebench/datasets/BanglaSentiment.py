@@ -5,13 +5,14 @@ class BanglaSentimentDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(BanglaSentimentDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """
-            @article{alam2021review,
-              title={A Review of Bangla Natural Language Processing Tasks and the Utility of Transformer Models},
-              author={Alam, Firoj and Hasan, Md Arid and Alam, Tanvir and Khan, Akib and Tajrin, Janntatul and Khan, Naira and Chowdhury, Shammur Absar},
-              journal={arXiv preprint arXiv:2107.03844},
-              year={2021}
+    def metadata():
+        return {
+            "language": "bn",
+            "citation": """@article{alam2021review,
+                title={A Review of Bangla Natural Language Processing Tasks and the Utility of Transformer Models},
+                author={Alam, Firoj and Hasan, Md Arid and Alam, Tanvir and Khan, Akib and Tajrin, Janntatul and Khan, Naira and Chowdhury, Shammur Absar},
+                journal={arXiv preprint arXiv:2107.03844},
+                year={2021}
             }        
             @inproceedings{iccit2020Arid,
                 Author = {Md. Arid Hasan and Jannatul Tajrin and Shammur Absar Chowdhury and Firoj Alam},
@@ -20,8 +21,8 @@ class BanglaSentimentDataset(DatasetBase):
                 Title = {Sentiment Classification in Bangla Textual Content: A Comparative Study},
                 Year = {2020},
                 url={https://github.com/banglanlp/bangla-sentiment-classification},
-            }
-        """
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "Tweet", "label": "Positive", "line_number": 0}
