@@ -1,14 +1,14 @@
 # Tutorial: Extending LLMeBench
 It is possible to extend the framework by at least one of the following components:
 - [Dataset](#adding-dataset)
-- [Task](#adding-dataset)
-- [Model](#adding-dataset)
+- [Task](#adding-task)
+- [Model](#adding-model)
 - [Defining a new asset](#benchmark-asset)
   - [Creating Few Shot Assets](#creating-few-shot-assets)
 
 
-## Adding Dataset 
-#### ([See Demo](https://youtu.be/_sO2PhKhKGA?feature=shared))
+## Adding Dataset ([See Demo](https://youtu.be/_sO2PhKhKGA?feature=shared))
+#### 
 Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See [existing dataset modules](llmebench/datasets) for inspiration. Each new dataset class requires implementing four functions:
 
 ```python
