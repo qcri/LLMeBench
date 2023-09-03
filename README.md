@@ -113,12 +113,13 @@ It is possible to extend the framework by at least one of the following componen
 ## Citation
 Please cite our paper when referring to this framework!
 ```
-@misc{dalvi2023llmebench,
+@article{dalvi2023llmebench,
       title={LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking}, 
       author={Fahim Dalvi and Maram Hasanain and Sabri Boughorbel and Basel Mousi and Samir Abdaljalil and Nizi Nazar and Ahmed Abdelali and Shammur Absar Chowdhury and Hamdy Mubarak and Ahmed Ali and Majd Hawasly and Nadir Durrani and Firoj Alam},
       year={2023},
       eprint={2308.04945},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+      journal={arXiv:2308.04945},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2308.04945}
 }
 ```
