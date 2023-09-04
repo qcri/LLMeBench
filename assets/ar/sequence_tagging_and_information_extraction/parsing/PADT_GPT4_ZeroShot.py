@@ -1,14 +1,14 @@
 import os
 import re
 
-from llmebench.datasets import ArabicParsingDataset
+from llmebench.datasets import PADTDataset
 from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import ArabicParsingTask
 
 
 def config():
     return {
-        "dataset": ArabicParsingDataset,
+        "dataset": PADTDataset,
         "dataset_args": {},
         "task": ArabicParsingTask,
         "task_args": {},

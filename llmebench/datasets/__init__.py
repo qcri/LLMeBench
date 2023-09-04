@@ -4,7 +4,6 @@ from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
 from .ArabicDiacritization import ArabicDiacritizationDataset
-from .ArabicParsing import ArabicParsingDataset
 from .ArabicPOS import ArabicPOSDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
@@ -33,6 +32,7 @@ from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .NewsCatASND import NewsCatASNDDataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
+from .PADT import PADTDataset
 from .QADI import QADIDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
