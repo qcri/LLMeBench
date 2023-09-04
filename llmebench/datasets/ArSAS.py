@@ -1,9 +1,9 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class ArSASSentimentDataset(DatasetBase):
+class ArSASDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(ArSASSentimentDataset, self).__init__(**kwargs)
+        super(ArSASDataset, self).__init__(**kwargs)
 
     def metadata():
         return {

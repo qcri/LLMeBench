@@ -1,17 +1,17 @@
 import os
 
-from llmebench.datasets import ArSASSentimentDataset
-from llmebench.models import GPTModel
+from llmebench.datasets import ArSASDataset
+from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import SentimentTask
 
 
 def config():
     return {
-        "dataset": ArSASSentimentDataset,
+        "dataset": ArSASDataset,
         "dataset_args": {},
         "task": SentimentTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -28,19 +28,20 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"Choose only one sentiment between: Positive, Negative, Neutral, or Mixed for this Arabic sentence: \n {input_sample}",
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information.",
+        },
+        {
+            "role": "user",
+            "content": f"Choose only one sentiment between: Positive, Negative, Neutral, or Mixed for this Arabic sentence: \n {input_sample}",
+        },
+    ]
 
 
 def post_process(response):
-    out = response["choices"][0]["text"]
+    out = response["choices"][0]["message"]["content"]
     j = out.find(".")
     if j > 0:
         out = out[0:j]

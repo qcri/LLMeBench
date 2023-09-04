@@ -9,7 +9,7 @@ from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
 from .ArSarcasm import ArSarcasmDataset
-from .ArSASSentiment import ArSASSentimentDataset
+from .ArSAS import ArSASDataset
 from .BanglaSentiment import BanglaSentimentDataset
 from .COVID19Factuality import COVID19FactualityDataset
 from .CT22Attentionworthy import CT22AttentionworthyDataset

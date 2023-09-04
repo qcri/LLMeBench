@@ -1,13 +1,13 @@
 import os
 
-from llmebench.datasets import ArSASSentimentDataset
+from llmebench.datasets import ArSASDataset
 from llmebench.models import BLOOMPetalModel
 from llmebench.tasks import SentimentTask
 
 
 def config():
     return {
-        "dataset": ArSASSentimentDataset,
+        "dataset": ArSASDataset,
         "dataset_args": {},
         "task": SentimentTask,
         "task_args": {},
