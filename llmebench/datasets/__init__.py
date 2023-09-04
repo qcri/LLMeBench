@@ -1,3 +1,4 @@
+from .ADI import ADIDataset
 from .Adult import AdultDataset
 from .ANERcorp import ANERcorpDataset
 from .Aqmar import AqmarDataset
@@ -17,7 +18,6 @@ from .CT22Checkworthiness import CT22CheckworthinessDataset
 from .CT22Claim import CT22ClaimDataset
 from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
-from .DialectADI import DialectADIDataset
 from .Emotion import EmotionDataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .FactualityUnifiedFC import FactualityUnifiedFCDataset

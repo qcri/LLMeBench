@@ -1,13 +1,13 @@
 import os
 
-from llmebench.datasets import DialectADIDataset
+from llmebench.datasets import ADIDataset
 from llmebench.models import GPTChatCompletionModel, RandomGPTModel
 from llmebench.tasks import DialectIDTask
 
 
 def config():
     return {
-        "dataset": DialectADIDataset,
+        "dataset": ADIDataset,
         "dataset_args": {},
         "task": DialectIDTask,
         "task_args": {},
@@ -35,39 +35,18 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv",
-            "fewshot": {
-                "train_data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/fewshot_dev.tsv",  # TODO update
-                "deduplicate": False,
-            },
+            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv"
         },
     }
 
 
-def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n"
-    out_prompt = out_prompt + "Here are some examples:\n\n"
-    for index, example in enumerate(examples):
-        out_prompt = (
-            out_prompt
-            + "Example "
-            + str(index)
-            + ":"
-            + "\n"
-            + "text: "
-            + example["input"]
-            + "\nlabel: "
-            + example["label"]
-            + "\n\n"
-        )
-
-    out_prompt = out_prompt + "text: " + input_sample + "\nlabel: \n"
-
-    return out_prompt
-
-
-def prompt(input_sample, examples):
-    base_prompt = f'Classify the following "text" into one of the following dialect categories: "IRA", "JOR", "KSA", "KUW", "LEB", "LIB", "PAL", "QAT", "SUD", "SYR", "UAE", "YEM"'
+def prompt(input_sample):
+    prompt_string = (
+        f'Classify the following "text" into one of the following dialect categories: "IRA", "JOR", "KSA", "KUW", "LEB", "LIB", "PAL", "QAT", "SUD", "SYR", "UAE", "YEM"\n'
+        f"Please provide only the label.\n\n"
+        f"text: {input_sample}\n"
+        f"label: \n"
+    )
 
     return [
         {
@@ -76,7 +55,7 @@ def prompt(input_sample, examples):
         },
         {
             "role": "user",
-            "content": few_shot_prompt(input_sample, base_prompt, examples),
+            "content": prompt_string,
         },
     ]
 

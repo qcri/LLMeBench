@@ -1,13 +1,13 @@
 import os
 
-from llmebench.datasets import DialectADIDataset
+from llmebench.datasets import ADIDataset
 from llmebench.models import BLOOMPetalModel
 from llmebench.tasks import DialectIDTask
 
 
 def config():
     return {
-        "dataset": DialectADIDataset,
+        "dataset": ADIDataset,
         "dataset_args": {},
         "task": DialectIDTask,
         "task_args": {},

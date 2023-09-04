@@ -3,9 +3,9 @@ import pandas as pd
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class DialectADIDataset(DatasetBase):
+class ADIDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(DialectADIDataset, self).__init__(**kwargs)
+        super(ADIDataset, self).__init__(**kwargs)
 
     def get_data_sample(self):
         return {"input": "some tweet", "label": "no_not_interesting"}
