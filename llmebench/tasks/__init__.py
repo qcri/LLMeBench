@@ -24,8 +24,7 @@ from .NewsCatAlArabiya import NewsCatAlArabiyaTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .NewsCatASND import NewsCatASNDTask
 from .Offensive import OffensiveTask
-from .PropagandaMultilabel import PropagandaMultilabelTask
-from .PropagandaMultilabelSemEval23 import PropagandaMultilabelSemEval23Task
+from .MultilabelPropaganda import MultilabelPropagandaTask
 from .Q2QSimDetect import Q2QSimDetectionTask
 from .QA import QATask
 from .Sarcasm import SarcasmTask
