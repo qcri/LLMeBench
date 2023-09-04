@@ -1,47 +1,39 @@
-import logging
 import json
 import requests
+import time
 from llmebench.models.model_base import ModelBase
-import os
-
-from tenacity import (
-    retry,
-    retry_if_exception_type,
-    stop_after_attempt,
-    wait_random_exponential,
-)
-
-API_TOKEN = os.environ["HUGGINGFACE_API_TOKEN"]
 
 
-def log_retry(retry_state):
-    if retry_state.attempt_number == 1:
-        return
-    logging.warning(
-        f"Request failed, retry attempt {retry_state.attempt_number}...")
+class HuggingFaceModelLoadingError(Exception):
+    def __init__(self, failure_message):
+        self.failure_message = failure_message
+
+    def __str__(self):
+        return (
+            f"HuggingFace model loading -- \n {self.failure_message}"
+        )
 
 
-class HuggingFace(ModelBase):
-    def __init__(self, inference_api_url, max_tries=5, retry_exceptions=()):
-        self.max_tries = max_tries
-
+class HuggingFaceInferenceAPIModel(ModelBase):
+    def __init__(self, inference_api_url, api_token, **kwargs):
         self.inference_api_url = inference_api_url
-        self.api_token = API_TOKEN
+        self.api_token = api_token
 
-        # Instantiate retrying mechanism
-        self.prompt = retry(
-            wait=wait_random_exponential(multiplier=1, max=60),
-            stop=stop_after_attempt(self.max_tries),
-            retry=retry_if_exception_type(retry_exceptions),
-            before=log_retry,
-            reraise=True,
-        )(self.prompt)
+        super(HuggingFaceInferenceAPIModel, self).__init__(
+            retry_exceptions=(TimeoutError, HuggingFaceModelLoadingError), **kwargs)
 
     def prompt(self, processed_input):
         headers = {"Authorization": f"Bearer {self.api_token}"}
         data = json.dumps(processed_input)
         response = requests.request(
             "POST", self.inference_api_url, headers=headers, data=data)
+        if not response.ok:
+            if response.status_code == 503:  # model loading
+                time.sleep(1)
+                raise HuggingFaceModelLoadingError(
+                    response.reason)
+            else:
+                raise Exception(response.reason)
         return response.json()
 
     def summarize_response(self, response):

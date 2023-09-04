@@ -1,5 +1,7 @@
+import os
+
 from llmebench.datasets import ArSASSentimentDataset
-from llmebench.models import HuggingFace
+from llmebench.models import HuggingFaceInferenceAPIModel
 from llmebench.tasks import SentimentTask
 
 
@@ -9,9 +11,11 @@ def config():
         "dataset_args": {},
         "task": SentimentTask,
         "task_args": {},
-        "model": HuggingFace,
+        "model": HuggingFaceInferenceAPIModel,
         "model_args": {
             "inference_api_url": "https://api-inference.huggingface.co/models/CAMeL-Lab/bert-base-arabic-camelbert-da-sentiment",
+            "api_token": os.environ["HUGGINGFACE_API_TOKEN"],
+            "max_tries": 5
         },
         "general_args": {
             "data_path": "data/sentiment_emotion_others/sentiment/ArSAS-test.txt"
