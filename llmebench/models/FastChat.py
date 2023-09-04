@@ -128,7 +128,7 @@ class ChatCompletionModel(ModelBase):
     def prompt(self, processed_input):
         response = openai.ChatCompletion.create(
             # engine=self.engine_name,
-            model = self.engine_name,
+            model=self.engine_name,
             messages=processed_input,
             temperature=self.temperature,
             max_tokens=self.max_tokens,
