@@ -1,9 +1,9 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class HateSpeechDataset(DatasetBase):
+class OSACT4SubtaskBDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(HateSpeechDataset, self).__init__(**kwargs)
+        super(OSACT4SubtaskBDataset, self).__init__(**kwargs)
 
     def metadata():
         return {

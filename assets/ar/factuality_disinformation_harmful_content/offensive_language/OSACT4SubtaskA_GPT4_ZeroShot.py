@@ -1,17 +1,17 @@
 import os
 
-from llmebench.datasets import OffensiveDataset
-from llmebench.models import GPTModel
+from llmebench.datasets import OSACT4SubtaskADataset
+from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import OffensiveTask
 
 
 def config():
     return {
-        "dataset": OffensiveDataset,
+        "dataset": OSACT4SubtaskADataset,
         "dataset_args": {},
         "task": OffensiveTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": GPTChatCompletionModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
@@ -28,19 +28,20 @@ def config():
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f'if the following Arabic sentence is offensive, just say "OFF", otherwise, say just "NOT_OFF" without explanation: \n {input_sample}',
-            }
-        ],
-    }
+    return [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps people find information on locations.",
+        },
+        {
+            "role": "user",
+            "content": f'if the following Arabic sentence is offensive, just say "OFF", otherwise, say just "NOT_OFF" without explanation: \n {input_sample}',
+        },
+    ]
 
 
 def post_process(response):
-    out = response["choices"][0]["text"]
+    out = response["choices"][0]["message"]["content"]
     j = out.find(".")
     if j > 0:
         out = out[0:j]

@@ -1,13 +1,13 @@
 import os
 
-from llmebench.datasets import OffensiveDataset
+from llmebench.datasets import OSACT4SubtaskADataset
 from llmebench.models import BLOOMPetalModel
 from llmebench.tasks import OffensiveTask
 
 
 def config():
     return {
-        "dataset": OffensiveDataset,
+        "dataset": OSACT4SubtaskADataset,
         "dataset_args": {},
         "task": OffensiveTask,
         "task_args": {},
@@ -18,7 +18,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sentiment_emotion_others/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt"
+            "data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt"
         },
     }
 

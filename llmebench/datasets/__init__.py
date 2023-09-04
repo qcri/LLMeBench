@@ -22,7 +22,6 @@ from .DialectADI import DialectADIDataset
 from .Emotion import EmotionDataset
 from .FactualityKhouja20 import FactualityKhouja20Dataset
 from .FactualityUnifiedFC import FactualityUnifiedFCDataset
-from .HateSpeech import HateSpeechDataset
 from .Lemmatization import LemmatizationDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
@@ -32,7 +31,8 @@ from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
 from .NewsCatAlArabiya import NewsCatAlArabiyaDataset
 from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
 from .NewsCatASND import NewsCatASNDDataset
-from .Offensive import OffensiveDataset
+from .OSACT4SubtaskA import OSACT4SubtaskADataset
+from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .QADI import QADIDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset

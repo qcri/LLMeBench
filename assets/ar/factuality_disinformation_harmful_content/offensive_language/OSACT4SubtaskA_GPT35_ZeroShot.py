@@ -1,15 +1,15 @@
 import os
 
-from llmebench.datasets import HateSpeechDataset
-from llmebench.models import GPTModel, RandomGPTModel
-from llmebench.tasks import HateSpeechTask
+from llmebench.datasets import OSACT4SubtaskADataset
+from llmebench.models import GPTModel
+from llmebench.tasks import OffensiveTask
 
 
 def config():
     return {
-        "dataset": HateSpeechDataset,
+        "dataset": OSACT4SubtaskADataset,
         "dataset_args": {},
-        "task": HateSpeechTask,
+        "task": OffensiveTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -18,11 +18,11 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["HS", "NOT_HS"],
+            "class_labels": ["OFF", "NOT_OFF"],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/hate_speech/OSACT2020-sharedTask-test-tweets-labels.txt"
+            "data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt"
         },
     }
 
@@ -33,7 +33,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f'if the following Arabic sentence has hate speech, just say "HS", otherwise, say just "NOT_HS" without explanation: \n {input_sample}',
+                "text": f'if the following Arabic sentence is offensive, just say "OFF", otherwise, say just "NOT_OFF" without explanation: \n {input_sample}',
             }
         ],
     }

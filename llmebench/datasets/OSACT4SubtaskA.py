@@ -1,9 +1,9 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class OffensiveDataset(DatasetBase):
+class OSACT4SubtaskADataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(OffensiveDataset, self).__init__(**kwargs)
+        super(OSACT4SubtaskADataset, self).__init__(**kwargs)
 
     def metadata():
         return {
