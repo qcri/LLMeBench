@@ -1,18 +1,15 @@
 import os
-import random
 
 from llmebench.datasets import NewsCatASNDDataset
-from llmebench.models import GPTModel, RandomGPTModel
-from llmebench.tasks import NewsCatASNDTask
-
-random.seed(1333)
+from llmebench.models import GPTModel
+from llmebench.tasks import NewsCategorizationTask
 
 
 def config():
     return {
         "dataset": NewsCatASNDDataset,
         "dataset_args": {},
-        "task": NewsCatASNDTask,
+        "task": NewsCategorizationTask,
         "task_args": {"test": "useless"},
         "model": GPTModel,
         "model_args": {

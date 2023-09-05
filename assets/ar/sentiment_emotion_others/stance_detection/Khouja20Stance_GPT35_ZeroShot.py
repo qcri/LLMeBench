@@ -1,15 +1,15 @@
 import os
 
 from llmebench.datasets import Khouja20StanceDataset
-from llmebench.models import GPTModel, RandomGPTModel
-from llmebench.tasks import Khouja20StanceTask
+from llmebench.models import GPTModel
+from llmebench.tasks import StanceTask
 
 
 def config():
     return {
         "dataset": Khouja20StanceDataset,
         "dataset_args": {},
-        "task": Khouja20StanceTask,
+        "task": StanceTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {

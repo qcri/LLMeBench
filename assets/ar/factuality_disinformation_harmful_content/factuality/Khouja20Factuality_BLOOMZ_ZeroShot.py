@@ -2,14 +2,14 @@ import os
 
 from llmebench.datasets import Khouja20FactualityDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import Khouja20FactualityTask
+from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
         "dataset": Khouja20FactualityDataset,
         "dataset_args": {},
-        "task": Khouja20FactualityTask,
+        "task": FactualityTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

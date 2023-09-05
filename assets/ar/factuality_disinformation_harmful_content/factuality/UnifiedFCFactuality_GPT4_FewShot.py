@@ -2,14 +2,14 @@ import os
 
 from llmebench.datasets import UnifiedFCFactualityDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import UnifiedFCFactualityTask
+from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
         "dataset": UnifiedFCFactualityDataset,
         "dataset_args": {},
-        "task": UnifiedFCFactualityTask,
+        "task": FactualityTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

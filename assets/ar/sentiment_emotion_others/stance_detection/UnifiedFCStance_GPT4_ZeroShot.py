@@ -3,14 +3,14 @@ import re
 
 from llmebench.datasets import UnifiedFCStanceDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import UnifiedFCStanceTask
+from llmebench.tasks import StanceTask
 
 
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
         "dataset_args": {},
-        "task": UnifiedFCStanceTask,
+        "task": StanceTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

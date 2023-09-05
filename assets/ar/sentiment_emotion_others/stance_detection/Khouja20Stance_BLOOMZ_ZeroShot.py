@@ -2,14 +2,14 @@ import os
 
 from llmebench.datasets import Khouja20StanceDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import Khouja20StanceTask
+from llmebench.tasks import StanceTask
 
 
 def config():
     return {
         "dataset": Khouja20StanceDataset,
         "dataset_args": {},
-        "task": Khouja20StanceTask,
+        "task": StanceTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

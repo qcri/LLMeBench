@@ -3,14 +3,14 @@ import re
 
 from llmebench.datasets import SemEval17T1STSDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import STSTrack1Task
+from llmebench.tasks import STSTask
 
 
 def config():
     return {
         "dataset": SemEval17T1STSDataset,
         "dataset_args": {},
-        "task": STSTrack1Task,
+        "task": STSTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

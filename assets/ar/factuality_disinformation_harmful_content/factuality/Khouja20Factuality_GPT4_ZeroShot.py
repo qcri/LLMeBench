@@ -2,14 +2,14 @@ import os
 
 from llmebench.datasets import Khouja20FactualityDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import Khouja20FactualityTask
+from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
         "dataset": Khouja20FactualityDataset,
         "dataset_args": {},
-        "task": Khouja20FactualityTask,
+        "task": FactualityTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

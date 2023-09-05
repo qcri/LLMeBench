@@ -1,15 +1,15 @@
 import os
 
 from llmebench.datasets import UnifiedFCStanceDataset
-from llmebench.models import GPTModel, RandomGPTModel
-from llmebench.tasks import UnifiedFCStanceTask
+from llmebench.models import GPTModel
+from llmebench.tasks import StanceTask
 
 
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
         "dataset_args": {},
-        "task": UnifiedFCStanceTask,
+        "task": StanceTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {

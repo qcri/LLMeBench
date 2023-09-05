@@ -1,18 +1,15 @@
 import os
-import random
 
 from llmebench.datasets import NewsCatASNDDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import NewsCatASNDTask
-
-random.seed(1333)
+from llmebench.tasks import NewsCategorizationTask
 
 
 def config():
     return {
         "dataset": NewsCatASNDDataset,
         "dataset_args": {},
-        "task": NewsCatASNDTask,
+        "task": NewsCategorizationTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

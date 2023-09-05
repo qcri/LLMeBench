@@ -2,14 +2,14 @@ import os
 
 from llmebench.datasets import SemEval17T1STSDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import STSTrack1Task
+from llmebench.tasks import STSTask
 
 
 def config():
     return {
         "dataset": SemEval17T1STSDataset,
         "dataset_args": {},
-        "task": STSTrack1Task,
+        "task": STSTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

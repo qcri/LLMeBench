@@ -3,9 +3,9 @@ from sklearn.metrics import f1_score
 from llmebench.tasks.task_base import TaskBase
 
 
-class UnifiedFCStanceTask(TaskBase):
+class StanceTask(TaskBase):
     def __init__(self, **kwargs):
-        super(UnifiedFCStanceTask, self).__init__(**kwargs)
+        super(StanceTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
         predicted_labels = [

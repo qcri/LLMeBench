@@ -1,16 +1,15 @@
 import os
-import re
 
 from llmebench.datasets import Khouja20StanceDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import Khouja20StanceTask
+from llmebench.tasks import StanceTask
 
 
 def config():
     return {
         "dataset": Khouja20StanceDataset,
         "dataset_args": {},
-        "task": Khouja20StanceTask,
+        "task": StanceTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

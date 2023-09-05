@@ -1,15 +1,15 @@
 import os
 
 from llmebench.datasets import Khouja20FactualityDataset
-from llmebench.models import GPTModel, RandomGPTModel
-from llmebench.tasks import Khouja20FactualityTask
+from llmebench.models import GPTModel
+from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
         "dataset": Khouja20FactualityDataset,
         "dataset_args": {},
-        "task": Khouja20FactualityTask,
+        "task": FactualityTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {

@@ -1,20 +1,15 @@
 import os
-import random
-import re
 
 from llmebench.datasets import COVID19FactualityDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import FactualityCOVID19Task
-
-
-random.seed(1333)
+from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
         "dataset": COVID19FactualityDataset,
         "dataset_args": {},
-        "task": FactualityCOVID19Task,
+        "task": FactualityTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

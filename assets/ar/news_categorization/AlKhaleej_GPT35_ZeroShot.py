@@ -3,7 +3,7 @@ import random
 
 from llmebench.datasets import NewsCatAlKhaleejDataset
 from llmebench.models import GPTModel
-from llmebench.tasks import NewsCatAlKhaleejTask
+from llmebench.tasks import NewsCategorizationTask
 
 random.seed(1333)
 
@@ -12,7 +12,7 @@ def config():
     return {
         "dataset": NewsCatAlKhaleejDataset,
         "dataset_args": {},
-        "task": NewsCatAlKhaleejTask,
+        "task": NewsCategorizationTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {

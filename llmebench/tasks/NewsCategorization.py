@@ -9,9 +9,9 @@ from sklearn.metrics import (
 from llmebench.tasks.task_base import TaskBase
 
 
-class NewsCatAlKhaleejTask(TaskBase):
+class NewsCategorizationTask(TaskBase):
     def __init__(self, **kwargs):
-        super(NewsCatAlKhaleejTask, self).__init__(**kwargs)
+        super(NewsCategorizationTask, self).__init__(**kwargs)
 
     def evaluate(self, gold_labels, pred_labels):
         pred_labels = [

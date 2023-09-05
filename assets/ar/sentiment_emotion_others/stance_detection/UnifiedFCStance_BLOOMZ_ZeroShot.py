@@ -2,14 +2,14 @@ import os
 
 from llmebench.datasets import UnifiedFCStanceDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import UnifiedFCStanceTask
+from llmebench.tasks import StanceTask
 
 
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
         "dataset_args": {},
-        "task": UnifiedFCStanceTask,
+        "task": StanceTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

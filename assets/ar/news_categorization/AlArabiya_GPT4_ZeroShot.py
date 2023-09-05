@@ -3,7 +3,7 @@ import random
 
 from llmebench.datasets import NewsCatAlArabiyaDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import NewsCatAlArabiyaTask
+from llmebench.tasks import NewsCategorizationTask
 
 
 random.seed(1333)
@@ -13,7 +13,7 @@ def config():
     return {
         "dataset": NewsCatAlArabiyaDataset,
         "dataset_args": {},
-        "task": NewsCatAlArabiyaTask,
+        "task": NewsCategorizationTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

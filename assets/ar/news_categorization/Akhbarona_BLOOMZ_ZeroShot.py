@@ -3,7 +3,7 @@ import random
 
 from llmebench.datasets import NewsCatAkhbaronaDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import NewsCatAkhbaronaTask
+from llmebench.tasks import NewsCategorizationTask
 
 random.seed(1333)
 
@@ -12,7 +12,7 @@ def config():
     return {
         "dataset": NewsCatAkhbaronaDataset,
         "dataset_args": {},
-        "task": NewsCatAkhbaronaTask,
+        "task": NewsCategorizationTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

@@ -2,14 +2,14 @@ import os
 
 from llmebench.datasets import COVID19FactualityDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import FactualityCOVID19Task
+from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
         "dataset": COVID19FactualityDataset,
         "dataset_args": {},
-        "task": FactualityCOVID19Task,
+        "task": FactualityTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {
