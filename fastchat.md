@@ -1,7 +1,7 @@
 ## Benchmarking huggingface models via FastChat 
 
 FastChat supports a range of huggingface models and provide serving APIs. LLMeBench has an interface to FastChat APIs allowing to query and get responses from models.
-
+Here is a quick start to load a huggingface model with FastChat and run an asset from LLMeBench on the model. 
 ### Install FastChat
 
 ```bash
