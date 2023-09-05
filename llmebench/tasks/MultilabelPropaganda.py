@@ -20,10 +20,10 @@ class MultilabelPropagandaTask(TaskBase):
                 break
 
         # Handle cases when model fails!
-        # Flatten true labels as it is a list of lists
         # use no_technique_label as the random label
-        predicted_labels = [p if p else no_technique_label for p in predicted_labels]
+        predicted_labels = [p if p else [no_technique_label] for p in predicted_labels]
 
+        # Flatten true labels as it is a list of lists
         # Binarize labels and use them for multi-label evaluation
         mlb = preprocessing.MultiLabelBinarizer(classes=techniques)
         mlb.fit([techniques])
