@@ -21,7 +21,6 @@ from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
 from .Khouja20Factuality import Khouja20FactualityDataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset
-from .Lemmatization import LemmatizationDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
@@ -43,5 +42,6 @@ from .SemEval17T2STS import SemEval17T2STSDataset
 from .STSQ2Q import Q2QSimDataset
 from .TyDiQA import TyDiQADataset
 from .WANLP22T3Propaganda import WANLP22T3PropagandaDataset
+from .WikiNewsLemmatization import WikiNewsLemmatizationDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset

@@ -1,18 +1,22 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class LemmatizationDataset(DatasetBase):
+class WikiNewsLemmatizationDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(LemmatizationDataset, self).__init__(**kwargs)
+        super(WikiNewsLemmatizationDataset, self).__init__(**kwargs)
 
     def metadata():
         return {
             "language": "ar",
-            "citation": """@inproceedings{mubarak2018build,
-                title={Build Fast and Accurate Lemmatization for Arabic},
-                author={Mubarak, Hamdy},
-                booktitle={Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
-                year={2018}
+            "citation": """@inproceedings{mubarak-2018-build,
+                title = "Build Fast and Accurate Lemmatization for {A}rabic",
+                author = "Mubarak, Hamdy",
+                booktitle = "Proceedings of the Eleventh International Conference on Language Resources and Evaluation ({LREC} 2018)",
+                month = may,
+                year = "2018",
+                address = "Miyazaki, Japan",
+                publisher = "European Language Resources Association (ELRA)",
+                url = "https://aclanthology.org/L18-1181",
             }""",
         }
 
@@ -23,7 +27,6 @@ class LemmatizationDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         # Format: words \t lemmas
         data = []
         with open(data_path, "r") as fp:

@@ -1,13 +1,13 @@
 import os
 
-from llmebench.datasets import LemmatizationDataset
+from llmebench.datasets import WikiNewsLemmatizationDataset
 from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import LemmatizationTask
 
 
 def config():
     return {
-        "dataset": LemmatizationDataset,
+        "dataset": WikiNewsLemmatizationDataset,
         "dataset_args": {},
         "task": LemmatizationTask,
         "task_args": {},
