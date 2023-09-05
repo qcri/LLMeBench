@@ -4,7 +4,6 @@ from .ANERcorp import ANERcorpDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
-from .ArabicPOS import ArabicPOSDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
 from .ArSarcasm import ArSarcasmDataset
@@ -32,6 +31,7 @@ from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
 from .QADI import QADIDataset
+from .QCRIDialectalArabicPOS import QCRIDialectalArabicPOSDataset
 from .QCRIDialectalArabicSegmentation import QCRIDialectalArabicSegmentationDataset
 from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
@@ -44,6 +44,8 @@ from .UnifiedFCStance import UnifiedFCStanceDataset
 from .WANLP22T3Propaganda import WANLP22T3PropagandaDataset
 from .WikiNewsDiacritization import WikiNewsDiacritizationDataset
 from .WikiNewsLemmatization import WikiNewsLemmatizationDataset
+from .WikiNewsPOS import WikiNewsPOSDataset
 from .WikiNewsSegmentation import WikiNewsSegmentationDataset
+from .XGLUEPOS import XGLUEPOSDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset

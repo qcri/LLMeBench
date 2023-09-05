@@ -1,7 +1,7 @@
 import os
 import re
 
-from llmebench.datasets import ArabicPOSDataset
+from llmebench.datasets import XGLUEPOSDataset
 from llmebench.models import GPTModel, RandomGPTModel
 from llmebench.tasks import ArabicPOSTask
 
@@ -95,40 +95,24 @@ mapTags = {
 
 
 def config():
-    sets = [
-        ("egy", "egy.pos/egy.data_5.test.src-trg.sent"),
-        ("glf", "glf.pos/glf.data_5.test.src-trg.sent"),
-        ("mgr", "mgr.pos/mgr.data_5.test.src-trg.sent"),
-        ("lev", "lev.pos/lev.data_5.test.src-trg.sent"),
-        ("msa", "WikiNewsTruth.txt"),
-        ("XGLUE", "XGLUE/ar.test.src-tgt.txt"),
-    ]
-    configs = []
-    for name, testset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": ArabicPOSDataset,
-                    "dataset_args": {},
-                    "task": ArabicPOSTask,
-                    "task_args": {},
-                    "model": GPTModel,
-                    "model_args": {
-                        "api_type": "azure",
-                        "api_version": "2023-03-15-preview",
-                        "api_base": os.environ["AZURE_API_URL"],
-                        "api_key": os.environ["AZURE_API_KEY"],
-                        "engine_name": os.environ["ENGINE_NAME"],
-                        "max_tries": 3,
-                    },
-                    "general_args": {
-                        "data_path": "data/sequence_tagging_ner_pos_etc/POS/" + testset
-                    },
-                },
-            }
-        )
-    return configs
+    return {
+        "dataset": XGLUEPOSDataset,
+        "dataset_args": {},
+        "task": ArabicPOSTask,
+        "task_args": {},
+        "model": GPTModel,
+        "model_args": {
+            "api_type": "azure",
+            "api_version": "2023-03-15-preview",
+            "api_base": os.environ["AZURE_API_URL"],
+            "api_key": os.environ["AZURE_API_KEY"],
+            "engine_name": os.environ["ENGINE_NAME"],
+            "max_tries": 3,
+        },
+        "general_args": {
+            "data_path": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt"
+        },
+    }
 
 
 def prompt(input_sample):

@@ -1,7 +1,7 @@
 import os
 import re
 
-from llmebench.datasets import ArabicPOSDataset
+from llmebench.datasets import QCRIDialectalArabicPOSDataset
 from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import ArabicPOSTask
 
@@ -100,8 +100,6 @@ def config():
         ("glf", "glf.pos/glf.data_5.test.src-trg.sent"),
         ("mgr", "mgr.pos/mgr.data_5.test.src-trg.sent"),
         ("lev", "lev.pos/lev.data_5.test.src-trg.sent"),
-        ("msa", "WikiNewsTruth.txt"),
-        ("XGLUE", "XGLUE/ar.test.src-tgt.txt"),
     ]
     configs = []
     for name, testset in sets:
@@ -109,7 +107,7 @@ def config():
             {
                 "name": name,
                 "config": {
-                    "dataset": ArabicPOSDataset,
+                    "dataset": QCRIDialectalArabicPOSDataset,
                     "dataset_args": {},
                     "task": ArabicPOSTask,
                     "task_args": {},
@@ -123,7 +121,7 @@ def config():
                         "max_tries": 3,
                     },
                     "general_args": {
-                        "data_path": "data/sequence_tagging_ner_pos_etc/POS/" + testset
+                        "data_path": f"data/sequence_tagging_ner_pos_etc/POS/{testset}"
                     },
                 },
             }

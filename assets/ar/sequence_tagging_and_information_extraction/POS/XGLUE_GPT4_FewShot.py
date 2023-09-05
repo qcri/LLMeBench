@@ -1,7 +1,7 @@
 import os
 import re
 
-from llmebench.datasets import ArabicPOSDataset
+from llmebench.datasets import XGLUEPOSDataset
 from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import ArabicPOSTask
 
@@ -95,61 +95,27 @@ mapTags = {
 
 
 def config():
-    sets = [
-        (
-            "egy",
-            "egy.pos/egy.data_5.test.src-trg.sent",
-            "egy.pos/egy.data_5.dev.src-trg.sent",
-        ),
-        (
-            "glf",
-            "glf.pos/glf.data_5.test.src-trg.sent",
-            "glf.pos/glf.data_5.dev.src-trg.sent",
-        ),
-        (
-            "mgr",
-            "mgr.pos/mgr.data_5.test.src-trg.sent",
-            "mgr.pos/mgr.data_5.dev.src-trg.sent",
-        ),
-        (
-            "lev",
-            "lev.pos/lev.data_5.test.src-trg.sent",
-            "lev.pos/lev.data_5.dev.src-trg.sent",
-        ),
-        ("msa", "WikiNewsTruth.txt.POS.tab", "WikiNewsTruthDev.txt"),
-        ("XGLUE", "XGLUE/ar.test.src-trg.txt", "XGLUE/ar.dev.src-trg.txt"),
-    ]
-    configs = []
-    for name, testset, devset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": ArabicPOSDataset,
-                    "dataset_args": {},
-                    "task": ArabicPOSTask,
-                    "task_args": {},
-                    "model": GPTChatCompletionModel,
-                    "model_args": {
-                        "api_type": "azure",
-                        "api_version": "2023-03-15-preview",
-                        "api_base": os.environ["AZURE_API_URL"],
-                        "api_key": os.environ["AZURE_API_KEY"],
-                        "engine_name": os.environ["ENGINE_NAME"],
-                        # "class_labels": ["m", "f"],
-                        "max_tries": 30,
-                    },
-                    "general_args": {
-                        "data_path": "data/sequence_tagging_ner_pos_etc/POS/" + testset,
-                        "fewshot": {
-                            "train_data_path": "data/sequence_tagging_ner_pos_etc/POS/"
-                            + devset
-                        },
-                    },
-                },
-            }
-        )
-    return configs
+    return {
+        "dataset": XGLUEPOSDataset,
+        "dataset_args": {},
+        "task": ArabicPOSTask,
+        "task_args": {},
+        "model": GPTChatCompletionModel,
+        "model_args": {
+            "api_type": "azure",
+            "api_version": "2023-03-15-preview",
+            "api_base": os.environ["AZURE_API_URL"],
+            "api_key": os.environ["AZURE_API_KEY"],
+            "engine_name": os.environ["ENGINE_NAME"],
+            "max_tries": 30,
+        },
+        "general_args": {
+            "data_path": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt",
+            "fewshot": {
+                "train_data_path": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.dev.src-trg.txt"
+            },
+        },
+    }
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
