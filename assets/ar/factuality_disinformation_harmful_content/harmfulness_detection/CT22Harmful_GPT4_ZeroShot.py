@@ -2,7 +2,7 @@ import os
 import random
 import re
 
-from llmebench.datasets import CT22CheckworthinessDataset
+from llmebench.datasets import CT22HarmfulDataset
 from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import CheckworthinessTask
 
@@ -12,7 +12,7 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": CT22CheckworthinessDataset,
+        "dataset": CT22HarmfulDataset,
         "dataset_args": {},
         "task": CheckworthinessTask,
         "task_args": {},
