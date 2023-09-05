@@ -1,13 +1,13 @@
 import os
 
-from llmebench.datasets import ArabicDiacritizationDataset
+from llmebench.datasets import WikiNewsDiacritizationDataset
 from llmebench.models import GPTModel
 from llmebench.tasks import ArabicDiacritizationTask
 
 
 def config():
     return {
-        "dataset": ArabicDiacritizationDataset,
+        "dataset": WikiNewsDiacritizationDataset,
         "dataset_args": {},
         "task": ArabicDiacritizationTask,
         "task_args": {},

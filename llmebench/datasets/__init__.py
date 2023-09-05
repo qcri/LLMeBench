@@ -4,7 +4,6 @@ from .ANERcorp import ANERcorpDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
-from .ArabicDiacritization import ArabicDiacritizationDataset
 from .ArabicPOS import ArabicPOSDataset
 from .ArabicSegmentation import ArabicSegmentationDataset
 from .ArapTweet import ArapTweetDataset
@@ -42,6 +41,7 @@ from .TyDiQA import TyDiQADataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset
 from .UnifiedFCStance import UnifiedFCStanceDataset
 from .WANLP22T3Propaganda import WANLP22T3PropagandaDataset
+from .WikiNewsDiacritization import WikiNewsDiacritizationDataset
 from .WikiNewsLemmatization import WikiNewsLemmatizationDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
