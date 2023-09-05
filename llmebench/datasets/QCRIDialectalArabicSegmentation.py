@@ -1,9 +1,9 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class ArabicSegmentationDataset(DatasetBase):
+class QCRIDialectalArabicSegmentationDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(ArabicSegmentationDataset, self).__init__(**kwargs)
+        super(QCRIDialectalArabicSegmentationDataset, self).__init__(**kwargs)
 
     def metadata():
         return {

@@ -1,7 +1,7 @@
 import os
 import re
 
-from llmebench.datasets import ArabicSegmentationDataset
+from llmebench.datasets import QCRIDialectalArabicSegmentationDataset
 from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import ArabicSegmentationTask
 
@@ -12,7 +12,6 @@ def config():
         ("glf", "glf.seg/glf.data_5.test.src.sent"),
         ("mgr", "mgr.seg/mgr.data_5.test.src.sent"),
         ("lev", "lev.seg/lev.data_5.test.src.sent"),
-        ("msa", "WikiNewsTruth.txt"),
     ]
     configs = []
     for name, testset in sets:
@@ -20,7 +19,7 @@ def config():
             {
                 "name": name,
                 "config": {
-                    "dataset": ArabicSegmentationDataset,
+                    "dataset": QCRIDialectalArabicSegmentationDataset,
                     "dataset_args": {},
                     "task": ArabicSegmentationTask,
                     "task_args": {},
@@ -31,7 +30,6 @@ def config():
                         "api_base": os.environ["AZURE_API_URL"],
                         "api_key": os.environ["AZURE_API_KEY"],
                         "engine_name": os.environ["ENGINE_NAME"],
-                        # "class_labels": ["m", "f"],
                         "max_tries": 3,
                     },
                     "general_args": {
