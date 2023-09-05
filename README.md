@@ -16,7 +16,7 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 </picture>
 </p>
 
-- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 11 languages, resulting in over **170 [becnhamrking assets](assets/benchmark_v1)** ready to run.
+- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in over **190 [becnhamrking assets](assets/benchmark_v1)** ready to run.
 - Easly extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
@@ -27,11 +27,11 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 2. [Get the data](https://github.com/qcri/LLMeBench/tree/readme_update1#get-the-benchmark-data).
 3. Evaluate!
    
-   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](llmebench/datasets/ArSASSentiment.py), you need to create an ["asset"](assets/benchmark_v1/sentiment/sentiment/ArSAS_Random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/benchmark_v1/sentiment/sentiment/ArSAS_Random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
    ```bash
-   python -m llmebench --filter '*ArSAS_Random*' assets/benchmark_v1/sentiment/ results/ 
+   python -m llmebench --filter '*ArSAS_Random*' assets/ar/sentiment_emotion_others/sentiment/ results/ 
    ```
-   where `ArSAS_Random` is the asset name refering to the `ArSAS` dataset name and the `Random` model, and `assets/benchmark_v1/sentiment/` is the directory where the asset for the sentiment analysis task can be found. Results will be saved in a directory called `results`. 
+   where `ArSAS_Random` is the asset name refering to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`. 
 
 ## Installation
 *pip package to be made available soon!*
