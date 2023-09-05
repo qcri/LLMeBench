@@ -19,7 +19,6 @@ class MultilabelPropagandaTask(TaskBase):
                 no_technique_label = tch
                 break
 
-
         # Handle cases when model fails!
         # Flatten true labels as it is a list of lists
         # use no_technique_label as the random label

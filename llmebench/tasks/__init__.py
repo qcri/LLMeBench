@@ -18,13 +18,13 @@ from .HarmfulDetection import HarmfulDetectionTask
 from .HateSpeech import HateSpeechTask
 from .Lemmatization import LemmatizationTask
 from .MachineTranslation import MachineTranslationTask
+from .MultilabelPropaganda import MultilabelPropagandaTask
 from .NER import NERTask
 from .NewsCatAkhbarona import NewsCatAkhbaronaTask
 from .NewsCatAlArabiya import NewsCatAlArabiyaTask
 from .NewsCatAlKhaleej import NewsCatAlKhaleejTask
 from .NewsCatASND import NewsCatASNDTask
 from .Offensive import OffensiveTask
-from .MultilabelPropaganda import MultilabelPropagandaTask
 from .Q2QSimDetect import Q2QSimDetectionTask
 from .QA import QATask
 from .Sarcasm import SarcasmTask

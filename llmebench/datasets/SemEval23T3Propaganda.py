@@ -12,7 +12,7 @@ class SemEval23T3PropagandaDataset(DatasetBase):
 
     def metadata():
         return {
-            "language": ["en", "es", "fr", "ge", "gr", "it", "ka", "po", "ru"],
+            "language": ["en", "es", "fr", "de", "el", "it", "ka", "pl", "ru"],
             "citation": """@inproceedings{piskorski-etal-2023-semeval,
                 title = "{S}em{E}val-2023 Task 3: Detecting the Category, the Framing, and the Persuasion Techniques in Online News in a Multi-lingual Setup",
                 author = "Piskorski, Jakub  and

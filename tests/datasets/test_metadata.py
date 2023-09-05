@@ -17,7 +17,7 @@ class TestDatasetMetadata(unittest.TestCase):
             [m[1] for m in inspect.getmembers(datasets, inspect.isclass)]
         )
 
-    def test_dataset_exports(self):
+    def test_dataset_metadata(self):
         "Test if all datasets export the required metadata"
 
         for dataset in self.datasets:
@@ -32,4 +32,7 @@ class TestDatasetMetadata(unittest.TestCase):
                 languages = [languages]
 
             for language in languages:
-                self.assertTrue(language == "multilingual" or tag_is_valid(language))
+                self.assertTrue(
+                    language == "multilingual" or tag_is_valid(language),
+                    f"{language} is not a valid language",
+                )
