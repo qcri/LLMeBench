@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import ArSASSentimentDataset
-from llmebench.models import HuggingFaceInferenceAPIModel
+from llmebench.models import HuggingFaceInferenceAPIModel, HuggingFaceTaskTypes
 from llmebench.tasks import SentimentTask
 
 
@@ -13,6 +13,7 @@ def config():
         "task_args": {},
         "model": HuggingFaceInferenceAPIModel,
         "model_args": {
+            "task_type": HuggingFaceTaskTypes.Text_Classification,
             "inference_api_url": "https://api-inference.huggingface.co/models/CAMeL-Lab/bert-base-arabic-camelbert-da-sentiment",
             "api_token": os.environ["HUGGINGFACE_API_TOKEN"],
             "max_tries": 5,
@@ -24,13 +25,10 @@ def config():
 
 
 def prompt(input_sample):
-    return [{"text": input_sample}]
+    return {"inputs": input_sample}
 
 
 def post_process(response):
-    try:
-        scores = [(c["label"], c["score"]) for c in response[0]]
-        label = sorted(scores, key=lambda x: x[1])[-1][0]
-        return upper(label[0]) + lower(label[1:])
-    except Exception:
-        pass
+    scores = [(c["label"], c["score"]) for c in response[0]]
+    label = sorted(scores, key=lambda x: x[1])[-1][0]
+    return label[0].upper() + label[1:].lower()

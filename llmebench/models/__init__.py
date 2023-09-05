@@ -1,4 +1,4 @@
 from .BLOOMPetal import BLOOMPetalModel
 from .GPT import GPTChatCompletionModel, GPTModel
-from .HuggingFace import HuggingFaceInferenceAPIModel
+from .HuggingFaceInferenceAPI import HuggingFaceInferenceAPIModel, HuggingFaceTaskTypes
 from .RandomGPT import RandomGPTModel
