@@ -20,7 +20,7 @@ from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
 from .Khouja20Factuality import Khouja20FactualityDataset
-from .UnifiedFCFactuality import UnifiedFCFactualityDataset
+from .Khouja20Stance import Khouja20StanceDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
@@ -33,14 +33,14 @@ from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
 from .QADI import QADIDataset
-from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
-from .Spam import SpamDataset
-from .Khouja20Stance import Khouja20StanceDataset
-from .UnifiedFCStance import UnifiedFCStanceDataset
 from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
+from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
+from .Spam import SpamDataset
 from .STSQ2Q import Q2QSimDataset
 from .TyDiQA import TyDiQADataset
+from .UnifiedFCFactuality import UnifiedFCFactualityDataset
+from .UnifiedFCStance import UnifiedFCStanceDataset
 from .WANLP22T3Propaganda import WANLP22T3PropagandaDataset
 from .WikiNewsLemmatization import WikiNewsLemmatizationDataset
 from .XNLI import XNLIDataset
