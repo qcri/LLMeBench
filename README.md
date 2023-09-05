@@ -4,7 +4,7 @@ This repository contains code for the [LLMeBench framework](https://youtu.be/FkQ
 
 <p align="center">
 <picture>
-<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/f1b927ea-fb7f-4dc6-b654-7c141f596067" width="400" height="140"/>
+<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/7a916563-6a61-4d20-9c77-c1978c0592f4" width="400" height="140"/>
 </picture>
 </p>
 
