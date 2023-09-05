@@ -11,6 +11,7 @@ from .ARCD import ARCDDataset
 from .ArSarcasm import ArSarcasmDataset
 from .ArSAS import ArSASDataset
 from .BanglaSentiment import BanglaSentimentDataset
+from .BibleMaghrebiDiacritization import BibleMaghrebiDiacritizationDataset
 from .COVID19Factuality import COVID19FactualityDataset
 from .CT22Attentionworthy import CT22AttentionworthyDataset
 from .CT22Checkworthiness import CT22CheckworthinessDataset
