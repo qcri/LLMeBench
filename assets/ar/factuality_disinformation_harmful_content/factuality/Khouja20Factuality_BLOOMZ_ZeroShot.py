@@ -1,20 +1,15 @@
 import os
-import random
-import re
 
-from llmebench.datasets import FactualityKhouja20Dataset
+from llmebench.datasets import Khouja20FactualityDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import FactualityKhouja20Task
-
-
-random.seed(1333)
+from llmebench.tasks import Khouja20FactualityTask
 
 
 def config():
     return {
-        "dataset": FactualityKhouja20Dataset,
+        "dataset": Khouja20FactualityDataset,
         "dataset_args": {},
-        "task": FactualityKhouja20Task,
+        "task": Khouja20FactualityTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

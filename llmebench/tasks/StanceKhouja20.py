@@ -3,9 +3,9 @@ from sklearn.metrics import f1_score
 from llmebench.tasks.task_base import TaskBase
 
 
-class StanceKhouja20Task(TaskBase):
+class Khouja20StanceTask(TaskBase):
     def __init__(self, **kwargs):
-        super(StanceKhouja20Task, self).__init__(**kwargs)
+        super(Khouja20StanceTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
         predicted_labels = [

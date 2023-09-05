@@ -1,15 +1,15 @@
 import os
 
-from llmebench.datasets import FactualityKhouja20Dataset
+from llmebench.datasets import Khouja20FactualityDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import FactualityKhouja20Task
+from llmebench.tasks import Khouja20FactualityTask
 
 
 def config():
     return {
-        "dataset": FactualityKhouja20Dataset,
+        "dataset": Khouja20FactualityDataset,
         "dataset_args": {},
-        "task": FactualityKhouja20Task,
+        "task": Khouja20FactualityTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {
@@ -22,17 +22,19 @@ def config():
         },
         "general_args": {
             "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/train.csv"
-            },
         },
     }
 
 
-def prompt(input_sample, examples):
-    prompt_text = "Detect whether the information in the sentence is factually true or false. Answer only by true or false.\n\n"
+def prompt(input_sample):
+    prompt_text = (
+        "Detect whether the information in the sentence is factually true or false. "
+        "Answer only by true or false.\n\n"
+        + "Sentence: "
+        + input_sample
+        + "\nlabel: \n"
+    )
 
-    fs_prompt = few_shot_prompt(input_sample, prompt_text, examples)
     return [
         {
             "role": "system",
@@ -40,28 +42,9 @@ def prompt(input_sample, examples):
         },
         {
             "role": "user",
-            "content": fs_prompt,
+            "content": prompt_text,
         },
     ]
-
-
-def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt
-    for example in examples:
-        sent = example["input"]
-        label = example["label"]
-
-        out_prompt = (
-            out_prompt + "Sentence: " + sent + "\n" + "label: " + label + "\n\n"
-        )
-
-    # Append the sentence we want the model to predict for but leave the Label blank
-    out_prompt = out_prompt + "Sentence: " + input_sample + "\nlabel: \n"
-
-    # print("=========== FS Prompt =============\n")
-    # print(out_prompt)
-
-    return out_prompt
 
 
 def post_process(response):

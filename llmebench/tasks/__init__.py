@@ -12,8 +12,8 @@ from .DemographyNameInfo import DemographyNameInfoTask
 from .DialectID import DialectIDTask
 from .Emotion import EmotionTask
 from .FactualityCOVID19 import FactualityCOVID19Task
-from .FactualityKhouja20 import FactualityKhouja20Task
-from .FactualityUnifiedFC import FactualityUnifiedFCTask
+from .FactualityKhouja20 import Khouja20FactualityTask
+from .FactualityUnifiedFC import UnifiedFCFactualityTask
 from .HarmfulDetection import HarmfulDetectionTask
 from .HateSpeech import HateSpeechTask
 from .Lemmatization import LemmatizationTask
@@ -30,8 +30,8 @@ from .QA import QATask
 from .Sarcasm import SarcasmTask
 from .Sentiment import SentimentTask
 from .Spam import SpamTask
-from .StanceKhouja20 import StanceKhouja20Task
-from .StanceUnifiedFC import StanceUnifiedFCTask
+from .StanceKhouja20 import Khouja20StanceTask
+from .StanceUnifiedFC import UnifiedFCStanceTask
 from .STSTrack1 import STSTrack1Task
 from .STSTrack2 import STSTrack2Task
 from .Subjectivity import SubjectivityTask

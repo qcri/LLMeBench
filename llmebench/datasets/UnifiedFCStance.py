@@ -1,14 +1,11 @@
 import json
-import os
-
-import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class StanceUnifiedFCDataset(DatasetBase):
+class UnifiedFCStanceDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(StanceUnifiedFCDataset, self).__init__(**kwargs)
+        super(UnifiedFCStanceDataset, self).__init__(**kwargs)
 
     def metadata():
         return {

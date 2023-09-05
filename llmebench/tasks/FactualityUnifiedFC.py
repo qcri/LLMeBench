@@ -3,9 +3,9 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from llmebench.tasks.task_base import TaskBase
 
 
-class FactualityUnifiedFCTask(TaskBase):
+class UnifiedFCFactualityTask(TaskBase):
     def __init__(self, **kwargs):
-        super(FactualityUnifiedFCTask, self).__init__(**kwargs)
+        super(UnifiedFCFactualityTask, self).__init__(**kwargs)
 
     def evaluate(self, gold_labels, pred_labels):
         pred_labels = [

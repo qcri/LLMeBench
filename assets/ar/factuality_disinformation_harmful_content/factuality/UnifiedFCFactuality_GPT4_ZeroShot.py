@@ -2,9 +2,9 @@ import os
 import random
 import re
 
-from llmebench.datasets import FactualityUnifiedFCDataset
+from llmebench.datasets import UnifiedFCFactualityDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import FactualityUnifiedFCTask
+from llmebench.tasks import UnifiedFCFactualityTask
 
 
 random.seed(1333)
@@ -12,9 +12,9 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": FactualityUnifiedFCDataset,
+        "dataset": UnifiedFCFactualityDataset,
         "dataset_args": {},
-        "task": FactualityUnifiedFCTask,
+        "task": UnifiedFCFactualityTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

@@ -1,16 +1,16 @@
 import os
 import re
 
-from llmebench.datasets import StanceUnifiedFCDataset
+from llmebench.datasets import UnifiedFCStanceDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import StanceUnifiedFCTask
+from llmebench.tasks import UnifiedFCStanceTask
 
 
 def config():
     return {
-        "dataset": StanceUnifiedFCDataset,
+        "dataset": UnifiedFCStanceDataset,
         "dataset_args": {},
-        "task": StanceUnifiedFCTask,
+        "task": UnifiedFCStanceTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {

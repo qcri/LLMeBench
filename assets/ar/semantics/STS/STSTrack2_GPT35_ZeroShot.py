@@ -1,14 +1,14 @@
 import os
 import re
 
-from llmebench.datasets import STSArSemEval17Track2Dataset
+from llmebench.datasets import SemEval17T2STSDataset
 from llmebench.models import GPTModel, RandomGPTModel
 from llmebench.tasks import STSTrack2Task
 
 
 def config():
     return {
-        "dataset": STSArSemEval17Track2Dataset,
+        "dataset": SemEval17T2STSDataset,
         "dataset_args": {},
         "task": STSTrack2Task,
         "task_args": {},

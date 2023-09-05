@@ -1,15 +1,15 @@
 import os
 
-from llmebench.datasets import StanceKhouja20Dataset
+from llmebench.datasets import Khouja20FactualityDataset
 from llmebench.models import GPTModel, RandomGPTModel
-from llmebench.tasks import StanceKhouja20Task
+from llmebench.tasks import Khouja20FactualityTask
 
 
 def config():
     return {
-        "dataset": StanceKhouja20Dataset,
+        "dataset": Khouja20FactualityDataset,
         "dataset_args": {},
-        "task": StanceKhouja20Task,
+        "task": Khouja20FactualityTask,
         "task_args": {},
         "model": GPTModel,
         "model_args": {
@@ -18,11 +18,11 @@ def config():
             "api_base": os.environ["AZURE_API_URL"],
             "api_key": os.environ["AZURE_API_KEY"],
             "engine_name": "gpt",
-            "class_labels": ["agree", "disagree"],
-            "max_tries": 3,
+            "class_labels": ["true", "false"],
+            "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/test.csv"
+            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv"
         },
     }
 
@@ -33,7 +33,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f'Can you check if first sentence agree or disagree with second sentence? Say only agree or disagree.\n\n first-sentence: {input_sample["sentence_1"]}\nsecond-sentence: {input_sample["sentence_2"]}\n label: \n',
+                "text": f"Detect the information in the sentence as correct or incorrect. Use label as true or false.\n\ntext: {input_sample} \nlabel: \n",
             }
         ],
     }
@@ -41,5 +41,11 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["choices"][0]["text"].lower().replace(".", "")
+    if "label: true" in label or label == "true":
+        label_fixed = "true"
+    elif "label: false" in label or label == "false":
+        label_fixed = "false"
+    else:
+        label_fixed = None
 
-    return label
+    return label_fixed

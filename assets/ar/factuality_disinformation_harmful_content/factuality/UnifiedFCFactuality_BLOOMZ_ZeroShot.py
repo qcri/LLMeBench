@@ -1,20 +1,15 @@
 import os
-import random
-import re
 
-from llmebench.datasets import FactualityUnifiedFCDataset
+from llmebench.datasets import UnifiedFCFactualityDataset
 from llmebench.models import BLOOMPetalModel
-from llmebench.tasks import FactualityUnifiedFCTask
-
-
-random.seed(1333)
+from llmebench.tasks import UnifiedFCFactualityTask
 
 
 def config():
     return {
-        "dataset": FactualityUnifiedFCDataset,
+        "dataset": UnifiedFCFactualityDataset,
         "dataset_args": {},
-        "task": FactualityUnifiedFCTask,
+        "task": UnifiedFCFactualityTask,
         "task_args": {},
         "model": BLOOMPetalModel,
         "model_args": {

@@ -1,11 +1,9 @@
-import pandas as pd
-
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class FactualityKhouja20Dataset(DatasetBase):
+class Khouja20FactualityDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(FactualityKhouja20Dataset, self).__init__(**kwargs)
+        super(Khouja20FactualityDataset, self).__init__(**kwargs)
 
     def metadata():
         return {

@@ -1,9 +1,9 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class STSArSemEval17Track1Dataset(DatasetBase):
+class SemEval17T1STSDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(STSArSemEval17Track1Dataset, self).__init__(**kwargs)
+        super(SemEval17T1STSDataset, self).__init__(**kwargs)
 
     def metadata():
         return {

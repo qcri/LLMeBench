@@ -1,15 +1,15 @@
 import os
 
-from llmebench.datasets import FactualityUnifiedFCDataset
+from llmebench.datasets import Khouja20FactualityDataset
 from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import FactualityUnifiedFCTask
+from llmebench.tasks import Khouja20FactualityTask
 
 
 def config():
     return {
-        "dataset": FactualityUnifiedFCDataset,
+        "dataset": Khouja20FactualityDataset,
         "dataset_args": {},
-        "task": FactualityUnifiedFCTask,
+        "task": Khouja20FactualityTask,
         "task_args": {},
         "model": GPTChatCompletionModel,
         "model_args": {
@@ -21,10 +21,9 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_fact_checking.tsv",
+            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/train.csv",
-                "deduplicate": False,  # N-fold evaluation
+                "train_data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/train.csv"
             },
         },
     }

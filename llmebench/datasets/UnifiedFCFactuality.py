@@ -1,9 +1,9 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class FactualityUnifiedFCDataset(DatasetBase):
+class UnifiedFCFactualityDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(FactualityUnifiedFCDataset, self).__init__(**kwargs)
+        super(UnifiedFCFactualityDataset, self).__init__(**kwargs)
 
     def metadata():
         return {

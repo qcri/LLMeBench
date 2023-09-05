@@ -19,8 +19,8 @@ from .CT22Claim import CT22ClaimDataset
 from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
-from .FactualityKhouja20 import FactualityKhouja20Dataset
-from .FactualityUnifiedFC import FactualityUnifiedFCDataset
+from .Khouja20Factuality import Khouja20FactualityDataset
+from .UnifiedFCFactuality import UnifiedFCFactualityDataset
 from .Lemmatization import LemmatizationDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
@@ -36,10 +36,10 @@ from .PADT import PADTDataset
 from .QADI import QADIDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
-from .StanceKhouja20 import StanceKhouja20Dataset
-from .StanceUnifiedFC import StanceUnifiedFCDataset
-from .STSArSemEval17Track1 import STSArSemEval17Track1Dataset
-from .STSArSemEval17Track2 import STSArSemEval17Track2Dataset
+from .Khouja20Stance import Khouja20StanceDataset
+from .UnifiedFCStance import UnifiedFCStanceDataset
+from .SemEval17T1STS import SemEval17T1STSDataset
+from .SemEval17T2STS import SemEval17T2STSDataset
 from .STSQ2Q import Q2QSimDataset
 from .TyDiQA import TyDiQADataset
 from .WANLP22T3Propaganda import WANLP22T3PropagandaDataset

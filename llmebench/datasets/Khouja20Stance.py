@@ -1,9 +1,9 @@
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class StanceKhouja20Dataset(DatasetBase):
+class Khouja20StanceDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(StanceKhouja20Dataset, self).__init__(**kwargs)
+        super(Khouja20StanceDataset, self).__init__(**kwargs)
 
     def metadata():
         return {
