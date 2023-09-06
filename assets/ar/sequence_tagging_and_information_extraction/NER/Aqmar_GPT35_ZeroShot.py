@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import AqmarDataset
-from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.models import GPTModel
 from llmebench.tasks import NERTask
 
 

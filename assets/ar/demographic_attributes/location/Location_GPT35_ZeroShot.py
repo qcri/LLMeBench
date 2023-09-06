@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import LocationDataset
-from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.models import GPTModel
 from llmebench.tasks import DemographyLocationTask
 
 

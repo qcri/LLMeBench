@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import ADIDataset
-from llmebench.models import GPTChatCompletionModel, RandomGPTModel
+from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import DialectIDTask
 
 

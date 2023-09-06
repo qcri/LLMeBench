@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import SpamDataset
-from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.models import GPTModel
 from llmebench.tasks import SpamTask
 
 
