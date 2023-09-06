@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import OSACT4SubtaskADataset
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 from llmebench.tasks import OffensiveTask
 
 
@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": OffensiveTask,
         "task_args": {},
-        "model": BLOOMPetalModel,
+        "model": PetalsModel,
         "model_args": {
             "api_url": os.environ["API_URL"],
             "class_labels": ["OFF", "NOT_OFF"],
