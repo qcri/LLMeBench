@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import ADIDataset
-from llmebench.models import GPTChatCompletionModel, RandomGPTModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import DialectIDTask
 
 
@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": DialectIDTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

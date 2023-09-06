@@ -3,7 +3,7 @@ import random
 import re
 
 from llmebench.datasets import WANLP22T3PropagandaDataset
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 from llmebench.tasks import MultilabelPropagandaTask
 
 
@@ -18,7 +18,7 @@ def config():
         },
         "task": MultilabelPropagandaTask,
         "task_args": {},
-        "model": BLOOMPetalModel,
+        "model": PetalsModel,
         "model_args": {
             "api_url": os.environ["API_URL"],
             "class_labels": [

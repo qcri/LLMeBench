@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import ArabGendDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import DemographyGenderTask
 
 
@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": DemographyGenderTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

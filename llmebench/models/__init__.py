@@ -1,3 +1,2 @@
-from .BLOOMPetal import BLOOMPetalModel
-from .GPT import GPTChatCompletionModel, GPTModel
-from .RandomGPT import RandomGPTModel
+from .OpenAI import LegacyOpenAIModel, OpenAIModel
+from .Petals import PetalsModel

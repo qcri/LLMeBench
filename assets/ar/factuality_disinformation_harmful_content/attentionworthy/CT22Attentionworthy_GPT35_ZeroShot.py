@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import CT22AttentionworthyDataset
-from llmebench.models import GPTModel
+from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import AttentionworthyTask
 
 
@@ -12,7 +12,7 @@ def config():
         "dataset_args": {},
         "task": AttentionworthyTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": LegacyOpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

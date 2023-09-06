@@ -2,7 +2,7 @@ import os
 import random
 
 from llmebench.datasets import NewsCatAlArabiyaDataset
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
 
 random.seed(1333)
@@ -14,7 +14,7 @@ def config():
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
-        "model": BLOOMPetalModel,
+        "model": PetalsModel,
         "model_args": {
             "api_url": os.environ["API_URL"],
             "class_labels": [
