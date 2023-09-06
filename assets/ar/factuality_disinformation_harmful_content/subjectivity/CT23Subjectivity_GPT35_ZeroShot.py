@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import CT23SubjectivityDataset
-from llmebench.models import GPTModel
+from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import SubjectivityTask
 
 
@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": SubjectivityTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": LegacyOpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

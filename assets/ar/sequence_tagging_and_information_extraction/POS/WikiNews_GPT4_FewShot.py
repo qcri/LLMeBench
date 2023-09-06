@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import WikiNewsPOSDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import ArabicPOSTask
 
 mapTags = {
@@ -100,7 +100,7 @@ def config():
         "dataset_args": {},
         "task": ArabicPOSTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

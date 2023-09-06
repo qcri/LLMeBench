@@ -3,7 +3,7 @@ import random
 import re
 
 from llmebench.datasets import CT23SubjectivityDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import SubjectivityTask
 
 
@@ -16,7 +16,7 @@ def config():
         "dataset_args": {},
         "task": SubjectivityTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

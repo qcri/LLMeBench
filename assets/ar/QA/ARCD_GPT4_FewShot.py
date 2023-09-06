@@ -2,7 +2,7 @@ import os
 import random
 
 from llmebench.datasets import ARCDDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import QATask
 
 random.seed(3333)
@@ -14,7 +14,7 @@ def config():
         "dataset_args": {},
         "task": QATask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

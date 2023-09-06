@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch
 
 from llmebench import Benchmark
-from llmebench.models import GPTModel
+from llmebench.models import LegacyOpenAIModel
 
 
 class TestAssetsForGPTPrompts(unittest.TestCase):
@@ -20,7 +20,9 @@ class TestAssetsForGPTPrompts(unittest.TestCase):
         all_assets = benchmark.find_assets()
 
         # Filter out assets not using the GPT model
-        cls.assets = [asset for asset in all_assets if asset["config"] in [GPTModel]]
+        cls.assets = [
+            asset for asset in all_assets if asset["config"] in [LegacyOpenAIModel]
+        ]
 
     @patch("os.environ")
     def test_gpt_prompts(self, os_env_mock):

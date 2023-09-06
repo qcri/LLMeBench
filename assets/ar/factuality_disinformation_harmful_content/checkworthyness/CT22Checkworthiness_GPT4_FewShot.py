@@ -3,7 +3,7 @@ import random
 import re
 
 from llmebench.datasets import CT22CheckworthinessDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import CheckworthinessTask
 
 
@@ -16,7 +16,7 @@ def config():
         "dataset_args": {},
         "task": CheckworthinessTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

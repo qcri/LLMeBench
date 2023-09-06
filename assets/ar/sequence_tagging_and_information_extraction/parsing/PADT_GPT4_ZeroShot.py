@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import PADTDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import ArabicParsingTask
 
 
@@ -12,7 +12,7 @@ def config():
         "dataset_args": {},
         "task": ArabicParsingTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
