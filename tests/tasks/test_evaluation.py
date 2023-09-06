@@ -2,26 +2,18 @@ import os
 
 import unittest
 
-from unittest.mock import patch
-
 from llmebench import Benchmark
 
 
 class TestAssetsTaskEvaluation(unittest.TestCase):
     @classmethod
-    @patch("os.environ")
-    def setUpClass(cls, os_env_mock):
-        # Handle environment variables required at runtime
-        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
-
+    def setUpClass(cls):
         # Load the benchmark assets
         benchmark = Benchmark(benchmark_dir="assets")
         cls.assets = benchmark.find_assets()
 
-    @patch("os.environ")
-    def test_task_evaluation_failure(self, os_env_mock):
+    def test_task_evaluation_failure(self):
         "Test if tasks used in assets handle failed runs"
-        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
                 config = asset["config"]
@@ -39,10 +31,8 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
                         ""
                     )
 
-    @patch("os.environ")
-    def test_task_evaluation_format(self, os_env_mock):
+    def test_task_evaluation_format(self):
         "Test if evaluation function returns a dict"
-        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
                 config = asset["config"]
