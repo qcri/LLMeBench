@@ -5,7 +5,6 @@ from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import NewsCategorizationTask
 
 
-
 def config():
     return {
         "dataset": NewsCatASNDDataset,
