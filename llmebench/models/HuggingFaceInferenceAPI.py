@@ -53,7 +53,6 @@ class HuggingFaceInferenceAPIModel(ModelBase):
         )
         if not response.ok:
             if response.status_code == 503:  # model loading
-                time.sleep(1)
                 raise HuggingFaceModelLoadingError(response.reason)
             else:
                 raise Exception(response.reason)
@@ -81,19 +80,23 @@ class HuggingFaceInferenceAPIModel(ModelBase):
 
         output_type = output_types.get(self.task_type, dict)
 
-        if output_type == list:
-            return ", ".join([str(s) for s in response])
+        try:
+            if output_type == list:
+                return ", ".join([str(s) for s in response])
 
-        if isinstance(response, list) and len(response) == 1:
-            response = response[0]
+            if isinstance(response, list) and len(response) == 1:
+                response = response[0]
 
-        if output_type == dict:
-            keys = output_dict_summary_keys[self.task_type]
-            if isinstance(response, list):  # list of dictionaries
-                return ", ".join(
-                    [":".join([str(d[key]) for key in keys]) for d in response]
-                )
+            if output_type == dict:
+                keys = output_dict_summary_keys[self.task_type]
+                if isinstance(response, list):  # list of dictionaries
+                    return ", ".join(
+                        [":".join([str(d[key]) for key in keys])
+                         for d in response]
+                    )
+                else:
+                    return ":".join([str(response[key]) for key in keys])
             else:
-                return ":".join([str(response[key]) for key in keys])
-        else:
+                return response
+        except Exception:
             return response
