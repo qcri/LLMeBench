@@ -13,7 +13,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "class_labels": ["ADULT", "NOT_ADULT"],
             "max_tries": 10,
         },
