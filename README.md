@@ -87,7 +87,9 @@ python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --
    - prepending `AZURE_API_URL="..." AZURE_API_KEY="..."` to the above command.
 
 #### Outputs format
-- `<results-dir>`: The framework will create a sub-folder per benchmarking asset in this directory. A sub-folder will contain:
+`<results-dir>`: This flolder will contain the outputs resulting from running assets. It follows this structure:
+- **all_results.json**: A file that presents summarized output of all assets that were run where `<results-dir>` was specified as the output directory. 
+- The framework will create a sub-folder per benchmarking asset in this directory. A sub-folder will contain:
   - **_n.json_**: A file per dataset sample, where *n* indicates sample order in the dataset input file. This file contains input sample, full prompt sent to the model, full model response, and the model output after post-processing as defined in the asset file.
   - **_summary.jsonl_**: Lists all input samples that successfuly ran through the pipeline, and for each, the raw model prediction, and the post-processed model prediction.
   -  **_summary_failed.jsonl_**: Lists all input samples that didn't get a successful response from the model, in addition to output model's reason behind failure.
