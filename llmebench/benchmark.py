@@ -218,6 +218,9 @@ class Benchmark(object):
         if not filter_str.startswith("*"):
             filter_str = f"*{filter_str}"
 
+        if not filter_str.endswith(".py") and not filter_str.endswith("*"):
+            filter_str = f"{filter_str}*"
+
         assets = []
         match_str = str(self.benchmark_dir / "**" / "*.py")
         for asset in glob(match_str, recursive=True):
