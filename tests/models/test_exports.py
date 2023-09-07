@@ -9,7 +9,7 @@ from llmebench import utils
 from llmebench.models.model_base import ModelBase
 
 
-class TestDatasetExports(unittest.TestCase):
+class TestModelExports(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Search for all implemented models
