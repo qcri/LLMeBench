@@ -43,18 +43,28 @@ class OpenAIModelBase(ModelBase):
 
         openai.api_type = api_type
 
+        if api_type == "azure" and api_base is None:
+            raise Exception(
+                "API URL must be provided as model config or environment variable (`AZURE_API_BASE`)"
+            )
+
         if api_base:
             openai.api_base = api_base
+
+        if api_type == "azure" and api_version is None:
+            raise Exception(
+                "API version must be provided as model config or environment variable (`AZURE_API_VERSION`)"
+            )
 
         if api_version:
             openai.api_version = api_version
 
-        if api_key:
-            openai.api_key = api_key
-        if openai.api_key is None:
+        if api_key is None:
             raise Exception(
                 "API Key must be provided as model config or environment variable (`OPENAI_API_KEY` or `AZURE_API_KEY`)"
             )
+
+        openai.api_key = api_key
 
         self.model_params = {}
 
@@ -99,7 +109,7 @@ class OpenAIModelBase(ModelBase):
             "api_type": os.getenv("OPEN_API_TYPE"),
             "api_version": os.getenv("OPENAI_API_VERSION"),
             "api_base": os.getenv("OPENAI_API_BASE"),
-            "api_key": os.getenv("OPEN_API_KEY"),
+            "api_key": os.getenv("OPENAI_API_KEY"),
             "model": os.getenv("OPENAI_MODEL"),
         }
 
