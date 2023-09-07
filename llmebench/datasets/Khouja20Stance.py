@@ -1,0 +1,43 @@
+from llmebench.datasets.dataset_base import DatasetBase
+
+
+class Khouja20StanceDataset(DatasetBase):
+    def __init__(self, **kwargs):
+        super(Khouja20StanceDataset, self).__init__(**kwargs)
+
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@article{khouja2020stance,
+                title={Stance prediction and claim verification: An Arabic perspective},
+                author={Khouja, Jude},
+                journal={arXiv preprint arXiv:2005.10410},
+                year={2020}
+            }""",
+        }
+
+    def get_data_sample(self):
+        return {
+            "input": {
+                "sentence_1": "الجملة الاولى",
+                "sentence_2": "الجملة الثانية",
+            },
+            "label": "agree",
+        }
+
+    def load_data(self, data_path, no_labels=False):
+        data = []
+        with open(data_path, "r", encoding="utf-8") as fp:
+            next(fp)  # skip header
+            for line_idx, line in enumerate(fp):
+                s1, s2, label = line.strip().split(",")
+
+                data.append(
+                    {
+                        "input": {"sentence_1": s1.strip(), "sentence_2": s2.strip()},
+                        "label": label,
+                        "line_number": line_idx,
+                    }
+                )
+
+        return data
