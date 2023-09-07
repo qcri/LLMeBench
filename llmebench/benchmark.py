@@ -228,7 +228,7 @@ class Benchmark(object):
             module_name = Path(asset).name
             asset_name = asset[len(str(self.benchmark_dir)) + 1 : asset.rfind(".")]
 
-            if not fnmatch(module_path.lower(), f"{filter_str}".lower()):
+            if not fnmatch(module_path.lower(), filter_str.lower()):
                 logging.info(
                     f"Skipping {asset[len(str(self.benchmark_dir)) + 1 :]} because of --filter"
                 )
