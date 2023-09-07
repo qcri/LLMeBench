@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import NameInfoDataset
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 from llmebench.tasks import DemographyNameInfoTask
 
 
@@ -12,7 +12,7 @@ def config():
         "dataset_args": {},
         "task": DemographyNameInfoTask,
         "task_args": {},
-        "model": BLOOMPetalModel,
+        "model": PetalsModel,
         "model_args": {
             "api_url": os.environ["API_URL"],
             "class_labels": [

@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import SemEval23T3PropagandaDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
 
 
@@ -14,7 +14,7 @@ def config():
         },
         "task": MultilabelPropagandaTask,
         "task_args": {},
-        "model": GPTChatCompletionModel,
+        "model": OpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

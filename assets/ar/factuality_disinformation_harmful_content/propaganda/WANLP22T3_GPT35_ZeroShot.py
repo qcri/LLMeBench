@@ -3,7 +3,7 @@ import os
 import regex as re
 
 from llmebench.datasets import WANLP22T3PropagandaDataset
-from llmebench.models import GPTModel
+from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
 
 
@@ -15,7 +15,7 @@ def config():
         },
         "task": MultilabelPropagandaTask,
         "task_args": {},
-        "model": GPTModel,
+        "model": LegacyOpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",

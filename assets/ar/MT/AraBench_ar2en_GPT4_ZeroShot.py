@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import AraBenchDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import MachineTranslationTask
 
 
@@ -58,7 +58,7 @@ def config():
                     },
                     "task": MachineTranslationTask,
                     "task_args": {},
-                    "model": GPTChatCompletionModel,
+                    "model": OpenAIModel,
                     "model_args": {
                         "api_type": "azure",
                         "api_version": "2023-03-15-preview",

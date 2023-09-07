@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch
 
 from llmebench import Benchmark
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 
 
 class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
@@ -21,9 +21,7 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
 
         # Filter out assets not using the GPT model
         cls.assets = [
-            asset
-            for asset in all_assets
-            if asset["config"]["model"] in [GPTChatCompletionModel]
+            asset for asset in all_assets if asset["config"]["model"] in [OpenAIModel]
         ]
 
     @patch("os.environ")

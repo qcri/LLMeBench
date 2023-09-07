@@ -3,7 +3,7 @@ import openai
 from llmebench.models.model_base import ModelBase
 
 
-class GPTModel(ModelBase):
+class LegacyOpenAIModel(ModelBase):
     def __init__(
         self,
         api_type,
@@ -35,7 +35,7 @@ class GPTModel(ModelBase):
         self.system_message_template = "<|im_start|>system\n{}\n<|im_end|>"
         self.message_template = "\n<|im_start|>{}\n{}\n<|im_end|>"
 
-        super(GPTModel, self).__init__(
+        super(LegacyOpenAIModel, self).__init__(
             retry_exceptions=(openai.error.Timeout, openai.error.RateLimitError),
             **kwargs
         )
@@ -78,7 +78,7 @@ class GPTModel(ModelBase):
         return response
 
 
-class GPTChatCompletionModel(ModelBase):
+class OpenAIModel(ModelBase):
     def __init__(
         self,
         api_type,
@@ -107,7 +107,7 @@ class GPTChatCompletionModel(ModelBase):
         self.frequency_penalty = frequency_penalty
         self.presence_penalty = presence_penalty
 
-        super(GPTChatCompletionModel, self).__init__(
+        super(OpenAIModel, self).__init__(
             retry_exceptions=(openai.error.Timeout, openai.error.RateLimitError),
             **kwargs
         )

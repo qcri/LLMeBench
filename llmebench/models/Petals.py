@@ -5,7 +5,7 @@ from websockets.sync.client import connect
 from llmebench.models.model_base import ModelBase
 
 
-class BLOOMPetalFailure(Exception):
+class PetalsFailure(Exception):
     def __init__(self, failure_type, failure_message):
         self.type_mapping = {
             "processing": "Model Inference failure",
@@ -20,7 +20,7 @@ class BLOOMPetalFailure(Exception):
         )
 
 
-class BLOOMPetalModel(ModelBase):
+class PetalsModel(ModelBase):
     def __init__(
         self, api_url, timeout=20, temperature=0, top_p=0.95, max_tokens=1512, **kwargs
     ):
@@ -40,8 +40,8 @@ class BLOOMPetalModel(ModelBase):
         self.top_p = top_p
         self.max_tokens = max_tokens
 
-        super(BLOOMPetalModel, self).__init__(
-            retry_exceptions=(TimeoutError, BLOOMPetalFailure), **kwargs
+        super(PetalsModel, self).__init__(
+            retry_exceptions=(TimeoutError, PetalsFailure), **kwargs
         )
 
     def summarize_response(self, response):
@@ -70,8 +70,8 @@ class BLOOMPetalModel(ModelBase):
                 response = json.loads(received_message)
 
                 if not response["ok"]:
-                    raise BLOOMPetalFailure("processing", response["traceback"])
+                    raise PetalsFailure("processing", response["traceback"])
             else:
-                raise BLOOMPetalFailure(connect_message["traceback"])
+                raise PetalsFailure(connect_message["traceback"])
 
         return response

@@ -5,10 +5,10 @@ import unittest
 from unittest.mock import patch
 
 from llmebench import Benchmark
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 
 
-class TestAssetsForBLOOMPetalPrompts(unittest.TestCase):
+class TestAssetsForPetalsPrompts(unittest.TestCase):
     @classmethod
     @patch("os.environ")
     def setUpClass(cls, os_env_mock):
@@ -19,11 +19,9 @@ class TestAssetsForBLOOMPetalPrompts(unittest.TestCase):
         benchmark = Benchmark(benchmark_dir="assets")
         all_assets = benchmark.find_assets()
 
-        # Filter out assets not using the BLOOMPetal model
+        # Filter out assets not using the Petals model
         cls.assets = [
-            asset
-            for asset in all_assets
-            if asset["config"]["model"] in [BLOOMPetalModel]
+            asset for asset in all_assets if asset["config"]["model"] in [PetalsModel]
         ]
 
     @patch("os.environ")

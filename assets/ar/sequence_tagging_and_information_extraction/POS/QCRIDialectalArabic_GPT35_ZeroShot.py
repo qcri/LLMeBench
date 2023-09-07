@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import QCRIDialectalArabicPOSDataset
-from llmebench.models import GPTModel, RandomGPTModel
+from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import ArabicPOSTask
 
 mapTags = {
@@ -111,7 +111,7 @@ def config():
                     "dataset_args": {},
                     "task": ArabicPOSTask,
                     "task_args": {},
-                    "model": GPTModel,
+                    "model": LegacyOpenAIModel,
                     "model_args": {
                         "api_type": "azure",
                         "api_version": "2023-03-15-preview",

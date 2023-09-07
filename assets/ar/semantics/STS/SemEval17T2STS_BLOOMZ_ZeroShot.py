@@ -2,7 +2,7 @@ import os
 import re
 
 from llmebench.datasets import SemEval17T2STSDataset
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 from llmebench.tasks import STSTask
 
 
@@ -12,7 +12,7 @@ def config():
         "dataset_args": {},
         "task": STSTask,
         "task_args": {},
-        "model": BLOOMPetalModel,
+        "model": PetalsModel,
         "model_args": {
             "api_url": os.environ["API_URL"],
             "max_tries": 3,

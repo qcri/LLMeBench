@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import NewsCatASNDDataset
-from llmebench.models import GPTModel
+from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
 
@@ -11,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {"test": "useless"},
-        "model": GPTModel,
+        "model": LegacyOpenAIModel,
         "model_args": {
             "api_type": "azure",
             "api_version": "2023-03-15-preview",
