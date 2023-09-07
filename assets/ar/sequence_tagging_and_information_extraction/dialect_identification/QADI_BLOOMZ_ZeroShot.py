@@ -1,8 +1,9 @@
 import os
 
 from llmebench.datasets import QADIDataset
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 from llmebench.tasks import DialectIDTask
+
 
 def config():
     return {
@@ -10,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": DialectIDTask,
         "task_args": {},
-        "model": BLOOMPetalModel,
+        "model": PetalsModel,
         "model_args": {
             "api_url": os.environ["API_URL"],
             "class_labels": [
@@ -82,7 +83,7 @@ def post_process(response):
     label = response["outputs"].strip()
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
-    label = label.replace("Dialect: ", "").replace("dialect: ","")
+    label = label.replace("Dialect: ", "").replace("dialect: ", "")
     label = label.replace("label: ", "")
     label = label.strip()
 
