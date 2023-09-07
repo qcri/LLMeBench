@@ -36,6 +36,17 @@ class HuggingFaceModelLoadingError(Exception):
 
 
 class HuggingFaceInferenceAPIModel(ModelBase):
+    """An interface to HuggingFace Inference API
+
+    Args:
+        task_type: one of Summarization, Sentence_Similarity, Text_Generation, Text2Text_Generation, Translation,
+          Feature_Extraction, Fill_Mask, Question_Answering, Table_Question_Answering, Text_Classification,
+          Token_Classification, Named_Entity_Recognition, Zero_Shot_Classification, Conversational as found on
+          HuggingFace model's page
+        inference_api_url: the URL to the particular model, as found in the Deploy > Inference API menu in the model's page
+        api_token: HuggingFace API access key
+    """
+
     def __init__(self, task_type, inference_api_url, api_token, **kwargs):
         self.inference_api_url = inference_api_url
         self.api_token = api_token
@@ -59,6 +70,9 @@ class HuggingFaceInferenceAPIModel(ModelBase):
         return response.json()
 
     def summarize_response(self, response):
+        """
+        This method will attempt to interpret the output based on the task type. Otherwise, it returns the response object as is.
+        """
         output_types = {
             HuggingFaceTaskTypes.Summarization: str,
             HuggingFaceTaskTypes.Sentence_Similarity: list,
@@ -91,8 +105,7 @@ class HuggingFaceInferenceAPIModel(ModelBase):
                 keys = output_dict_summary_keys[self.task_type]
                 if isinstance(response, list):  # list of dictionaries
                     return ", ".join(
-                        [":".join([str(d[key]) for key in keys])
-                         for d in response]
+                        [":".join([str(d[key]) for key in keys]) for d in response]
                     )
                 else:
                     return ":".join([str(response[key]) for key in keys])
