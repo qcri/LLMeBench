@@ -7,15 +7,17 @@ class Q2QSimDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(Q2QSimDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """
-        @inproceedings{seelawi2019nsurl,
-            title={NSURL-2019 task 8: Semantic question similarity in arabic},
-            author={Seelawi, Haitham and Mustafa, Ahmad and Al-Bataineh, Hesham and Farhan, Wael and Al-Natsheh, Hussein T},
-            booktitle={Proceedings of the First International Workshop on NLP Solutions for Under Resourced Languages (NSURL 2019) co-located with ICNLSP 2019-Short Papers},
-            pages={1--8},
-            year={2019}
-        }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{seelawi2019nsurl,
+                title={NSURL-2019 task 8: Semantic question similarity in arabic},
+                author={Seelawi, Haitham and Mustafa, Ahmad and Al-Bataineh, Hesham and Farhan, Wael and Al-Natsheh, Hussein T},
+                booktitle={Proceedings of the First International Workshop on NLP Solutions for Under Resourced Languages (NSURL 2019) co-located with ICNLSP 2019-Short Papers},
+                pages={1--8},
+                year={2019}
+            }""",
+        }
 
     def get_data_sample(self):
         return {

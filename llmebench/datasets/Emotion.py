@@ -5,15 +5,18 @@ class EmotionDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(EmotionDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@misc{hassan2022crosslingual,
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@misc{hassan2022crosslingual,
                 title={Cross-lingual Emotion Detection}, 
                 author={Sabit Hassan and Shaden Shaar and Kareem Darwish},
                 year={2022},
                 eprint={2106.06017},
                 archivePrefix={arXiv},
                 primaryClass={cs.CL}
-                }"""
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "Tweet", "label": [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
