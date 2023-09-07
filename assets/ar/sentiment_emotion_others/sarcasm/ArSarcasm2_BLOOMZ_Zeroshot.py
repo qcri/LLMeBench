@@ -1,8 +1,9 @@
 import os
 
 from llmebench.datasets import ArSarcasmDataset
-from llmebench.models import BLOOMPetalModel
+from llmebench.models import PetalsModel
 from llmebench.tasks import SarcasmTask
+
 
 def config():
     return {
@@ -10,7 +11,7 @@ def config():
         "dataset_args": {},
         "task": SarcasmTask,
         "task_args": {},
-        "model": BLOOMPetalModel,
+        "model": PetalsModel,
         "model_args": {
             "api_url": os.environ["API_URL"],
             "class_labels": ["TRUE", "FALSE"],
@@ -24,10 +25,10 @@ def config():
 
 def prompt(input_sample):
     prompt_string = (
-            'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: '
-            + input_sample
-            + "\n"
-              "label: \n"
+        'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: '
+        + input_sample
+        + "\n"
+        "label: \n"
     )
     return {
         "prompt": prompt_string,
