@@ -1,12 +1,10 @@
-import os
-
 import unittest
 
 from llmebench import Benchmark
 from llmebench.models import LegacyOpenAIModel
 
 
-class TestAssetsForGPTPrompts(unittest.TestCase):
+class TestAssetsForLegacyOpenAIPrompts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Load the benchmark assets

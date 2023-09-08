@@ -1,6 +1,5 @@
-import os
-
 import unittest
+from unittest.mock import patch
 
 from llmebench import Benchmark
 from llmebench.models import PetalsModel
@@ -18,7 +17,7 @@ class TestAssetsForPetalsPrompts(unittest.TestCase):
             asset for asset in all_assets if asset["config"]["model"] in [PetalsModel]
         ]
 
-    def test_gpt_prompts(self):
+    def test_petals_prompts(self):
         "Test if all assets using this model return data in an appropriate format for prompting"
 
         n_shots = 3  # Sample for few shot prompts
@@ -39,3 +38,33 @@ class TestAssetsForPetalsPrompts(unittest.TestCase):
                 self.assertIsInstance(prompt, dict)
                 self.assertIn("prompt", prompt)
                 self.assertIsInstance(prompt["prompt"], str)
+
+    def test_petals_config(self):
+        "Test if model config parameters passed as arguments are used"
+        model = PetalsModel(api_url="petals.llmebench.org")
+
+        self.assertEqual(model.api_url, "petals.llmebench.org")
+
+    @patch.dict(
+        "os.environ",
+        {
+            "PETALS_API_URL": "petals.llmebench.org",
+        },
+    )
+    def test_petals_config_env_var(self):
+        "Test if model config parameters passed as environment variables are used"
+        model = PetalsModel()
+
+        self.assertEqual(model.api_url, "petals.llmebench.org")
+
+    @patch.dict(
+        "os.environ",
+        {
+            "PETALS_API_URL": "petals.llmebench.org",
+        },
+    )
+    def test_petals_config_priority(self):
+        "Test if model config parameters passed as environment variables are used"
+        model = PetalsModel(api_url="petals2.llmebench.org")
+
+        self.assertEqual(model.api_url, "petals2.llmebench.org")

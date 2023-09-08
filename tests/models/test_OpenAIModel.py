@@ -7,7 +7,7 @@ from llmebench import Benchmark
 from llmebench.models import OpenAIModel
 
 
-class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
+class TestAssetsForOpenAIPrompts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Load the benchmark assets
