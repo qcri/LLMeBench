@@ -13,7 +13,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from . import utils
+from llmebench import utils
 
 
 class SingleTaskBenchmark(object):
@@ -217,6 +217,12 @@ class Benchmark(object):
         self.benchmark_dir = Path(benchmark_dir)
 
     def find_assets(self, filter_str="*.py"):
+        if not filter_str.startswith("*"):
+            filter_str = f"*{filter_str}"
+
+        if not filter_str.endswith(".py") and not filter_str.endswith("*"):
+            filter_str = f"{filter_str}*"
+
         assets = []
         match_str = str(self.benchmark_dir / "**" / "*.py")
         for asset in glob(match_str, recursive=True):
@@ -224,7 +230,7 @@ class Benchmark(object):
             module_name = Path(asset).name
             asset_name = asset[len(str(self.benchmark_dir)) + 1 : asset.rfind(".")]
 
-            if not fnmatch(module_name.lower(), filter_str.lower()):
+            if not fnmatch(module_path.lower(), filter_str.lower()):
                 logging.info(
                     f"Skipping {asset[len(str(self.benchmark_dir)) + 1 :]} because of --filter"
                 )
