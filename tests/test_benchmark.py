@@ -67,6 +67,15 @@ class MockFailingAsset(MockAsset):
         raise Exception("Fail!")
 
 
+class MockMultiConfigAsset(MockAsset):
+    @staticmethod
+    def config():
+        return [
+            {"name": "Subasset 1", "config": MockAsset.config()},
+            {"name": "Subasset 2", "config": MockAsset.config()},
+        ]
+
+
 @patch("llmebench.utils.import_source_file", MagicMock(return_value=MockAsset))
 class TestBenchmarkAssetFinder(unittest.TestCase):
     @classmethod
@@ -270,3 +279,24 @@ class TestBenchmarkRunner(unittest.TestCase):
             with open(Path(self.results_dir.name) / "all_results.json") as fp:
                 results = json.load(fp)
                 self.assertEqual(len(results), 2)
+
+    @patch("llmebench.utils.import_source_file")
+    def test_multi_config_asset(self, asset_importer_mock):
+        "Run benchmark with multiconfig asset"
+
+        # Create dummy asset file
+        (Path(self.benchmark_dir.name) / "sample.py").touch(exist_ok=True)
+
+        asset_importer_mock.return_value = MockMultiConfigAsset
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                config = MockMultiConfigAsset.config()
+                self.assertEqual(len(results), len(config))
+
+                for subconfig in config:
+                    self.assertIn(f"sample/{subconfig['name']}", results)
