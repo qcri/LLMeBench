@@ -36,6 +36,7 @@ from .QCRIDialectalArabicSegmentation import QCRIDialectalArabicSegmentationData
 from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
+from .ShamiCorpus import ShamiDataset
 from .Spam import SpamDataset
 from .STSQ2Q import Q2QSimDataset
 from .TyDiQA import TyDiQADataset
@@ -49,4 +50,3 @@ from .WikiNewsSegmentation import WikiNewsSegmentationDataset
 from .XGLUEPOS import XGLUEPOSDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
-from .ShamiCorpus import ShamiDataset
