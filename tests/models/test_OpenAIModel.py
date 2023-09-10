@@ -46,6 +46,8 @@ class TestAssetsForOpenAIPrompts(unittest.TestCase):
                     self.assertIn("content", message)
                     self.assertIsInstance(message["content"], str)
 
+
+class TestOpenAIConfig(unittest.TestCase):
     def test_openai_config(self):
         "Test if model config parameters passed as arguments are used"
         model = OpenAIModel(
