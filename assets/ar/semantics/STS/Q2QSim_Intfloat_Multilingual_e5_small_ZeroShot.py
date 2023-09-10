@@ -16,7 +16,6 @@ def config():
         "model_args": {
             "task_type": HuggingFaceTaskTypes.Sentence_Similarity,
             "inference_api_url": "https://api-inference.huggingface.co/models/intfloat/multilingual-e5-small",
-            "api_token": os.environ["HUGGINGFACE_API_TOKEN"],
             "max_tries": 5,
         },
         "general_args": {

@@ -63,7 +63,6 @@ def config():
                     "model_args": {
                         "task_type": HuggingFaceTaskTypes.Translation,
                         "inference_api_url": "https://api-inference.huggingface.co/models/Helsinki-NLP/opus-mt-ar-en",
-                        "api_token": os.environ["HUGGINGFACE_API_TOKEN"],
                         "max_tries": 5,
                     },
                     "general_args": {"data_path": "data/MT/"},

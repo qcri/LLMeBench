@@ -15,7 +15,6 @@ def config():
         "model_args": {
             "task_type": HuggingFaceTaskTypes.Question_Answering,
             "inference_api_url": "https://api-inference.huggingface.co/models/timpal0l/mdeberta-v3-base-squad2",
-            "api_token": os.environ["HUGGINGFACE_API_TOKEN"],
             "max_tries": 5,
         },
         "general_args": {
