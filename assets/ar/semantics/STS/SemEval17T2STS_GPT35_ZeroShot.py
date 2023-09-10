@@ -11,7 +11,6 @@ def config():
         "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
-            "class_labels": "NA",
             "max_tries": 3,
         },
         "general_args": {

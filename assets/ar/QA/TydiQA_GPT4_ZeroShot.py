@@ -11,7 +11,6 @@ def config():
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": "NA",
             "max_tries": 50,
         },
         "general_args": {"data_path": "data/QA/tydiqa/tydiqa-goldp-dev-arabic.json"},

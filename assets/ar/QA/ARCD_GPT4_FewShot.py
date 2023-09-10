@@ -15,7 +15,6 @@ def config():
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": "NA",
             "max_tries": 30,
         },
         "general_args": {

@@ -13,7 +13,6 @@ def config():
         "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
-            # "class_labels": ["m", "f"],
             "max_tries": 3,
         },
         "general_args": {
