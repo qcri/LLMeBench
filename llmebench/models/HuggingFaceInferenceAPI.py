@@ -44,13 +44,18 @@ class HuggingFaceInferenceAPIModel(ModelBase):
           Token_Classification, Named_Entity_Recognition, Zero_Shot_Classification, Conversational as found on
           HuggingFace model's page
         inference_api_url: the URL to the particular model, as found in the Deploy > Inference API menu in the model's page
-        api_token: HuggingFace API access key
+        api_token: HuggingFace API access key (can also be read from enviroment variable HUGGINGFACE_API_TOKEN)
     """
 
-    def __init__(self, task_type, inference_api_url, api_token, **kwargs):
-        self.inference_api_url = inference_api_url
-        self.api_token = api_token
+    def __init__(self, task_type, inference_api_url, api_token=None, **kwargs):
         self.task_type = task_type
+        self.inference_api_url = inference_api_url
+        self.api_token = api_token or os.getenv("HUGGINGFACE_API_TOKEN")
+
+        if self.api_token is None:
+            raise Exception(
+                "API token must be provided as model config or environment variable (`HUGGINGFACE_API_TOKEN`)"
+            )
 
         super(HuggingFaceInferenceAPIModel, self).__init__(
             retry_exceptions=(TimeoutError, HuggingFaceModelLoadingError), **kwargs
