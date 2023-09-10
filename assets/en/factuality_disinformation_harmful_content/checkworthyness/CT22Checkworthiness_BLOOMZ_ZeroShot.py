@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import CT22CheckworthinessDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import CheckworthinessTask
@@ -13,7 +11,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "class_labels": ["0", "1"],
             "max_tries": 3,
         },

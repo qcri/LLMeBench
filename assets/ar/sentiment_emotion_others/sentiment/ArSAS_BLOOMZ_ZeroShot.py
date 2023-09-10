@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import ArSASDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import SentimentTask
@@ -13,7 +11,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
             "max_tries": 3,
         },

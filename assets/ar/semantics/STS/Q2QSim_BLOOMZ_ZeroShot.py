@@ -1,4 +1,3 @@
-import os
 import re
 
 from llmebench.datasets import Q2QSimDataset
@@ -14,7 +13,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "max_tries": 3,
         },
         "general_args": {

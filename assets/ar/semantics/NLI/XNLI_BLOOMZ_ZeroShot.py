@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import XNLIDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import XNLITask
@@ -13,7 +11,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "max_tries": 3,
         },
         "general_args": {"data_path": "data/XNLI/xnli.test.ar.tsv"},
