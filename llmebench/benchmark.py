@@ -338,41 +338,45 @@ def main():
         prompt_fn = asset["module"].prompt
         post_process_fn = asset["module"].post_process
 
-        logging.info(f"Running benchmark: {name}")
-        task_benchmark = SingleTaskBenchmark(
-            config,
-            prompt_fn,
-            post_process_fn,
-            cache_dir=args.results_dir / name,
-            ignore_cache=args.ignore_cache,
-            limit=args.limit,
-            n_shots=args.n_shots,
-        )
-
-        if task_benchmark.is_zeroshot() and args.n_shots > 0:
-            logging.warning(
-                f"{name}: Skipping because asset is zero shot and --n_shots is non zero"
+        try:
+            logging.info(f"Running benchmark: {name}")
+            task_benchmark = SingleTaskBenchmark(
+                config,
+                prompt_fn,
+                post_process_fn,
+                cache_dir=args.results_dir / name,
+                ignore_cache=args.ignore_cache,
+                limit=args.limit,
+                n_shots=args.n_shots,
             )
-            continue
 
-        if not task_benchmark.is_zeroshot() and args.n_shots == 0:
-            logging.warning(
-                f"{name}: Skipping because asset is few shot and --n_shots is zero"
-            )
-            continue
+            if task_benchmark.is_zeroshot() and args.n_shots > 0:
+                logging.warning(
+                    f"{name}: Skipping because asset is zero shot and --n_shots is non zero"
+                )
+                continue
 
-        task_results = task_benchmark.run_benchmark()
-        logging.info(f"{name}: {task_results['evaluation_scores']}")
+            if not task_benchmark.is_zeroshot() and args.n_shots == 0:
+                logging.warning(
+                    f"{name}: Skipping because asset is few shot and --n_shots is zero"
+                )
+                continue
 
-        task_result_path = task_benchmark.cache_dir / "results.json"
+            task_results = task_benchmark.run_benchmark()
+            logging.info(f"{name}: {task_results['evaluation_scores']}")
 
-        with open(task_result_path, "w") as fp:
-            json.dump(task_results, fp, ensure_ascii=False)
+            task_result_path = task_benchmark.cache_dir / "results.json"
 
-        if not task_benchmark.is_zeroshot():
-            name = f"{name}_{task_benchmark.n_shots}"
+            with open(task_result_path, "w") as fp:
+                json.dump(task_results, fp, ensure_ascii=False)
 
-        all_results[name] = task_results
+            if not task_benchmark.is_zeroshot():
+                name = f"{name}_{task_benchmark.n_shots}"
+
+            all_results[name] = task_results
+        except Exception as e:
+            logging.error(f"{name} failed to run")
+            traceback.print_exc()
 
     with open(all_results_path, "w") as fp:
         json.dump(all_results, fp, ensure_ascii=False)
