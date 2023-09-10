@@ -21,3 +21,6 @@ data
 
 # Temporary
 tmp
+
+# Model configs
+envs

@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import ARCDDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import QATask
@@ -13,12 +11,6 @@ def config():
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": "NA",
             "max_tries": 50,
         },
         "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},

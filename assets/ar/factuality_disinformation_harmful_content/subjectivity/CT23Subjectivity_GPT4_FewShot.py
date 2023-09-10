@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import CT23SubjectivityDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import SubjectivityTask
@@ -13,11 +11,6 @@ def config():
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
         },

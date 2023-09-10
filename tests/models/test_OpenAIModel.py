@@ -1,20 +1,15 @@
-import os
-
 import unittest
-
 from unittest.mock import patch
+
+import openai
 
 from llmebench import Benchmark
 from llmebench.models import OpenAIModel
 
 
-class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
+class TestAssetsForOpenAIPrompts(unittest.TestCase):
     @classmethod
-    @patch("os.environ")
-    def setUpClass(cls, os_env_mock):
-        # Handle environment variables required at runtime
-        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
-
+    def setUpClass(cls):
         # Load the benchmark assets
         benchmark = Benchmark(benchmark_dir="assets")
         all_assets = benchmark.find_assets()
@@ -24,10 +19,8 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
             asset for asset in all_assets if asset["config"]["model"] in [OpenAIModel]
         ]
 
-    @patch("os.environ")
-    def test_gpt_prompts(self, os_env_mock):
+    def test_openai_prompts(self):
         "Test if all assets using this model return data in an appropriate format for prompting"
-        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
 
         n_shots = 3  # Sample for few shot prompts
 
@@ -52,3 +45,68 @@ class TestAssetsForGPTChatCompletionPrompts(unittest.TestCase):
                     self.assertIsInstance(message["role"], str)
                     self.assertIn("content", message)
                     self.assertIsInstance(message["content"], str)
+
+    def test_openai_config(self):
+        "Test if model config parameters passed as arguments are used"
+        model = OpenAIModel(
+            api_type="llmebench", api_key="secret-key", model_name="private-model"
+        )
+
+        self.assertEqual(openai.api_type, "llmebench")
+        self.assertEqual(openai.api_key, "secret-key")
+        self.assertEqual(model.model_params["model"], "private-model")
+
+    def test_openai_config_azure(self):
+        "Test if model config parameters passed as arguments are used (azure)"
+        model = OpenAIModel(
+            api_type="azure",
+            api_key="secret-key",
+            engine_name="private-model",
+            api_version="v1",
+            api_base="url.llmebench.org",
+        )
+
+        self.assertEqual(openai.api_type, "azure")
+        self.assertEqual(openai.api_key, "secret-key")
+        self.assertEqual(openai.api_version, "v1")
+        self.assertEqual(model.model_params["engine"], "private-model")
+
+    @patch.dict(
+        "os.environ",
+        {
+            "AZURE_API_VERSION": "v1",
+            "AZURE_API_URL": "url",
+            "AZURE_API_KEY": "secret-key",
+            "AZURE_ENGINE_NAME": "private-model",
+        },
+    )
+    def test_openai_config_env_var_azure(self):
+        "Test if model config parameters passed as environment variables are used (azure)"
+        model = OpenAIModel()
+
+        self.assertEqual(openai.api_type, "azure")
+        self.assertEqual(openai.api_key, "secret-key")
+        self.assertEqual(openai.api_version, "v1")
+        self.assertEqual(model.model_params["engine"], "private-model")
+
+    @patch.dict(
+        "os.environ", {"OPENAI_API_KEY": "secret-key", "OPENAI_MODEL": "private-model"}
+    )
+    def test_openai_config_env_var_openai(self):
+        "Test if model config parameters passed as environment variables are used (openai)"
+        model = OpenAIModel()
+
+        self.assertEqual(openai.api_type, "openai")
+        self.assertEqual(openai.api_key, "secret-key")
+        self.assertEqual(model.model_params["model"], "private-model")
+
+    @patch.dict(
+        "os.environ", {"OPENAI_API_KEY": "secret-key", "OPENAI_MODEL": "private-model"}
+    )
+    def test_openai_config_priority(self):
+        "Test if model config parameters override environment variables"
+        model = OpenAIModel(model_name="another-model")
+
+        self.assertEqual(openai.api_type, "openai")
+        self.assertEqual(openai.api_key, "secret-key")
+        self.assertEqual(model.model_params["model"], "another-model")

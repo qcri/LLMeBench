@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import CT23SubjectivityDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import SubjectivityTask
@@ -13,7 +11,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 3,
         },

@@ -11,6 +11,8 @@ from glob import glob
 from itertools import zip_longest
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from llmebench import utils
 
 
@@ -287,6 +289,10 @@ def main():
         help="Limit the number of input instances that will be processed",
     )
 
+    parser.add_argument(
+        "-e", "--env", type=Path, help="Path to an .env file to load model parameters"
+    )
+
     group = parser.add_argument_group("Few Shot Experiments")
     group.add_argument(
         "-n",
@@ -306,6 +312,9 @@ def main():
         stream=sys.stdout,
         format="%(asctime)s %(levelname)s %(message)s",
     )
+
+    if args.env:
+        load_dotenv(args.env)
 
     benchmark = Benchmark(args.benchmark_dir)
 
