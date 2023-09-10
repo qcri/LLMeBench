@@ -10,13 +10,11 @@ class XQuADDataset(SQuADBase):
     def metadata():
         return {
             "language": "ar",
-            "citation": """@article{Artetxe:etal:2019,
-                author={Mikel Artetxe and Sebastian Ruder and Dani Yogatama},
-                title={On the cross-lingual transferability of monolingual representations},
-                journal={CoRR},
-                volume={abs/1910.11856},
-                year={2019},
-                archivePrefix={arXiv},
-                eprint={1910.11856}
+            "citation": """@inproceedings{artetxe2020cross,
+                title={On the Cross-lingual Transferability of Monolingual Representations},
+                author={Artetxe, Mikel and Ruder, Sebastian and Yogatama, Dani},
+                booktitle={Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics},
+                pages={4623--4637},
+                year={2020}
             }""",
         }

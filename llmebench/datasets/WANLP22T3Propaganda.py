@@ -15,7 +15,7 @@ class WANLP22T3PropagandaDataset(DatasetBase):
         return {
             "language": "ar",
             "citation": """@inproceedings{alam2022overview,
-              title={Overview of the $\\{$WANLP$\\}$ 2022 Shared Task on Propaganda Detection in $\\{$A$\\}$ rabic},
+              title={Overview of the $\\{$WANLP$\\}$ 2022 Shared Task on Propaganda Detection in $\\{$A$\\}$rabic},
               author={Alam, Firoj and Mubarak, Hamdy and Zaghouani, Wajdi and Da San Martino, Giovanni and Nakov, Preslav and others},
               booktitle={Proceedings of the The Seventh Arabic Natural Language Processing Workshop (WANLP)},
               pages={108--118},

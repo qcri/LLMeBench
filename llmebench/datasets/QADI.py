@@ -9,7 +9,7 @@ class QADIDataset(DatasetBase):
         return {
             "language": "ar",
             "citation": """@inproceedings{abdelali2021qadi,
-                title={QADI: Arabic dialect identification in the wild},
+                title={{QADI}: Arabic dialect identification in the wild},
                 author={Abdelali, Ahmed and Mubarak, Hamdy and Samih, Younes and Hassan, Sabit and Darwish, Kareem},
                 booktitle={Proceedings of the Sixth Arabic Natural Language Processing Workshop},
                 pages={1--10},
