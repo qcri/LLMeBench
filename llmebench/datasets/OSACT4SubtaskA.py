@@ -19,7 +19,7 @@ class OSACT4SubtaskADataset(DatasetBase):
                   Mubarak, Hamdy  and
                   Derczynski, Leon  and
                   Pitenis, Zeses  and
-                  {\c{C}}{\"o}ltekin, {\c{C}}a{\u{g}}r{\i}},
+                  {\\c{C}}{\\"o}ltekin, {\\c{C}}a{\\u{g}}r{\\i}},
                 booktitle = "Proceedings of the Fourteenth Workshop on Semantic Evaluation",
                 month = dec,
                 year = "2020",

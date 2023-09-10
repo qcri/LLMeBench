@@ -8,9 +8,7 @@ class NameInfoDataset(DatasetBase):
     def metadata():
         return {
             "language": "ar",
-            "citation": """@inproceedings{Under review...}
-            }
-            """,
+            "citation": """@inproceedings{Under review...}""",
         }
 
     def get_data_sample(self):
