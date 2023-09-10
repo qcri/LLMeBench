@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import OSACT4SubtaskADataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import OffensiveTask

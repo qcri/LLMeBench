@@ -1,4 +1,3 @@
-import os
 import re
 
 from llmebench.datasets import SemEval17T1STSDataset

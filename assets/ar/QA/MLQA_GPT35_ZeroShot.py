@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import MLQADataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import QATask

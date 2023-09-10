@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import UnifiedFCStanceDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import StanceTask

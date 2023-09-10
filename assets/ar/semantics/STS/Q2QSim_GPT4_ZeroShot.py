@@ -1,4 +1,3 @@
-import os
 import re
 
 from llmebench.datasets import Q2QSimDataset

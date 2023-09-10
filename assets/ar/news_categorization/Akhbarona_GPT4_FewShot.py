@@ -1,4 +1,3 @@
-import os
 import random
 
 from llmebench.datasets import NewsCatAkhbaronaDataset

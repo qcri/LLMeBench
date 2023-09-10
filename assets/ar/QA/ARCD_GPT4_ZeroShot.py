@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import ARCDDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import QATask

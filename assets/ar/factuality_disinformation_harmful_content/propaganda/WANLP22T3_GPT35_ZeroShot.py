@@ -1,5 +1,3 @@
-import os
-
 import regex as re
 
 from llmebench.datasets import WANLP22T3PropagandaDataset

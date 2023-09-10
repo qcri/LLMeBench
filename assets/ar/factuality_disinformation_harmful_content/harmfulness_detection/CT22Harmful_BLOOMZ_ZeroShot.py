@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import CT22HarmfulDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import HarmfulDetectionTask

@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import Khouja20FactualityDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import FactualityTask

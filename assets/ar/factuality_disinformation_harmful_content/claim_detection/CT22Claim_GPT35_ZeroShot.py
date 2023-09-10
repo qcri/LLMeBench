@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import CT22ClaimDataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import ClaimDetectionTask

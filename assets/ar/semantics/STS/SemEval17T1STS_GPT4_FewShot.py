@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import SemEval17T1STSDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import STSTask

@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import Q2QSimDataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import Q2QSimDetectionTask
