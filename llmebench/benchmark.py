@@ -11,7 +11,9 @@ from glob import glob
 from itertools import zip_longest
 from pathlib import Path
 
-from . import utils
+from dotenv import load_dotenv
+
+from llmebench import utils
 
 
 class SingleTaskBenchmark(object):
@@ -215,6 +217,12 @@ class Benchmark(object):
         self.benchmark_dir = Path(benchmark_dir)
 
     def find_assets(self, filter_str="*.py"):
+        if not filter_str.startswith("*"):
+            filter_str = f"*{filter_str}"
+
+        if not filter_str.endswith(".py") and not filter_str.endswith("*"):
+            filter_str = f"{filter_str}*"
+
         assets = []
         match_str = str(self.benchmark_dir / "**" / "*.py")
         for asset in glob(match_str, recursive=True):
@@ -222,7 +230,7 @@ class Benchmark(object):
             module_name = Path(asset).name
             asset_name = asset[len(str(self.benchmark_dir)) + 1 : asset.rfind(".")]
 
-            if not fnmatch(module_name.lower(), filter_str.lower()):
+            if not fnmatch(module_path.lower(), filter_str.lower()):
                 logging.info(
                     f"Skipping {asset[len(str(self.benchmark_dir)) + 1 :]} because of --filter"
                 )
@@ -281,6 +289,10 @@ def main():
         help="Limit the number of input instances that will be processed",
     )
 
+    parser.add_argument(
+        "-e", "--env", type=Path, help="Path to an .env file to load model parameters"
+    )
+
     group = parser.add_argument_group("Few Shot Experiments")
     group.add_argument(
         "-n",
@@ -300,6 +312,9 @@ def main():
         stream=sys.stdout,
         format="%(asctime)s %(levelname)s %(message)s",
     )
+
+    if args.env:
+        load_dotenv(args.env)
 
     benchmark = Benchmark(args.benchmark_dir)
 
@@ -323,41 +338,45 @@ def main():
         prompt_fn = asset["module"].prompt
         post_process_fn = asset["module"].post_process
 
-        logging.info(f"Running benchmark: {name}")
-        task_benchmark = SingleTaskBenchmark(
-            config,
-            prompt_fn,
-            post_process_fn,
-            cache_dir=args.results_dir / name,
-            ignore_cache=args.ignore_cache,
-            limit=args.limit,
-            n_shots=args.n_shots,
-        )
-
-        if task_benchmark.is_zeroshot() and args.n_shots > 0:
-            logging.warning(
-                f"{name}: Skipping because asset is zero shot and --n_shots is non zero"
+        try:
+            logging.info(f"Running benchmark: {name}")
+            task_benchmark = SingleTaskBenchmark(
+                config,
+                prompt_fn,
+                post_process_fn,
+                cache_dir=args.results_dir / name,
+                ignore_cache=args.ignore_cache,
+                limit=args.limit,
+                n_shots=args.n_shots,
             )
-            continue
 
-        if not task_benchmark.is_zeroshot() and args.n_shots == 0:
-            logging.warning(
-                f"{name}: Skipping because asset is few shot and --n_shots is zero"
-            )
-            continue
+            if task_benchmark.is_zeroshot() and args.n_shots > 0:
+                logging.warning(
+                    f"{name}: Skipping because asset is zero shot and --n_shots is non zero"
+                )
+                continue
 
-        task_results = task_benchmark.run_benchmark()
-        logging.info(f"{name}: {task_results['evaluation_scores']}")
+            if not task_benchmark.is_zeroshot() and args.n_shots == 0:
+                logging.warning(
+                    f"{name}: Skipping because asset is few shot and --n_shots is zero"
+                )
+                continue
 
-        task_result_path = task_benchmark.cache_dir / "results.json"
+            task_results = task_benchmark.run_benchmark()
+            logging.info(f"{name}: {task_results['evaluation_scores']}")
 
-        with open(task_result_path, "w") as fp:
-            json.dump(task_results, fp, ensure_ascii=False)
+            task_result_path = task_benchmark.cache_dir / "results.json"
 
-        if not task_benchmark.is_zeroshot():
-            name = f"{name}_{task_benchmark.n_shots}"
+            with open(task_result_path, "w") as fp:
+                json.dump(task_results, fp, ensure_ascii=False)
 
-        all_results[name] = task_results
+            if not task_benchmark.is_zeroshot():
+                name = f"{name}_{task_benchmark.n_shots}"
+
+            all_results[name] = task_results
+        except Exception as e:
+            logging.error(f"{name} failed to run")
+            traceback.print_exc()
 
     with open(all_results_path, "w") as fp:
         json.dump(all_results, fp, ensure_ascii=False)

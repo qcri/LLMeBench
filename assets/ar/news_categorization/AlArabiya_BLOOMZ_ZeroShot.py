@@ -1,4 +1,3 @@
-import os
 import random
 
 from llmebench.datasets import NewsCatAlArabiyaDataset
@@ -16,7 +15,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "class_labels": [
                 "politics",
                 "religion",

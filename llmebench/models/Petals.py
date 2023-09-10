@@ -1,4 +1,5 @@
 import json
+import os
 
 from websockets.sync.client import connect
 
@@ -22,10 +23,20 @@ class PetalsFailure(Exception):
 
 class PetalsModel(ModelBase):
     def __init__(
-        self, api_url, timeout=20, temperature=0, top_p=0.95, max_tokens=1512, **kwargs
+        self,
+        api_url=None,
+        timeout=20,
+        temperature=0,
+        top_p=0.95,
+        max_tokens=1512,
+        **kwargs,
     ):
         # API parameters
-        self.api_url = api_url
+        self.api_url = api_url or os.getenv("PETALS_API_URL")
+        if self.api_url is None:
+            raise Exception(
+                "API url must be provided as model config or environment variable (`PETALS_API_URL`)"
+            )
         self.api_timeout = timeout
         self.request_header = {"type": "open_inference_session", "max_length": 1512}
 

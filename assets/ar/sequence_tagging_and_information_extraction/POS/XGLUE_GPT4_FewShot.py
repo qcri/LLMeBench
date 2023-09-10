@@ -1,4 +1,3 @@
-import os
 import re
 
 from llmebench.datasets import XGLUEPOSDataset
@@ -102,11 +101,6 @@ def config():
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
             "max_tries": 30,
         },
         "general_args": {

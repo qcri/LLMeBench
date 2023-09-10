@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import CT22ClaimDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import ClaimDetectionTask
@@ -13,7 +11,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "max_tries": 3,
         },
         "general_args": {

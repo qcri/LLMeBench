@@ -1,5 +1,3 @@
-import os
-
 import regex as re
 
 from llmebench.datasets import WANLP22T3PropagandaDataset
@@ -17,11 +15,6 @@ def config():
         "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
             "max_tries": 3,
         },
         "general_args": {

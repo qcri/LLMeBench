@@ -1,4 +1,3 @@
-import os
 import re
 
 from llmebench.datasets import SemEval23T3PropagandaDataset
@@ -16,7 +15,6 @@ def config():
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "class_labels": [
                 "Appeal_to_Authority",
                 "Appeal_to_Fear-Prejudice",

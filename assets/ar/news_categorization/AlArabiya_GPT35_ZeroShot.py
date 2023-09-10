@@ -1,4 +1,3 @@
-import os
 import random
 
 from llmebench.datasets import NewsCatAlArabiyaDataset
@@ -16,11 +15,6 @@ def config():
         "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": "gpt",
             "class_labels": [
                 "politics",
                 "religion",
