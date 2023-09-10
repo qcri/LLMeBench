@@ -41,9 +41,7 @@ class TestAssetsForHuggingFaceInferenceAPIPrompts(unittest.TestCase):
                 self.assertIn("inputs", prompt)
 
     def test_asset_config(self):
-        "Test if all assets using this model return data in an appropriate format for prompting"
-
-        n_shots = 3  # Sample for few shot prompts
+        "Test if all assets are providing the correct model_args"
 
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
