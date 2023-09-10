@@ -21,7 +21,8 @@ class WANLP22T3PropagandaDataset(DatasetBase):
               pages={108--118},
               year={2022},
               organization={Association for Computational Linguistics}
-            }""",
+            }
+            """,
         }
 
     def get_data_sample(self):

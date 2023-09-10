@@ -9,7 +9,8 @@ class NameInfoDataset(DatasetBase):
         return {
             "language": "ar",
             "citation": """@inproceedings{Under review...}
-            }""",
+            }
+            """,
         }
 
     def get_data_sample(self):
