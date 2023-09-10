@@ -1,13 +1,13 @@
 import regex as re
 
-from llmebench.datasets import WANLP22T3PropagandaDataset
+from llmebench.datasets import WANLP22PropagandaDataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
 
 
 def config():
     return {
-        "dataset": WANLP22T3PropagandaDataset,
+        "dataset": WANLP22PropagandaDataset,
         "dataset_args": {
             "techniques_path": "data/factuality_disinformation_harmful_content/propaganda/classes.txt"
         },
