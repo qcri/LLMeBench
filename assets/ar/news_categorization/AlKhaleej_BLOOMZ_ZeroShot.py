@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlArabiyaDataset
+from llmebench.datasets import NewsCatAlKhaleejDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -9,7 +9,7 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlArabiyaDataset,
+        "dataset": NewsCatAlKhaleejDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
@@ -27,7 +27,7 @@ def config():
             "max_tries": 10,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv"
+            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
         },
     }
 

@@ -1,11 +1,11 @@
-from llmebench.datasets import ArSarcasmDataset
+from llmebench.datasets import ArSarcasm2Dataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import SarcasmTask
 
 
 def config():
     return {
-        "dataset": ArSarcasmDataset,
+        "dataset": ArSarcasm2Dataset,
         "dataset_args": {},
         "task": SarcasmTask,
         "task_args": {},

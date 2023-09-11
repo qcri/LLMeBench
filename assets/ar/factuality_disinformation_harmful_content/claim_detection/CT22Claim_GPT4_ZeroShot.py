@@ -1,11 +1,11 @@
-from llmebench.datasets import CT22CheckworthinessDataset
+from llmebench.datasets import CT22ClaimDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import CheckworthinessTask
 
 
 def config():
     return {
-        "dataset": CT22CheckworthinessDataset,
+        "dataset": CT22ClaimDataset,
         "dataset_args": {},
         "task": CheckworthinessTask,
         "task_args": {},
