@@ -13,7 +13,7 @@ def config():
         "model_args": {
             "max_tries": 50,
         },
-        "general_args": {"data_path": "data/QA/arcd/arcd-test.json"},
+        "general_args": {"data_path": "data/QA/ARCD/arcd-test.json"},
     }
 
 
