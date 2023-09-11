@@ -34,6 +34,11 @@ class MockDataset(DatasetBase):
         return [self.get_data_sample() for _ in range(100)]
 
 
+class MockDatasetWithDownloadURL(MockDataset):
+    def metadata(self):
+        return {"download_url": "http://localhost:8076/MockDataset.zip"}
+
+
 class TestDatasetAutoDownload(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -149,6 +154,34 @@ class TestDatasetAutoDownload(unittest.TestCase):
         extracted_directories = [d for d in downloaded_files if d.is_dir()]
         extracted_directory_names = [d.name for d in extracted_directories]
         self.assertIn("MockDataset", extracted_directory_names)
+        self.assertEqual(len(extracted_directory_names), 1)
+
+        dataset_files = [f.name for f in extracted_directories[0].iterdir()]
+        self.assertIn("train.txt", dataset_files)
+        self.assertIn("test.txt", dataset_files)
+
+    @patch.dict(
+        "os.environ",
+        {
+            "DEFAULT_DOWNLOAD_URL": "http://invalid.llmebench-server.com",
+        },
+    )
+    def test_auto_download_metadata_url(self):
+        "Test automatic downloading when download url is provided in metadata"
+
+        data_dir = TemporaryDirectory()
+
+        dataset = MockDatasetWithDownloadURL(data_dir=data_dir.name)
+        self.assertTrue(dataset.download_dataset())
+
+        downloaded_files = list(Path(data_dir.name).iterdir())
+        downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
+        self.assertEqual(len(downloaded_files), 2)
+        self.assertIn("MockDatasetWithDownloadURL.zip", downloaded_filenames)
+
+        extracted_directories = [d for d in downloaded_files if d.is_dir()]
+        extracted_directory_names = [d.name for d in extracted_directories]
+        self.assertIn("MockDatasetWithDownloadURL", extracted_directory_names)
         self.assertEqual(len(extracted_directory_names), 1)
 
         dataset_files = [f.name for f in extracted_directories[0].iterdir()]
