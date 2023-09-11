@@ -24,7 +24,9 @@ class DatasetBase(ABC):
 
     Attributes
     ----------
-        None
+    data_dir : str
+        Base path of data containing all datasets. Defaults to "data" in the current
+        working directory.
 
     Methods
     -------
@@ -50,8 +52,8 @@ class DatasetBase(ABC):
 
     """
 
-    def __init__(self, **kwargs):
-        self.data_dir = kwargs.get("data_dir", "data")
+    def __init__(self, data_dir="data", **kwargs):
+        self.data_dir = data_dir
 
     @abstractmethod
     def metadata(self):
