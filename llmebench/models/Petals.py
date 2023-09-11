@@ -7,6 +7,8 @@ from llmebench.models.model_base import ModelBase
 
 
 class PetalsFailure(Exception):
+    """Exception class to map various failure types from the Petals server"""
+
     def __init__(self, failure_type, failure_message):
         self.type_mapping = {
             "processing": "Model Inference failure",
@@ -31,6 +33,23 @@ class PetalsModel(ModelBase):
         max_tokens=1512,
         **kwargs,
     ):
+        """
+        Petals Model constructor.
+
+        Arguments
+        ---------
+        api_url : str
+            URL where the petals server is hosted. If not provided, the implementation will
+            look at environment variable `PETALS_API_URL`
+        timeout : int
+            Number of seconds before the request to the server is timed out
+        temperature : float
+            Temperature value to use for the model. Defaults to zero for reproducibility.
+        top_p : float
+            Top P value to use for the model. Defaults to 0.95
+        max_tokens : int
+            Maximum number of tokens to pass to the model. Defaults to 1512
+        """
         # API parameters
         self.api_url = api_url or os.getenv("PETALS_API_URL")
         if self.api_url is None:
@@ -38,7 +57,10 @@ class PetalsModel(ModelBase):
                 "API url must be provided as model config or environment variable (`PETALS_API_URL`)"
             )
         self.api_timeout = timeout
-        self.request_header = {"type": "open_inference_session", "max_length": 1512}
+        self.request_header = {
+            "type": "open_inference_session",
+            "max_length": max_tokens,
+        }
 
         # BLOOM parameters
         tolerance = 1e-7
@@ -56,12 +78,33 @@ class PetalsModel(ModelBase):
         )
 
     def summarize_response(self, response):
+        """Returns the "outputs" key's value, if available"""
         if "outputs" in response:
             return response["outputs"]
 
-        return None
+        return response
 
     def prompt(self, processed_input):
+        """
+        Petals API Implementation
+
+        Arguments
+        ---------
+        processed_input : dictionary
+            Must be a dictionary with one key "prompt", the value of which
+            must be a string.
+
+        Returns
+        -------
+        response : Petals API response
+            Response from the petals server
+
+        Raises
+        ------
+        PetalsFailure : Exception
+            This method raises this exception if the server responded with a non-ok
+            response
+        """
         with connect(self.api_url, close_timeout=self.api_timeout) as websocket:
             websocket.send(json.dumps(self.request_header))
             connect_message = json.loads(websocket.recv())
