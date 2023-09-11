@@ -21,6 +21,36 @@ def log_retry(retry_state):
 
 
 class ModelBase(object):
+    """
+    Base class for models
+
+    Implementors of this class need to implement at least two mandatory methods;
+    `prompt()` and `summarize_response()`. Implementors of this class should target
+    a specific model inference API, such as a platform (Azure, OpenAI), custom
+    hosted inference server (Petals, FastChat) or other model-specific APIs.
+
+    Attributes
+    ----------
+    max_tries : int, defaults to 5
+        Defines how many retries are allowed per-sample in case of failure.
+        Failure is defined by `retry_exceptions`.
+    retru_exceptions : tuple
+        Tuple of exceptions on which the framework should retry the request
+        for any given sample. Specific exceptions should be included by the
+        implementing class, such as HTTP Request failures (in case of HTTP-
+        based APIs).
+
+    Methods
+    -------
+    prompt(**kwargs):
+        Method that takes inputs from an asset and makes the actual request
+        to the underlying model inference API.
+
+    summarize_response(response):
+        Method that takes a model response and summarizes it into a simpler
+        form
+    """
+
     def __init__(self, max_tries=5, retry_exceptions=(), **kwargs):
         self.max_tries = max_tries
 
