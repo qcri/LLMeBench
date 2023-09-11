@@ -55,7 +55,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         data_dir = TemporaryDirectory()
 
         dataset = MockDataset(data_dir=data_dir.name)
-        dataset.download_dataset(download_url="http://localhost:8076/MockDataset.zip")
+        self.assertTrue(
+            dataset.download_dataset(
+                download_url="http://localhost:8076/MockDataset.zip"
+            )
+        )
 
         downloaded_files = list(Path(data_dir.name).iterdir())
         downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
@@ -77,7 +81,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         data_dir = TemporaryDirectory()
 
         dataset = MockDataset(data_dir=data_dir.name)
-        dataset.download_dataset(download_url="http://localhost:8076/MockDataset.tar")
+        self.assertTrue(
+            dataset.download_dataset(
+                download_url="http://localhost:8076/MockDataset.tar"
+            )
+        )
 
         downloaded_files = list(Path(data_dir.name).iterdir())
         downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
@@ -99,8 +107,10 @@ class TestDatasetAutoDownload(unittest.TestCase):
         data_dir = TemporaryDirectory()
 
         dataset = MockDataset(data_dir=data_dir.name)
-        dataset.download_dataset(
-            download_url="http://localhost:8076/MockDataset.tar.gz"
+        self.assertTrue(
+            dataset.download_dataset(
+                download_url="http://localhost:8076/MockDataset.tar.gz"
+            )
         )
 
         downloaded_files = list(Path(data_dir.name).iterdir())
@@ -129,7 +139,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         data_dir = TemporaryDirectory()
 
         dataset = MockDataset(data_dir=data_dir.name)
-        dataset.download_dataset()
+        self.assertTrue(dataset.download_dataset())
 
         downloaded_files = list(Path(data_dir.name).iterdir())
         downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
@@ -144,3 +154,20 @@ class TestDatasetAutoDownload(unittest.TestCase):
         dataset_files = [f.name for f in extracted_directories[0].iterdir()]
         self.assertIn("train.txt", dataset_files)
         self.assertIn("test.txt", dataset_files)
+
+
+class TestDatasetCaching(unittest.TestCase):
+    def test_cache_existing_file(self):
+        "Test if an existing file _does not_ trigger a download"
+
+        data_dir = TemporaryDirectory()
+        archive_file = Path("tests/datasets/archives/MockDataset.zip")
+        copy_archive_file = Path(data_dir.name) / "MockDataset.zip"
+        copy_archive_file.write_bytes(archive_file.read_bytes())
+
+        dataset = MockDataset(data_dir=data_dir.name)
+        self.assertTrue(
+            dataset.download_dataset(
+                download_url="http://localhost:8076/ExistingData.zip"
+            )
+        )

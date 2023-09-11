@@ -144,8 +144,11 @@ class DatasetBase(ABC):
                List of all extracted files
 
             """
-            # Remove intermediate tar file
+            # Default where the downloaded file is not a container/archive
+            fnames = [fname]
+
             extract_dir = self.__class__.__name__
+
             if fname.endswith(".tar.xz"):
                 extractor = Decompress(name=fname[:-3])
                 fname = extractor(fname, action, pup)
@@ -239,12 +242,13 @@ class DatasetBase(ABC):
                         Path(self.data_dir) / f"{self.__class__.__name__}.tar"
                     )
                     tar_file_path.unlink()
-                print(f"succeeded")
-                break
+                return True
             except Exception as e:
                 print(f"issue {e}")
 
                 continue
+
+        return False
 
     def _deduplicate_train_test(self, train_data, test_data):
         """
