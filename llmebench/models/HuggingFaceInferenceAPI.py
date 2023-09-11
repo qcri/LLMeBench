@@ -30,6 +30,8 @@ HuggingFaceTaskTypes = Enum(
 
 
 class HuggingFaceModelLoadingError(Exception):
+    """Exception class to capture loading errors"""
+
     def __init__(self, failure_message):
         self.failure_message = failure_message
 
@@ -38,15 +40,21 @@ class HuggingFaceModelLoadingError(Exception):
 
 
 class HuggingFaceInferenceAPIModel(ModelBase):
-    """An interface to HuggingFace Inference API
+    """
+    An interface to HuggingFace Inference API
 
-    Args:
-        task_type: one of Summarization, Sentence_Similarity, Text_Generation, Text2Text_Generation, Translation,
-          Feature_Extraction, Fill_Mask, Question_Answering, Table_Question_Answering, Text_Classification,
-          Token_Classification, Named_Entity_Recognition, Zero_Shot_Classification, Conversational as found on
-          HuggingFace model's page
-        inference_api_url: the URL to the particular model, as found in the Deploy > Inference API menu in the model's page
-        api_token: HuggingFace API access key (can also be read from enviroment variable HUGGINGFACE_API_TOKEN)
+    Arguments
+    ---------
+    task_type : HuggingFaceTaskTypes
+        One of Summarization, Sentence_Similarity, Text_Generation, Text2Text_Generation, Translation,
+        Feature_Extraction, Fill_Mask, Question_Answering, Table_Question_Answering, Text_Classification,
+        Token_Classification, Named_Entity_Recognition, Zero_Shot_Classification, Conversational as found on
+        HuggingFace model's page
+    inference_api_url : str
+        The URL to the particular model, as found in the Deploy > Inference API menu in the model's page
+    api_token : str
+        HuggingFace API access key. If not provided, will be infered from the environment variable
+        `HUGGINGFACE_API_TOKEN`
     """
 
     def __init__(self, task_type, inference_api_url, api_token=None, **kwargs):
@@ -64,6 +72,27 @@ class HuggingFaceInferenceAPIModel(ModelBase):
         )
 
     def prompt(self, processed_input):
+        """
+        HuggingFace Inference API Implementation
+
+        Arguments
+        ---------
+        processed_input : dictionary
+            Must be a dictionary with one key "inputs", the value of which will
+            depend on the task type. See https://huggingface.co/docs/api-inference/detailed_parameters
+            for detailed parameters.
+
+        Returns
+        -------
+        response : dict
+            Response from the HuggingFace Inference API
+
+        Raises
+        ------
+        HuggingFaceModelLoadingError : Exception
+            This method raises this exception if the model is not yet loaded on
+            HuggingFace. Retrying after a few seconds is the usual remedy.
+        """
         headers = {"Authorization": f"Bearer {self.api_token}"}
         data = json.dumps(processed_input)
         response = requests.request(
@@ -78,7 +107,8 @@ class HuggingFaceInferenceAPIModel(ModelBase):
 
     def summarize_response(self, response):
         """
-        This method will attempt to interpret the output based on the task type. Otherwise, it returns the response object as is.
+        This method will attempt to interpret the output based on the task type.
+        Otherwise, it returns the response object as is.
         """
         output_types = {
             HuggingFaceTaskTypes.Summarization: str,

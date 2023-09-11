@@ -6,6 +6,44 @@ from llmebench.models.model_base import ModelBase
 
 
 class OpenAIModelBase(ModelBase):
+    """
+    OpenAI Model interface. Can be used for models hosted on both OpenAI's platform and
+    on Azure.
+
+    Arguments
+    ---------
+    api_type : str
+        Must be one of "openai" or "azure". If not provided, the implementation will try
+        to induce it from environment variables `OPEN_API_TYPE`, `AZURE_*` or default to
+        "openai"
+    api_base : str
+        URL where the model is hosted. Can be left as None for models hosted on OpenAI's
+        platform. If not provided, the implementation will look at environment variables
+        `OPENAI_API_BASE` or `AZURE_API_URL`
+    api_version : str
+        Version of the API to use. If not provided, the implementation will derive it
+        from environment variables `OPENAI_API_VERSION` or `AZURE_API_VERSION`. Must be
+        left as None for models hosted on OpenAI's platform
+    api_key : str
+        Authentication token for the API. If not provided, the implementation will derive it
+        from environment variables `OPENAI_API_KEY` or `AZURE_API_KEY`.
+    model_name : str
+        Name of the model to use. If not provided, the implementation will derive it from
+        environment variables `OPENAI_MODEL` or `AZURE_ENGINE_NAME`
+    engine_name : str
+        Alternative for `model_name`
+    temperature : float
+        Temperature value to use for the model. Defaults to zero for reproducibility.
+    top_p : float
+        Top P value to use for the model. Defaults to 0.95
+    max_tokens : int
+        Maximum number of tokens to pass to the model. Defaults to 800
+    frequency_penalty : float
+        Frequence Penalty to use for the model.
+    presence_penalty : float
+        Presence Penalty to use for the model.
+    """
+
     def __init__(
         self,
         api_type=None,
@@ -21,42 +59,6 @@ class OpenAIModelBase(ModelBase):
         presence_penalty=0,
         **kwargs
     ):
-        """
-        OpenAI Model constructor.
-
-        Arguments
-        ---------
-        api_type : str
-            Must be one of "openai" or "azure". If not provided, the implementation will try
-            to induce it from environment variables `OPEN_API_TYPE`, `AZURE_*` or default to
-            "openai"
-        api_base : str
-            URL where the model is hosted. Can be left as None for models hosted on OpenAI's
-            platform. If not provided, the implementation will look at environment variables
-            `OPENAI_API_BASE` or `AZURE_API_URL`
-        api_version : str
-            Version of the API to use. If not provided, the implementation will derive it
-            from environment variables `OPENAI_API_VERSION` or `AZURE_API_VERSION`. Must be
-            left as None for models hosted on OpenAI's platform
-        api_key : str
-            Authentication token for the API. If not provided, the implementation will derive it
-            from environment variables `OPENAI_API_KEY` or `AZURE_API_KEY`.
-        model_name : str
-            Name of the model to use. If not provided, the implementation will derive it from
-            environment variables `OPENAI_MODEL` or `AZURE_ENGINE_NAME`
-        engine_name : str
-            Alternative for `model_name`
-        temperature : float
-            Temperature value to use for the model. Defaults to zero for reproducibility.
-        top_p : float
-            Top P value to use for the model. Defaults to 0.95
-        max_tokens : int
-            Maximum number of tokens to pass to the model. Defaults to 800
-        frequency_penalty : float
-            Frequence Penalty to use for the model.
-        presence_penalty : float
-            Presence Penalty to use for the model.
-        """
         # API parameters
         # Order of priority is:
         #   1. arguments to the constructor
@@ -234,7 +236,7 @@ class OpenAIModel(OpenAIModelBase):
         Returns
         -------
         response : OpenAI API response
-            Responce from the openai python library
+            Response from the openai python library
 
         """
         response = openai.ChatCompletion.create(

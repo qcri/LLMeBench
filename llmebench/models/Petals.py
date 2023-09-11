@@ -24,6 +24,24 @@ class PetalsFailure(Exception):
 
 
 class PetalsModel(ModelBase):
+    """
+    Petals Model interface.
+
+    Arguments
+    ---------
+    api_url : str
+        URL where the petals server is hosted. If not provided, the implementation will
+        look at environment variable `PETALS_API_URL`
+    timeout : int
+        Number of seconds before the request to the server is timed out
+    temperature : float
+        Temperature value to use for the model. Defaults to zero for reproducibility.
+    top_p : float
+        Top P value to use for the model. Defaults to 0.95
+    max_tokens : int
+        Maximum number of tokens to pass to the model. Defaults to 1512
+    """
+
     def __init__(
         self,
         api_url=None,
@@ -33,23 +51,6 @@ class PetalsModel(ModelBase):
         max_tokens=1512,
         **kwargs,
     ):
-        """
-        Petals Model constructor.
-
-        Arguments
-        ---------
-        api_url : str
-            URL where the petals server is hosted. If not provided, the implementation will
-            look at environment variable `PETALS_API_URL`
-        timeout : int
-            Number of seconds before the request to the server is timed out
-        temperature : float
-            Temperature value to use for the model. Defaults to zero for reproducibility.
-        top_p : float
-            Top P value to use for the model. Defaults to 0.95
-        max_tokens : int
-            Maximum number of tokens to pass to the model. Defaults to 1512
-        """
         # API parameters
         self.api_url = api_url or os.getenv("PETALS_API_URL")
         if self.api_url is None:
