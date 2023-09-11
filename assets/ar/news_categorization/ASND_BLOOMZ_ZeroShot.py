@@ -1,3 +1,5 @@
+import random
+
 from llmebench.datasets import NewsCatASNDDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask

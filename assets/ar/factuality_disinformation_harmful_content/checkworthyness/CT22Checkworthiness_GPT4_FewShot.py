@@ -1,12 +1,8 @@
-import random
 import re
 
 from llmebench.datasets import CT22CheckworthinessDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import CheckworthinessTask
-
-
-random.seed(1333)
 
 
 def config():

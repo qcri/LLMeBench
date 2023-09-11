@@ -1,12 +1,8 @@
-import random
 import re
 
 from llmebench.datasets import CT23SubjectivityDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import SubjectivityTask
-
-
-random.seed(1333)
 
 
 def config():
