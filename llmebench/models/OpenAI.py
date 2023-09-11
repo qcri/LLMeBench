@@ -12,8 +12,8 @@ class OpenAIModelBase(ModelBase):
         api_base=None,
         api_version=None,
         api_key=None,
-        engine_name=None,
         model_name=None,
+        engine_name=None,
         temperature=0,
         top_p=0.95,
         max_tokens=800,
@@ -21,6 +21,42 @@ class OpenAIModelBase(ModelBase):
         presence_penalty=0,
         **kwargs
     ):
+        """
+        OpenAI Model constructor.
+
+        Arguments
+        ---------
+        api_type : str
+            Must be one of "openai" or "azure". If not provided, the implementation will try
+            to induce it from environment variables `OPEN_API_TYPE`, `AZURE_*` or default to
+            "openai"
+        api_base : str
+            URL where the model is hosted. Can be left as None for models hosted on OpenAI's
+            platform. If not provided, the implementation will look at environment variables
+            `OPENAI_API_BASE` or `AZURE_API_URL`
+        api_version : str
+            Version of the API to use. If not provided, the implementation will derive it
+            from environment variables `OPENAI_API_VERSION` or `AZURE_API_VERSION`. Must be
+            left as None for models hosted on OpenAI's platform
+        api_key : str
+            Authentication token for the API. If not provided, the implementation will derive it
+            from environment variables `OPENAI_API_KEY` or `AZURE_API_KEY`.
+        model_name : str
+            Name of the model to use. If not provided, the implementation will derive it from
+            environment variables `OPENAI_MODEL` or `AZURE_ENGINE_NAME`
+        engine_name : str
+            Alternative for `model_name`
+        temperature : float
+            Temperature value to use for the model. Defaults to zero for reproducibility.
+        top_p : float
+            Top P value to use for the model. Defaults to 0.95
+        max_tokens : int
+            Maximum number of tokens to pass to the model. Defaults to 800
+        frequency_penalty : float
+            Frequence Penalty to use for the model.
+        presence_penalty : float
+            Presence Penalty to use for the model.
+        """
         # API parameters
         # Order of priority is:
         #   1. arguments to the constructor
@@ -128,6 +164,7 @@ class LegacyOpenAIModel(OpenAIModelBase):
         return prompt
 
     def summarize_response(self, response):
+        """Returns the first reply, if available"""
         if (
             "choices" in response
             and isinstance(response["choices"], list)
@@ -136,9 +173,28 @@ class LegacyOpenAIModel(OpenAIModelBase):
         ):
             return response["choices"][0]["text"]
 
-        return None
+        return response
 
     def prompt(self, processed_input):
+        """
+        OpenAI API Completion implementation
+
+        .. warning::
+        This implementation is deprecated and will be removed in future versions. Use
+        `OpenAIModel` instead.
+
+        Arguments
+        ---------
+        processed_input : dict
+            Must be a dictionary with two keys; "system_message" with a string
+            value, and "messages" with a list value, where each element is a
+            dictionary with two string-valued keys, "sender" and "text".
+
+        Returns
+        -------
+        response : OpenAI API response
+            Responce from the openai python library
+        """
         system_message = processed_input["system_message"]
         messages = processed_input["messages"]
         prompt = self.create_prompt(system_message, messages)
@@ -151,6 +207,7 @@ class LegacyOpenAIModel(OpenAIModelBase):
 
 class OpenAIModel(OpenAIModelBase):
     def summarize_response(self, response):
+        """Returns the first reply from the "assistant", if available"""
         if (
             "choices" in response
             and isinstance(response["choices"], list)
@@ -161,9 +218,25 @@ class OpenAIModel(OpenAIModelBase):
         ):
             return response["choices"][0]["message"]["content"]
 
-        return None
+        return response
 
     def prompt(self, processed_input):
+        """
+        OpenAI API ChatCompletion implementation
+
+        Arguments
+        ---------
+        processed_input : list
+            Must be list of dictionaries, where each dictionary has two keys;
+            "role" defines a role in the chat (e.g. "system", "user") and
+            "content" defines the actual message for that turn
+
+        Returns
+        -------
+        response : OpenAI API response
+            Responce from the openai python library
+
+        """
         response = openai.ChatCompletion.create(
             messages=processed_input, **self.model_params
         )
