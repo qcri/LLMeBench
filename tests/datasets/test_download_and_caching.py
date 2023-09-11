@@ -35,14 +35,20 @@ class MockDataset(DatasetBase):
 
 
 class MockDatasetWithDownloadURL(MockDataset):
+    def __init__(self, port, **kwargs):
+        self.port = port
+        super(MockDatasetWithDownloadURL, self).__init__(**kwargs)
+
     def metadata(self):
-        return {"download_url": "http://localhost:8076/MockDataset.zip"}
+        return {"download_url": f"http://localhost:{self.port}/MockDataset.zip"}
 
 
 class TestDatasetAutoDownload(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.httpd = SignalingHTTPServer(("", 8076), ArchiveHandler)
+        cls.httpd = SignalingHTTPServer(("", 0), ArchiveHandler)
+        cls.port = cls.httpd.server_address[1]
+
         cls.test_server = threading.Thread(target=cls.httpd.serve_forever, daemon=True)
         cls.test_server.start()
         cls.httpd.ready_event.wait()
@@ -62,7 +68,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         dataset = MockDataset(data_dir=data_dir.name)
         self.assertTrue(
             dataset.download_dataset(
-                download_url="http://localhost:8076/MockDataset.zip"
+                download_url=f"http://localhost:{self.port}/MockDataset.zip"
             )
         )
 
@@ -88,7 +94,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         dataset = MockDataset(data_dir=data_dir.name)
         self.assertTrue(
             dataset.download_dataset(
-                download_url="http://localhost:8076/MockDataset.tar"
+                download_url=f"http://localhost:{self.port}/MockDataset.tar"
             )
         )
 
@@ -114,7 +120,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         dataset = MockDataset(data_dir=data_dir.name)
         self.assertTrue(
             dataset.download_dataset(
-                download_url="http://localhost:8076/MockDataset.tar.gz"
+                download_url=f"http://localhost:{self.port}/MockDataset.tar.gz"
             )
         )
 
@@ -132,19 +138,19 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertIn("train.txt", dataset_files)
         self.assertIn("test.txt", dataset_files)
 
-    @patch.dict(
-        "os.environ",
-        {
-            "DEFAULT_DOWNLOAD_URL": "http://localhost:8076/",
-        },
-    )
     def test_auto_download_default_url(self):
         "Test automatic downloading when download url is not provided"
 
         data_dir = TemporaryDirectory()
 
         dataset = MockDataset(data_dir=data_dir.name)
-        self.assertTrue(dataset.download_dataset())
+        with patch.dict(
+            "os.environ",
+            {
+                "DEFAULT_DOWNLOAD_URL": f"http://localhost:{self.port}/",
+            },
+        ):
+            self.assertTrue(dataset.download_dataset())
 
         downloaded_files = list(Path(data_dir.name).iterdir())
         downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
@@ -163,7 +169,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
     @patch.dict(
         "os.environ",
         {
-            "DEFAULT_DOWNLOAD_URL": "http://invalid.llmebench-server.com",
+            "DEFAULT_DOWNLOAD_URL": "http://invalid.llmebench-server.org",
         },
     )
     def test_auto_download_metadata_url(self):
@@ -171,7 +177,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
 
         data_dir = TemporaryDirectory()
 
-        dataset = MockDatasetWithDownloadURL(data_dir=data_dir.name)
+        dataset = MockDatasetWithDownloadURL(data_dir=data_dir.name, port=self.port)
         self.assertTrue(dataset.download_dataset())
 
         downloaded_files = list(Path(data_dir.name).iterdir())
@@ -194,13 +200,17 @@ class TestDatasetCaching(unittest.TestCase):
         "Test if an existing file _does not_ trigger a download"
 
         data_dir = TemporaryDirectory()
+
+        # Copy a archive to the download location
         archive_file = Path("tests/datasets/archives/MockDataset.zip")
         copy_archive_file = Path(data_dir.name) / "MockDataset.zip"
         copy_archive_file.write_bytes(archive_file.read_bytes())
 
+        # download_dataset should not reach out to the invalid server,
+        # since file is present locally
         dataset = MockDataset(data_dir=data_dir.name)
         self.assertTrue(
             dataset.download_dataset(
-                download_url="http://localhost:8076/ExistingData.zip"
+                download_url="http://invalid.llmebench-server.org/ExistingData.zip"
             )
         )
