@@ -17,7 +17,7 @@ from llmebench.tasks.task_base import TaskBase
 
 
 class MockDataset(DatasetBase):
-    def metadata():
+    def metadata(self):
         return {}
 
     def get_data_sample(self):
