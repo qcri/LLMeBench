@@ -60,6 +60,21 @@ class TestDatasetAutoDownload(unittest.TestCase):
             cls.httpd.server_close()
         cls.test_server.join()
 
+    def check_downloaded(self, data_dir, dataset_name, extension):
+        downloaded_files = list(data_dir.iterdir())
+        downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
+        self.assertEqual(len(downloaded_files), 2)
+        self.assertIn(f"{dataset_name}.{extension}", downloaded_filenames)
+
+        extracted_directories = [d for d in downloaded_files if d.is_dir()]
+        extracted_directory_names = [d.name for d in extracted_directories]
+        self.assertIn(f"{dataset_name}", extracted_directory_names)
+        self.assertEqual(len(extracted_directory_names), 1)
+
+        dataset_files = [f.name for f in extracted_directories[0].iterdir()]
+        self.assertIn("train.txt", dataset_files)
+        self.assertIn("test.txt", dataset_files)
+
     def test_auto_download_zip(self):
         "Test automatic downloading and extraction of *.zip datasets"
 
@@ -72,19 +87,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
             )
         )
 
-        downloaded_files = list(Path(data_dir.name).iterdir())
-        downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
-        self.assertEqual(len(downloaded_files), 2)
-        self.assertIn("MockDataset.zip", downloaded_filenames)
-
-        extracted_directories = [d for d in downloaded_files if d.is_dir()]
-        extracted_directory_names = [d.name for d in extracted_directories]
-        self.assertIn("MockDataset", extracted_directory_names)
-        self.assertEqual(len(extracted_directory_names), 1)
-
-        dataset_files = [f.name for f in extracted_directories[0].iterdir()]
-        self.assertIn("train.txt", dataset_files)
-        self.assertIn("test.txt", dataset_files)
+        self.check_downloaded(Path(data_dir.name), "MockDataset", "zip")
 
     def test_auto_download_tar(self):
         "Test automatic downloading and extraction of *.tar datasets"
@@ -98,19 +101,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
             )
         )
 
-        downloaded_files = list(Path(data_dir.name).iterdir())
-        downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
-        self.assertEqual(len(downloaded_files), 2)
-        self.assertIn("MockDataset.tar", downloaded_filenames)
-
-        extracted_directories = [d for d in downloaded_files if d.is_dir()]
-        extracted_directory_names = [d.name for d in extracted_directories]
-        self.assertIn("MockDataset", extracted_directory_names)
-        self.assertEqual(len(extracted_directory_names), 1)
-
-        dataset_files = [f.name for f in extracted_directories[0].iterdir()]
-        self.assertIn("train.txt", dataset_files)
-        self.assertIn("test.txt", dataset_files)
+        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar")
 
     def test_auto_download_tar_gz(self):
         "Test automatic downloading and extraction of *.tar.gz datasets"
@@ -124,19 +115,35 @@ class TestDatasetAutoDownload(unittest.TestCase):
             )
         )
 
-        downloaded_files = list(Path(data_dir.name).iterdir())
-        self.assertEqual(len(downloaded_files), 2)
-        downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
-        self.assertIn("MockDataset.tar.gz", downloaded_filenames)
+        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar.gz")
 
-        extracted_directories = [d for d in downloaded_files if d.is_dir()]
-        extracted_directory_names = [d.name for d in extracted_directories]
-        self.assertIn("MockDataset", extracted_directory_names)
-        self.assertEqual(len(extracted_directory_names), 1)
+    def test_auto_download_tar_bz2(self):
+        "Test automatic downloading and extraction of *.tar.bz2 datasets"
 
-        dataset_files = [f.name for f in extracted_directories[0].iterdir()]
-        self.assertIn("train.txt", dataset_files)
-        self.assertIn("test.txt", dataset_files)
+        data_dir = TemporaryDirectory()
+
+        dataset = MockDataset(data_dir=data_dir.name)
+        self.assertTrue(
+            dataset.download_dataset(
+                download_url=f"http://localhost:{self.port}/MockDataset.tar.bz2"
+            )
+        )
+
+        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar.bz2")
+
+    def test_auto_download_tar_xz(self):
+        "Test automatic downloading and extraction of *.tar.xz datasets"
+
+        data_dir = TemporaryDirectory()
+
+        dataset = MockDataset(data_dir=data_dir.name)
+        self.assertTrue(
+            dataset.download_dataset(
+                download_url=f"http://localhost:{self.port}/MockDataset.tar.xz"
+            )
+        )
+
+        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar.xz")
 
     def test_auto_download_default_url(self):
         "Test automatic downloading when download url is not provided"
@@ -152,19 +159,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         ):
             self.assertTrue(dataset.download_dataset())
 
-        downloaded_files = list(Path(data_dir.name).iterdir())
-        downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
-        self.assertEqual(len(downloaded_files), 2)
-        self.assertIn("MockDataset.zip", downloaded_filenames)
-
-        extracted_directories = [d for d in downloaded_files if d.is_dir()]
-        extracted_directory_names = [d.name for d in extracted_directories]
-        self.assertIn("MockDataset", extracted_directory_names)
-        self.assertEqual(len(extracted_directory_names), 1)
-
-        dataset_files = [f.name for f in extracted_directories[0].iterdir()]
-        self.assertIn("train.txt", dataset_files)
-        self.assertIn("test.txt", dataset_files)
+        self.check_downloaded(Path(data_dir.name), "MockDataset", "zip")
 
     @patch.dict(
         "os.environ",
@@ -180,19 +175,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         dataset = MockDatasetWithDownloadURL(data_dir=data_dir.name, port=self.port)
         self.assertTrue(dataset.download_dataset())
 
-        downloaded_files = list(Path(data_dir.name).iterdir())
-        downloaded_filenames = [f.name for f in downloaded_files if f.is_file()]
-        self.assertEqual(len(downloaded_files), 2)
-        self.assertIn("MockDatasetWithDownloadURL.zip", downloaded_filenames)
-
-        extracted_directories = [d for d in downloaded_files if d.is_dir()]
-        extracted_directory_names = [d.name for d in extracted_directories]
-        self.assertIn("MockDatasetWithDownloadURL", extracted_directory_names)
-        self.assertEqual(len(extracted_directory_names), 1)
-
-        dataset_files = [f.name for f in extracted_directories[0].iterdir()]
-        self.assertIn("train.txt", dataset_files)
-        self.assertIn("test.txt", dataset_files)
+        self.check_downloaded(Path(data_dir.name), "MockDatasetWithDownloadURL", "zip")
 
 
 class TestDatasetCaching(unittest.TestCase):
