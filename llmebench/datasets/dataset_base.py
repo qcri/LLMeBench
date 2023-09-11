@@ -226,7 +226,7 @@ class DatasetBase(ABC):
                     extension = ext
                     break
             try:
-                print(f"trying {download_url}")
+                logging.info(f"Trying {download_url}")
                 retrieve(
                     download_url,
                     known_hash=None,
@@ -244,9 +244,10 @@ class DatasetBase(ABC):
                     tar_file_path.unlink()
                 return True
             except Exception as e:
-                print(f"issue {e}")
-
+                logging.warning(f"Failed to download: {e}")
                 continue
+
+        logging.warning(f"Failed to download dataset")
 
         return False
 

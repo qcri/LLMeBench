@@ -35,12 +35,13 @@ class MockDataset(DatasetBase):
 
 
 class MockDatasetWithDownloadURL(MockDataset):
-    def __init__(self, port, **kwargs):
+    def __init__(self, port, filename="MockDataset.zip", **kwargs):
         self.port = port
+        self.filename = filename
         super(MockDatasetWithDownloadURL, self).__init__(**kwargs)
 
     def metadata(self):
-        return {"download_url": f"http://localhost:{self.port}/MockDataset.zip"}
+        return {"download_url": f"http://localhost:{self.port}/{self.filename}"}
 
 
 class TestDatasetAutoDownload(unittest.TestCase):
@@ -176,6 +177,26 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(dataset.download_dataset())
 
         self.check_downloaded(Path(data_dir.name), "MockDatasetWithDownloadURL", "zip")
+
+    @patch.dict(
+        "os.environ",
+        {
+            "DEFAULT_DOWNLOAD_URL": "http://invalid.llmebench-server.org",
+        },
+    )
+    def test_auto_download_non_existent(self):
+        "Test automatic downloading when dataset is not actually available"
+
+        data_dir = TemporaryDirectory()
+
+        dataset = MockDatasetWithDownloadURL(
+            data_dir=data_dir.name, port=self.port, filename="InvalidDataset.zip"
+        )
+        self.assertFalse(
+            dataset.download_dataset(
+                download_url="http://invalid.llmebench-server.org/Dataset.zip"
+            )
+        )
 
 
 class TestDatasetCaching(unittest.TestCase):
