@@ -8,7 +8,7 @@ class TaskBase(ABC):
     """
     Base class for tasks
 
-    Implementors of this class need to implement one method, `evaluate()`
+    Implementations of this class need to implement one method, `evaluate()`
     which takes true and predicted labels, and returns some score over
     these.
 
@@ -17,7 +17,7 @@ class TaskBase(ABC):
     dataset : DatasetBase
         The dataset that is currently being evaluated by the task
     seed : int
-        Seed for intializing pseudo random genarators for reproducible
+        Seed for initializing pseudo random generators for reproducible
         results
 
     Methods

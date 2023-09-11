@@ -13,7 +13,7 @@ class DatasetBase(ABC):
     """
     Base class for datasets
 
-    Implementors of this class need to implement at least three mandatory methods;
+    Implementations of this class need to implement at least three mandatory methods;
     `metadata()`, `get_data_sample()` and `load_data()`. The purpose of objects of
     this class is to encapsulate all the subtleties and information for a specific
     dataset, and provide a consistent way for the framework to read the dataset.
@@ -39,9 +39,9 @@ class DatasetBase(ABC):
     Notes
     -----
     - Consider overriding `_deduplicate_train_test` to replace the default "input_id"
-    based deduplication between train/test
+    based de-duplication between train/test
     - If the data is not JSON serializable, `_stringify_sample`/`_destringify_sample`
-    must be reimplemented to provide serialization/deserialization of samples. This is
+    must be re-implemented to provide serialization/deserialization of samples. This is
     primarily used for some fewshot sampling methods.
 
     """
@@ -68,7 +68,7 @@ class DatasetBase(ABC):
             "language" : str|list
                 Can be one of:
                     "multilingual"
-                    ["ar", "fr", "en"] # List of supported langauges
+                    ["ar", "fr", "en"] # List of supported languages
                     "ar" # Single supported language
                 Languages should be identified by their IETF language tags
             The returned dictionary _can_ have the following additional keys:
@@ -80,7 +80,7 @@ class DatasetBase(ABC):
     @abstractmethod
     def get_data_sample(self):
         """
-        Returns a single datasample.
+        Returns a single data sample.
 
         This function is useful to understand the structure of the underlying
         data. All loaded samples _must_ match this sample.
@@ -93,7 +93,7 @@ class DatasetBase(ABC):
         -------
         sample : dict
             _Must_ contain at least two keys "input" and "label".
-            "input_id" can be specified to help with deduplication
+            "input_id" can be specified to help with de-duplication
             between train/dev/test data. Can include additional keys.
         """
         pass
@@ -122,7 +122,7 @@ class DatasetBase(ABC):
         """
         Filter train data to avoid overlap with test data
 
-        The default implementation deduplicates based on an "input_id"
+        The default implementation de-duplicates based on an "input_id"
         element in the sample dictionary.
 
         Arguments
@@ -139,7 +139,7 @@ class DatasetBase(ABC):
         """
         if len(test_data) > 0 and "input_id" not in test_data[0]:
             logging.warning(
-                "`input_id` not found in data, no deduplication will be run"
+                "`input_id` not found in data, no de-duplication will be run"
             )
             # TODO: Add fallback to input, label deep comparison
             return train_data
@@ -160,7 +160,7 @@ class DatasetBase(ABC):
 
         Primarily used for some fewshot samplers that work only on strings.
         By default uses JSON serialization; If the data is not JSON serializable,
-        this function must be reimplemented in the implementing class.
+        this function must be re-implemented in the implementing class.
 
         Arguments
         ---------
@@ -184,7 +184,7 @@ class DatasetBase(ABC):
 
         Primarily used for some fewshot samplers that work only on strings.
         By default uses JSON deserialization; If the data is not JSON deserializable,
-        this function must be reimplemented in the implementing class.
+        this function must be re-implemented in the implementing class.
 
         Arguments
         ---------
@@ -214,7 +214,7 @@ class DatasetBase(ABC):
         n_shots : int
             Number of samples to pick for each test sample
         deduplicate : bool, defaults to True
-            Whether the training samples should be deduplicated (w.r.t test
+            Whether the training samples should be de-duplicated (w.r.t test
             samples).
 
         Returns

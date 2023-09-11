@@ -39,7 +39,7 @@ class OpenAIModelBase(ModelBase):
     max_tokens : int
         Maximum number of tokens to pass to the model. Defaults to 800
     frequency_penalty : float
-        Frequence Penalty to use for the model.
+        Frequency Penalty to use for the model.
     presence_penalty : float
         Presence Penalty to use for the model.
     """
@@ -108,7 +108,7 @@ class OpenAIModelBase(ModelBase):
 
         if model_name is None:
             raise Exception(
-                "Model/Engine must be provided as model config or enviroment variable `OPENAI_MODEL`/`AZURE_ENGINE_NAME`"
+                "Model/Engine must be provided as model config or environment variable `OPENAI_MODEL`/`AZURE_ENGINE_NAME`"
             )
 
         if api_type == "azure":
@@ -195,7 +195,7 @@ class LegacyOpenAIModel(OpenAIModelBase):
         Returns
         -------
         response : OpenAI API response
-            Responce from the openai python library
+            Response from the openai python library
         """
         system_message = processed_input["system_message"]
         messages = processed_input["messages"]

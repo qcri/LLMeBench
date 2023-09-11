@@ -24,8 +24,8 @@ class ModelBase(object):
     """
     Base class for models
 
-    Implementors of this class need to implement at least two mandatory methods;
-    `prompt()` and `summarize_response()`. Implementors of this class should target
+    Implementations of this class need to define at least two mandatory methods;
+    `prompt()` and `summarize_response()`. Implementations of this class should target
     a specific model inference API, such as a platform (Azure, OpenAI), custom
     hosted inference server (Petals, FastChat) or other model-specific APIs.
 

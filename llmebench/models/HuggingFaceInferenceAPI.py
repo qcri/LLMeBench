@@ -53,7 +53,7 @@ class HuggingFaceInferenceAPIModel(ModelBase):
     inference_api_url : str
         The URL to the particular model, as found in the Deploy > Inference API menu in the model's page
     api_token : str
-        HuggingFace API access key. If not provided, will be infered from the environment variable
+        HuggingFace API access key. If not provided, will be inferred from the environment variable
         `HUGGINGFACE_API_TOKEN`
     """
 
