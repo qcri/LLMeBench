@@ -1,14 +1,16 @@
 import json
 import logging
+import os
 import random
 
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.prompts.example_selector import MaxMarginalRelevanceExampleSelector
 from langchain.vectorstores import FAISS
 
-from pooch import Decompress, Pooch, retrieve, UnTar, Unzip
+from pooch import Decompress, Pooch, retrieve, Untar, Unzip
 
 
 class DatasetBase(ABC):
@@ -51,9 +53,8 @@ class DatasetBase(ABC):
     def __init__(self, **kwargs):
         self.data_dir = kwargs.get("data_dir", "data")
 
-    @staticmethod
     @abstractmethod
-    def metadata():
+    def metadata(self):
         """
         Returns the dataset's metadata
 
@@ -124,7 +125,7 @@ class DatasetBase(ABC):
         def decompress(fname, action, pup):
             """
             Post-processing hook to automatically detect the type of archive and
-            call the correct processor (UnZip, UnTar, Decompress)
+            call the correct processor (UnZip, Untar, Decompress)
 
             Parameters
             ----------
@@ -143,24 +144,26 @@ class DatasetBase(ABC):
                List of all extracted files
 
             """
+            # Remove intermediate tar file
+            extract_dir = self.__class__.__name__
             if fname.endswith(".tar.xz"):
                 extractor = Decompress(name=fname[:-3])
                 fname = extractor(fname, action, pup)
 
-                extractor = UnTar(extract_dir=self.__name__)
-                fnames = extractor(fname[:-3], action, pup)
+                extractor = Untar(extract_dir=extract_dir)
+                fnames = extractor(fname, action, pup)
             elif fname.endswith(".tar.bz2"):
                 extractor = Decompress(name=fname[:-4])
                 fname = extractor(fname, action, pup)
 
-                extractor = UnTar(extract_dir=self.__name__)
-                fnames = extractor(fname[:-4], action, pup)
+                extractor = Untar(extract_dir=extract_dir)
+                fnames = extractor(fname, action, pup)
             elif fname.endswith(".tar.gz"):
                 extractor = Decompress(name=fname[:-3])
                 fname = extractor(fname, action, pup)
 
-                extractor = UnTar(extract_dir=self.__name__)
-                fnames = extractor(fname[:-3], action, pup)
+                extractor = Untar(extract_dir=extract_dir)
+                fnames = extractor(fname, action, pup)
             elif fname.endswith(".xz"):
                 extractor = Decompress(name=fname[:-3])
                 fname = extractor(fname, action, pup)
@@ -174,10 +177,10 @@ class DatasetBase(ABC):
                 fname = extractor(fname, action, pup)
                 fnames = [fname]
             elif fname.endswith(".tar"):
-                extractor = UnTar(extract_dir=self.__name__)
+                extractor = Untar(extract_dir=extract_dir)
                 fnames = extractor(fname, action, pup)
             elif fname.endswith(".zip"):
-                extractor = Unzip(extract_dir=self.__name__)
+                extractor = Unzip(extract_dir=extract_dir)
                 fnames = extractor(fname, action, pup)
 
             return fnames
@@ -198,14 +201,11 @@ class DatasetBase(ABC):
         if default_url is not None:
             if default_url.endswith("/"):
                 default_url = default_url[:-1]
-            default_url = f"{default_url}/{self.__name__}.zip"
+            default_url = f"{default_url}/{self.__class__.__name__}.zip"
             download_urls.append(default_url)
 
         # Try downloading from available links in order of priority
         for download_url in download_urls:
-            if not Pooch.is_available(download_url):
-                continue
-
             extension = ".zip"
             supported_extensions = [
                 ".tar.xz",
@@ -219,18 +219,32 @@ class DatasetBase(ABC):
             ]
 
             for ext in supported_extensions:
-                if download_urls.endswith(ext):
+                if download_url.endswith(ext):
                     extension = ext
                     break
+            try:
+                print(f"trying {download_url}")
+                retrieve(
+                    download_url,
+                    known_hash=None,
+                    fname=f"{self.__class__.__name__}{extension}",
+                    path=self.data_dir,
+                    progressbar=True,
+                    processor=decompress,
+                )
+                # If it was a *.tar.* file, we can safely delete the
+                # intermediate *.tar file
+                if extension in supported_extensions[:3]:
+                    tar_file_path = (
+                        Path(self.data_dir) / f"{self.__class__.__name__}.tar"
+                    )
+                    tar_file_path.unlink()
+                print(f"succeeded")
+                break
+            except Exception as e:
+                print(f"issue {e}")
 
-            pooch.retrieve(
-                download_url,
-                known_hash=None,
-                fname=f"{self.__name__}.{extension}",
-                path=self.data_dir,
-                progressbar=True,
-                processor=decompress,
-            )
+                continue
 
     def _deduplicate_train_test(self, train_data, test_data):
         """
