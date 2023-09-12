@@ -19,7 +19,7 @@ def config():
         },
         "general_args": {
             "data_path": "data/QA/xquad/xquad.ar.json",
-            "fewshot": {"train_data_path": "data/QA/arcd/arcd-train.json"},
+            "fewshot": {"train_data_path": "data/QA/ARCD/arcd-train.json"},
         },
     }
 
