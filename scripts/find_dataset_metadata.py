@@ -143,7 +143,7 @@ def main():
                         ("data/MT/madar.test.glf.0.qa.ar", "data/MT/madar.test.glf.0.qa.en"),
                         ("data/MT/madar.test.glf.0.sa.ar", "data/MT/madar.test.glf.0.sa.en"),
                         ("data/MT/madar.test.glf.1.sa.ar", "data/MT/madar.test.glf.1.sa.en"),
-                        ("data/MT/madar.test.glf.0.ye.ar", "data/MT/madar.test.glf.0.ye.ar")
+                        ("data/MT/madar.test.glf.0.ye.ar", "data/MT/madar.test.glf.0.ye.en")
                     ]
                 },
                 "MADAR-LEV" : {

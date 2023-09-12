@@ -16,7 +16,7 @@ def config():
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/Parsing/arabic_PADT_test_gs.conll"
+            "data_path": "data/sequence_tagging_ner_pos_etc/parsing/arabic_PADT_test_gs.conll"
         },
     }
 
