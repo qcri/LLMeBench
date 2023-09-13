@@ -1,11 +1,11 @@
-from llmebench.datasets import Khouja20FactualityDataset
+from llmebench.datasets import ANSFactualityDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
-        "dataset": Khouja20FactualityDataset,
+        "dataset": ANSFactualityDataset,
         "dataset_args": {},
         "task": FactualityTask,
         "task_args": {},

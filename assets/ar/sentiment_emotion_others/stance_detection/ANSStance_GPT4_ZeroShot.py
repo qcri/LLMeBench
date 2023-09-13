@@ -1,11 +1,11 @@
-from llmebench.datasets import Khouja20StanceDataset
+from llmebench.datasets import ANSStanceDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import StanceTask
 
 
 def config():
     return {
-        "dataset": Khouja20StanceDataset,
+        "dataset": ANSStanceDataset,
         "dataset_args": {},
         "task": StanceTask,
         "task_args": {},

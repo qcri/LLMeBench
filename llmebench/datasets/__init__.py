@@ -1,6 +1,8 @@
 from .ADI import ADIDataset
 from .Adult import AdultDataset
 from .ANERcorp import ANERcorpDataset
+from .ANSFactuality import ANSFactualityDataset
+from .ANSStance import ANSStanceDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
@@ -18,8 +20,6 @@ from .CT22Claim import CT22ClaimDataset
 from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
-from .Khouja20Factuality import Khouja20FactualityDataset
-from .Khouja20Stance import Khouja20StanceDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
