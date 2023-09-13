@@ -2,6 +2,8 @@ from collections import defaultdict
 
 from llmebench import Benchmark
 
+from pprint import pprint
+
 import json
 
 def main():
@@ -55,7 +57,6 @@ def main():
         if dataset == "SemEval23T3PropagandaDataset":
             obj = {}
             mapping = {
-                "ar": "ar",
                 "en": "en",
                 "fr": "fr",
                 "ge": "de",
@@ -302,7 +303,9 @@ def main():
                     obj["dev"] = train_path
                 else:
                     obj["train"] = train_path
-        print(json.dumps(obj, indent=2))
+
+        pprint(obj)
+        # print(json.dumps(obj, indent=2))
 
 
 
