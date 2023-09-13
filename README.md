@@ -16,8 +16,8 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 </picture>
 </p>
 
-- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in over **190 [becnhamrking assets](assets/benchmark_v1)** ready to run.
-- Easly extensible to new models accessible through APIs.
+- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in over **190 [benchmarking assets](assets/benchmark_v1)** ready to run.
+- Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
 - Open-source.
@@ -26,12 +26,12 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a
 1. [Install](https://github.com/qcri/LLMeBench/tree/readme_update1#installation) LLMeBench.
 2. [Get the data](https://github.com/qcri/LLMeBench/tree/readme_update1#get-the-benchmark-data).
 3. Evaluate!
-   
+
    For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/benchmark_v1/sentiment/sentiment/ArSAS_Random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
    ```bash
-   python -m llmebench --filter '*ArSAS_Random*' assets/ar/sentiment_emotion_others/sentiment/ results/ 
+   python -m llmebench --filter '*ArSAS_Random*' assets/ar/sentiment_emotion_others/sentiment/ results/
    ```
-   where `ArSAS_Random` is the asset name refering to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`. 
+   where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
 
 ## Installation
 *pip package to be made available soon!*
@@ -54,7 +54,7 @@ pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the benchmark data
-Download the benchmark from [here](https://neurox.qcri.org/projects/llmebench/arabic_llm_benchmark_data.zip), and unzip it into the `Arabic_LLM_Benchmark` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
+Download the benchmark from [here](https://neurox.qcri.org/projects/llmebench/arabic_llm_benchmark_data.zip), and unzip it into the `LLMeBench` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
 
 ```bash
 $ ls data/
@@ -72,33 +72,38 @@ speech
 To run the benchmark,
 
 ```bash
-python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --ignore_cache <benchmark-dir> <results-dir> 
+python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --ignore_cache <benchmark-dir> <results-dir>
 ```
 
 #### Parameters
-- `--filter '*benchmarking_asset*'`: **(Optional)** This flag indicates specific tasks in the benchmark to run. The framework will run a wildecard search using '*benchmarking_asset*' in the assets directory specified by `<benchmark-dir>`. If not set, the framework will run the entire benchmark.
-- `--limit <k>`: **(Optional)** Specify the number of samples from input data to run through the pipeline, to allow effecient testing. If not set, all the samples in a dataset will be evaluated.
+- `--filter '*benchmarking_asset*'`: **(Optional)** This flag indicates specific tasks in the benchmark to run. The framework will run a wildcard search using '*benchmarking_asset*' in the assets directory specified by `<benchmark-dir>`. If not set, the framework will run the entire benchmark.
+- `--limit <k>`: **(Optional)** Specify the number of samples from input data to run through the pipeline, to allow efficient testing. If not set, all the samples in a dataset will be evaluated.
 - `--n_shots <n>`: **(Optional)** If defined, the framework will expect a few-shot asset and will run the few-shot learning paradigm, with `n` as the number of shots. If not set, zero-shot will be assumed.
-- `--ignore_cache`: **(Optional)** A flag to ignore loading and saving intermediate model responses from/to cache. 
+- `--ignore_cache`: **(Optional)** A flag to ignore loading and saving intermediate model responses from/to cache.
 - `<benchmark-dir>`: Path of the directory where the benchmarking assets can be found.
 - `<results-dir>`: Path of the directory where to save output results, along with intermediate cached values.
 - You might need to also define environment variables (like access tokens and API urls, e.g. `AZURE_API_URL` and `AZURE_API_KEY`) depending on the benchmark you are running. This can be done by either:
    - `export AZURE_API_KEY="..."` _before_ running the above command, or
    - prepending `AZURE_API_URL="..." AZURE_API_KEY="..."` to the above command.
+   - supplying a dotenv file using the `--env` flag. Sample dotenv files are provided in the `env/` folder
+   - Each model's documentation specifies what environment variables are expected at runtime.
 
 #### Outputs format
-`<results-dir>`: This flolder will contain the outputs resulting from running assets. It follows this structure:
-- **all_results.json**: A file that presents summarized output of all assets that were run where `<results-dir>` was specified as the output directory. 
+`<results-dir>`: This folder will contain the outputs resulting from running assets. It follows this structure:
+- **all_results.json**: A file that presents summarized output of all assets that were run where `<results-dir>` was specified as the output directory.
 - The framework will create a sub-folder per benchmarking asset in this directory. A sub-folder will contain:
   - **_n.json_**: A file per dataset sample, where *n* indicates sample order in the dataset input file. This file contains input sample, full prompt sent to the model, full model response, and the model output after post-processing as defined in the asset file.
-  - **_summary.jsonl_**: Lists all input samples that successfuly ran through the pipeline, and for each, the raw model prediction, and the post-processed model prediction.
+  - **_summary.jsonl_**: Lists all input samples, and for each, a summarized model prediction, and the post-processed model prediction.
   -  **_summary_failed.jsonl_**: Lists all input samples that didn't get a successful response from the model, in addition to output model's reason behind failure.
   -  **_results.json_**: Contains a summary on number of processed and failed input samples, and evaluation results.
+- For few shot experiments, all results are stored in a sub-folder named like **_3_shot_**, where the number signifies the number of few shots samples provided in that particular experiment
+
+[jq](https://jqlang.github.io/jq/) is a helpful command line utility to analyze the json files. The simplest usage is `jq . summary.jsonl`, which will print a summary of all samples and model responses in a readable form.
 
 #### Caching
-The framework provides caching (if `--ignore_cache` isn't passed), to enable the following: 
+The framework provides caching (if `--ignore_cache` isn't passed), to enable the following:
 - Allowing users to bypass making API calls for items that have already been successfully processed.
-- Enhancing the post-processing of the models’ output, as post-processing can be performed repeatedly without having to call the API every time. 
+- Enhancing the post-processing of the models’ output, as post-processing can be performed repeatedly without having to call the API every time.
 
 #### Running Few Shot Assets
 The framework has some preliminary support to automatically select `n` examples _per test sample_ based on a maximal marginal relevance-based approach (using [langchain's implementation](https://python.langchain.com/docs/modules/model_io/prompts/example_selectors/mmr)). This will be expanded in the future to have more few shot example selection mechanisms (e.g Random, Class based etc.).
@@ -113,10 +118,11 @@ It is possible to extend the framework by at least one of the following componen
 - Asset
 
 ## Citation
-Please cite our paper when referring to this framework!
+Please cite our paper when referring to this framework:
+
 ```
 @article{dalvi2023llmebench,
-      title={LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking}, 
+      title={LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking},
       author={Fahim Dalvi and Maram Hasanain and Sabri Boughorbel and Basel Mousi and Samir Abdaljalil and Nizi Nazar and Ahmed Abdelali and Shammur Absar Chowdhury and Hamdy Mubarak and Ahmed Ali and Majd Hawasly and Nadir Durrani and Firoj Alam},
       year={2023},
       eprint={2308.04945},
