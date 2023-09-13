@@ -1,4 +1,37 @@
-# Arabic LLM Benchmark
+# LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
+
+This repository contains code for the [LLMeBench framework](https://youtu.be/FkQn4UjYA0s?feature=shared) (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using [OpenAI's GPT](https://platform.openai.com/docs/guides/gpt) and [BLOOMZ](https://huggingface.co/bigscience/bloomz) models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+
+<p align="center">
+<picture>
+<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/15d989e0-edc7-489a-ba3b-36184a715383" width="455" height="160"/>
+</picture>
+</p>
+
+## Overview
+<p align="center">
+<picture>
+<img alt = "Summary and examples of the 53 datasets, 31 tasks, 3 models and metrics currently implemented and
+validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a9b926c0-8a10-4334-84b2-ad0b4e3e5ceb" width="470" height="140"/>
+</picture>
+</p>
+
+- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in over **190 [benchmarking assets](assets/benchmark_v1)** ready to run.
+- Easily extensible to new models accessible through APIs.
+- Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
+- Supports zero- and few-shot learning paradigms.
+- Open-source.
+
+## Quick Start!
+1. [Install](https://github.com/qcri/LLMeBench/tree/readme_update1#installation) LLMeBench.
+2. [Get the data](https://github.com/qcri/LLMeBench/tree/readme_update1#get-the-benchmark-data).
+3. Evaluate!
+
+   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/benchmark_v1/sentiment/sentiment/ArSAS_Random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   ```bash
+   python -m llmebench --filter '*ArSAS_Random*' assets/ar/sentiment_emotion_others/sentiment/ results/
+   ```
+   where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
 
 ## Installation
 *pip package to be made available soon!*
@@ -9,7 +42,7 @@ git clone https://github.com/qcri/LLMeBench.git
 cd LLMeBench
 ```
 
-Create a virtual environment:
+Create and activate virtual environment:
 ```bash
 python -m venv .envs/llmebench
 source .envs/llmebench/bin/activate
@@ -21,7 +54,7 @@ pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the benchmark data
-Download the benchmark from [here](https://neurox.qcri.org/projects/llmebench/arabic_llm_benchmark_data.zip), and unzip it into the `Arabic_LLM_Benchmark` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
+Download the benchmark from [here](https://neurox.qcri.org/projects/llmebench/arabic_llm_benchmark_data.zip), and unzip it into the `LLMeBench` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
 
 ```bash
 $ ls data/
@@ -35,146 +68,66 @@ sequence_tagging_ner_pos_etc
 speech
 ```
 
-## Running the benchmark
-A sample benchmark is available in `assets/benchmark_v1`. To run the benchmark,
+## Usage
+To run the benchmark,
 
 ```bash
-python -m llmebench <benchmark-dir> <results-dir>
+python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --ignore_cache <benchmark-dir> <results-dir>
 ```
 
-where `<benchmark-dir>` can point to `assets/benchmark_v1` for example. The
-actual results will be saved in `<results-dir>`, along with intermediate cached values. You might need to also define environment variables such as `AZURE_API_URL` and `AZURE_API_KEY` depending on the benchmark you are running. This can be done by either `export AZURE_API_KEY="..."` _before_ running the above command, or by prepending `AZURE_API_URL="..." AZURE_API_KEY="..."` to the above command.
+#### Parameters
+- `--filter '*benchmarking_asset*'`: **(Optional)** This flag indicates specific tasks in the benchmark to run. The framework will run a wildcard search using '*benchmarking_asset*' in the assets directory specified by `<benchmark-dir>`. If not set, the framework will run the entire benchmark.
+- `--limit <k>`: **(Optional)** Specify the number of samples from input data to run through the pipeline, to allow efficient testing. If not set, all the samples in a dataset will be evaluated.
+- `--n_shots <n>`: **(Optional)** If defined, the framework will expect a few-shot asset and will run the few-shot learning paradigm, with `n` as the number of shots. If not set, zero-shot will be assumed.
+- `--ignore_cache`: **(Optional)** A flag to ignore loading and saving intermediate model responses from/to cache.
+- `<benchmark-dir>`: Path of the directory where the benchmarking assets can be found.
+- `<results-dir>`: Path of the directory where to save output results, along with intermediate cached values.
+- You might need to also define environment variables (like access tokens and API urls, e.g. `AZURE_API_URL` and `AZURE_API_KEY`) depending on the benchmark you are running. This can be done by either:
+   - `export AZURE_API_KEY="..."` _before_ running the above command, or
+   - prepending `AZURE_API_URL="..." AZURE_API_KEY="..."` to the above command.
+   - supplying a dotenv file using the `--env` flag. Sample dotenv files are provided in the `env/` folder
+   - Each model's documentation specifies what environment variables are expected at runtime.
 
-## Adding a new task
-Before adding a new task, make sure you have the latest changes:
+#### Outputs format
+`<results-dir>`: This folder will contain the outputs resulting from running assets. It follows this structure:
+- **all_results.json**: A file that presents summarized output of all assets that were run where `<results-dir>` was specified as the output directory.
+- The framework will create a sub-folder per benchmarking asset in this directory. A sub-folder will contain:
+  - **_n.json_**: A file per dataset sample, where *n* indicates sample order in the dataset input file. This file contains input sample, full prompt sent to the model, full model response, and the model output after post-processing as defined in the asset file.
+  - **_summary.jsonl_**: Lists all input samples, and for each, a summarized model prediction, and the post-processed model prediction.
+  -  **_summary_failed.jsonl_**: Lists all input samples that didn't get a successful response from the model, in addition to output model's reason behind failure.
+  -  **_results.json_**: Contains a summary on number of processed and failed input samples, and evaluation results.
+- For few shot experiments, all results are stored in a sub-folder named like **_3_shot_**, where the number signifies the number of few shots samples provided in that particular experiment
 
-```bash
-git pull
+[jq](https://jqlang.github.io/jq/) is a helpful command line utility to analyze the json files. The simplest usage is `jq . summary.jsonl`, which will print a summary of all samples and model responses in a readable form.
+
+#### Caching
+The framework provides caching (if `--ignore_cache` isn't passed), to enable the following:
+- Allowing users to bypass making API calls for items that have already been successfully processed.
+- Enhancing the post-processing of the models’ output, as post-processing can be performed repeatedly without having to call the API every time.
+
+#### Running Few Shot Assets
+The framework has some preliminary support to automatically select `n` examples _per test sample_ based on a maximal marginal relevance-based approach (using [langchain's implementation](https://python.langchain.com/docs/modules/model_io/prompts/example_selectors/mmr)). This will be expanded in the future to have more few shot example selection mechanisms (e.g Random, Class based etc.).
+
+To run few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--n_shots` is > zero, only few shot assets are run.
+
+## Tutorial
+It is possible to extend the framework by at least one of the following components. Details on implementing each can be found in the [tutorial page](tutorial.md):
+- Model
+- Task
+- Dataset
+- Asset
+
+## Citation
+Please cite our paper when referring to this framework:
+
 ```
-
-Create a new branch for your task
-```bash
-git checkout -b feat/sarcasm_task
+@article{dalvi2023llmebench,
+      title={LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking},
+      author={Fahim Dalvi and Maram Hasanain and Sabri Boughorbel and Basel Mousi and Samir Abdaljalil and Nizi Nazar and Ahmed Abdelali and Shammur Absar Chowdhury and Hamdy Mubarak and Ahmed Ali and Majd Hawasly and Nadir Durrani and Firoj Alam},
+      year={2023},
+      eprint={2308.04945},
+      journal={arXiv:2308.04945},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2308.04945}
+}
 ```
-
-### Dataset
-Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See an existing dataset module for inspiration. Each new dataset class requires implementing three functions:
-
-```python
-class NewDataset(DatasetBase):
-	def __init__(self, custom_param_1, custom_param_2, **kwargs):
-		# custom_param_1/2 are passed from `dataset_args` in the benchmark
-		# config
-		...
-		super(NewDataset, self).__init__(**kwargs)
-
-	def citation():
-		# This function returns a string with the bib entry for the dataset
-
-	def load_data(self, data_path):
-		# This function loads the data and _must_ return a list of
-		# dictionaries, where each dictionary has atleast two keys
-		#   "input": this will be sent to the prompt generator
-		#   "label": this will be used for evaluation
-```
-
-Once the `Dataset` is implemented, export it in `llmebench/datasets/__init__.py`.
-
-### Task
-Check if the task you are adding to the benchmark already has an implementation in `llmebench/tasks`. If not, implement a new dataset module (e.g. `llmebench/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) which subclasses `TaskBase`. See an existing task module for inspiration. Each new task class requires implementing two functions:
-
-```python
-class NewTask(TaskBase):
-	def __init__(self, custom_param_1, custom_param_2, **kwargs):
-		# custom_param_1/2 are passed from `task_args` in the benchmark
-		# config
-		...
-		super(NewTask, self).__init__(**kwargs)
-
-	def evaluate(self, true_labels, predicted_labels):
-		# This function gets two lists, the `true_labels` from the
-		# dataset loader, and `predicted_labels` from the
-		# post_process function
-```
-
-Once the `Task` is implemented, export it in `llmebench/tasks/__init__.py`.
-
-### Model
-Next, check if the model you are trying to run the benchmark for has an implementation in `llmebench/models`. If not, implement a new model module (e.g. `llmebench/models/QARiB.py`), which implements a class (e.g. `QARiBModel`) which subclasses `ModelBase`. See an existing model module for inspiration. Each new model class requires implementing two functions:
-
-```python
-class NewModel(TaskBase):
-	def __init__(self, custom_param_1, custom_param_2, **kwargs):
-		# custom_param_1/2 are passed from `model_args` in the benchmark
-		# config
-		...
-		super(NewModel, self).__init__(**kwargs)
-
-	def prompt(self, **kwargs):
-		# This function gets the pre-processed input and must
-		# run the actual model and return model outputs
-```
-
-Once the `Model` is implemented, export it in `llmebench/models/__init__.py`.
-
-### Benchmark Asset
-Now that the Dataset, Task and Model are defined, the framework expects a given benchmark asset (e.g. "ArabGender" dataset, "GenderClassification" task, "GPT" model and "ZeroShot" prompting setting) to have a `*.py` file with three functions:
-
-```python
-def config():
-	# This function returns a dictionary with the dataset, task and model the
-	# current run is targeting along with arguments for each of these, as well
-	# as a path to the dataset itself.
-
-def prompt(input_sample):
-	# This function receives an input_sample and pre-processes it into the
-	# expected input for the model being uses. For instance, GPTModel expects
-	# its input to be a dictionary with two keys, ``system_message`` and a list
-	# of ``messages`` with the ``sender`` and ``text`` in each message.
-	# See the documentation linked with the available models for exact specifications
-
-def post_process(response):
-	# This function takes the output from the model, and post-processes it to
-	# extract the actual prediction. The framework expects this function to
-	# return one of the labels (or None if the model output cannot be parsed
-	# into a label). The output of the function is matched with the gold label
-	# in a task's evaluation function.
-```
-
-### Testing
-The benchmarking module allows one to run a specific asset instead of the entire benchmark using the `--filter` option. It is also a good idea to use the `--limit` option to limit the tests to few (e.g. 5 samples). Sample command below:
-
-```bash
-python -m llmebench --filter 'demography/gender/AraGend_ChatGPT_ZeroShot' --limit 5 --ignore_cache <benchmark-dir> <results-dir>
-```
-
-Make sure to also run `scripts/run_tests.sh` before submitting your code, and once you are ready, you can commit your changes locally and push them to a remote branch:
-
-```bash
-git push origin feat/sarcasm_task
-```
-
-and open a _pull request_ by going to the [repository webpage](https://github.com/qcri/Arabic_LLM_Benchmark)
-
-### Creating Few Shot Assets
-The framework has some preliminary support to automatically select N examples per test sample based on sentence similarity (using langchain's implementation). This will be expanded in the future to have more few shot example selection mechanism (e.g Random, Class based etc.). For now, a config needs to have the following keys to enable the few shot pipeline:
-
-```python
-"general_args": {
-        "data_path": "...",
-        # ...other general args
-        "fewshot": {
-            "train_data_path": "... path to train data ...",
-        },
-    },
-```
-
-and the prompt function needs to accept two parameters:
-
-```python
-def prompt(input_sample, examples):
-	# "examples" will contain the few shots samples selected
-	# for this particular test sample
-```
-
-To run the actual few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--nshots` is set to something greater than zero, only few shot assets are run.
