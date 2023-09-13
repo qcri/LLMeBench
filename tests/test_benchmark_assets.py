@@ -1,18 +1,13 @@
 import types
 
 import unittest
-from unittest.mock import patch
 
 from llmebench import Benchmark
 
 
 class TestBenchmarkAssets(unittest.TestCase):
     @classmethod
-    @patch("os.environ")
-    def setUpClass(cls, os_env_mock):
-        # Handle environment variables required at runtime
-        os_env_mock.__getitem__.side_effect = lambda x: "test_str"
-
+    def setUpClass(cls):
         benchmark = Benchmark(benchmark_dir="assets")
 
         cls.assets = benchmark.find_assets()

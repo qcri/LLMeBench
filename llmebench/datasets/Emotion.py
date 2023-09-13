@@ -5,15 +5,24 @@ class EmotionDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(EmotionDataset, self).__init__(**kwargs)
 
-    def citation(self):
-        return """@misc{hassan2022crosslingual,
-                title={Cross-lingual Emotion Detection}, 
-                author={Sabit Hassan and Shaden Shaar and Kareem Darwish},
-                year={2022},
-                eprint={2106.06017},
-                archivePrefix={arXiv},
-                primaryClass={cs.CL}
-                }"""
+    def metadata():
+        return {
+            "language": "ar",
+            "citation": """@inproceedings{hassan-etal-2022-cross,
+                title = "Cross-lingual Emotion Detection",
+                author = "Hassan, Sabit  and
+                  Shaar, Shaden  and
+                  Darwish, Kareem",
+                booktitle = "Proceedings of the Thirteenth Language Resources and Evaluation Conference",
+                month = jun,
+                year = "2022",
+                address = "Marseille, France",
+                publisher = "European Language Resources Association",
+                url = "https://aclanthology.org/2022.lrec-1.751",
+                pages = "6948--6958",
+                abstract = "Emotion detection can provide us with a window into understanding human behavior. Due to the complex dynamics of human emotions, however, constructing annotated datasets to train automated models can be expensive. Thus, we explore the efficacy of cross-lingual approaches that would use data from a source language to build models for emotion detection in a target language. We compare three approaches, namely: i) using inherently multilingual models; ii) translating training data into the target language; and iii) using an automatically tagged parallel corpus. In our study, we consider English as the source language with Arabic and Spanish as target languages. We study the effectiveness of different classification models such as BERT and SVMs trained with different features. Our BERT-based monolingual models that are trained on target language data surpass state-of-the-art (SOTA) by 4{\\%} and 5{\\%} absolute Jaccard score for Arabic and Spanish respectively. Next, we show that using cross-lingual approaches with English data alone, we can achieve more than 90{\\%} and 80{\\%} relative effectiveness of the Arabic and Spanish BERT models respectively. Lastly, we use LIME to analyze the challenges of training cross-lingual models for different language pairs.",
+            }""",
+        }
 
     def get_data_sample(self):
         return {"input": "Tweet", "label": [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
