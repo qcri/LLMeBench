@@ -9,11 +9,11 @@ class CT22HarmfulDataset(DatasetBase):
         return {
             "language": ["ar", "bg", "nl", "en", "tr"],
             "citation": """@inproceedings{nakov2022overview,
-                    title={Overview of the CLEF-2022 CheckThat! lab task 1 on identifying relevant claims in tweets},
-                    author={Nakov, Preslav and Barr{\\'o}n-Cede{\\~n}o, Alberto and Da San Martino, Giovanni and Alam, Firoj and Kutlu, Mucahid and Zaghouani, Wajdi and Li, Chengkai and Shaar, Shaden and Mubarak, Hamdy and Nikolov, Alex},
-                     year={2022},
-                    booktitle={Proceedings of the Working Notes of CLEF 2022 - Conference and Labs of the Evaluation Forum}
-                }""",
+                title={Overview of the CLEF-2022 CheckThat! lab task 1 on identifying relevant claims in tweets},
+                author={Nakov, Preslav and Barr{\\'o}n-Cede{\\~n}o, Alberto and Da San Martino, Giovanni and Alam, Firoj and Kutlu, Mucahid and Zaghouani, Wajdi and Li, Chengkai and Shaar, Shaden and Mubarak, Hamdy and Nikolov, Alex},
+                 year={2022},
+                booktitle={Proceedings of the Working Notes of CLEF 2022 - Conference and Labs of the Evaluation Forum}
+            }""",
         }
 
     def get_data_sample(self):
