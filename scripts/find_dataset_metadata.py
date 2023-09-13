@@ -6,6 +6,17 @@ from pprint import pprint
 
 import json
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def main():
     benchmark = Benchmark(benchmark_dir="assets")
 
@@ -13,6 +24,7 @@ def main():
 
     train_dataset_metadata = defaultdict(set)
     test_dataset_metadata = defaultdict(set)
+    class_labels_metadata = defaultdict(set)
 
     for asset in assets:
         configs = asset["module"].config()
@@ -26,7 +38,6 @@ def main():
         for c in configs:
             config = c["config"]
             dataset_name = config["dataset"].__name__
-            # print(asset["name"])
 
             data_path = config["general_args"]["data_path"]
             if isinstance(data_path, dict):
@@ -50,8 +61,14 @@ def main():
             if train_data_path:
                 train_dataset_metadata[dataset_name].add((train_data_path, asset_name))
 
+
+            if "class_labels" in config["model_args"]:
+                # Ignore language
+                class_labels_metadata[dataset_name].add((tuple(config["model_args"]["class_labels"]), asset_name[3:]))
+
     # print("Test data paths")
-    for dataset in test_dataset_metadata:
+    for dataset in sorted(test_dataset_metadata):
+        print("================================================")
         print(dataset)
         obj = {}
         if dataset == "SemEval23T3PropagandaDataset":
@@ -305,6 +322,12 @@ def main():
                     obj["train"] = train_path
 
         pprint(obj)
+        print("")
+        if len(class_labels_metadata[dataset]) > 1:
+            print(bcolors.FAIL)
+        for label_list, asset in class_labels_metadata[dataset]:
+            print(f"{label_list} ({asset})")
+        print(bcolors.ENDC)
         # print(json.dumps(obj, indent=2))
 
 
