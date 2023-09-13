@@ -3,9 +3,9 @@ import pandas as pd
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class NewsCatAlArabiyaDataset(DatasetBase):
+class SANADAlArabiyaDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(NewsCatAlArabiyaDataset, self).__init__(**kwargs)
+        super(SANADAlArabiyaDataset, self).__init__(**kwargs)
 
     def get_data_sample(self):
         return {"input": "some tweet", "label": "checkworthy"}

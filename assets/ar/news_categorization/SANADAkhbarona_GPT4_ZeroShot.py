@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlKhaleejDataset
+from llmebench.datasets import SANADAkhbaronaDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -10,32 +10,32 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlKhaleejDataset,
+        "dataset": SANADAkhbaronaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
-                "culture",
-                "finance",
-                "medical",
                 "politics",
                 "religion",
+                "medical",
                 "sports",
                 "tech",
+                "finance",
+                "culture",
             ],
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
+            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv"
         },
     }
 
 
 def prompt(input_sample):
     prompt_string = (
-        f'Categorize the news "article" into one of the following categories: culture, finance, medical, politics, religion, sports, tech\n\n'
+        f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture\n\n'
         f"article: {input_sample}\n"
         f"category: \n"
     )
@@ -53,23 +53,19 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
-    label_list = config()["model_args"]["class_labels"]
+
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
     label_fixed = label_fixed.replace("health/nutrition", "medical")
-
-    if label_fixed.strip() in label_list:
-        label_fixed = label_fixed.strip()
-
-    elif "science/physics" in label_fixed:
+    if len(label_fixed.split("\s+")) > 1:
+        label_fixed = label_fixed.split("\s+")[0]
+    label_fixed = random.choice(label_fixed.split("/")).strip()
+    if "science/physics" in label_fixed:
         label_fixed = label_fixed.replace("science/physics", "tech")
-    elif label_fixed.startswith("culture"):
+    if label_fixed.startswith("culture"):
         label_fixed = label_fixed.split("(")[0]
+
         label_fixed = label_fixed.replace("culture.", "culture")
-    elif "/" in label:
-        label_fixed = random.choice(label_fixed.split("/")).strip()
-    else:
-        label_fixed = None
 
     return label_fixed

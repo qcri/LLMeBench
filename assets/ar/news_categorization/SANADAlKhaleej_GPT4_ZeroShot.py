@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlArabiyaDataset
+from llmebench.datasets import SANADAlKhaleejDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -10,56 +10,35 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlArabiyaDataset,
+        "dataset": SANADAlKhaleejDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
+                "culture",
+                "finance",
+                "medical",
                 "politics",
                 "religion",
-                "medical",
                 "sports",
                 "tech",
-                "finance",
-                "culture",
             ],
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv",
-            "fewshot": {
-                "train_data_path": "data/news_categorization/SANAD_alarabiya_news_cat_train.tsv"
-            },
+            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
         },
     }
 
 
-def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n"
-    out_prompt = out_prompt + "Here are some examples:\n\n"
-
-    for index, example in enumerate(examples):
-        out_prompt = (
-            out_prompt
-            + "Example "
-            + str(index)
-            + ":"
-            + "\n"
-            + "article: "
-            + example["input"]
-            + "\ncategory: "
-            + example["label"]
-            + "\n\n"
-        )
-    out_prompt = out_prompt + "article: " + input_sample + "\ncategory: \n"
-
-    return out_prompt
-
-
-def prompt(input_sample, examples):
-    base_prompt = f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture'
+def prompt(input_sample):
+    prompt_string = (
+        f'Categorize the news "article" into one of the following categories: culture, finance, medical, politics, religion, sports, tech\n\n'
+        f"article: {input_sample}\n"
+        f"category: \n"
+    )
     return [
         {
             "role": "system",
@@ -67,22 +46,21 @@ def prompt(input_sample, examples):
         },
         {
             "role": "user",
-            "content": few_shot_prompt(input_sample, base_prompt, examples),
+            "content": prompt_string,
         },
     ]
 
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
-
     label_list = config()["model_args"]["class_labels"]
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
     label_fixed = label_fixed.replace("health/nutrition", "medical")
 
-    if label_fixed in label_list:
-        label_fixed = label_fixed
+    if label_fixed.strip() in label_list:
+        label_fixed = label_fixed.strip()
 
     elif "science/physics" in label_fixed:
         label_fixed = label_fixed.replace("science/physics", "tech")

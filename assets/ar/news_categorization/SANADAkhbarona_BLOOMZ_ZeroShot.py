@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAkhbaronaDataset
+from llmebench.datasets import SANADAkhbaronaDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -9,7 +9,7 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAkhbaronaDataset,
+        "dataset": SANADAkhbaronaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},

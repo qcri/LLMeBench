@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlArabiyaDataset
+from llmebench.datasets import SANADAlKhaleejDataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -9,25 +9,25 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlArabiyaDataset,
+        "dataset": SANADAlKhaleejDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [
+                "culture",
+                "finance",
+                "medical",
                 "politics",
                 "religion",
-                "medical",
                 "sports",
                 "tech",
-                "finance",
-                "culture",
             ],
             "max_tries": 3,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv"
+            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
         },
     }
 
@@ -38,7 +38,7 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\narticle: {input_sample}\ncategory: \n",
+                "text": f"Classify the following news article into one of the following categories: culture, finance, medical, politics, religion, sports, tech\n\narticle: {input_sample}\ncategory: \n",
             }
         ],
     }

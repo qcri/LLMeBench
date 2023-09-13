@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlKhaleejDataset
+from llmebench.datasets import SANADAlKhaleejDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -10,7 +10,7 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlKhaleejDataset,
+        "dataset": SANADAlKhaleejDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},

@@ -1,36 +1,33 @@
 import random
 
-from llmebench.datasets import ASNDDataset
+from llmebench.datasets import SANADAlArabiyaDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
+
+random.seed(1333)
 
 
 def config():
     return {
-        "dataset": ASNDDataset,
+        "dataset": SANADAlArabiyaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [
-                "crime-war-conflict",
-                "spiritual",
-                "health",
                 "politics",
-                "human-rights-press-freedom",
-                "education",
-                "business-and-economy",
-                "art-and-entertainment",
-                "others",
-                "science-and-technology",
+                "religion",
+                "medical",
                 "sports",
-                "environment",
+                "tech",
+                "finance",
+                "culture",
             ],
             "max_tries": 10,
         },
         "general_args": {
-            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv"
+            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv"
         },
     }
 
@@ -44,16 +41,12 @@ def prompt(input_sample):
         article = " ".join(arr)
 
     prompt_string = (
-        f"You are an expert news editor and know how to categorize news articles.\n\n"
-        f"Categorize the following tweet into one of the following categories: "
-        f"crime-war-conflict, spiritual, health, politics, human-rights-press-freedom, "
-        f"education, business-and-economy, art-and-entertainment, others, "
-        f"science-and-technology, sports, environment\n"
+        f"You are an expert news editor and you can categorize news articles.\n\n"
+        f'Categorize the following news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture\n'
         f"Provide only label and in English.\n\n"
-        f"\ntweet: {article}"
-        f"\ncategory: \n"
+        f"article: {article}\n"
+        f"category: \n"
     )
-
     return {"prompt": prompt_string}
 
 
@@ -77,7 +70,5 @@ def post_process(response):
         label_fixed = label_fixed.split("(")[0]
 
         label_fixed = label_fixed.replace("culture.", "culture")
-    else:
-        label_fixed = None
 
     return label_fixed

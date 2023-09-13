@@ -3,9 +3,9 @@ import pandas as pd
 from llmebench.datasets.dataset_base import DatasetBase
 
 
-class NewsCatASNDDataset(DatasetBase):
+class ASNDDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(NewsCatASNDDataset, self).__init__(**kwargs)
+        super(ASNDDataset, self).__init__(**kwargs)
 
     def get_data_sample(self):
         return {"input": "some tweet", "label": "crime-war-conflict"}

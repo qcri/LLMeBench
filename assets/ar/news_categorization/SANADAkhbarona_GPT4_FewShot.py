@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlArabiyaDataset
+from llmebench.datasets import SANADAkhbaronaDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -10,7 +10,7 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlArabiyaDataset,
+        "dataset": SANADAkhbaronaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
@@ -28,17 +28,38 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv"
+            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv",
+            "fewshot": {
+                "train_data_path": "data/news_categorization/SANAD_akhbarona_news_cat_train.tsv"
+            },
         },
     }
 
 
-def prompt(input_sample):
-    prompt_string = (
-        f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture\n\n'
-        f"article: {input_sample}\n"
-        f"category: \n"
-    )
+def few_shot_prompt(input_sample, base_prompt, examples):
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
+        out_prompt = (
+            out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
+            + "article: "
+            + example["input"]
+            + "\ncategory: "
+            + example["label"]
+            + "\n\n"
+        )
+    out_prompt = out_prompt + "article: " + input_sample + "\ncategory: \n"
+
+    return out_prompt
+
+
+def prompt(input_sample, examples):
+    base_prompt = f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture'
     return [
         {
             "role": "system",
@@ -46,7 +67,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": prompt_string,
+            "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
 
@@ -58,6 +79,9 @@ def post_process(response):
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
     label_fixed = label_fixed.replace("health/nutrition", "medical")
+    label_fixed = label_fixed.replace("nutrition", "medical")
+    label_fixed = label_fixed.replace("health", "medical")
+
     if len(label_fixed.split("\s+")) > 1:
         label_fixed = label_fixed.split("\s+")[0]
     label_fixed = random.choice(label_fixed.split("/")).strip()

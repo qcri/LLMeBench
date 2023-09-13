@@ -1,11 +1,11 @@
-from llmebench.datasets import NewsCatASNDDataset
+from llmebench.datasets import ASNDDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
 
 def config():
     return {
-        "dataset": NewsCatASNDDataset,
+        "dataset": ASNDDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},

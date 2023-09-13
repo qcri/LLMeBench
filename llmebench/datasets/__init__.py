@@ -11,6 +11,7 @@ from .ARCD import ARCDDataset
 from .ArSarcasm import ArSarcasmDataset
 from .ArSarcasm2 import ArSarcasm2Dataset
 from .ArSAS import ArSASDataset
+from .ASND import ASNDDataset
 from .BanglaSentiment import BanglaSentimentDataset
 from .BibleMaghrebiDiacritization import BibleMaghrebiDiacritizationDataset
 from .COVID19Factuality import COVID19FactualityDataset
@@ -24,16 +25,15 @@ from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
 from .NameInfo import NameInfoDataset
-from .NewsCatAkhbarona import NewsCatAkhbaronaDataset
-from .NewsCatAlArabiya import NewsCatAlArabiyaDataset
-from .NewsCatAlKhaleej import NewsCatAlKhaleejDataset
-from .NewsCatASND import NewsCatASNDDataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
 from .QADI import QADIDataset
 from .QCRIDialectalArabicPOS import QCRIDialectalArabicPOSDataset
 from .QCRIDialectalArabicSegmentation import QCRIDialectalArabicSegmentationDataset
+from .SANADAkhbarona import SANADAkhbaronaDataset
+from .SANADAlArabiya import SANADAlArabiyaDataset
+from .SANADAlKhaleej import SANADAlKhaleejDataset
 from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset

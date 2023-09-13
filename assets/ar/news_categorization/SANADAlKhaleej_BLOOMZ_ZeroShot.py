@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlArabiyaDataset
+from llmebench.datasets import SANADAlKhaleejDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -9,25 +9,25 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlArabiyaDataset,
+        "dataset": SANADAlKhaleejDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [
+                "culture",
+                "finance",
+                "medical",
                 "politics",
                 "religion",
-                "medical",
                 "sports",
                 "tech",
-                "finance",
-                "culture",
             ],
             "max_tries": 10,
         },
         "general_args": {
-            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv"
+            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
         },
     }
 
@@ -41,8 +41,8 @@ def prompt(input_sample):
         article = " ".join(arr)
 
     prompt_string = (
-        f"You are an expert news editor and you can categorize news articles.\n\n"
-        f'Categorize the following news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture\n'
+        f"You are an expert news editor and know how to categorize news articles.\n\n"
+        f'Categorize the news "article" into one of the following categories: culture, finance, medical, politics, religion, sports, tech\n'
         f"Provide only label and in English.\n\n"
         f"article: {article}\n"
         f"category: \n"
