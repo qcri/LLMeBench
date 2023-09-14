@@ -8,8 +8,7 @@ class ArapTweetDataset(DatasetBase):
     def metadata():
         return {
             "language": "ar",
-            "citation": """
-            @inproceedings{zaghouani2018arap,
+            "citation": """@inproceedings{zaghouani2018arap,
                 title={Arap-Tweet: A Large Multi-Dialect Twitter Corpus for Gender, Age and Language Variety Identification},
                 author={Zaghouani, Wajdi and Charfi, Anis},
                 booktitle={Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
@@ -21,15 +20,14 @@ class ArapTweetDataset(DatasetBase):
               booktitle={OSACT 3: The 3rd Workshop on Open-Source Arabic Corpora and Processing Tools},
               pages={68},
               year={2018}
-            }                       
+            }
             @inproceedings{charfi2019fine,
               title={A Fine-Grained Annotated Multi-Dialectal Arabic Corpus},
               author={Charfi, Anis and Zaghouani, Wajdi and Mehdi, Syed Hassan and Mohamed, Esraa},
               booktitle={Proceedings of the International Conference on Recent Advances in Natural Language Processing (RANLP 2019)},
               pages={198--204},
               year={2019}
-            }              
-            """,
+            }""",
         }
 
     def get_data_sample(self):
