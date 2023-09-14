@@ -6,6 +6,7 @@ from pathlib import Path
 import llmebench.datasets as datasets
 
 from langcodes import tag_is_valid
+from llmebench.tasks import TaskType
 
 
 class TestDatasetMetadata(unittest.TestCase):
@@ -22,13 +23,15 @@ class TestDatasetMetadata(unittest.TestCase):
 
         for dataset in self.datasets:
             with self.subTest(msg=dataset.__name__):
-                self.assertIsInstance(dataset.metadata(), dict)
-                self.assertIn("citation", dataset.metadata())
-                self.assertIsInstance(dataset.metadata()["citation"], str)
-                self.assertIn("language", dataset.metadata())
-                self.assertIsInstance(dataset.metadata()["language"], (str, list))
+                metadata = dataset.metadata()
 
-                languages = dataset.metadata()["language"]
+                self.assertIsInstance(metadata, dict)
+                self.assertIn("citation", metadata)
+                self.assertIsInstance(metadata["citation"], str)
+                self.assertIn("language", metadata)
+                self.assertIsInstance(metadata["language"], (str, list))
+
+                languages = metadata["language"]
                 if isinstance(languages, str):
                     languages = [languages]
 
@@ -37,3 +40,19 @@ class TestDatasetMetadata(unittest.TestCase):
                         language == "multilingual" or tag_is_valid(language),
                         f"{language} is not a valid language",
                     )
+
+                self.assertIn("splits", metadata)
+
+                self.assertIn("task_type", metadata)
+                self.assertIsInstance(metadata["task_type"], TaskType)
+
+                if metadata["task_type"] in [
+                    TaskType.Classification,
+                    TaskType.Labeling,
+                    TaskType.MultiLabelClassification,
+                ]:
+                    self.assertIn("class_labels", metadata)
+                    self.assertIsInstance(metadata["class_labels"], list)
+                elif metadata["task_type"] == TaskType.Regression:
+                    self.assertIn("score_range", metadata)
+                    self.assertIsInstance(metadata["score_range"], tuple)
