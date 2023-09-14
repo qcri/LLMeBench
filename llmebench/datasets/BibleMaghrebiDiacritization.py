@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class BibleMaghrebiDiacritizationDataset(DatasetBase):
@@ -22,6 +23,17 @@ class BibleMaghrebiDiacritizationDataset(DatasetBase):
                 isbn = {979-10-95546-25-2},
                 language = {english}
             }""",
+            "splits": {
+                "test": [
+                    "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.test.src-tgt.txt",
+                    "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.test.src-tgt.txt",
+                ],
+                "train": [
+                    "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.dev.src-tgt.txt",
+                    "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.dev.src-tgt.txt",
+                ],
+            },
+            "task_type": TaskType.Other,
         }
 
     def get_data_sample(self):

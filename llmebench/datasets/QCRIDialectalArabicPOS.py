@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class QCRIDialectalArabicPOSDataset(DatasetBase):
@@ -22,6 +23,24 @@ class QCRIDialectalArabicPOSDataset(DatasetBase):
                 isbn = {979-10-95546-00-9},
                 language = {english}
             }""",
+            "link": "https://alt.qcri.org/resources/da_resources/",
+            "license": "Apache License, Version 2.0",
+            "splits": {
+                "dev": [
+                    "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.dev.src-trg.sent",
+                    "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.dev.src-trg.sent",
+                    "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.dev.src-trg.sent",
+                    "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.dev.src-trg.sent",
+                ],
+                "test": [
+                    "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.test.src-trg.sent",
+                    "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.test.src-trg.sent",
+                    "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.test.src-trg.sent",
+                    "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.test.src-trg.sent",
+                ],
+            },
+            "task_type": TaskType.Labeling,
+            "class_labels": [],
         }
 
     def get_data_sample(self):

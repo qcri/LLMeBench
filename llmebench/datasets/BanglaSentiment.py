@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class BanglaSentimentDataset(DatasetBase):
@@ -22,6 +23,14 @@ class BanglaSentimentDataset(DatasetBase):
                 Year = {2020},
                 url={https://github.com/banglanlp/bangla-sentiment-classification},
             }""",
+            "link": "https://github.com/banglanlp/bangla-sentiment-classification",
+            "license": "CC BY-NC-SA 2.0",
+            "splits": {
+                "test": "data/sentiment_emotion_others/sentiment/bn/bn_all_test.tsv",
+                "train": "data/sentiment_emotion_others/sentiment/bn/bn_all_train.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["Positive", "Negative", "Neutral"],
         }
 
     def get_data_sample(self):

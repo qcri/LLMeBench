@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class MGBWordsDataset(DatasetBase):
@@ -24,6 +25,23 @@ class MGBWordsDataset(DatasetBase):
                 pages = "2274--2285",
                 abstract = "We introduce the largest transcribed Arabic speech corpus, QASR, collected from the broadcast domain. This multi-dialect speech dataset contains 2,000 hours of speech sampled at 16kHz crawled from Aljazeera news channel. The dataset is released with lightly supervised transcriptions, aligned with the audio segments. Unlike previous datasets, QASR contains linguistically motivated segmentation, punctuation, speaker information among others. QASR is suitable for training and evaluating speech recognition systems, acoustics- and/or linguistics- based Arabic dialect identification, punctuation restoration, speaker identification, speaker linking, and potentially other NLP modules for spoken data. In addition to QASR transcription, we release a dataset of 130M words to aid in designing and training a better language model. We show that end-to-end automatic speech recognition trained on QASR reports a competitive word error rate compared to the previous MGB-2 corpus. We report baseline results for downstream natural language processing tasks such as named entity recognition using speech transcript. We also report the first baseline for Arabic punctuation restoration. We make the corpus available for the research community.",
             }""",
+            "link": "https://alt.qcri.org/resources/MGB-words.txt",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/NER/mgb/MGB-words.txt"
+            },
+            "task_type": TaskType.Labeling,
+            "class_labels": [
+                "B-PERS",
+                "I-PERS",
+                "B-LOC",
+                "I-LOC",
+                "B-ORG",
+                "I-ORG",
+                "B-MISC",
+                "I-MISC",
+                "O",
+            ],
         }
 
     def get_data_sample(self):

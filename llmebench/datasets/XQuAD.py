@@ -1,6 +1,7 @@
 import json
 
 from llmebench.datasets.SQuADBase import SQuADBase
+from llmebench.tasks import TaskType
 
 
 class XQuADDataset(SQuADBase):
@@ -17,4 +18,11 @@ class XQuADDataset(SQuADBase):
                 pages={4623--4637},
                 year={2020}
             }""",
+            "link": "https://github.com/google-deepmind/xquad",
+            "license": "CC-BY-SA4.0",
+            "splits": {
+                "test": "data/QA/xquad/xquad.ar.json",
+                "train": "data/QA/ARCD/arcd-train.json",
+            },
+            "task_type": TaskType.QuestionAnswering,
         }

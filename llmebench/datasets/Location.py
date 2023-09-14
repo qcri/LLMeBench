@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class LocationDataset(DatasetBase):
@@ -15,13 +16,42 @@ class LocationDataset(DatasetBase):
                 pages={145--153},
                 year={2021}
             }""",
+            "link": "https://alt.qcri.org/resources/UL2C-UserLocationsToCountries.tsv",
+            "splits": {
+                "test": "data/demographic_attributes/location/arab+others.txt",
+                "train": "data/demographic_attributes/location/dev.txt",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": [
+                "ae",
+                "OTHERS",
+                "bh",
+                "dz",
+                "eg",
+                "iq",
+                "jo",
+                "kw",
+                "lb",
+                "ly",
+                "ma",
+                "om",
+                "ps",
+                "qa",
+                "sa",
+                "sd",
+                "so",
+                "sy",
+                "tn",
+                "UNK",
+                "ye",
+                "mr",
+            ],
         }
 
     def get_data_sample(self):
         return {"input": "Doha, Qatar", "label": "QA"}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         # Format: location \t country_code
         data = []
         with open(data_path, "r") as fp:

@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class PADTDataset(DatasetBase):
@@ -34,6 +35,12 @@ class PADTDataset(DatasetBase):
                 publisher={2004a}
             }
             """,
+            "link": "https://ufal.mff.cuni.cz/padt/PADT_1.0/docs/index.html",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/parsing/arabic_PADT_test_gs.conll",
+                "train": "data/sequence_tagging_ner_pos_etc/parsing/arabic_PADT_train.conll",
+            },
+            "task_type": TaskType.Other,
         }
 
     def get_data_sample(self):

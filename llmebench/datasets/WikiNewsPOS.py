@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class WikiNewsPOSDataset(DatasetBase):
@@ -15,6 +16,14 @@ class WikiNewsPOSDataset(DatasetBase):
                 pages={130--137},
                 year={2017}
             }""",
+            "link": "https://github.com/kdarwish/Farasa/blob/master/WikiNews.pos.ref",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruth.txt.POS.tab",
+                "train": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruthDev.txt",
+            },
+            "task_type": TaskType.Labeling,
+            "class_labels": [],
         }
 
     def get_data_sample(self):

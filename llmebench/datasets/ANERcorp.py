@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ANERcorpDataset(DatasetBase):
@@ -45,6 +46,24 @@ class ANERcorpDataset(DatasetBase):
                 language = "English",
                 ISBN = "979-10-95546-34-4",
             }""",
+            "link": "https://camel.abudhabi.nyu.edu/anercorp/",
+            "license": "CC BY-SA 4.0",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt",
+                "train": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_train.txt",
+            },
+            "task_type": TaskType.Labeling,
+            "class_labels": [
+                "B-PERS",
+                "I-PERS",
+                "B-LOC",
+                "I-LOC",
+                "B-ORG",
+                "I-ORG",
+                "B-MISC",
+                "I-MISC",
+                "O",
+            ],
         }
 
     def get_data_sample(self):

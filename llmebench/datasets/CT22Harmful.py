@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class CT22HarmfulDataset(DatasetBase):
@@ -14,6 +15,16 @@ class CT22HarmfulDataset(DatasetBase):
                  year={2022},
                 booktitle={Proceedings of the Working Notes of CLEF 2022 - Conference and Labs of the Evaluation Forum}
             }""",
+            "link": "https://gitlab.com/checkthat_lab/clef2022-checkthat-lab/clef2022-checkthat-lab",
+            "license": "Research Purpose Only",
+            "splits": {
+                "ar": {
+                    "test": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
+                },
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["0", "1"],
         }
 
     def get_data_sample(self):

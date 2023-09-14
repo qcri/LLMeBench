@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class SemEval17T1STSDataset(DatasetBase):
@@ -15,6 +16,16 @@ class SemEval17T1STSDataset(DatasetBase):
                 pages={1--14},
                 year={2017}
             }""",
+            "link": "https://alt.qcri.org/semeval2017/task1/index.php",
+            "splits": {
+                "test": {
+                    "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt",
+                    "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track1.ar-ar.txt",
+                },
+                "train": "data/STS/semeval-2017/ar_sts_data_updated/Ar_STS/ar.STS.All.txt",
+            },
+            "task_type": TaskType.Regression,
+            "score_range": (0, 5),
         }
 
     def get_data_sample(self):

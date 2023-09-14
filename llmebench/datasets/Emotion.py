@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class EmotionDataset(DatasetBase):
@@ -22,13 +23,32 @@ class EmotionDataset(DatasetBase):
                 pages = "6948--6958",
                 abstract = "Emotion detection can provide us with a window into understanding human behavior. Due to the complex dynamics of human emotions, however, constructing annotated datasets to train automated models can be expensive. Thus, we explore the efficacy of cross-lingual approaches that would use data from a source language to build models for emotion detection in a target language. We compare three approaches, namely: i) using inherently multilingual models; ii) translating training data into the target language; and iii) using an automatically tagged parallel corpus. In our study, we consider English as the source language with Arabic and Spanish as target languages. We study the effectiveness of different classification models such as BERT and SVMs trained with different features. Our BERT-based monolingual models that are trained on target language data surpass state-of-the-art (SOTA) by 4{\\%} and 5{\\%} absolute Jaccard score for Arabic and Spanish respectively. Next, we show that using cross-lingual approaches with English data alone, we can achieve more than 90{\\%} and 80{\\%} relative effectiveness of the Arabic and Spanish BERT models respectively. Lastly, we use LIME to analyze the challenges of training cross-lingual models for different language pairs.",
             }""",
+            "link": "https://competitions.codalab.org/competitions/17751",
+            "license": "Restricted",
+            "download_url": "http://saifmohammad.com/WebDocs/AIT-2018/AIT2018-DATA/SemEval2018-Task1-all-data.zip",
+            "splits": {
+                "test": "data/sentiment_emotion_others/emotion/test-gold.txt",
+                "train": "data/sentiment_emotion_others/emotion/train.txt",
+            },
+            "task_type": TaskType.MultiLabelClassification,
+            "class_labels": [
+                "anger",
+                "disgust",
+                "fear",
+                "joy",
+                "love",
+                "optimism",
+                "pessimism",
+                "sadness",
+                "surprise",
+                "trust",
+            ],
         }
 
     def get_data_sample(self):
         return {"input": "Tweet", "label": [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):

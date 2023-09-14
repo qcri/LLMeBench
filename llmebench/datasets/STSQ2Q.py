@@ -1,6 +1,7 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class Q2QSimDataset(DatasetBase):
@@ -17,6 +18,13 @@ class Q2QSimDataset(DatasetBase):
                 pages={1--8},
                 year={2019}
             }""",
+            "link": "http://nsurl.org/2019-2/tasks/task8-semantic-question-similarity-in-arabic/",
+            "splits": {
+                "test": "data/STS/nsurl-2019-task8/test.tsv",
+                "train": "data/STS/nsurl-2019-task8/train.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["0", "1"],
         }
 
     def get_data_sample(self):

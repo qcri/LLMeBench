@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class QCRIDialectalArabicSegmentationDataset(DatasetBase):
@@ -26,6 +27,23 @@ class QCRIDialectalArabicSegmentationDataset(DatasetBase):
                 doi = "10.18653/v1/K17-1043",
                 pages = "432--441"
             }""",
+            "link": "https://alt.qcri.org/resources/da_resources/",
+            "license": "Apache License, Version 2.0",
+            "splits": {
+                "dev": [
+                    "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.dev.src.sent",
+                    "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.dev.src.sent",
+                    "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.dev.src.sent",
+                    "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.dev.src.sent",
+                ],
+                "test": [
+                    "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.test.src.sent",
+                    "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.test.src.sent",
+                    "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.test.src.sent",
+                    "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.test.src.sent",
+                ],
+            },
+            "task_type": TaskType.Other,
         }
 
     def get_data_sample(self):
@@ -35,7 +53,6 @@ class QCRIDialectalArabicSegmentationDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         data = []
 
         with open(data_path, "r") as fp:

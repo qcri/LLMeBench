@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class SpamDataset(DatasetBase):
@@ -16,13 +17,17 @@ class SpamDataset(DatasetBase):
                 year={2020},
                 organization={Springer}
             }""",
+            "link": "https://alt.qcri.org/resources/SpamArabicTwitter.tgz",
+            "license": "Research Purpose Only",
+            "splits": {"test": "data/sentiment_emotion_others/spam/ArabicAds-test.txt"},
+            "task_type": TaskType.Classification,
+            "class_labels": ["__label__ADS", "__label__NOTADS"],
         }
 
     def get_data_sample(self):
         return {"input": "أختر قلباً وليسّ شكلاً..", "label": "__label__NOTADS"}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
         # Format: spam_label \t text
         data = []
         with open(data_path, "r") as fp:

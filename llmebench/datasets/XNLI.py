@@ -1,6 +1,7 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class XNLIDataset(DatasetBase):
@@ -25,6 +26,14 @@ class XNLIDataset(DatasetBase):
                 publisher = "Association for Computational Linguistics",
                 location = "Brussels, Belgium",
             }""",
+            "link": "https://github.com/facebookresearch/XNLI",
+            "license": "CC BY-NC 4.0",
+            "splits": {
+                "dev": "data/XNLI/xnli.dev.tsv",
+                "test": "data/XNLI/xnli.test.ar.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["contradiction", "entailment", "neutral"],
         }
 
     def get_data_sample(self):

@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class AdultDataset(DatasetBase):
@@ -21,6 +22,14 @@ class AdultDataset(DatasetBase):
                 url = "https://aclanthology.org/2021.wanlp-1.14",
                 pages = "136--144",
             }""",
+            "link": "https://alt.qcri.org/resources/AdultContentDetection.zip",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
+                "train": "data/factuality_disinformation_harmful_content/adult/adult-train.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["ADULT", "NOT_ADULT"],
         }
 
     def get_data_sample(self):

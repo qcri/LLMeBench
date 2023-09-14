@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class XGLUEPOSDataset(DatasetBase):
@@ -15,6 +16,14 @@ class XGLUEPOSDataset(DatasetBase):
                 pages={6008--6018},
                 year={2020}
             }""",
+            "link": "https://microsoft.github.io/XGLUE/",
+            "license": "Non-commercial research purposes only",
+            "splits": {
+                "dev": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.dev.src-trg.txt",
+                "test": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt",
+            },
+            "task_type": TaskType.Labeling,
+            "class_labels": [],
         }
 
     def get_data_sample(self):

@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ArapTweetDataset(DatasetBase):
@@ -14,6 +15,12 @@ class ArapTweetDataset(DatasetBase):
                 booktitle={Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
                 year={2018}
             }""",
+            "splits": {
+                "test": "data/demographic_attributes/gender/test-ARAP-unique.txt",
+                "train": "data/demographic_attributes/gender/train-wajdi.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["Female", "Male"],
         }
 
     def get_data_sample(self):

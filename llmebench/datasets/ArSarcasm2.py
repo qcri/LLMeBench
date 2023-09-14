@@ -1,6 +1,7 @@
 import csv
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ArSarcasm2Dataset(DatasetBase):
@@ -19,6 +20,14 @@ class ArSarcasm2Dataset(DatasetBase):
                 month = april,
                 year = "2021",
             }""",
+            "link": "https://github.com/iabufarha/ArSarcasm-v2",
+            "license": "MIT License",
+            "splits": {
+                "test": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/testing_data.csv",
+                "train": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/training_data.csv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["TRUE", "FALSE"],
         }
 
     def get_data_sample(self):

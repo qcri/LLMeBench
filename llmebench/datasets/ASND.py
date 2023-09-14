@@ -1,6 +1,7 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ASNDDataset(DatasetBase):
@@ -29,6 +30,27 @@ class ASNDDataset(DatasetBase):
                 url = "https://aclanthology.org/2020.wanlp-1.21",
                 pages = "226--236",                
             }""",
+            "link": "https://github.com/shammur/Arabic_news_text_classification_datasets/",
+            "license": "CC BY 4.0",
+            "splits": {
+                "test": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv",
+                "train": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_trn.csv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": [
+                "crime-war-conflict",
+                "spiritual",
+                "health",
+                "politics",
+                "human-rights-press-freedom",
+                "education",
+                "business-and-economy",
+                "art-and-entertainment",
+                "others",
+                "science-and-technology",
+                "sports",
+                "environment",
+            ],
         }
 
     def load_data(self, data_path):

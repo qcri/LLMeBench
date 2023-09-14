@@ -1,6 +1,7 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class CT22AttentionworthyDataset(DatasetBase):
@@ -21,6 +22,26 @@ class CT22AttentionworthyDataset(DatasetBase):
                 series = {CLEF~'2022},
                 address = {Bologna, Italy},
             }""",
+            "link": "https://gitlab.com/checkthat_lab/clef2022-checkthat-lab/clef2022-checkthat-lab",
+            "license": "Research Purpose Only",
+            "splits": {
+                "ar": {
+                    "test": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_train.tsv",
+                }
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": [
+                "yes_discusses_action_taken",
+                "harmful",
+                "yes_discusses_cure",
+                "yes_asks_question",
+                "no_not_interesting",
+                "yes_other",
+                "yes_blame_authorities",
+                "yes_contains_advice",
+                "yes_calls_for_action",
+            ],
         }
 
     def load_data(self, data_path):

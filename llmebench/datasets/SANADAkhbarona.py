@@ -1,6 +1,7 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class SANADAkhbaronaDataset(DatasetBase):
@@ -22,6 +23,22 @@ class SANADAkhbaronaDataset(DatasetBase):
                 year={2019},
                 publisher={Elsevier}
             }""",
+            "link": "https://data.mendeley.com/datasets/57zpx667y9/2",
+            "license": "CC BY 4.0",
+            "splits": {
+                "test": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv",
+                "train": "data/news_categorization/SANAD_akhbarona_news_cat_train.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": [
+                "politics",
+                "religion",
+                "medical",
+                "sports",
+                "tech",
+                "finance",
+                "culture",
+            ],
         }
 
     def load_data(self, data_path):

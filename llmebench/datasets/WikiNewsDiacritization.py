@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class WikiNewsDiacritizationDataset(DatasetBase):
@@ -22,6 +23,13 @@ class WikiNewsDiacritizationDataset(DatasetBase):
                 doi = "10.18653/v1/W17-1302",
                 pages = "9--17",
             }""",
+            "link": "https://github.com/kdarwish/Farasa/tree/master",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/diacritization/WikiNewsTruth.txt",
+                "train": "data/sequence_tagging_ner_pos_etc/diacritization/WikiNewsTruthDev.txt",
+            },
+            "task_type": TaskType.Other,
         }
 
     def get_data_sample(self):

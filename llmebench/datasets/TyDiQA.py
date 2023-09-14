@@ -1,6 +1,7 @@
 import json
 
 from llmebench.datasets.SQuADBase import SQuADBase
+from llmebench.tasks import TaskType
 
 
 class TyDiQADataset(SQuADBase):
@@ -16,4 +17,11 @@ class TyDiQADataset(SQuADBase):
                 year    = {2020},
                 journal = {Transactions of the Association for Computational Linguistics}
             }""",
+            "link": "https://github.com/google-research-datasets/tydiqa",
+            "license": "Apache License Version 2.0",
+            "splits": {
+                "dev": "data/QA/tydiqa/tydiqa-goldp-dev-arabic.json",
+                "train": "data/QA/ARCD/arcd-train.json",
+            },
+            "task_type": TaskType.QuestionAnswering,
         }

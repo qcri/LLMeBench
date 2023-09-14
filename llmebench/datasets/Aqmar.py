@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class AqmarDataset(DatasetBase):
@@ -63,6 +64,24 @@ class AqmarDataset(DatasetBase):
                 url = \"https://aclanthology.org/E12-1017\",
                 pages = \"162--173\",
             }""",
+            "link": "http://www.cs.cmu.edu/~ark/AQMAR/",
+            "license": "CC BY-SA 3.0",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+                "train": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+            },
+            "task_type": TaskType.Labeling,
+            "class_labels": [
+                "B-PERS",
+                "I-PERS",
+                "B-LOC",
+                "I-LOC",
+                "B-ORG",
+                "I-ORG",
+                "B-MISC",
+                "I-MISC",
+                "O",
+            ],
         }
 
     def get_data_sample(self):

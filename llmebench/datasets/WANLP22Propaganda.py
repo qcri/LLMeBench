@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class WANLP22PropagandaDataset(DatasetBase):
@@ -22,6 +23,34 @@ class WANLP22PropagandaDataset(DatasetBase):
               year={2022},
               organization={Association for Computational Linguistics}
             }""",
+            "link": "https://gitlab.com/araieval/propaganda-detection",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/factuality_disinformation_harmful_content/propaganda/task1_test_gold_label_final.json",
+                "train": "data/factuality_disinformation_harmful_content/propaganda/task1_train.json",
+            },
+            "task_type": TaskType.MultiLabelClassification,
+            "class_labels": [
+                "no technique",
+                "Smears",
+                "Exaggeration/Minimisation",
+                "Loaded Language",
+                "Appeal to fear/prejudice",
+                "Name calling/Labeling",
+                "Slogans",
+                "Repetition",
+                "Doubt",
+                "Obfuscation, Intentional vagueness, Confusion",
+                "Flag-waving",
+                "Glittering generalities (Virtue)",
+                "Misrepresentation of Someone's Position (Straw Man)",
+                "Presenting Irrelevant Data (Red Herring)",
+                "Appeal to authority",
+                "Whataboutism",
+                "Black-and-white Fallacy/Dictatorship",
+                "Thought-terminating cliché",
+                "Causal Oversimplification",
+            ],
         }
 
     def get_data_sample(self):

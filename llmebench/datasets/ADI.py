@@ -1,6 +1,7 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ADIDataset(DatasetBase):
@@ -14,6 +15,28 @@ class ADIDataset(DatasetBase):
         return {
             "language": "ar",
             "citation": """TO DO: in house dataset""",
+            "splits": {
+                "dev": "data/sequence_tagging_ner_pos_etc/dialect_identification/fewshot_dev.tsv",
+                "test": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": [
+                "EGY",
+                "IRA",
+                "JOR",
+                "KSA",
+                "KUW",
+                "LEB",
+                "LIB",
+                "MOR",
+                "MSA",
+                "PAL",
+                "QAT",
+                "SUD",
+                "SYR",
+                "UAE",
+                "YEM",
+            ],
         }
 
     def load_data(self, data_path):

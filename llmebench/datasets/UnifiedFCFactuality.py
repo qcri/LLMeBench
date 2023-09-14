@@ -1,4 +1,5 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class UnifiedFCFactualityDataset(DatasetBase):
@@ -19,6 +20,14 @@ class UnifiedFCFactualityDataset(DatasetBase):
                 booktitle = "Proceedings of the 2018 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 2 (Short Papers)",
                 year = "2018",
             }""",
+            "link": "https://alt.qcri.org/resources/arabic-fact-checking-and-stance-detection-corpus/",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_fact_checking.tsv",
+                "train": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/train.csv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["true", "false"],
         }
 
     def get_data_sample(self):
