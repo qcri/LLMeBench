@@ -1,7 +1,7 @@
 import os
 
 from llmebench.datasets import AraBenchDataset
-from llmebench.models import ChatCompletionModel
+from llmebench.models import FastChatModel
 from llmebench.tasks import MachineTranslationTask
 
 
@@ -58,13 +58,8 @@ def config():
                     },
                     "task": MachineTranslationTask,
                     "task_args": {},
-                    "model": ChatCompletionModel,
+                    "model": FastChatModel,
                     "model_args": {
-                        # "api_type": "azure",
-                        # "api_version": "2023-03-15-preview",
-                        "api_base": os.environ["AZURE_API_URL"],
-                        "api_key": os.environ["AZURE_API_KEY"],
-                        "engine_name": os.environ["ENGINE_NAME"],
                         "max_tries": 5,
                     },
                     "general_args": {"data_path": "data/MT/"},
