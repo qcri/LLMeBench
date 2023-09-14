@@ -12,11 +12,9 @@ def config():
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
-            "max_tries": 30,
+            "max_tries": 1,
         },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv"
-        },
+        "general_args": {"data_path": "data/sarcasm/ArSarcasm/ArSarcasm_test.csv"},
     }
 
 
@@ -37,24 +35,10 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    if not response:
-        return None
-
-    label = response["choices"][0]["text"]
-    content = label.strip().lower()
-    if (
-        "the tweet is not sarcastic" in content
-        or content == "not sarcastic"
-        or content == "no"
-    ):
-        return "FALSE"
-    elif (
-        content == "yes"
-        or "the tweet is sarcastic" in content
-        or content == "sarcastic"
-    ):
+    label = response["choices"][0]["text"].strip().lower()
+    if "yes" in label:
         return "TRUE"
-    else:
-        return None
+    elif "no" in label:
+        return "FALSE"
 
     return None
