@@ -23,7 +23,24 @@ class XGLUEPOSDataset(DatasetBase):
                 "test": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt",
             },
             "task_type": TaskType.Labeling,
-            "class_labels": [],
+            "class_labels": [
+                "ADJ",
+                "ADP",
+                "ADV",
+                "AUX",
+                "CCONJ",
+                "DET",
+                "INTJ",
+                "NOUN",
+                "NUM",
+                "PART",
+                "PRON",
+                "PROPN",
+                "PUNCT",
+                "SYM",
+                "VERB",
+                "X",
+            ],
         }
 
     def get_data_sample(self):
