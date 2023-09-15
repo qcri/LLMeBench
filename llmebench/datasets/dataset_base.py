@@ -77,6 +77,29 @@ class DatasetBase(ABC):
                     "ar" # Single supported language
                 Languages should be identified by their IETF language tags
             The returned dictionary _can_ have the following additional keys:
+            "link" : str
+                Link to the representative page for the dataset
+            "license" : str
+                Original license under which the dataset was released
+            "splits" : dict
+                A dictionary containing the keys "test", "dev" and "train"
+                (at least one). "test" will be used automatically for
+                evaluation, if present. Asset can specify a different split
+                if necessary. Multiple splits are also supported, by having
+                a nested dictionary structure, where the first level should
+                be the split name, and the second level should include the
+                actual "test"/"dev"/"train" splits. A special "default" split
+                can also be included, whose value must be a list of split
+                names that will be run by default.
+            "task_type" : llmebench.tasks.TaskType
+                The type of task this dataset targets. Used by the Random
+                Model.
+            "class_labels" : list (optional)
+                List of class labels, must be provided when `task_type` is
+                `Classification`, `MultiLabelClassification` or `Labeling`.
+            "score_range" : tuple (optional)
+                Score range defining (min_val, max_val). Must be defined
+                when `task_type` is `Regression`
             "download_url" : str (optional)
                 URL to data (for automatic downloads)
         """
