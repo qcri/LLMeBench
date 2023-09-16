@@ -25,14 +25,15 @@ class BibleMaghrebiDiacritizationDataset(DatasetBase):
                 language = {english}
             }""",
             "splits": {
-                "test": [
-                    "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.test.src-tgt.txt",
-                    "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.test.src-tgt.txt",
-                ],
-                "train": [
-                    "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.dev.src-tgt.txt",
-                    "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.dev.src-tgt.txt",
-                ],
+                "morrocan_f05": {
+                    "test": "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.test.src-tgt.txt",
+                    "dev": "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.dev.src-tgt.txt",
+                },
+                "tunisian_f05": {
+                    "test": "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.test.src-tgt.txt",
+                    "dev": "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.dev.src-tgt.txt",
+                },
+                "default": ["morrocan_f05", "tunisian_f05"],
             },
             "task_type": TaskType.Other,
         }

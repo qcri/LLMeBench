@@ -27,18 +27,23 @@ class QCRIDialectalArabicPOSDataset(DatasetBase):
             "link": "https://alt.qcri.org/resources/da_resources/",
             "license": "Apache License, Version 2.0",
             "splits": {
-                "dev": [
-                    "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.dev.src-trg.sent",
-                    "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.dev.src-trg.sent",
-                    "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.dev.src-trg.sent",
-                    "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.dev.src-trg.sent",
-                ],
-                "test": [
-                    "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.test.src-trg.sent",
-                    "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.test.src-trg.sent",
-                    "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.test.src-trg.sent",
-                    "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.test.src-trg.sent",
-                ],
+                "glf.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.test.src-trg.sent",
+                },
+                "lev.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.test.src-trg.sent",
+                },
+                "egy.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.test.src-trg.sent",
+                },
+                "mgr.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.test.src-trg.sent",
+                },
+                "default": ["glf.data_5", "lev.data_5", "egy.data_5", "mgr.data_5"],
             },
             "task_type": TaskType.Labeling,
             "class_labels": [

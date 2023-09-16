@@ -31,18 +31,23 @@ class QCRIDialectalArabicSegmentationDataset(DatasetBase):
             "link": "https://alt.qcri.org/resources/da_resources/",
             "license": "Apache License, Version 2.0",
             "splits": {
-                "dev": [
-                    "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.dev.src.sent",
-                    "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.dev.src.sent",
-                    "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.dev.src.sent",
-                    "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.dev.src.sent",
-                ],
-                "test": [
-                    "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.test.src.sent",
-                    "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.test.src.sent",
-                    "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.test.src.sent",
-                    "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.test.src.sent",
-                ],
+                "glf.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.dev.src.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.test.src.sent",
+                },
+                "lev.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.dev.src.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.test.src.sent",
+                },
+                "egy.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.dev.src.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.test.src.sent",
+                },
+                "mgr.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.dev.src.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.test.src.sent",
+                },
+                "default": ["glf.data_5", "lev.data_5", "egy.data_5", "mgr.data_5"],
             },
             "task_type": TaskType.Other,
         }
