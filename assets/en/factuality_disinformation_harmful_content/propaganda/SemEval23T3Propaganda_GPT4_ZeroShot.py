@@ -43,9 +43,7 @@ def config():
             ],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/en_dev_subtask3.json",
-        },
+        "general_args": {"test_split": "en/dev"},
     }
 
 

@@ -13,9 +13,6 @@ def config():
         "model_args": {
             "max_tries": 50,
         },
-        "general_args": {
-            "data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json"
-        },
     }
 
 

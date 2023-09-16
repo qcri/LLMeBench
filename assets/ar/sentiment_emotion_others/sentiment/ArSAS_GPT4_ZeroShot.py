@@ -14,9 +14,6 @@ def config():
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sentiment/ArSAS-test.txt"
-        },
     }
 
 

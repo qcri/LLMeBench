@@ -13,7 +13,7 @@ def config():
         "model_args": {
             "max_tries": 50,
         },
-        "general_args": {"data_path": "data/QA/tydiqa/tydiqa-goldp-dev-arabic.json"},
+        "general_args": {"test_split": "dev"},
     }
 
 

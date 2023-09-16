@@ -13,9 +13,6 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv",
-        },
     }
 
 

@@ -16,9 +16,7 @@ def config():
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/subjectivity/dev_ar.tsv"
-        },
+        "general_args": {"test_split": "ar/dev"},
     }
 
 

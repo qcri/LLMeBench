@@ -27,9 +27,6 @@ def config():
             ],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
-        },
     }
 
 
