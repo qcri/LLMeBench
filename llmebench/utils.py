@@ -1,5 +1,7 @@
 import importlib.util
 import sys
+
+from inspect import signature
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -34,3 +36,9 @@ def import_source_file(fname: Path, modname: str) -> "types.ModuleType":
     except FileNotFoundError as e:
         raise ImportError(f"{e.strerror}: {fname}") from e
     return module
+
+
+def is_fewshot_asset(config, prompt_fn):
+    sig = signature(prompt_fn)
+    general_args = config.get("general_args", {})
+    return "fewshot" in general_args or len(sig.parameters) == 2

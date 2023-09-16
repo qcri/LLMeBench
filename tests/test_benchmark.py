@@ -19,14 +19,44 @@ from llmebench.tasks.task_base import TaskBase
 class MockDataset(DatasetBase):
     @staticmethod
     def metadata():
-        return {"splits": {"test": "/some/path/to/data"}}
+        return {
+            "splits": {
+                "dev": ["default_dev_data1", "default_dev_data2"],
+                "test": ["default_test_data1", "default_test_data2"],
+            }
+        }
 
     @staticmethod
     def get_data_sample():
         return {"input": "input", "label": "label"}
 
     def load_data(self, data_path):
-        return [self.get_data_sample() for _ in range(100)]
+        return [{"input_id": i, **self.get_data_sample()} for i in data_path]
+
+
+class MockDatasetWithMultiLevelSplits(DatasetBase):
+    @staticmethod
+    def metadata():
+        return {
+            "splits": {
+                "ar": {
+                    "dev": ["default_ar_dev_data1", "default_ar_dev_data2"],
+                    "test": ["default_ar_test_data1", "default_ar_test_data2"],
+                },
+                "en": {
+                    "dev": ["default_en_dev_data1", "default_en_dev_data2"],
+                    "test": ["default_en_test_data1", "default_en_test_data2"],
+                },
+                "default": ["ar", "en"],
+            }
+        }
+
+    @staticmethod
+    def get_data_sample():
+        return {"input": "input", "label": "label"}
+
+    def load_data(self, data_path):
+        return [{"input_id": i, **self.get_data_sample()} for i in data_path]
 
 
 class MockModel(ModelBase):
@@ -298,3 +328,248 @@ class TestBenchmarkRunner(unittest.TestCase):
 
                 for subconfig in config:
                     self.assertIn(f"sample/{subconfig['name']}", results)
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_default_splits(self, asset_finder_mock):
+        "Run benchmark with an asset and its default splits"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": MockAsset.config(),
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 1)
+
+            with open(Path(self.results_dir.name) / "MockAsset 1" / "0.json") as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "default_test_data1")
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_selected_split(self, asset_finder_mock):
+        "Run benchmark with an asset and a selected split"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": {**MockAsset.config(), "general_args": {"test_split": "dev"}},
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 1)
+
+            with open(Path(self.results_dir.name) / "MockAsset 1" / "0.json") as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "default_dev_data1")
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_selected_splits(self, asset_finder_mock):
+        "Run benchmark with an asset and a selected splits"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": {
+                    **MockAsset.config(),
+                    "general_args": {"test_split": ["dev", "test"]},
+                },
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 2)
+
+            with open(
+                Path(self.results_dir.name) / "MockAsset 1" / "dev" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "default_dev_data1")
+
+            with open(
+                Path(self.results_dir.name) / "MockAsset 1" / "test" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "default_test_data1")
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_custom_splits(self, asset_finder_mock):
+        "Run benchmark with an asset and a custom split"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": {
+                    **MockAsset.config(),
+                    "general_args": {
+                        "custom_test_split": ["custom_data_1", "custom_data_2"]
+                    },
+                },
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 1)
+
+            with open(Path(self.results_dir.name) / "MockAsset 1" / "0.json") as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "custom_data_1")
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_default_splits_multilevel(self, asset_finder_mock):
+        "Run benchmark with an asset (containing multi-level splits) and its default splits"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": {
+                    **MockAsset.config(),
+                    "dataset": MockDatasetWithMultiLevelSplits,
+                },
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 2)
+
+            with open(
+                Path(self.results_dir.name) / "MockAsset 1" / "ar" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(
+                    cache_obj["input"]["input_id"], "default_ar_test_data1"
+                )
+
+            with open(
+                Path(self.results_dir.name) / "MockAsset 1" / "en" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(
+                    cache_obj["input"]["input_id"], "default_en_test_data1"
+                )
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_selected_split_multilevel(self, asset_finder_mock):
+        "Run benchmark with an asset (containing multi-level splits) and selected split"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": {
+                    **MockAsset.config(),
+                    "dataset": MockDatasetWithMultiLevelSplits,
+                    "general_args": {"test_split": ["ar/dev"]},
+                },
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 1)
+
+            with open(Path(self.results_dir.name) / "MockAsset 1" / "0.json") as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "default_ar_dev_data1")
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_selected_split_multilevel_shorthand(self, asset_finder_mock):
+        "Run benchmark with an asset (containing multi-level splits) and selected split (using shorthand)"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": {
+                    **MockAsset.config(),
+                    "dataset": MockDatasetWithMultiLevelSplits,
+                    "general_args": {"test_split": ["ar"]},
+                },
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 1)
+
+            with open(Path(self.results_dir.name) / "MockAsset 1" / "0.json") as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(
+                    cache_obj["input"]["input_id"], "default_ar_test_data1"
+                )
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_asset_with_selected_splits_multilevel(self, asset_finder_mock):
+        "Run benchmark with an asset (containing multi-level splits) and selected splits"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockAsset 1",
+                "config": {
+                    **MockAsset.config(),
+                    "dataset": MockDatasetWithMultiLevelSplits,
+                    "general_args": {"test_split": ["ar/dev", "en/dev", "en/test"]},
+                },
+                "module": MockAsset,
+            }
+        ]
+
+        testargs = ["llmebench", self.benchmark_dir.name, self.results_dir.name]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 3)
+
+            with open(
+                Path(self.results_dir.name) / "MockAsset 1" / "ar" / "dev" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "default_ar_dev_data1")
+
+            with open(
+                Path(self.results_dir.name) / "MockAsset 1" / "en" / "dev" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(cache_obj["input"]["input_id"], "default_en_dev_data1")
+
+            with open(
+                Path(self.results_dir.name) / "MockAsset 1" / "en" / "test" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                self.assertEqual(
+                    cache_obj["input"]["input_id"], "default_en_test_data1"
+                )
