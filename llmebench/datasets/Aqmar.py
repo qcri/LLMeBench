@@ -68,8 +68,14 @@ class AqmarDataset(DatasetBase):
             "link": "http://www.cs.cmu.edu/~ark/AQMAR/",
             "license": "CC BY-SA 3.0",
             "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-                "train": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+                "test": {
+                    "split": "test",
+                    "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+                },
+                "dev": {
+                    "split": "dev",
+                    "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+                },
             },
             "task_type": TaskType.Labeling,
             "class_labels": [
