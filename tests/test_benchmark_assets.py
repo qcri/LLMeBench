@@ -28,10 +28,11 @@ class TestBenchmarkAssets(unittest.TestCase):
         self.assertIn("task_args", config)
         self.assertIn("model", config)
         self.assertIn("model_args", config)
-        self.assertIn("general_args", config)
 
-        if "fewshot" in config["general_args"]:
-            self.assertIn("train_data_path", config["general_args"]["fewshot"])
+        if "general_args" in config:
+            self.assertIsInstance(config["general_args"], dict)
+            if "fewshot" in config["general_args"]:
+                self.assertIn("train_data_path", config["general_args"]["fewshot"])
 
     def test_config_format(self):
         "Test if all configs are well defined"

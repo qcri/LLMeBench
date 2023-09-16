@@ -27,7 +27,7 @@ class TestAssetsForPetalsPrompts(unittest.TestCase):
                 config = asset["config"]
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
-                if "fewshot" in config["general_args"]:
+                if "general_args" in config and "fewshot" in config["general_args"]:
                     prompt = asset["module"].prompt(
                         data_sample["input"],
                         [data_sample for _ in range(n_shots)],
