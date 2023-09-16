@@ -21,6 +21,7 @@ class MockDataset(DatasetBase):
     def metadata():
         return {
             "splits": {
+                "train": ["default_train_data1", "default_train_data2"],
                 "dev": ["default_dev_data1", "default_dev_data2"],
                 "test": ["default_test_data1", "default_test_data2"],
             }
@@ -83,6 +84,24 @@ class MockAsset(object):
 
     @staticmethod
     def prompt(input_sample):
+        return {"prompt": input_sample}
+
+    @staticmethod
+    def post_process(response):
+        return response
+
+
+class MockFewShotAsset(object):
+    @staticmethod
+    def config():
+        return {
+            "dataset": MockDataset,
+            "task": MockTask,
+            "model": MockModel,
+        }
+
+    @staticmethod
+    def prompt(input_sample, samples):
         return {"prompt": input_sample}
 
     @staticmethod
@@ -573,3 +592,37 @@ class TestBenchmarkRunner(unittest.TestCase):
                 self.assertEqual(
                     cache_obj["input"]["input_id"], "default_en_test_data1"
                 )
+
+    @patch("llmebench.benchmark.Benchmark.find_assets")
+    def test_fewshot_asset_with_default_splits(self, asset_finder_mock):
+        "Run benchmark with an asset and its default splits"
+        asset_finder_mock.return_value = [
+            {
+                "name": "MockFewShotAsset 1",
+                "config": MockFewShotAsset.config(),
+                "module": MockFewShotAsset,
+            }
+        ]
+
+        testargs = [
+            "llmebench",
+            "--n_shots",
+            "3",
+            self.benchmark_dir.name,
+            self.results_dir.name,
+        ]
+        with patch.object(sys, "argv", testargs):
+            llmebench.benchmark.main()
+
+            with open(Path(self.results_dir.name) / "all_results.json") as fp:
+                results = json.load(fp)
+                self.assertEqual(len(results), 1)
+
+            print(list((Path(self.results_dir.name) / "MockFewShotAsset 1").iterdir()))
+
+            with open(
+                Path(self.results_dir.name) / "MockFewShotAsset 1" / "3_shot" / "0.json"
+            ) as fp:
+                cache_obj = json.load(fp)
+                for fse in cache_obj["few_shot_examples"]:
+                    self.assertIn("train", fse["input_id"])

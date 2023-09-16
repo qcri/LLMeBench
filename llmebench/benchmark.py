@@ -53,76 +53,15 @@ class SingleTaskBenchmark(object):
         self.post_process_fn = post_process_fn
 
         # Data parameters
-        self.data_paths = []
-        if "custom_test_split" in general_args:
-            self.data_paths.append(("custom", general_args["custom_test_split"]))
-        elif "test_split" in general_args:
-            requested_splits = general_args["test_split"]
-            if not isinstance(requested_splits, list):
-                requested_splits = [requested_splits]
-            requested_splits = [rs.split("/") for rs in requested_splits]
-            available_splits = self.dataset.metadata()["splits"]
-
-            for requested_split in requested_splits:
-                if len(requested_split) == 1:
-                    # Single level split like "test" or "ar"
-                    assert (
-                        requested_split[0] in available_splits
-                    ), "Requested split not found in dataset"
-                    if "test" in available_splits[requested_split[0]]:
-                        # Pick "test" automatically, if available
-                        self.data_paths.append(
-                            (
-                                requested_split[0],
-                                available_splits[requested_split[0]]["test"],
-                            )
-                        )
-                    else:
-                        self.data_paths.append(
-                            (requested_split[0], available_splits[requested_split[0]])
-                        )
-                else:
-                    # Multilevel split like "ar" -> "test"
-                    assert (
-                        requested_split[0] in available_splits
-                    ), "Requested split not found in dataset"
-                    assert (
-                        requested_split[1] in available_splits[requested_split[0]]
-                    ), "Requested split not found in dataset"
-                    self.data_paths.append(
-                        (
-                            f"{requested_split[0]}/{requested_split[1]}",
-                            available_splits[requested_split[0]][requested_split[1]],
-                        )
-                    )
-        else:
-            # Use default splits
-            available_splits = self.dataset.metadata()["splits"]
-            if "default" in available_splits:
-                # Multilevel splits
-                for split in available_splits["default"]:
-                    assert (
-                        "test" in available_splits[split]
-                    ), f'No "test" split found in dataset, please specify split explicitly. Available splits are: {", ".join(available_splits[split])}'
-                    self.data_paths.append((split, available_splits[split]["test"]))
-            else:
-                # Single level splits
-                assert (
-                    "test" in available_splits
-                ), f'No "test" split found in dataset, please specify split explicitly. Available splits are: {", ".join(available_splits)}'
-                self.data_paths.append(("test", available_splits["test"]))
+        self.data_paths = utils.get_data_paths(config, "test")
 
         self.zeroshot = True
         if utils.is_fewshot_asset(config, prompt_fn):
             self.zeroshot = False
             self.deduplicate = True
-            if "fewshot" in config["general_args"]:
-                self.train_data_path = config["general_args"]["fewshot"][
-                    "train_data_path"
-                ]
-                self.deduplicate = config["general_args"]["fewshot"].get(
-                    "deduplicate", True
-                )
+            self.train_data_paths = utils.get_data_paths(config, "train")
+            if "fewshot" in general_args:
+                self.deduplicate = general_args["fewshot"].get("deduplicate", True)
 
         self.limit = limit
         self.n_shots = n_shots
@@ -223,7 +162,9 @@ class SingleTaskBenchmark(object):
             data = self.dataset.load_data(data_path)
             few_shots_data = []
             if not self.zeroshot:
-                train_data = self.dataset.load_data(self.train_data_path)
+                train_data = []
+                for split_name, train_data_path in self.train_data_paths:
+                    train_data += self.dataset.load_data(train_data_path)
 
                 few_shots_data = self.dataset.prepare_fewshots(
                     data, train_data, self.n_shots, deduplicate=self.deduplicate
