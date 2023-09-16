@@ -26,9 +26,6 @@ def config():
             ],
             "max_tries": 10,
         },
-        "general_args": {
-            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv"
-        },
     }
 
 

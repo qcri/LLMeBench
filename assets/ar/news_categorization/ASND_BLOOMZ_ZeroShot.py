@@ -29,9 +29,6 @@ def config():
             ],
             "max_tries": 10,
         },
-        "general_args": {
-            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv"
-        },
     }
 
 
