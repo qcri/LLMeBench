@@ -6,6 +6,7 @@ class SpamDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(SpamDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -24,7 +25,8 @@ class SpamDataset(DatasetBase):
             "class_labels": ["__label__ADS", "__label__NOTADS"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "أختر قلباً وليسّ شكلاً..", "label": "__label__NOTADS"}
 
     def load_data(self, data_path, no_labels=False):

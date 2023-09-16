@@ -8,6 +8,7 @@ class Q2QSimDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(Q2QSimDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -27,7 +28,8 @@ class Q2QSimDataset(DatasetBase):
             "class_labels": ["0", "1"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "السوال الاول السوال الثاني\tالسوال الاول السوال الثاني",
             "label": "1",

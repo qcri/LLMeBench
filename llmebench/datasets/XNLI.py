@@ -8,6 +8,7 @@ class XNLIDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(XNLIDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -36,7 +37,8 @@ class XNLIDataset(DatasetBase):
             "class_labels": ["contradiction", "entailment", "neutral"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Test\tTest", "label": "neutral"}
 
     def load_data(self, data_path):

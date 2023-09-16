@@ -8,7 +8,8 @@ class CT22CheckworthinessDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT22CheckworthinessDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "some tweet",
             "label": "1",
@@ -16,6 +17,7 @@ class CT22CheckworthinessDataset(DatasetBase):
             "line_number": 0,
         }
 
+    @staticmethod
     def metadata():
         return {
             "language": ["ar", "bg", "nl", "en", "es", "tr"],

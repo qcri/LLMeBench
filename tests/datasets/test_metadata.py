@@ -42,6 +42,15 @@ class TestDatasetMetadata(unittest.TestCase):
                     )
 
                 self.assertIn("splits", metadata)
+                for split_name in metadata["splits"]:
+                    self.assertFalse(
+                        "/" in split_name, "Split names cannot contain '/'"
+                    )
+                    if isinstance(metadata["splits"][split_name], dict):
+                        for sub_split_name in metadata["splits"][split_name]:
+                            self.assertFalse(
+                                "/" in split_name, "Split names cannot contain '/'"
+                            )
 
                 self.assertIn("task_type", metadata)
                 self.assertIsInstance(metadata["task_type"], TaskType)

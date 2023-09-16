@@ -8,9 +8,11 @@ class CT22AttentionworthyDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT22AttentionworthyDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "no_not_interesting"}
 
+    @staticmethod
     def metadata():
         return {
             "language": ["ar", "bg", "nl", "en", "tr"],

@@ -17,10 +17,12 @@ from llmebench.tasks.task_base import TaskBase
 
 
 class MockDataset(DatasetBase):
-    def metadata(self):
-        return {}
+    @staticmethod
+    def metadata():
+        return {"splits": {"test": "/some/path/to/data"}}
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "input", "label": "label"}
 
     def load_data(self, data_path):
@@ -45,12 +47,8 @@ class MockAsset(object):
     def config():
         return {
             "dataset": MockDataset,
-            "dataset_args": {},
             "task": MockTask,
-            "task_args": {},
             "model": MockModel,
-            "model_args": {},
-            "general_args": {"data_path": "fake/path/to/data"},
         }
 
     @staticmethod

@@ -6,6 +6,7 @@ class OSACT4SubtaskBDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(OSACT4SubtaskBDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -26,7 +27,8 @@ class OSACT4SubtaskBDataset(DatasetBase):
             "class_labels": ["HS", "NOT_HS"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "ايه اللي انت بتقوله ده يا اوروبي يا متخلف", "label": "HS"}
 
     def load_data(self, data_path, no_labels=False):

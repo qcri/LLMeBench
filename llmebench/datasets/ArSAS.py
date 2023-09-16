@@ -6,6 +6,7 @@ class ArSASDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArSASDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -24,7 +25,8 @@ class ArSASDataset(DatasetBase):
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": "Positive"}
 
     def load_data(self, data_path, no_labels=False):

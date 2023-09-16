@@ -6,6 +6,7 @@ class EmotionDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(EmotionDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -45,7 +46,8 @@ class EmotionDataset(DatasetBase):
             ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
     def load_data(self, data_path, no_labels=False):

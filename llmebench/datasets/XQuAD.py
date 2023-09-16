@@ -8,6 +8,7 @@ class XQuADDataset(SQuADBase):
     def __init__(self, **kwargs):
         super(XQuADDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",

@@ -6,6 +6,7 @@ class WikiNewsSegmentationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(WikiNewsSegmentationDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -25,7 +26,8 @@ class WikiNewsSegmentationDataset(DatasetBase):
             "task_type": TaskType.Other,
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "Original sentence",
             "label": "Sentence with segmented words",

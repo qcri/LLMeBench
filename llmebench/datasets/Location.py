@@ -6,6 +6,7 @@ class LocationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(LocationDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -48,7 +49,8 @@ class LocationDataset(DatasetBase):
             ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Doha, Qatar", "label": "QA"}
 
     def load_data(self, data_path, no_labels=False):

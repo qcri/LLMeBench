@@ -8,6 +8,7 @@ class TyDiQADataset(SQuADBase):
     def __init__(self, **kwargs):
         super(TyDiQADataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",

@@ -6,6 +6,7 @@ class NameInfoDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(NameInfoDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -119,7 +120,8 @@ class NameInfoDataset(DatasetBase):
             ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "جورج واشنطن", "label": "GB"}
 
     def load_data(self, data_path, no_labels=False):

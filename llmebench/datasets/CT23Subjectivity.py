@@ -8,9 +8,11 @@ class CT23SubjectivityDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT23SubjectivityDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "SUBJ"}
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",

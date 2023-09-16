@@ -11,6 +11,7 @@ class SemEval23T3PropagandaDataset(DatasetBase):
         self.techniques_path = Path(techniques_path) if techniques_path else None
         super(SemEval23T3PropagandaDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": ["en", "es", "fr", "de", "el", "it", "ka", "pl", "ru"],
@@ -86,7 +87,8 @@ class SemEval23T3PropagandaDataset(DatasetBase):
             ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "text", "label": ["no_technique"], "line_number": 0}
 
     def get_predefined_techniques(self):

@@ -8,6 +8,7 @@ class UnifiedFCStanceDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(UnifiedFCStanceDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -32,7 +33,8 @@ class UnifiedFCStanceDataset(DatasetBase):
             "class_labels": ["agree", "disagree", "discuss", "unrelated"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": {
                 # Train samples

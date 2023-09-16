@@ -6,6 +6,7 @@ class AdultDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(AdultDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -32,7 +33,8 @@ class AdultDataset(DatasetBase):
             "class_labels": ["ADULT", "NOT_ADULT"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "نص عادي", "label": "NOT_ADULT"}
 
     def load_data(self, data_path, no_labels=False):

@@ -6,6 +6,7 @@ class MGBWordsDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(MGBWordsDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -44,7 +45,8 @@ class MGBWordsDataset(DatasetBase):
             ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "sentence", "label": "named entity labels are here"}
 
     def load_data(self, data_path, no_labels=False):

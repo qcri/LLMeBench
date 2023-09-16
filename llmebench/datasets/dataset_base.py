@@ -52,11 +52,12 @@ class DatasetBase(ABC):
 
     """
 
-    def __init__(self, data_dir="data", **kwargs):
-        self.data_dir = data_dir
+    def __init__(self, **kwargs):
+        pass
 
+    @staticmethod
     @abstractmethod
-    def metadata(self):
+    def metadata():
         """
         Returns the dataset's metadata
 
@@ -105,8 +106,9 @@ class DatasetBase(ABC):
         """
         pass
 
+    @staticmethod
     @abstractmethod
-    def get_data_sample(self):
+    def get_data_sample():
         """
         Returns a single data sample.
 
@@ -313,7 +315,8 @@ class DatasetBase(ABC):
 
             yield examples
 
-    def download_dataset(self, download_url=None):
+    @classmethod
+    def download_dataset(cls, data_dir, download_url=None):
         """
         Utility method to download a dataset if not present locally on disk.
         Can handle datasets of types *.zip, *.tar, *.tar.gz, *.tar.bz2, *.tar.xz.
@@ -357,7 +360,7 @@ class DatasetBase(ABC):
             # Default where the downloaded file is not a container/archive
             fnames = [fname]
 
-            extract_dir = self.__class__.__name__
+            extract_dir = cls.__name__
 
             if fname.endswith(".tar.xz"):
                 extractor = Decompress(name=fname[:-3])
@@ -406,7 +409,7 @@ class DatasetBase(ABC):
         if download_url is not None:
             download_urls.append(download_url)
 
-        metadata_url = self.metadata().get("download_url", None)
+        metadata_url = cls.metadata().get("download_url", None)
         if metadata_url is not None:
             download_urls.append(metadata_url)
 
@@ -414,7 +417,7 @@ class DatasetBase(ABC):
         if default_url is not None:
             if default_url.endswith("/"):
                 default_url = default_url[:-1]
-            default_url = f"{default_url}/{self.__class__.__name__}.zip"
+            default_url = f"{default_url}/{cls.__name__}.zip"
             download_urls.append(default_url)
 
         # Try downloading from available links in order of priority
@@ -440,17 +443,15 @@ class DatasetBase(ABC):
                 retrieve(
                     download_url,
                     known_hash=None,
-                    fname=f"{self.__class__.__name__}{extension}",
-                    path=self.data_dir,
+                    fname=f"{cls.__name__}{extension}",
+                    path=data_dir,
                     progressbar=True,
                     processor=decompress,
                 )
                 # If it was a *.tar.* file, we can safely delete the
                 # intermediate *.tar file
                 if extension in supported_extensions[:3]:
-                    tar_file_path = (
-                        Path(self.data_dir) / f"{self.__class__.__name__}.tar"
-                    )
+                    tar_file_path = Path(data_dir) / f"{cls.__name__}.tar"
                     tar_file_path.unlink()
                 return True
             except Exception as e:

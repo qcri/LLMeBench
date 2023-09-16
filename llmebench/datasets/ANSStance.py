@@ -6,6 +6,7 @@ class ANSStanceDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ANSStanceDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -32,7 +33,8 @@ class ANSStanceDataset(DatasetBase):
             "class_labels": ["agree", "disagree"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": {
                 "sentence_1": "الجملة الاولى",

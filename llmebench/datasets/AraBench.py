@@ -8,6 +8,7 @@ class AraBenchDataset(DatasetBase):
         self.src = src
         self.tgt = tgt
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -379,7 +380,8 @@ class AraBenchDataset(DatasetBase):
             "task_type": TaskType.SequenceToSequence,
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Sentence in language #1", "label": "Sentence in language #2"}
 
     def load_data(self, data_path, no_labels=False):

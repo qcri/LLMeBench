@@ -6,6 +6,7 @@ class SemEval17T1STSDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(SemEval17T1STSDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -28,7 +29,8 @@ class SemEval17T1STSDataset(DatasetBase):
             "score_range": (0, 5),
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "الجملة بالعربية\tالجملة بالعربية", "label": 1.2}
 
     def load_train_data(self, data_path):

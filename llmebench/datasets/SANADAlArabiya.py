@@ -8,9 +8,11 @@ class SANADAlArabiyaDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(SANADAlArabiyaDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "checkworthy"}
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",

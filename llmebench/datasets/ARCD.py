@@ -8,6 +8,7 @@ class ARCDDataset(SQuADBase):
     def __init__(self, **kwargs):
         super(ARCDDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",

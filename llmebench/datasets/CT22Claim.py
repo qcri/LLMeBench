@@ -6,6 +6,7 @@ class CT22ClaimDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT22ClaimDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": ["ar", "bg", "nl", "en", "tr"],
@@ -27,7 +28,8 @@ class CT22ClaimDataset(DatasetBase):
             "class_labels": ["0", "1"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": "1"}
 
     def load_data(self, data_path):

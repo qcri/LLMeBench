@@ -12,6 +12,7 @@ class WANLP22PropagandaDataset(DatasetBase):
         self.techniques_path = Path(techniques_path) if techniques_path else None
         super(WANLP22PropagandaDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -53,7 +54,8 @@ class WANLP22PropagandaDataset(DatasetBase):
             ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": ["no technique"]}
 
     def get_predefined_techniques(self):

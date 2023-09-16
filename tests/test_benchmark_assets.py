@@ -23,16 +23,18 @@ class TestBenchmarkAssets(unittest.TestCase):
 
     def validate_single_config(self, config):
         self.assertIn("dataset", config)
-        self.assertIn("dataset_args", config)
+
+        if "dataset_args" in config:
+            self.assertIsInstance(config["dataset_args"], dict)
         self.assertIn("task", config)
-        self.assertIn("task_args", config)
+        if "task_args" in config:
+            self.assertIsInstance(config["task_args"], dict)
         self.assertIn("model", config)
-        self.assertIn("model_args", config)
+        if "model_args" in config:
+            self.assertIsInstance(config["model_args"], dict)
 
         if "general_args" in config:
             self.assertIsInstance(config["general_args"], dict)
-            if "fewshot" in config["general_args"]:
-                self.assertIn("train_data_path", config["general_args"]["fewshot"])
 
     def test_config_format(self):
         "Test if all configs are well defined"

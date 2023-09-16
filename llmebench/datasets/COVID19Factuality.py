@@ -8,9 +8,11 @@ class COVID19FactualityDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(COVID19FactualityDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "no"}
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",

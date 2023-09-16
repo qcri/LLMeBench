@@ -8,6 +8,7 @@ class ArSarcasm2Dataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArSarcasm2Dataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -30,7 +31,8 @@ class ArSarcasm2Dataset(DatasetBase):
             "class_labels": ["TRUE", "FALSE"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "A tweet", "label": "TRUE"}
 
     def load_data(self, data_path):

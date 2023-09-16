@@ -6,6 +6,7 @@ class BanglaSentimentDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(BanglaSentimentDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "bn",
@@ -33,7 +34,8 @@ class BanglaSentimentDataset(DatasetBase):
             "class_labels": ["Positive", "Negative", "Neutral"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": "Positive", "line_number": 0}
 
     def load_data(self, data_path):

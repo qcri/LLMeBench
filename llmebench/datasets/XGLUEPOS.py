@@ -6,6 +6,7 @@ class XGLUEPOSDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(XGLUEPOSDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -43,7 +44,8 @@ class XGLUEPOSDataset(DatasetBase):
             ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "Original sentence",
             "label": "Sentence with POS tags",

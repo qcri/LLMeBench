@@ -6,6 +6,7 @@ class UnifiedFCFactualityDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(UnifiedFCFactualityDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -30,7 +31,8 @@ class UnifiedFCFactualityDataset(DatasetBase):
             "class_labels": ["true", "false"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "الجملة الاولى", "label": "agree", "input_id": "id"}
 
     def load_data(self, data_path):

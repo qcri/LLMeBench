@@ -8,9 +8,11 @@ class ADIDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ADIDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "no_not_interesting"}
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",

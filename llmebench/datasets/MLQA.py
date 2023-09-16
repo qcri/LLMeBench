@@ -6,6 +6,7 @@ class MLQADataset(SQuADBase):
     def __init__(self, **kwargs):
         super(MLQADataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
