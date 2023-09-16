@@ -14,9 +14,6 @@ def config():
             "class_labels": ["ADULT", "NOT_ADULT"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv"
-        },
     }
 
 
