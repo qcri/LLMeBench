@@ -59,7 +59,12 @@ class SingleTaskBenchmark(object):
         return self.zeroshot
 
     def run_pipeline(
-        self, sample_key, input_sample, few_shot_examples, cache_payload=None
+        self,
+        sample_key,
+        input_sample,
+        few_shot_examples,
+        cache_payload=None,
+        dry_run=False,
     ):
         summarized_payload = {}
 
@@ -74,6 +79,9 @@ class SingleTaskBenchmark(object):
             else:
                 prompt = self.prompt_fn(input_sample)
             cache_payload["prompt"] = prompt
+
+        if dry_run:
+            return cache_payload, summarized_payload
 
         # Run the model
         if "model_output" in cache_payload:
@@ -115,7 +123,7 @@ class SingleTaskBenchmark(object):
 
         return cache_payload, summarized_payload
 
-    def run_benchmark(self):
+    def run_benchmark(self, dry_run=False):
         # Handle cache
         if not self.is_zeroshot():
             self.cache_dir = self.cache_dir / f"{self.n_shots}_shot"
@@ -161,7 +169,7 @@ class SingleTaskBenchmark(object):
             if few_shot_examples is not None:
                 cache_payload["few_shot_examples"] = few_shot_examples
 
-            if cache_path.exists() and not self.ignore_cache:
+            if cache_path.exists() and not self.ignore_cache and not dry_run:
                 with open(cache_path, "r") as fp:
                     cache_payload = json.load(fp)
 
@@ -171,7 +179,11 @@ class SingleTaskBenchmark(object):
             }
 
             cache_payload, partial_summarized_payload = self.run_pipeline(
-                sample_idx, input_sample["input"], few_shot_examples, cache_payload
+                sample_idx,
+                input_sample["input"],
+                few_shot_examples,
+                cache_payload,
+                dry_run,
             )
 
             summarized_payload.update(partial_summarized_payload)
@@ -182,8 +194,9 @@ class SingleTaskBenchmark(object):
                     json.dumps(summarized_payload, ensure_ascii=False) + "\n"
                 )
             else:
-                logging.error(f"\tNo prediction for sample")
-                num_failed += 1
+                if not dry_run:
+                    logging.error(f"\tNo prediction for sample")
+                    num_failed += 1
                 predictions.append(None)
                 full_summary_fp.write(
                     json.dumps(summarized_payload, ensure_ascii=False) + "\n"
@@ -293,6 +306,12 @@ def main():
         "-e", "--env", type=Path, help="Path to an .env file to load model parameters"
     )
 
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Do not run any actual models, but load all the data and process few shots. Existing cache will be ignored and overwritten.",
+    )
+
     group = parser.add_argument_group("Few Shot Experiments")
     group.add_argument(
         "-n",
@@ -362,7 +381,7 @@ def main():
                 )
                 continue
 
-            task_results = task_benchmark.run_benchmark()
+            task_results = task_benchmark.run_benchmark(dry_run=args.dry_run)
             logging.info(f"{name}: {task_results['evaluation_scores']}")
 
             task_result_path = task_benchmark.cache_dir / "results.json"
