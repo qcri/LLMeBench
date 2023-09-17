@@ -1,4 +1,6 @@
-# Defining a new Benchmark Asset ([See Demo](https://youtu.be/j6sA5u7LHYM?feature=shared))
+<!---# Defining a new Benchmark Asset ([See Demo](https://youtu.be/j6sA5u7LHYM?feature=shared))-->
+# Defining a new Benchmark Asset
+
 Given a Dataset, Task and Model provider, the framework expects a given benchmark asset (e.g. "ArabGendDataset", "DemographyGenderTask", "OpenAIModel" and "ZeroShot" prompting setting) to have a `*.py` file with three functions:
 
 ```python
