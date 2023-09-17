@@ -94,52 +94,26 @@ mapTags = {
 
 
 def config():
-    sets = [
-        (
-            "egy",
-            "egy.pos/egy.data_5.test.src-trg.sent",
-            "egy.pos/egy.data_5.dev.src-trg.sent",
-        ),
-        (
-            "glf",
-            "glf.pos/glf.data_5.test.src-trg.sent",
-            "glf.pos/glf.data_5.dev.src-trg.sent",
-        ),
-        (
-            "mgr",
-            "mgr.pos/mgr.data_5.test.src-trg.sent",
-            "mgr.pos/mgr.data_5.dev.src-trg.sent",
-        ),
-        (
-            "lev",
-            "lev.pos/lev.data_5.test.src-trg.sent",
-            "lev.pos/lev.data_5.dev.src-trg.sent",
-        ),
-    ]
-    configs = []
-    for name, testset, devset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": QCRIDialectalArabicPOSDataset,
-                    "dataset_args": {},
-                    "task": ArabicPOSTask,
-                    "task_args": {},
-                    "model": OpenAIModel,
-                    "model_args": {
-                        "max_tries": 30,
-                    },
-                    "general_args": {
-                        "data_path": f"data/sequence_tagging_ner_pos_etc/POS/{testset}",
-                        "fewshot": {
-                            "train_data_path": f"data/sequence_tagging_ner_pos_etc/POS/{devset}"
-                        },
-                    },
-                },
+    return {
+        "dataset": QCRIDialectalArabicPOSDataset,
+        "dataset_args": {},
+        "task": ArabicPOSTask,
+        "task_args": {},
+        "model": OpenAIModel,
+        "model_args": {
+            "max_tries": 30,
+        },
+        "general_args": {
+            "fewshot": {
+                "train_split": [
+                    "glf.data_5/dev",
+                    "lev.data_5/dev",
+                    "egy.data_5/dev",
+                    "mgr.data_5/dev",
+                ],
             }
-        )
-    return configs
+        },
+    }
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):

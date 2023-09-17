@@ -17,12 +17,7 @@ def config():
         "model_args": {
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json",
-            "fewshot": {
-                "train_data_path": "data/QA/MLQA/dev/dev-context-ar-question-ar.json"
-            },
-        },
+        "general_args": {"fewshot": {"train_split": "dev"}},
     }
 
 

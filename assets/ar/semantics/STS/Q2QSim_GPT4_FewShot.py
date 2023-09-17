@@ -15,12 +15,6 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/STS/nsurl-2019-task8/test.tsv",
-            "fewshot": {
-                "train_data_path": "data/STS/nsurl-2019-task8/train.tsv",
-            },
-        },
     }
 
 

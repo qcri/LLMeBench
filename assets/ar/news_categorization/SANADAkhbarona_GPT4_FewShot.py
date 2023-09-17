@@ -27,12 +27,6 @@ def config():
             ],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv",
-            "fewshot": {
-                "train_data_path": "data/news_categorization/SANAD_akhbarona_news_cat_train.tsv"
-            },
-        },
     }
 
 

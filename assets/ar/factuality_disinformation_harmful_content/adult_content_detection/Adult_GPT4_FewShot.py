@@ -15,9 +15,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/adult/adult-train.tsv",
                 "deduplicate": True,
             },
         },

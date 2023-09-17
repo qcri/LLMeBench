@@ -14,12 +14,6 @@ def config():
             "class_labels": ["agree", "disagree"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/test.csv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/train.csv"
-            },
-        },
     }
 
 
