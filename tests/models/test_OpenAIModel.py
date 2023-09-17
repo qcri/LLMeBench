@@ -80,6 +80,9 @@ class TestOpenAIConfig(unittest.TestCase):
             "AZURE_API_URL": "url",
             "AZURE_API_KEY": "secret-key",
             "AZURE_ENGINE_NAME": "private-model",
+            "OPENAI_API_BASE": "",
+            "OPENAI_API_KEY": "",
+            "OPENAI_MODEL": "",
         },
     )
     def test_openai_config_env_var_azure(self):
