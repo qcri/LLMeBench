@@ -60,6 +60,10 @@ def config():
                     "task_args": {},
                     "model": FastChatModel,
                     "model_args": {
+                        "api_type": "openai",
+                        "api_key": os.environ["OPENAI_API_KEY"],
+                        "api_base": os.environ["OPENAI_API_URL"],
+                        "model_name": os.environ["OPENAI_MODEL"],
                         "max_tries": 5,
                     },
                     "general_args": {"data_path": "data/MT/"},
