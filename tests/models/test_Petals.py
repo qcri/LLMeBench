@@ -39,6 +39,8 @@ class TestAssetsForPetalsPrompts(unittest.TestCase):
                 self.assertIn("prompt", prompt)
                 self.assertIsInstance(prompt["prompt"], str)
 
+
+class TestPetalsConfig(unittest.TestCase):
     def test_petals_config(self):
         "Test if model config parameters passed as arguments are used"
         model = PetalsModel(api_url="petals.llmebench.org")

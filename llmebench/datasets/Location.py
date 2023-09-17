@@ -9,7 +9,7 @@ class LocationDataset(DatasetBase):
         return {
             "language": "ar",
             "citation": """@inproceedings{mubarak2021ul2c,
-                title={UL2C: Mapping user locations to countries on Arabic Twitter},
+                title={{UL2C}: Mapping user locations to countries on Arabic Twitter},
                 author={Mubarak, Hamdy and Hassan, Sabit},
                 booktitle={Proceedings of the Sixth Arabic Natural Language Processing Workshop},
                 pages={145--153},
