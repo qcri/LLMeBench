@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class QCRIDialectalArabicSegmentationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(QCRIDialectalArabicSegmentationDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -26,16 +28,40 @@ class QCRIDialectalArabicSegmentationDataset(DatasetBase):
                 doi = "10.18653/v1/K17-1043",
                 pages = "432--441"
             }""",
+            "link": "https://alt.qcri.org/resources/da_resources/",
+            "license": "Apache License, Version 2.0",
+            "splits": {
+                "glf.data_5": {
+                    "dev": "glf.seg/glf.data_5.dev.src.sent",
+                    "test": "glf.seg/glf.data_5.test.src.sent",
+                },
+                "lev.data_5": {
+                    "dev": "lev.seg/lev.data_5.dev.src.sent",
+                    "test": "lev.seg/lev.data_5.test.src.sent",
+                },
+                "egy.data_5": {
+                    "dev": "egy.seg/egy.data_5.dev.src.sent",
+                    "test": "egy.seg/egy.data_5.test.src.sent",
+                },
+                "mgr.data_5": {
+                    "dev": "mgr.seg/mgr.data_5.dev.src.sent",
+                    "test": "mgr.seg/mgr.data_5.test.src.sent",
+                },
+                "default": ["glf.data_5", "lev.data_5", "egy.data_5", "mgr.data_5"],
+            },
+            "task_type": TaskType.Other,
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "Original sentence",
             "label": "Sentence with segmented words",
         }
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
+        data_path = self.resolve_path(data_path)
+
         data = []
 
         with open(data_path, "r") as fp:

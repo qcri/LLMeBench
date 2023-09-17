@@ -28,11 +28,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv",
-            "fewshot": {
-                "train_data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/fewshot_dev.tsv",  # TODO update
-                "deduplicate": False,
-            },
+            "fewshot": {"deduplicate": False, "train_split": "dev"},
         },
     }
 

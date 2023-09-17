@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ArSASDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArSASDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -13,13 +15,23 @@ class ArSASDataset(DatasetBase):
                 author={AbdelRahim Elmadany and Hamdy Mubarak and Walid Magdy},
                 year={2018}
             }""",
+            "link": "https://homepages.inf.ed.ac.uk/wmagdy/resources.htm",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "ArSAS-test.txt",
+                "train": "ArSAS-train.txt",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": "Positive"}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):

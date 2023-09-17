@@ -13,12 +13,7 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv"
-            },
-        },
+        "general_args": {"test_split": "ar", "fewshot": {"train_split": "ar"}},
     }
 
 

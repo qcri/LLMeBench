@@ -1,11 +1,11 @@
-from llmebench.datasets import NewsCatASNDDataset
+from llmebench.datasets import ASNDDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
 
 def config():
     return {
-        "dataset": NewsCatASNDDataset,
+        "dataset": ASNDDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
@@ -26,12 +26,6 @@ def config():
                 "environment",
             ],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv",
-            "fewshot": {
-                "train_data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_trn.csv"
-            },
         },
     }
 

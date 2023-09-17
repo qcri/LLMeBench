@@ -103,12 +103,7 @@ def config():
         "model_args": {
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt",
-            "fewshot": {
-                "train_data_path": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.dev.src-trg.txt"
-            },
-        },
+        "general_args": {"fewshot": {"train_split": "dev"}},
     }
 
 

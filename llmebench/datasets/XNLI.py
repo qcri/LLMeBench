@@ -1,12 +1,14 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class XNLIDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(XNLIDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -25,12 +27,23 @@ class XNLIDataset(DatasetBase):
                 publisher = "Association for Computational Linguistics",
                 location = "Brussels, Belgium",
             }""",
+            "link": "https://github.com/facebookresearch/XNLI",
+            "license": "CC BY-NC 4.0",
+            "splits": {
+                "dev": "xnli.dev.tsv",
+                "test": "xnli.test.ar.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["contradiction", "entailment", "neutral"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Test\tTest", "label": "neutral"}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         formatted_data = []
 
         with open(data_path, "r", encoding="utf-8") as in_file:

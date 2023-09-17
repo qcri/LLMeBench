@@ -25,12 +25,6 @@ def config():
             ],
             "max_tries": 50,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt",
-            "fewshot": {
-                "train_data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_train.txt"
-            },
-        },
     }
 
 

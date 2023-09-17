@@ -103,12 +103,6 @@ def config():
         "model_args": {
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruth.txt.POS.tab",
-            "fewshot": {
-                "train_data_path": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruthDev.txt"
-            },
-        },
     }
 
 

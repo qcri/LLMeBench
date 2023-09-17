@@ -8,9 +8,7 @@ from llmebench.tasks import MultilabelPropagandaTask
 def config():
     return {
         "dataset": SemEval23T3PropagandaDataset,
-        "dataset_args": {
-            "techniques_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/techniques_subtask3.txt"
-        },
+        "dataset_args": {"techniques_path": "techniques_subtask3.txt"},
         "task": MultilabelPropagandaTask,
         "task_args": {},
         "model": OpenAIModel,
@@ -44,10 +42,8 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/fr_dev_subtask3.json",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/fr_train_subtask3.json",
-            },
+            "test_split": "fr/dev",
+            "fewshot": {"train_split": "fr/train"},
         },
     }
 

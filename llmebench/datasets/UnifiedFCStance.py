@@ -1,12 +1,14 @@
 import json
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class UnifiedFCStanceDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(UnifiedFCStanceDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -21,9 +23,18 @@ class UnifiedFCStanceDataset(DatasetBase):
                 booktitle = "Proceedings of the 2018 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 2 (Short Papers)",
                 year = "2018",
             }""",
+            "link": "https://alt.qcri.org/resources/arabic-fact-checking-and-stance-detection-corpus/",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "ramy_arabic_stance.jsonl",
+                "train": ":depends:ANSStance/stance/train.csv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["agree", "disagree", "discuss", "unrelated"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": {
                 # Train samples
@@ -40,6 +51,8 @@ class UnifiedFCStanceDataset(DatasetBase):
     def load_train_data(self, data_path):
         # Training data is used from StanceKhouja as
         # no native training data is available
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r", encoding="utf-8") as fp:
             next(fp)  # skip header
@@ -62,6 +75,7 @@ class UnifiedFCStanceDataset(DatasetBase):
         if "train" in data_path:
             return self.load_train_data(data_path)
         else:
+            data_path = self.resolve_path(data_path)
             with open(data_path, "r", encoding="utf-8") as json_file:
                 for line in json_file:
                     json_obj = json.loads(line)

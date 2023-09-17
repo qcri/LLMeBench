@@ -12,6 +12,8 @@ from langchain.vectorstores import FAISS
 
 from pooch import Decompress, Pooch, retrieve, Untar, Unzip
 
+import llmebench.utils as utils
+
 
 class DatasetBase(ABC):
     """
@@ -52,11 +54,12 @@ class DatasetBase(ABC):
 
     """
 
-    def __init__(self, data_dir="data", **kwargs):
+    def __init__(self, data_dir, **kwargs):
         self.data_dir = data_dir
 
+    @staticmethod
     @abstractmethod
-    def metadata(self):
+    def metadata():
         """
         Returns the dataset's metadata
 
@@ -77,13 +80,38 @@ class DatasetBase(ABC):
                     "ar" # Single supported language
                 Languages should be identified by their IETF language tags
             The returned dictionary _can_ have the following additional keys:
+            "link" : str
+                Link to the representative page for the dataset
+            "license" : str
+                Original license under which the dataset was released
+            "splits" : dict
+                A dictionary containing the keys "test", "dev" and "train"
+                (at least one). "test" will be used automatically for
+                evaluation, if present. Asset can specify a different split
+                if necessary. Multiple splits are also supported, by having
+                a nested dictionary structure, where the first level should
+                be the split name, and the second level should include the
+                actual "test"/"dev"/"train" splits. A special "default" split
+                can also be included, whose value must be a list of split
+                names that will be run by default.
+            "task_type" : llmebench.tasks.TaskType
+                The type of task this dataset targets. Used by the Random
+                Model.
+            "class_labels" : list (optional)
+                List of class labels, must be provided when `task_type` is
+                `Classification`, `MultiLabelClassification` or
+                `SequenceLabeling`.
+            "score_range" : tuple (optional)
+                Score range defining (min_val, max_val). Must be defined
+                when `task_type` is `Regression`
             "download_url" : str (optional)
                 URL to data (for automatic downloads)
         """
         pass
 
+    @staticmethod
     @abstractmethod
-    def get_data_sample(self):
+    def get_data_sample():
         """
         Returns a single data sample.
 
@@ -290,7 +318,8 @@ class DatasetBase(ABC):
 
             yield examples
 
-    def download_dataset(self, download_url=None):
+    @classmethod
+    def download_dataset(cls, data_dir, download_url=None):
         """
         Utility method to download a dataset if not present locally on disk.
         Can handle datasets of types *.zip, *.tar, *.tar.gz, *.tar.bz2, *.tar.xz.
@@ -308,6 +337,10 @@ class DatasetBase(ABC):
             Returns True if the dataset is already present on disk, or if download +
             extraction was successful.
         """
+
+        dataset_name = cls.__name__
+        if dataset_name.endswith("Dataset"):
+            dataset_name = dataset_name[: -len("Dataset")]
 
         def decompress(fname, action, pup):
             """
@@ -334,7 +367,7 @@ class DatasetBase(ABC):
             # Default where the downloaded file is not a container/archive
             fnames = [fname]
 
-            extract_dir = self.__class__.__name__
+            extract_dir = dataset_name
 
             if fname.endswith(".tar.xz"):
                 extractor = Decompress(name=fname[:-3])
@@ -383,7 +416,7 @@ class DatasetBase(ABC):
         if download_url is not None:
             download_urls.append(download_url)
 
-        metadata_url = self.metadata().get("download_url", None)
+        metadata_url = cls.metadata().get("download_url", None)
         if metadata_url is not None:
             download_urls.append(metadata_url)
 
@@ -391,7 +424,7 @@ class DatasetBase(ABC):
         if default_url is not None:
             if default_url.endswith("/"):
                 default_url = default_url[:-1]
-            default_url = f"{default_url}/{self.__class__.__name__}.zip"
+            default_url = f"{default_url}/{dataset_name}.zip"
             download_urls.append(default_url)
 
         # Try downloading from available links in order of priority
@@ -417,17 +450,15 @@ class DatasetBase(ABC):
                 retrieve(
                     download_url,
                     known_hash=None,
-                    fname=f"{self.__class__.__name__}{extension}",
-                    path=self.data_dir,
+                    fname=f"{dataset_name}{extension}",
+                    path=data_dir,
                     progressbar=True,
                     processor=decompress,
                 )
                 # If it was a *.tar.* file, we can safely delete the
                 # intermediate *.tar file
                 if extension in supported_extensions[:3]:
-                    tar_file_path = (
-                        Path(self.data_dir) / f"{self.__class__.__name__}.tar"
-                    )
+                    tar_file_path = Path(data_dir) / f"{dataset_name}.tar"
                     tar_file_path.unlink()
                 return True
             except Exception as e:
@@ -437,3 +468,6 @@ class DatasetBase(ABC):
         logging.warning(f"Failed to download dataset")
 
         return False
+
+    def resolve_path(self, path):
+        return utils.resolve_path(path, self, self.data_dir)

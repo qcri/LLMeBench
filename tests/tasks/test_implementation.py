@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 import llmebench.tasks as tasks
+from llmebench.tasks.task_base import TaskBase
 
 from tests.utils import base_class_constructor_checker
 
@@ -13,7 +14,13 @@ class TestTaskImplementation(unittest.TestCase):
     def setUpClass(cls):
         # Search for all implemented models
         framework_dir = Path("llmebench")
-        cls.tasks = set([m[1] for m in inspect.getmembers(tasks, inspect.isclass)])
+        cls.tasks = set(
+            [
+                m[1]
+                for m in inspect.getmembers(tasks, inspect.isclass)
+                if issubclass(m[1], TaskBase)
+            ]
+        )
 
     def test_base_constructor(self):
         "Test if all tasks also call the base class constructor"

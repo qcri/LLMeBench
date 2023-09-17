@@ -1,15 +1,18 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class CT22AttentionworthyDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT22AttentionworthyDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "no_not_interesting"}
 
+    @staticmethod
     def metadata():
         return {
             "language": ["ar", "bg", "nl", "en", "tr"],
@@ -21,9 +24,31 @@ class CT22AttentionworthyDataset(DatasetBase):
                 series = {CLEF~'2022},
                 address = {Bologna, Italy},
             }""",
+            "link": "https://gitlab.com/checkthat_lab/clef2022-checkthat-lab/clef2022-checkthat-lab",
+            "license": "Research Purpose Only",
+            "splits": {
+                "ar": {
+                    "test": "CT22_arabic_1D_attentionworthy_test_gold.tsv",
+                    "train": "CT22_arabic_1D_attentionworthy_train.tsv",
+                }
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": [
+                "yes_discusses_action_taken",
+                "harmful",
+                "yes_discusses_cure",
+                "yes_asks_question",
+                "no_not_interesting",
+                "yes_other",
+                "yes_blame_authorities",
+                "yes_contains_advice",
+                "yes_calls_for_action",
+            ],
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():

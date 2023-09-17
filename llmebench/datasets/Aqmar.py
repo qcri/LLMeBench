@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class AqmarDataset(DatasetBase):
@@ -45,6 +46,7 @@ class AqmarDataset(DatasetBase):
             ],
         )
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -63,9 +65,34 @@ class AqmarDataset(DatasetBase):
                 url = \"https://aclanthology.org/E12-1017\",
                 pages = \"162--173\",
             }""",
+            "link": "http://www.cs.cmu.edu/~ark/AQMAR/",
+            "license": "CC BY-SA 3.0",
+            "splits": {
+                "test": {
+                    "split": "test",
+                    "path": "AQMAR_Arabic_NER_corpus-1.0",
+                },
+                "dev": {
+                    "split": "dev",
+                    "path": "AQMAR_Arabic_NER_corpus-1.0",
+                },
+            },
+            "task_type": TaskType.SequenceLabeling,
+            "class_labels": [
+                "B-PERS",
+                "I-PERS",
+                "B-LOC",
+                "I-LOC",
+                "B-ORG",
+                "I-ORG",
+                "B-MISC",
+                "I-MISC",
+                "O",
+            ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": ".كانت السبب الرئيس في سقوط البيزنطيين بسبب الدمار الذي كانت تخلفه الحملات الأولى المارة في بيزنطة ( مدينة القسطنطينية ) عاصمة الإمبراطورية البيزنطية وتحول حملات لاحقة نحوها",
             "label": "O O O O O B-PER O O O O O O O O O B-LOC O O B-LOC O O B-LOC I-LOC O O O O O",
@@ -82,6 +109,7 @@ class AqmarDataset(DatasetBase):
 
         for fname in filenames:
             path = Path(data_path) / fname
+            path = self.resolve_path(path)
             with open(path, "r") as reader:
                 current_sentence = []
                 current_label = []

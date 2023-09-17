@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class BanglaSentimentDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(BanglaSentimentDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "bn",
@@ -22,12 +24,23 @@ class BanglaSentimentDataset(DatasetBase):
                 Year = {2020},
                 url={https://github.com/banglanlp/bangla-sentiment-classification},
             }""",
+            "link": "https://github.com/banglanlp/bangla-sentiment-classification",
+            "license": "CC BY-NC-SA 2.0",
+            "splits": {
+                "test": "bn_all_test.tsv",
+                "train": "bn_all_train.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["Positive", "Negative", "Neutral"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": "Positive", "line_number": 0}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r") as fp:
             next(fp)

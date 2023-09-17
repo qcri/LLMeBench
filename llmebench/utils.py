@@ -1,5 +1,8 @@
 import importlib.util
 import sys
+
+from inspect import signature
+
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -34,3 +37,104 @@ def import_source_file(fname: Path, modname: str) -> "types.ModuleType":
     except FileNotFoundError as e:
         raise ImportError(f"{e.strerror}: {fname}") from e
     return module
+
+
+def is_fewshot_asset(config, prompt_fn):
+    """Detect if a given asset is zero shot or few show"""
+    sig = signature(prompt_fn)
+    general_args = config.get("general_args", {})
+    return "fewshot" in general_args or len(sig.parameters) == 2
+
+
+def get_data_paths(config, split):
+    """Given a asset config, return the appropriate data paths"""
+    assert split in ["train", "test"]
+
+    dataset_args = config.get("dataset_args", {})
+    dataset = config["dataset"](**dataset_args)
+
+    if split == "test":
+        data_args = config.get("general_args", {})
+    elif split == "train":
+        general_args = config.get("general_args", {})
+        data_args = general_args.get("fewshot", {})
+
+    data_paths = []
+    if f"custom_{split}_split" in data_args:
+        data_paths.append(("custom", data_args[f"custom_{split}_split"]))
+    elif f"{split}_split" in data_args:
+        requested_splits = data_args[f"{split}_split"]
+        if not isinstance(requested_splits, list):
+            requested_splits = [requested_splits]
+        requested_splits = [rs.split("/") for rs in requested_splits]
+        available_splits = dataset.metadata()["splits"]
+
+        for requested_split in requested_splits:
+            if len(requested_split) == 1:
+                # Single level split like "test" or "ar"
+                assert (
+                    requested_split[0] in available_splits
+                ), "Requested split not found in dataset"
+                if split in available_splits[requested_split[0]]:
+                    # Pick "test"/"train" automatically, if available
+                    data_paths.append(
+                        (
+                            requested_split[0],
+                            available_splits[requested_split[0]][split],
+                        )
+                    )
+                else:
+                    data_paths.append(
+                        (requested_split[0], available_splits[requested_split[0]])
+                    )
+            else:
+                # Multilevel split like "ar" -> "test"
+                assert (
+                    requested_split[0] in available_splits
+                ), "Requested split not found in dataset"
+                assert (
+                    requested_split[1] in available_splits[requested_split[0]]
+                ), "Requested split not found in dataset"
+                data_paths.append(
+                    (
+                        f"{requested_split[0]}/{requested_split[1]}",
+                        available_splits[requested_split[0]][requested_split[1]],
+                    )
+                )
+    else:
+        # Use default splits
+        available_splits = dataset.metadata()["splits"]
+        if "default" in available_splits:
+            # Multilevel splits
+            for av_split in available_splits["default"]:
+                assert (
+                    split in available_splits[av_split]
+                ), f'No "{split}" split found in dataset, please specify split explicitly. Available splits are: {", ".join(available_splits[av_split])}'
+                data_paths.append((av_split, available_splits[av_split][split]))
+        else:
+            # Single level splits
+            assert (
+                split in available_splits
+            ), f'No "{split}" split found in dataset, please specify split explicitly. Available splits are: {", ".join(available_splits)}'
+            data_paths.append((split, available_splits[split]))
+
+    return data_paths
+
+
+def resolve_path(path, dataset, data_dir):
+    """Return absolute path"""
+    if not isinstance(path, Path):
+        path = Path(path)
+
+    if not isinstance(data_dir, Path):
+        data_dir = Path(data_dir)
+
+    if not str(path).startswith(":depends:") and path.is_absolute():
+        return path
+    elif str(path).startswith(":depends:"):
+        return data_dir / str(path)[len(":depends:") :]
+    else:
+        dataset_name = dataset.__class__.__name__
+        if dataset_name.endswith("Dataset"):
+            dataset_name = dataset_name[: -len("Dataset")]
+        return data_dir / dataset_name / path

@@ -24,12 +24,7 @@ def config():
             ],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_test_gold.tsv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_train.tsv",
-            },
-        },
+        "general_args": {"test_split": "ar", "fewshot": {"train_split": "ar"}},
     }
 
 

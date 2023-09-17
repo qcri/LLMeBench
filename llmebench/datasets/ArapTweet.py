@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ArapTweetDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArapTweetDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -28,14 +30,22 @@ class ArapTweetDataset(DatasetBase):
               pages={198--204},
               year={2019}
             }""",
+            "splits": {
+                "test": "test.tsv",
+                "train": "train.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["Female", "Male"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "A name", "label": "m"}
 
     def load_data(self, data_path, no_labels=False):
         data = []
         if "test" in data_path:
+            data_path = self.resolve_path(data_path)
             with open(data_path, "r") as fp:
                 for line_idx, line in enumerate(fp):
                     name, label = line.strip().split("\t")
@@ -48,6 +58,7 @@ class ArapTweetDataset(DatasetBase):
                         }
                     )
         else:
+            data_path = self.resolve_path(data_path)
             user_ids = set()
             with open(data_path, "r") as fp:
                 for line_idx, line in enumerate(fp):

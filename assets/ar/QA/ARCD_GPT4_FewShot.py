@@ -17,10 +17,6 @@ def config():
         "model_args": {
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/QA/arcd/arcd-test.json",
-            "fewshot": {"train_data_path": "data/QA/arcd/arcd-train.json"},
-        },
     }
 
 
