@@ -29,10 +29,10 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 
 ## Quick Start!
 1. [Install](https://github.com/qcri/LLMeBench/blob/main/README.md#installation) LLMeBench.
-2. [Get example data](https://github.com/qcri/LLMeBench/blob/main/README.md#get-the-benchmark-data).
+2. [Get example data](https://llmebench.qcri.org/data/ArSAS.zip).
 3. Evaluate!
 
-   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
    ```bash
    python -m llmebench --filter '*ArSAS_Random*' assets/ar/sentiment_emotion_others/sentiment/ results/
    ```
@@ -59,21 +59,16 @@ pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the benchmark data
-Download the benchmark from [here](https://neurox.qcri.org/projects/llmebench/arabic_llm_benchmark_data.zip), and unzip it into the `LLMeBench` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
-
+In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, download the benchmarking data from [here](https://llmebench.qcri.org/data/), an example command to download all these datasets:
 ```bash
-$ ls data/
-MT
-STS
-XNLI
-demography
-factuality_disinformation_harmful_content
-sentiment_emotion_others
-sequence_tagging_ner_pos_etc
-speech
+mkdir data/
+cd data
+wget -r -np -nH --cut-dirs=3 -A zip -R index.html  https://llmebench.qcri.org/data/
 ```
 
-**Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for their use and redistribution for research or non-commercial purposes .
+Next, unzip the downloaded files to get a directory per dataset. Voilà! all ready to start evaluation... 
+
+**Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for datasets use and redistribution for research or non-commercial purposes .
 
 ## Usage
 To run the benchmark,
