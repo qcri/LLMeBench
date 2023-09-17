@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
@@ -28,8 +30,8 @@ class SANADAlKhaleejDataset(DatasetBase):
             "link": "https://data.mendeley.com/datasets/57zpx667y9/2",
             "license": "CC BY 4.0",
             "splits": {
-                "test": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv",
-                "train": "data/news_categorization/SANAD_alkhaleej_news_cat_train.tsv",
+                "test": "SANAD_alkhaleej_news_cat_test.tsv",
+                "train": "SANAD_alkhaleej_news_cat_train.tsv",
             },
             "task_type": TaskType.Classification,
             "class_labels": [
@@ -44,12 +46,14 @@ class SANADAlKhaleejDataset(DatasetBase):
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         raw_data = pd.read_csv(data_path, sep="\t")
-        dir_path = "data/news_categorization/"
+        dir_path = data_path.parent
         for index, row in raw_data.iterrows():
             filename = row["file_path"].strip()
-            file = open(dir_path + filename, "r")
+            file = open(dir_path / filename, "r")
             lines = file.readlines()
             lines = " ".join(lines).strip()
             label = row["class_label"]

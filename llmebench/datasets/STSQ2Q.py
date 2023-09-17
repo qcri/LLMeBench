@@ -4,9 +4,9 @@ from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 
 
-class Q2QSimDataset(DatasetBase):
+class STSQ2QDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(Q2QSimDataset, self).__init__(**kwargs)
+        super(STSQ2QDataset, self).__init__(**kwargs)
 
     @staticmethod
     def metadata():
@@ -21,8 +21,8 @@ class Q2QSimDataset(DatasetBase):
             }""",
             "link": "http://nsurl.org/2019-2/tasks/task8-semantic-question-similarity-in-arabic/",
             "splits": {
-                "test": "data/STS/nsurl-2019-task8/test.tsv",
-                "train": "data/STS/nsurl-2019-task8/train.tsv",
+                "test": "test.tsv",
+                "train": "train.tsv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["0", "1"],
@@ -36,6 +36,8 @@ class Q2QSimDataset(DatasetBase):
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, encoding="utf-8") as f:
             next(f)

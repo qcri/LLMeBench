@@ -28,8 +28,8 @@ class CT22AttentionworthyDataset(DatasetBase):
             "license": "Research Purpose Only",
             "splits": {
                 "ar": {
-                    "test": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_train.tsv",
+                    "test": "CT22_arabic_1D_attentionworthy_test_gold.tsv",
+                    "train": "CT22_arabic_1D_attentionworthy_train.tsv",
                 }
             },
             "task_type": TaskType.Classification,
@@ -47,6 +47,8 @@ class CT22AttentionworthyDataset(DatasetBase):
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():

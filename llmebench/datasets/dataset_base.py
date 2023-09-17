@@ -12,6 +12,8 @@ from langchain.vectorstores import FAISS
 
 from pooch import Decompress, Pooch, retrieve, Untar, Unzip
 
+import llmebench.utils as utils
+
 
 class DatasetBase(ABC):
     """
@@ -52,8 +54,8 @@ class DatasetBase(ABC):
 
     """
 
-    def __init__(self, **kwargs):
-        pass
+    def __init__(self, data_dir, **kwargs):
+        self.data_dir = data_dir
 
     @staticmethod
     @abstractmethod
@@ -336,6 +338,10 @@ class DatasetBase(ABC):
             extraction was successful.
         """
 
+        dataset_name = cls.__name__
+        if dataset_name.endswith("Dataset"):
+            dataset_name = dataset_name[: -len("Dataset")]
+
         def decompress(fname, action, pup):
             """
             Post-processing hook to automatically detect the type of archive and
@@ -361,7 +367,7 @@ class DatasetBase(ABC):
             # Default where the downloaded file is not a container/archive
             fnames = [fname]
 
-            extract_dir = cls.__name__
+            extract_dir = dataset_name
 
             if fname.endswith(".tar.xz"):
                 extractor = Decompress(name=fname[:-3])
@@ -418,7 +424,7 @@ class DatasetBase(ABC):
         if default_url is not None:
             if default_url.endswith("/"):
                 default_url = default_url[:-1]
-            default_url = f"{default_url}/{cls.__name__}.zip"
+            default_url = f"{default_url}/{dataset_name}.zip"
             download_urls.append(default_url)
 
         # Try downloading from available links in order of priority
@@ -444,7 +450,7 @@ class DatasetBase(ABC):
                 retrieve(
                     download_url,
                     known_hash=None,
-                    fname=f"{cls.__name__}{extension}",
+                    fname=f"{dataset_name}{extension}",
                     path=data_dir,
                     progressbar=True,
                     processor=decompress,
@@ -452,7 +458,7 @@ class DatasetBase(ABC):
                 # If it was a *.tar.* file, we can safely delete the
                 # intermediate *.tar file
                 if extension in supported_extensions[:3]:
-                    tar_file_path = Path(data_dir) / f"{cls.__name__}.tar"
+                    tar_file_path = Path(data_dir) / f"{dataset_name}.tar"
                     tar_file_path.unlink()
                 return True
             except Exception as e:
@@ -462,3 +468,6 @@ class DatasetBase(ABC):
         logging.warning(f"Failed to download dataset")
 
         return False
+
+    def resolve_path(self, path):
+        return utils.resolve_path(path, self, self.data_dir)

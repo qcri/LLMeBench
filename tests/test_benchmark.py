@@ -78,6 +78,7 @@ class MockAsset(object):
     def config():
         return {
             "dataset": MockDataset,
+            "dataset_args": {"data_dir": ""},
             "task": MockTask,
             "model": MockModel,
         }
@@ -96,6 +97,7 @@ class MockFewShotAsset(object):
     def config():
         return {
             "dataset": MockDataset,
+            "dataset_args": {"data_dir": ""},
             "task": MockTask,
             "model": MockModel,
         }

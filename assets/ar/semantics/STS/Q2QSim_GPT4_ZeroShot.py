@@ -1,13 +1,13 @@
 import re
 
-from llmebench.datasets import Q2QSimDataset
+from llmebench.datasets import STSQ2QDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import Q2QSimDetectionTask
 
 
 def config():
     return {
-        "dataset": Q2QSimDataset,
+        "dataset": STSQ2QDataset,
         "dataset_args": {},
         "task": Q2QSimDetectionTask,
         "task_args": {},

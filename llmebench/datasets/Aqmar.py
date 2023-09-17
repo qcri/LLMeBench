@@ -70,11 +70,11 @@ class AqmarDataset(DatasetBase):
             "splits": {
                 "test": {
                     "split": "test",
-                    "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+                    "path": "AQMAR_Arabic_NER_corpus-1.0",
                 },
                 "dev": {
                     "split": "dev",
-                    "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
+                    "path": "AQMAR_Arabic_NER_corpus-1.0",
                 },
             },
             "task_type": TaskType.SequenceLabeling,
@@ -109,6 +109,7 @@ class AqmarDataset(DatasetBase):
 
         for fname in filenames:
             path = Path(data_path) / fname
+            path = self.resolve_path(path)
             with open(path, "r") as reader:
                 current_sentence = []
                 current_label = []

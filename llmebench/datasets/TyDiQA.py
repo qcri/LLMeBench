@@ -21,8 +21,8 @@ class TyDiQADataset(SQuADBase):
             "link": "https://github.com/google-research-datasets/tydiqa",
             "license": "Apache License Version 2.0",
             "splits": {
-                "dev": "data/QA/tydiqa/tydiqa-goldp-dev-arabic.json",
-                "train": "data/QA/ARCD/arcd-train.json",
+                "dev": "tydiqa-goldp-dev-arabic.json",
+                "train": ":depends:ARCD/arcd-train.json",
             },
             "task_type": TaskType.QuestionAnswering,
         }

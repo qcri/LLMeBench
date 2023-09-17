@@ -19,9 +19,7 @@ class QADIDataset(DatasetBase):
             }""",
             "link": "https://alt.qcri.org/resources/qadi/",
             "license": "Apache License, Version 2.0",
-            "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/dialect_identification/QADI_test-PalestinePS-corrected.txt"
-            },
+            "splits": {"test": "QADI_test-PalestinePS-corrected.txt"},
             "task_type": TaskType.Classification,
             "class_labels": [
                 "EG",
@@ -51,6 +49,8 @@ class QADIDataset(DatasetBase):
         return {"input": "طب ماتمشي هو حد ماسك فيك", "label": "EG"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         # Format: dialect_id_label \t text
         data = []
         with open(data_path, "r") as fp:

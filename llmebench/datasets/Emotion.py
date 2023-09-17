@@ -28,8 +28,8 @@ class EmotionDataset(DatasetBase):
             "license": "Restricted",
             "download_url": "http://saifmohammad.com/WebDocs/AIT-2018/AIT2018-DATA/SemEval2018-Task1-all-data.zip",
             "splits": {
-                "test": "data/sentiment_emotion_others/emotion/test-gold.txt",
-                "train": "data/sentiment_emotion_others/emotion/train.txt",
+                "test": "test-gold.txt",
+                "train": "train.txt",
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [
@@ -51,6 +51,8 @@ class EmotionDataset(DatasetBase):
         return {"input": "Tweet", "label": [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):

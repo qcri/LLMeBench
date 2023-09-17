@@ -36,8 +36,8 @@ class OSACT4SubtaskADataset(DatasetBase):
             "link": "https://edinburghnlp.inf.ed.ac.uk/workshops/OSACT4/",
             "license": "CC BY 4.0",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt",
-                "train": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-train_OFF.txt",
+                "test": "OSACT2020-sharedTask-test-tweets-labels.txt",
+                "train": "OSACT2020-sharedTask-train_OFF.txt",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["OFF", "NOT_OFF"],
@@ -48,6 +48,8 @@ class OSACT4SubtaskADataset(DatasetBase):
         return {"input": "@USER يلا يا خوخة يا مهزئة ع دراستك", "label": "OFF"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         # Format: text \t offensive_label
         data = []
         with open(data_path, "r") as fp:

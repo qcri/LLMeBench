@@ -24,8 +24,8 @@ class UnifiedFCFactualityDataset(DatasetBase):
             "link": "https://alt.qcri.org/resources/arabic-fact-checking-and-stance-detection-corpus/",
             "license": "Research Purpose Only",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_fact_checking.tsv",
-                "train": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/train.csv",
+                "test": "ramy_arabic_fact_checking.tsv",
+                "train": ":depends:ANSStance/claim/train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["true", "false"],
@@ -36,6 +36,8 @@ class UnifiedFCFactualityDataset(DatasetBase):
         return {"input": "الجملة الاولى", "label": "agree", "input_id": "id"}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r", encoding="utf-8") as f:
             header = next(f)

@@ -28,8 +28,8 @@ class ArSarcasmDataset(DatasetBase):
             "link": "https://github.com/iabufarha/ArSarcasm",
             "license": "MIT License",
             "splits": {
-                "test": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv",
-                "train": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_train.csv",
+                "test": "ArSarcasm_test.csv",
+                "train": "ArSarcasm_train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["TRUE", "FALSE"],
@@ -40,6 +40,8 @@ class ArSarcasmDataset(DatasetBase):
         return {"input": "A tweet", "label": "TRUE"}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r", encoding="utf-8") as fp:
             reader = csv.DictReader(fp)

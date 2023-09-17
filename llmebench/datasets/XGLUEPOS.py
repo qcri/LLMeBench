@@ -20,8 +20,8 @@ class XGLUEPOSDataset(DatasetBase):
             "link": "https://microsoft.github.io/XGLUE/",
             "license": "Non-commercial research purposes only",
             "splits": {
-                "dev": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.dev.src-trg.txt",
-                "test": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt",
+                "dev": "ar.dev.src-trg.txt",
+                "test": "ar.test.src-trg.txt",
             },
             "task_type": TaskType.SequenceLabeling,
             "class_labels": [
@@ -52,6 +52,8 @@ class XGLUEPOSDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
 
         with open(data_path, "r") as fp:

@@ -19,8 +19,8 @@ class LocationDataset(DatasetBase):
             }""",
             "link": "https://alt.qcri.org/resources/UL2C-UserLocationsToCountries.tsv",
             "splits": {
-                "test": "data/demographic_attributes/location/arab+others.txt",
-                "train": "data/demographic_attributes/location/dev.txt",
+                "test": "arab+others.txt",
+                "train": "arab+others_dev.txt",
             },
             "task_type": TaskType.Classification,
             "class_labels": [
@@ -54,6 +54,8 @@ class LocationDataset(DatasetBase):
         return {"input": "Doha, Qatar", "label": "QA"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         # Format: location \t country_code
         data = []
         with open(data_path, "r") as fp:

@@ -26,8 +26,8 @@ class AdultDataset(DatasetBase):
             "link": "https://alt.qcri.org/resources/AdultContentDetection.zip",
             "license": "Research Purpose Only",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
-                "train": "data/factuality_disinformation_harmful_content/adult/adult-train.tsv",
+                "test": "adult-test.tsv",
+                "train": "adult-train.tsv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["ADULT", "NOT_ADULT"],
@@ -38,6 +38,7 @@ class AdultDataset(DatasetBase):
         return {"input": "نص عادي", "label": "NOT_ADULT"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):

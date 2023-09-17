@@ -28,8 +28,8 @@ class CT23SubjectivityDataset(DatasetBase):
             "license": "CC BY NC SA 4.0",
             "splits": {
                 "ar": {
-                    "dev": "data/factuality_disinformation_harmful_content/subjectivity/dev_ar.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/subjectivity/train_ar.tsv",
+                    "dev": "dev_ar.tsv",
+                    "train": "train_ar.tsv",
                 }
             },
             "task_type": TaskType.Classification,
@@ -37,6 +37,8 @@ class CT23SubjectivityDataset(DatasetBase):
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():

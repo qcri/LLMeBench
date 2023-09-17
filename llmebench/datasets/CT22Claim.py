@@ -20,8 +20,8 @@ class CT22ClaimDataset(DatasetBase):
             "license": "Research Purpose Only",
             "splits": {
                 "ar": {
-                    "test": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_train.tsv",
+                    "test": "CT22_arabic_1B_claim_test_gold.tsv",
+                    "train": "CT22_arabic_1B_claim_train.tsv",
                 }
             },
             "task_type": TaskType.Classification,
@@ -33,6 +33,8 @@ class CT22ClaimDataset(DatasetBase):
         return {"input": "Tweet", "label": "1"}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         formatted_data = []
 
         with open(data_path, "r", encoding="utf-8") as in_file:

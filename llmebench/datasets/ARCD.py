@@ -31,8 +31,8 @@ class ARCDDataset(SQuADBase):
             "link": "https://github.com/husseinmozannar/SOQAL",
             "license": "MIT License",
             "splits": {
-                "test": "data/QA/ARCD/arcd-test.json",
-                "train": "data/QA/ARCD/arcd-train.json",
+                "test": "arcd-test.json",
+                "train": "arcd-train.json",
             },
             "task_type": TaskType.QuestionAnswering,
         }

@@ -26,8 +26,8 @@ class ANSFactualityDataset(DatasetBase):
             "link": "https://github.com/latynt/ans",
             "download_url": "https://github.com/latynt/ans/archive/refs/heads/master.zip",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv",
-                "train": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/train.csv",
+                "test": "claim/test.csv",
+                "train": "claim/train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["true", "false"],
@@ -38,6 +38,7 @@ class ANSFactualityDataset(DatasetBase):
         return {"input": "الجملة بالعربية", "label": "true", "line_number": "1"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
         data = []
         with open(data_path, "r", encoding="utf-8") as f:
             next(f)

@@ -27,8 +27,8 @@ class WikiNewsDiacritizationDataset(DatasetBase):
             "link": "https://github.com/kdarwish/Farasa/tree/master",
             "license": "Research Purpose Only",
             "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/diacritization/WikiNewsTruth.txt",
-                "train": "data/sequence_tagging_ner_pos_etc/diacritization/WikiNewsTruthDev.txt",
+                "test": "WikiNewsTruth.txt",
+                "train": "WikiNewsTruthDev.txt",
             },
             "task_type": TaskType.Other,
         }
@@ -41,6 +41,7 @@ class WikiNewsDiacritizationDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
         data = []
 
         with open(data_path, "r") as fp:

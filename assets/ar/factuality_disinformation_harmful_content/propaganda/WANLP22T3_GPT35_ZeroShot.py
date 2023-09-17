@@ -8,9 +8,7 @@ from llmebench.tasks import MultilabelPropagandaTask
 def config():
     return {
         "dataset": WANLP22T3PropagandaDataset,
-        "dataset_args": {
-            "techniques_path": "data/factuality_disinformation_harmful_content/propaganda/classes.txt"
-        },
+        "dataset_args": {"techniques_path": "classes.txt"},
         "task": MultilabelPropagandaTask,
         "task_args": {},
         "model": LegacyOpenAIModel,

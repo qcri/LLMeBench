@@ -32,20 +32,20 @@ class QCRIDialectalArabicSegmentationDataset(DatasetBase):
             "license": "Apache License, Version 2.0",
             "splits": {
                 "glf.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.dev.src.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/glf.seg/glf.data_5.test.src.sent",
+                    "dev": "glf.seg/glf.data_5.dev.src.sent",
+                    "test": "glf.seg/glf.data_5.test.src.sent",
                 },
                 "lev.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.dev.src.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/lev.seg/lev.data_5.test.src.sent",
+                    "dev": "lev.seg/lev.data_5.dev.src.sent",
+                    "test": "lev.seg/lev.data_5.test.src.sent",
                 },
                 "egy.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.dev.src.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/egy.seg/egy.data_5.test.src.sent",
+                    "dev": "egy.seg/egy.data_5.dev.src.sent",
+                    "test": "egy.seg/egy.data_5.test.src.sent",
                 },
                 "mgr.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.dev.src.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/segmentation/mgr.seg/mgr.data_5.test.src.sent",
+                    "dev": "mgr.seg/mgr.data_5.dev.src.sent",
+                    "test": "mgr.seg/mgr.data_5.test.src.sent",
                 },
                 "default": ["glf.data_5", "lev.data_5", "egy.data_5", "mgr.data_5"],
             },
@@ -60,6 +60,8 @@ class QCRIDialectalArabicSegmentationDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
 
         with open(data_path, "r") as fp:

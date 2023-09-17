@@ -38,8 +38,8 @@ class PADTDataset(DatasetBase):
             """,
             "link": "https://ufal.mff.cuni.cz/padt/PADT_1.0/docs/index.html",
             "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/parsing/arabic_PADT_test_gs.conll",
-                "train": "data/sequence_tagging_ner_pos_etc/parsing/arabic_PADT_train.conll",
+                "test": "arabic_PADT_test_gs.conll",
+                "train": "arabic_PADT_train.conll",
             },
             "task_type": TaskType.Other,
         }
@@ -55,6 +55,8 @@ class PADTDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
         send_id = 0
         sent_lab = {}
