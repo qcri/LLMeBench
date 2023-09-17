@@ -1,5 +1,3 @@
-import os
-
 from llmebench.datasets import AraBenchDataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import MachineTranslationTask
@@ -45,6 +43,7 @@ def config():
         "madar.test.nil.1.eg",
         "madar.test.nil.2.eg",
     ]
+
     configs = []
     for testset in sets:
         configs.append(
@@ -60,7 +59,7 @@ def config():
                     "task_args": {},
                     "model": FastChatModel,
                     "model_args": {
-                        "max_tries": 5,
+                        "max_tries": 3,
                     },
                     "general_args": {"data_path": "data/MT/"},
                 },
