@@ -54,3 +54,5 @@ To run all few shot assets:
 ```bash
 python -m llmebench --filter '*FewShot*' --n_shots <n> <benchmark-dir> <results-dir>
 ```
+- `--n_shots <n>`: For benchmarking few shot assest, this flag should be provided, setting `<n>` to be > 0. 
+
