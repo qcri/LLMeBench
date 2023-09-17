@@ -66,7 +66,12 @@ cd data
 wget -r -np -nH --cut-dirs=3 -A zip -R index.html  https://llmebench.qcri.org/data/
 ```
 
-Next, unzip the downloaded files to get a directory per dataset. Voilà! all ready to start evaluation... 
+Next, unzip the downloaded files to get a directory per dataset: 
+```bash
+for i in *.zip; do unzip "$i" -d "${i%%.zip}"; done
+```
+
+**_Voilà! all ready to start evaluation..._**
 
 **Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for datasets use and redistribution for research or non-commercial purposes .
 
