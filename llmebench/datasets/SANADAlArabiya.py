@@ -10,7 +10,7 @@ class SANADAlArabiyaDataset(DatasetBase):
 
     @staticmethod
     def get_data_sample():
-        return {"input": "some tweet", "label": "checkworthy"}
+        return {"input": "some tweet", "label": "tech"}
 
     @staticmethod
     def metadata():
