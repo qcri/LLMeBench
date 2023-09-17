@@ -19,7 +19,8 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/8
 </picture>
 </p>
 
-- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [model providers](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in **200 [benchmarking assets](assets/)** ready to run.
+Developing **LLMeBench** is an ongoing effort and it will be continuously expanded. Currently, the framework features the following:
+- Supports 31 [tasks](llmebench/tasks) featuring 3 [model providers](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in **200 [benchmarking assets](assets/)** ready to run.
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
@@ -115,7 +116,7 @@ The framework has some preliminary support to automatically select `n` examples 
 To run few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--n_shots` is > zero, only few shot assets are run.
 
 ## Tutorial
-The [tutorials directory](docs/tutorials/) provides tutorials: on how to update an existing asset, advanced usage commands to run different benchmarking use cases, and on extending the framework by at least one of the following components:
+The [tutorials directory](docs/tutorials/) provides tutorials on the following: updating an existing asset, advanced usage commands to run different benchmarking use cases, and extending the framework by at least one of these components:
 - Model Provider
 - Task
 - Dataset
