@@ -49,5 +49,5 @@ def prompt(input_sample, examples):
 ```
 
 **Note:** in case of few shots assets, the framework default behavior is to deduplicate the training examples, from which few shots are being extracted, against the evaluatin dataset, based on sample IDs. To enable this functionality: 
-  1) `load_data` in the dataset to be used should also define `"input_id"` per input sample (See: [Adding Dataset](#adding-dataset))
+  1) `load_data` in the dataset to be used should also define `"input_id"` per input sample (See: [Adding Dataset](docs/tutorials/adding_dataset.md))
   2)  `"deduplicate"` shouldn't be passed in `"fewshot": { ` or it should be set to True. 
