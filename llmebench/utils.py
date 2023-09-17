@@ -132,7 +132,7 @@ def resolve_path(path, dataset, data_dir):
     if not str(path).startswith(":depends:") and path.is_absolute():
         return path
     elif str(path).startswith(":depends:"):
-        return data_dir / str(path)[len(":depends:") + 1 :]
+        return data_dir / str(path)[len(":depends:") :]
     else:
         dataset_name = dataset.__class__.__name__
         if dataset_name.endswith("Dataset"):
