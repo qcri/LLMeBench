@@ -97,7 +97,8 @@ class DatasetBase(ABC):
                 Model.
             "class_labels" : list (optional)
                 List of class labels, must be provided when `task_type` is
-                `Classification`, `MultiLabelClassification` or `Labeling`.
+                `Classification`, `MultiLabelClassification` or
+                `SequenceLabeling`.
             "score_range" : tuple (optional)
                 Score range defining (min_val, max_val). Must be defined
                 when `task_type` is `Regression`

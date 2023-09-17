@@ -77,7 +77,7 @@ class AqmarDataset(DatasetBase):
                     "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
                 },
             },
-            "task_type": TaskType.Labeling,
+            "task_type": TaskType.SequenceLabeling,
             "class_labels": [
                 "B-PERS",
                 "I-PERS",

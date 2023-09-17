@@ -37,7 +37,7 @@ TaskType = Enum(
     [
         "Classification",
         "MultiLabelClassification",
-        "Labeling",
+        "SequenceLabeling",
         "QuestionAnswering",
         "SequenceToSequence",
         "Regression",

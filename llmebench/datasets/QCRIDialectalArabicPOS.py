@@ -45,7 +45,7 @@ class QCRIDialectalArabicPOSDataset(DatasetBase):
                 },
                 "default": ["glf.data_5", "lev.data_5", "egy.data_5", "mgr.data_5"],
             },
-            "task_type": TaskType.Labeling,
+            "task_type": TaskType.SequenceLabeling,
             "class_labels": [
                 "ADJ",
                 "ADV",

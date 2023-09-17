@@ -23,7 +23,7 @@ class XGLUEPOSDataset(DatasetBase):
                 "dev": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.dev.src-trg.txt",
                 "test": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt",
             },
-            "task_type": TaskType.Labeling,
+            "task_type": TaskType.SequenceLabeling,
             "class_labels": [
                 "ADJ",
                 "ADP",

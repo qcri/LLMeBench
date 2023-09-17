@@ -23,7 +23,7 @@ class WikiNewsPOSDataset(DatasetBase):
                 "test": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruth.txt.POS.tab",
                 "train": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruthDev.txt",
             },
-            "task_type": TaskType.Labeling,
+            "task_type": TaskType.SequenceLabeling,
             "class_labels": [
                 "ABBREV",
                 "ADJ",

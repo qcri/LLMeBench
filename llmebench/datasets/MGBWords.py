@@ -31,7 +31,7 @@ class MGBWordsDataset(DatasetBase):
             "splits": {
                 "test": "data/sequence_tagging_ner_pos_etc/NER/mgb/MGB-words.txt"
             },
-            "task_type": TaskType.Labeling,
+            "task_type": TaskType.SequenceLabeling,
             "class_labels": [
                 "B-PERS",
                 "I-PERS",

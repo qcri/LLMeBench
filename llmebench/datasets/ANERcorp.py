@@ -53,7 +53,7 @@ class ANERcorpDataset(DatasetBase):
                 "test": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt",
                 "train": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_train.txt",
             },
-            "task_type": TaskType.Labeling,
+            "task_type": TaskType.SequenceLabeling,
             "class_labels": [
                 "B-PERS",
                 "I-PERS",

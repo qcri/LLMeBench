@@ -57,7 +57,7 @@ class TestDatasetMetadata(unittest.TestCase):
 
                 if metadata["task_type"] in [
                     TaskType.Classification,
-                    TaskType.Labeling,
+                    TaskType.SequenceLabeling,
                     TaskType.MultiLabelClassification,
                 ]:
                     self.assertIn("class_labels", metadata)
