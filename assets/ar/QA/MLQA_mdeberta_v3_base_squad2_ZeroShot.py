@@ -15,9 +15,6 @@ def config():
             "inference_api_url": "https://api-inference.huggingface.co/models/timpal0l/mdeberta-v3-base-squad2",
             "max_tries": 5,
         },
-        "general_args": {
-            "data_path": "data/QA/MLQA/test/test-context-ar-question-ar.json"
-        },
     }
 
 
