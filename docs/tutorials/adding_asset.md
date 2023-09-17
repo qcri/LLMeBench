@@ -21,6 +21,8 @@ def post_process(response):
 	# the function is matched with the gold label in a task's evaluation function.
 ```
 
+**Note:** When defining the prompt for an asset, the prompt structure must follow the structure required by the target model. See the documentation linked with the [available models](https://github.com/qcri/LLMeBench/tree/main/llmebench/models) for exact specifications. 
+
 ## Creating Few Shot Assets
 The framework has some preliminary support to **automatically** select `n` examples _per test sample_ based on a maximal marginal relevance-based approach (using [langchain's implementation](https://python.langchain.com/docs/modules/model_io/prompts/example_selectors/mmr)). This will be expanded in the future to have more few shot example selection mechanisms (e.g Random, Class based etc.). To define a few shot asset, we start from the same approach of [implementing an asset](#benchmark-asset), however, the config needs to be extended with the following keys to enable the few shot pipeline:
 
