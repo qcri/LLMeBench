@@ -1,4 +1,5 @@
-# Adding Task ([See Demo](https://youtu.be/TN1bpWBpSTU?feature=shared))
+<!---# Adding Task ([See Demo](https://youtu.be/TN1bpWBpSTU?feature=shared)) -->
+# Adding Task
 Check if the task you are adding to the benchmark already has an implementation in `llmebench/tasks`. If not, implement a new task module (e.g. `llmebench/tasks/Sarcasm.py`), which implements a class (e.g. `SarcasmTask`) that subclasses `TaskBase`. See [existing task modules](llmebench/tasks) for inspiration. Each new task class requires implementing two functions:
 
 ```python
