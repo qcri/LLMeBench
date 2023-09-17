@@ -29,7 +29,7 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 
 ## Quick Start!
 1. [Install](https://github.com/qcri/LLMeBench/blob/main/README.md#installation) LLMeBench.
-2. [Get example data](https://llmebench.qcri.org/data/ArSAS.zip).
+2. Create a new folder "data/", then [download example data](https://llmebench.qcri.org/data/ArSAS.zip) into "data/" and unzip it.
 3. Evaluate!
 
    For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
