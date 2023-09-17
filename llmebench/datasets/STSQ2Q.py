@@ -4,9 +4,9 @@ from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 
 
-class Q2QSimDataset(DatasetBase):
+class STSQ2QDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(Q2QSimDataset, self).__init__(**kwargs)
+        super(STSQ2QDataset, self).__init__(**kwargs)
 
     @staticmethod
     def metadata():

@@ -38,7 +38,7 @@ from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
-from .STSQ2Q import Q2QSimDataset
+from .STSQ2Q import STSQ2QDataset
 from .TyDiQA import TyDiQADataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset
 from .UnifiedFCStance import UnifiedFCStanceDataset
