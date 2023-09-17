@@ -60,6 +60,10 @@ class SingleTaskBenchmark(object):
             self.zeroshot = False
             self.deduplicate = True
             self.train_data_paths = utils.get_data_paths(config, "train")
+
+            assert len(self.data_paths) == len(
+                self.train_data_paths
+            ), "A train split must be provided for every test split being run"
             if "fewshot" in general_args:
                 self.deduplicate = general_args["fewshot"].get("deduplicate", True)
 
@@ -144,7 +148,7 @@ class SingleTaskBenchmark(object):
             base_cache_dir = self.cache_dir / f"{self.n_shots}_shot"
 
         all_task_results = {}
-        for split_name, data_path in self.data_paths:
+        for split_idx, (split_name, data_path) in enumerate(self.data_paths):
             name = base_name
             cache_dir = base_cache_dir
             if len(self.data_paths) > 1:
@@ -162,9 +166,8 @@ class SingleTaskBenchmark(object):
             data = self.dataset.load_data(data_path)
             few_shots_data = []
             if not self.zeroshot:
-                train_data = []
-                for split_name, train_data_path in self.train_data_paths:
-                    train_data += self.dataset.load_data(train_data_path)
+                train_split_name, train_data_path = self.train_data_paths[split_idx]
+                train_data = self.dataset.load_data(train_data_path)
 
                 few_shots_data = self.dataset.prepare_fewshots(
                     data, train_data, self.n_shots, deduplicate=self.deduplicate
