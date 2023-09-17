@@ -20,6 +20,6 @@ class NewModel(ModelBase):
 		# part of the model response that contains the answer to the prompt
 ```
 
-**Note:** Further details on paramters and role for each function can be found [here](llmebench/models/model_base.py).
+**Note:** Further details on paramters and role for each function can be found [here](https://github.com/qcri/LLMeBench/blob/main/llmebench/models/model_base.py).
 
 Once the `Model` is implemented, export it in `llmebench/models/__init__.py`.
