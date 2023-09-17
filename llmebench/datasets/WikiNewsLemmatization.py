@@ -22,9 +22,7 @@ class WikiNewsLemmatizationDataset(DatasetBase):
             }""",
             "link": "http://alt.qcri.org/~hmubarak/WikiNews-26-06-2015-RefLemma.xlsx",
             "license": "Research Purpose Only",
-            "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/lemmatization/WikiNews-26-06-2015-RefLemma.txt"
-            },
+            "splits": {"test": "WikiNews-26-06-2015-RefLemma.txt"},
             "task_type": TaskType.Other,
         }
 
@@ -36,6 +34,8 @@ class WikiNewsLemmatizationDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         # Format: words \t lemmas
         data = []
         with open(data_path, "r") as fp:

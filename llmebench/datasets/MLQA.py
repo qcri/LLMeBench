@@ -30,8 +30,8 @@ class MLQADataset(SQuADBase):
             "link": "https://github.com/facebookresearch/mlqa",
             "license": "CC BY-NC 4.0",
             "splits": {
-                "dev": "data/QA/MLQA/dev/dev-context-ar-question-ar.json",
-                "test": "data/QA/MLQA/test/test-context-ar-question-ar.json",
+                "dev": "dev/dev-context-ar-question-ar.json",
+                "test": "test/test-context-ar-question-ar.json",
             },
             "task_type": TaskType.QuestionAnswering,
         }

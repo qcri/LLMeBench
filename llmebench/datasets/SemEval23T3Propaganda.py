@@ -34,28 +34,28 @@ class SemEval23T3PropagandaDataset(DatasetBase):
             "link": "https://propaganda.math.unipd.it/semeval2023task3/",
             "splits": {
                 "de": {
-                    "dev": "data/factuality_disinformation_harmful_content/propaganda_semeval23/ge_dev_subtask3.json",
-                    "train": "data/factuality_disinformation_harmful_content/propaganda_semeval23/ge_train_subtask3.json",
+                    "dev": "ge_dev_subtask3.json",
+                    "train": "ge_train_subtask3.json",
                 },
                 "en": {
-                    "dev": "data/factuality_disinformation_harmful_content/propaganda_semeval23/en_dev_subtask3.json",
-                    "train": "data/factuality_disinformation_harmful_content/propaganda_semeval23/en_train_subtask3.json",
+                    "dev": "en_dev_subtask3.json",
+                    "train": "en_train_subtask3.json",
                 },
                 "fr": {
-                    "dev": "data/factuality_disinformation_harmful_content/propaganda_semeval23/fr_dev_subtask3.json",
-                    "train": "data/factuality_disinformation_harmful_content/propaganda_semeval23/fr_train_subtask3.json",
+                    "dev": "fr_dev_subtask3.json",
+                    "train": "fr_train_subtask3.json",
                 },
                 "it": {
-                    "dev": "data/factuality_disinformation_harmful_content/propaganda_semeval23/it_dev_subtask3.json",
-                    "train": "data/factuality_disinformation_harmful_content/propaganda_semeval23/it_train_subtask3.json",
+                    "dev": "it_dev_subtask3.json",
+                    "train": "it_train_subtask3.json",
                 },
                 "pl": {
-                    "dev": "data/factuality_disinformation_harmful_content/propaganda_semeval23/po_dev_subtask3.json",
-                    "train": "data/factuality_disinformation_harmful_content/propaganda_semeval23/po_train_subtask3.json",
+                    "dev": "po_dev_subtask3.json",
+                    "train": "po_train_subtask3.json",
                 },
                 "ru": {
-                    "dev": "data/factuality_disinformation_harmful_content/propaganda_semeval23/ru_dev_subtask3.json",
-                    "train": "data/factuality_disinformation_harmful_content/propaganda_semeval23/ru_train_subtask3.json",
+                    "dev": "ru_dev_subtask3.json",
+                    "train": "ru_train_subtask3.json",
                 },
             },
             "task_type": TaskType.MultiLabelClassification,
@@ -94,6 +94,7 @@ class SemEval23T3PropagandaDataset(DatasetBase):
     def get_predefined_techniques(self):
         # Load a pre-defined list of propaganda techniques, if available
         if self.techniques_path and self.techniques_path.exists():
+            self.techniques_path = self.resolve_path(self.techniques_path)
             with open(self.techniques_path, "r", encoding="utf-8") as f:
                 techniques = [label.strip() for label in f.readlines()]
         else:
@@ -127,6 +128,8 @@ class SemEval23T3PropagandaDataset(DatasetBase):
         return techniques
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, mode="r", encoding="utf-8") as infile:
             json_data = json.load(infile)

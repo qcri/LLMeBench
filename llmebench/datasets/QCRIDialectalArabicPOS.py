@@ -28,20 +28,20 @@ class QCRIDialectalArabicPOSDataset(DatasetBase):
             "license": "Apache License, Version 2.0",
             "splits": {
                 "glf.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.dev.src-trg.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.test.src-trg.sent",
+                    "dev": "glf.pos/glf.data_5.dev.src-trg.sent",
+                    "test": "glf.pos/glf.data_5.test.src-trg.sent",
                 },
                 "lev.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.dev.src-trg.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.test.src-trg.sent",
+                    "dev": "lev.pos/lev.data_5.dev.src-trg.sent",
+                    "test": "lev.pos/lev.data_5.test.src-trg.sent",
                 },
                 "egy.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.dev.src-trg.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.test.src-trg.sent",
+                    "dev": "egy.pos/egy.data_5.dev.src-trg.sent",
+                    "test": "egy.pos/egy.data_5.test.src-trg.sent",
                 },
                 "mgr.data_5": {
-                    "dev": "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.dev.src-trg.sent",
-                    "test": "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.test.src-trg.sent",
+                    "dev": "mgr.pos/mgr.data_5.dev.src-trg.sent",
+                    "test": "mgr.pos/mgr.data_5.test.src-trg.sent",
                 },
                 "default": ["glf.data_5", "lev.data_5", "egy.data_5", "mgr.data_5"],
             },
@@ -79,6 +79,8 @@ class QCRIDialectalArabicPOSDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
 
         with open(data_path, "r") as fp:

@@ -20,8 +20,8 @@ class OSACT4SubtaskBDataset(DatasetBase):
             "link": "https://edinburghnlp.inf.ed.ac.uk/workshops/OSACT4/",
             "license": "CC BY 4.0",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/hate_speech/OSACT2020-sharedTask-test-tweets-labels.txt",
-                "train": "data/factuality_disinformation_harmful_content/hate_speech/OSACT2020-sharedTask-train_HS.txt",
+                "test": "OSACT2020-sharedTask-test-tweets-labels.txt",
+                "train": "OSACT2020-sharedTask-train_HS.txt",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["HS", "NOT_HS"],
@@ -32,6 +32,8 @@ class OSACT4SubtaskBDataset(DatasetBase):
         return {"input": "ايه اللي انت بتقوله ده يا اوروبي يا متخلف", "label": "HS"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         # Format: text \t hatespeech_label
         data = []
         with open(data_path, "r") as fp:

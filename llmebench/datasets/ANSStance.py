@@ -26,8 +26,8 @@ class ANSStanceDataset(DatasetBase):
             "link": "https://github.com/latynt/ans",
             "download_url": "https://github.com/latynt/ans/archive/refs/heads/master.zip",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/test.csv",
-                "train": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/train.csv",
+                "test": "stance/test.csv",
+                "train": "stance/train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["agree", "disagree"],
@@ -44,6 +44,7 @@ class ANSStanceDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
         data = []
         with open(data_path, "r", encoding="utf-8") as fp:
             next(fp)  # skip header

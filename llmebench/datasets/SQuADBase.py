@@ -19,6 +19,7 @@ class SQuADBase(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
         data = []
 
         with open(data_path, "r") as reader:

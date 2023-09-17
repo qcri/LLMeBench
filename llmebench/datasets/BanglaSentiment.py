@@ -27,8 +27,8 @@ class BanglaSentimentDataset(DatasetBase):
             "link": "https://github.com/banglanlp/bangla-sentiment-classification",
             "license": "CC BY-NC-SA 2.0",
             "splits": {
-                "test": "data/sentiment_emotion_others/sentiment/bn/bn_all_test.tsv",
-                "train": "data/sentiment_emotion_others/sentiment/bn/bn_all_train.tsv",
+                "test": "bn_all_test.tsv",
+                "train": "bn_all_train.tsv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["Positive", "Negative", "Neutral"],
@@ -39,6 +39,8 @@ class BanglaSentimentDataset(DatasetBase):
         return {"input": "Tweet", "label": "Positive", "line_number": 0}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r") as fp:
             next(fp)

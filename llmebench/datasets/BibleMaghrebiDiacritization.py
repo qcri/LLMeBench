@@ -26,12 +26,12 @@ class BibleMaghrebiDiacritizationDataset(DatasetBase):
             }""",
             "splits": {
                 "morrocan_f05": {
-                    "test": "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.test.src-trg.txt",
-                    "dev": "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.dev.src-trg.txt",
+                    "test": "morrocan_f05.test.src-trg.txt",
+                    "dev": "morrocan_f05.dev.src-trg.txt",
                 },
                 "tunisian_f05": {
-                    "test": "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.test.src-trg.txt",
-                    "dev": "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.dev.src-trg.txt",
+                    "test": "tunisian_f05.test.src-trg.txt",
+                    "dev": "tunisian_f05.dev.src-trg.txt",
                 },
                 "default": ["morrocan_f05", "tunisian_f05"],
             },
@@ -46,6 +46,8 @@ class BibleMaghrebiDiacritizationDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
 
         with open(data_path, "r") as fp:

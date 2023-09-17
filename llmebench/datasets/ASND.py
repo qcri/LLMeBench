@@ -35,8 +35,8 @@ class ASNDDataset(DatasetBase):
             "link": "https://github.com/shammur/Arabic_news_text_classification_datasets/",
             "license": "CC BY 4.0",
             "splits": {
-                "test": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv",
-                "train": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_trn.csv",
+                "test": "sm_news_ar_tst.csv",
+                "train": "sm_news_ar_trn.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": [
@@ -56,6 +56,8 @@ class ASNDDataset(DatasetBase):
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         raw_data = pd.read_csv(data_path, sep=",", dtype={"ID": object})
         for index, row in raw_data.iterrows():

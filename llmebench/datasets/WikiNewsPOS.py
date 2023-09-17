@@ -20,8 +20,8 @@ class WikiNewsPOSDataset(DatasetBase):
             "link": "https://github.com/kdarwish/Farasa/blob/master/WikiNews.pos.ref",
             "license": "Research Purpose Only",
             "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruth.txt.POS.tab",
-                "train": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruthDev.txt",
+                "test": "WikiNewsTruth.txt.POS.tab",
+                "train": "WikiNewsTruthDev.txt",
             },
             "task_type": TaskType.SequenceLabeling,
             "class_labels": [
@@ -63,6 +63,8 @@ class WikiNewsPOSDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
 
         with open(data_path, "r") as fp:

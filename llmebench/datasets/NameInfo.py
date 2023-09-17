@@ -12,8 +12,8 @@ class NameInfoDataset(DatasetBase):
             "language": "ar",
             "citation": """@inproceedings{Under review...}""",
             "splits": {
-                "test": "data/demographic_attributes/name_info/wikidata_test.txt",
-                "train": "data/demographic_attributes/name_info/dev.txt",
+                "test": "wikidata_test.txt",
+                "train": "wikidata_dev.txt",
             },
             "task_type": TaskType.Classification,
             "class_labels": [
@@ -125,6 +125,8 @@ class NameInfoDataset(DatasetBase):
         return {"input": "جورج واشنطن", "label": "GB"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         # Format:
         # جورج واشنطن	United Kingdom	GB
         data = []

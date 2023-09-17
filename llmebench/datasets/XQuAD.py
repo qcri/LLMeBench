@@ -22,8 +22,8 @@ class XQuADDataset(SQuADBase):
             "link": "https://github.com/google-deepmind/xquad",
             "license": "CC-BY-SA4.0",
             "splits": {
-                "test": "data/QA/xquad/xquad.ar.json",
-                "train": "data/QA/ARCD/arcd-train.json",
+                "test": "xquad.ar.json",
+                "train": ":depends:ARCD/arcd-train.json",
             },
             "task_type": TaskType.QuestionAnswering,
         }

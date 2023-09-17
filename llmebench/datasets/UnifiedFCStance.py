@@ -26,8 +26,8 @@ class UnifiedFCStanceDataset(DatasetBase):
             "link": "https://alt.qcri.org/resources/arabic-fact-checking-and-stance-detection-corpus/",
             "license": "Research Purpose Only",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl",
-                "train": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/train.csv",
+                "test": "ramy_arabic_stance.jsonl",
+                "train": ":depends:ANSStance/stance/train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["agree", "disagree", "discuss", "unrelated"],
@@ -51,6 +51,8 @@ class UnifiedFCStanceDataset(DatasetBase):
     def load_train_data(self, data_path):
         # Training data is used from StanceKhouja as
         # no native training data is available
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r", encoding="utf-8") as fp:
             next(fp)  # skip header
@@ -73,6 +75,7 @@ class UnifiedFCStanceDataset(DatasetBase):
         if "train" in data_path:
             return self.load_train_data(data_path)
         else:
+            data_path = self.resolve_path(data_path)
             with open(data_path, "r", encoding="utf-8") as json_file:
                 for line in json_file:
                     json_obj = json.loads(line)

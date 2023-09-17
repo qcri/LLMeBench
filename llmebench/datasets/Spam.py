@@ -20,7 +20,7 @@ class SpamDataset(DatasetBase):
             }""",
             "link": "https://alt.qcri.org/resources/SpamArabicTwitter.tgz",
             "license": "Research Purpose Only",
-            "splits": {"test": "data/sentiment_emotion_others/spam/ArabicAds-test.txt"},
+            "splits": {"test": "ArabicAds-test.txt"},
             "task_type": TaskType.Classification,
             "class_labels": ["__label__ADS", "__label__NOTADS"],
         }
@@ -30,6 +30,8 @@ class SpamDataset(DatasetBase):
         return {"input": "أختر قلباً وليسّ شكلاً..", "label": "__label__NOTADS"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         # Format: spam_label \t text
         data = []
         with open(data_path, "r") as fp:

@@ -30,8 +30,8 @@ class XNLIDataset(DatasetBase):
             "link": "https://github.com/facebookresearch/XNLI",
             "license": "CC BY-NC 4.0",
             "splits": {
-                "dev": "data/XNLI/xnli.dev.tsv",
-                "test": "data/XNLI/xnli.test.ar.tsv",
+                "dev": "xnli.dev.tsv",
+                "test": "xnli.test.ar.tsv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["contradiction", "entailment", "neutral"],
@@ -42,6 +42,8 @@ class XNLIDataset(DatasetBase):
         return {"input": "Test\tTest", "label": "neutral"}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         formatted_data = []
 
         with open(data_path, "r", encoding="utf-8") as in_file:

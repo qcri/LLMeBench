@@ -33,28 +33,28 @@ class CT22CheckworthinessDataset(DatasetBase):
             "license": "Research Purpose Only",
             "splits": {
                 "ar": {
-                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_train.tsv",
+                    "test": "arabic/CT22_arabic_1A_checkworthy_test_gold.tsv",
+                    "train": "arabic/CT22_arabic_1A_checkworthy_train.tsv",
                 },
                 "bg": {
-                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/bulgarian/CT22_bulgarian_1A_checkworthy_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/bulgarian/CT22_bulgarian_1A_checkworthy_train.tsv",
+                    "test": "bulgarian/CT22_bulgarian_1A_checkworthy_test_gold.tsv",
+                    "train": "bulgarian/CT22_bulgarian_1A_checkworthy_train.tsv",
                 },
                 "en": {
-                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_train.tsv",
+                    "test": "english/CT22_english_1A_checkworthy_test_gold.tsv",
+                    "train": "english/CT22_english_1A_checkworthy_train.tsv",
                 },
                 "es": {
-                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/spanish/CT22_spanish_1A_checkworthy_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/spanish/CT22_spanish_1A_checkworthy_train.tsv",
+                    "test": "spanish/CT22_spanish_1A_checkworthy_test_gold.tsv",
+                    "train": "spanish/CT22_spanish_1A_checkworthy_train.tsv",
                 },
                 "nl": {
-                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/dutch/CT22_dutch_1A_checkworthy_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/dutch/CT22_dutch_1A_checkworthy_train.tsv",
+                    "test": "dutch/CT22_dutch_1A_checkworthy_test_gold.tsv",
+                    "train": "dutch/CT22_dutch_1A_checkworthy_train.tsv",
                 },
                 "tr": {
-                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_test_gold.tsv",
-                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_train.tsv",
+                    "test": "turkish/CT22_turkish_1A_checkworthy_test_gold.tsv",
+                    "train": "turkish/CT22_turkish_1A_checkworthy_train.tsv",
                 },
             },
             "task_type": TaskType.Classification,
@@ -62,6 +62,8 @@ class CT22CheckworthinessDataset(DatasetBase):
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         raw_data = pd.read_csv(data_path, sep="\t", dtype={"tweet_id": object})
         for index, row in raw_data.iterrows():

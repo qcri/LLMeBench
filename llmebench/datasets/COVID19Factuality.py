@@ -46,14 +46,16 @@ class COVID19FactualityDataset(DatasetBase):
             }""",
             "license": "CC BY NC SA 4.0",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/factuality_covid19/covid19_infodemic_arabic_data_factuality_binary_test.tsv",
-                "train": "data/factuality_disinformation_harmful_content/factuality_covid19/covid19_infodemic_arabic_data_factuality_binary_train.tsv",
+                "test": "covid19_infodemic_arabic_data_factuality_binary_test.tsv",
+                "train": "covid19_infodemic_arabic_data_factuality_binary_train.tsv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["yes", "no"],
         }
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         raw_data = pd.read_csv(data_path, sep="\t")
         for index, row in raw_data.iterrows():

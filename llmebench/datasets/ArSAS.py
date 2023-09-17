@@ -18,8 +18,8 @@ class ArSASDataset(DatasetBase):
             "link": "https://homepages.inf.ed.ac.uk/wmagdy/resources.htm",
             "license": "Research Purpose Only",
             "splits": {
-                "test": "data/sentiment_emotion_others/sentiment/ArSAS-test.txt",
-                "train": "data/sentiment_emotion_others/sentiment/ArSAS-train.txt",
+                "test": "ArSAS-test.txt",
+                "train": "ArSAS-train.txt",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
@@ -30,6 +30,8 @@ class ArSASDataset(DatasetBase):
         return {"input": "Tweet", "label": "Positive"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):

@@ -20,10 +20,10 @@ class SemEval17T1STSDataset(DatasetBase):
             "link": "https://alt.qcri.org/semeval2017/task1/index.php",
             "splits": {
                 "test": {
-                    "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt",
-                    "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track1.ar-ar.txt",
+                    "sentences_path": "STS2017.eval.v1.1/STS.input.track1.ar-ar.txt",
+                    "gt_data_path": "STS2017.gs/STS.gs.track1.ar-ar.txt",
                 },
-                "train": "data/STS/semeval-2017/ar_sts_data_updated/Ar_STS/ar.STS.All.txt",
+                "train": "ar_sts_data_updated/Ar_STS/ar.STS.All.txt",
             },
             "task_type": TaskType.Regression,
             "score_range": (0, 5),
@@ -34,6 +34,8 @@ class SemEval17T1STSDataset(DatasetBase):
         return {"input": "الجملة بالعربية\tالجملة بالعربية", "label": 1.2}
 
     def load_train_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, encoding="utf-8") as f:
             for line in f:
@@ -47,12 +49,14 @@ class SemEval17T1STSDataset(DatasetBase):
     def load_data(self, data_path):
         # A trick to check if load_data is called for test or train data
         if "sentences_path" in data_path:
+            data_path["sentences_path"] = self.resolve_path(data_path["sentences_path"])
             sentences = []
             with open(data_path["sentences_path"], encoding="utf-8") as f:
                 for line in f:
                     line = line.rstrip("\r\n")
                     sentences.append(line)
 
+            data_path["gt_data_path"] = self.resolve_path(data_path["gt_data_path"])
             labels = []
             with open(data_path["gt_data_path"]) as f:
                 for line in f:

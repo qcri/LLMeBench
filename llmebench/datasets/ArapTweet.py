@@ -31,8 +31,8 @@ class ArapTweetDataset(DatasetBase):
               year={2019}
             }""",
             "splits": {
-                "test": "data/demographic_attributes/gender/test-ARAP-unique.txt",
-                "train": "data/demographic_attributes/gender/train-wajdi.tsv",
+                "test": "test.tsv",
+                "train": "train.tsv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["Female", "Male"],
@@ -45,6 +45,7 @@ class ArapTweetDataset(DatasetBase):
     def load_data(self, data_path, no_labels=False):
         data = []
         if "test" in data_path:
+            data_path = self.resolve_path(data_path)
             with open(data_path, "r") as fp:
                 for line_idx, line in enumerate(fp):
                     name, label = line.strip().split("\t")
@@ -57,6 +58,7 @@ class ArapTweetDataset(DatasetBase):
                         }
                     )
         else:
+            data_path = self.resolve_path(data_path)
             user_ids = set()
             with open(data_path, "r") as fp:
                 for line_idx, line in enumerate(fp):

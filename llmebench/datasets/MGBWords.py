@@ -28,9 +28,7 @@ class MGBWordsDataset(DatasetBase):
             }""",
             "link": "https://alt.qcri.org/resources/MGB-words.txt",
             "license": "Research Purpose Only",
-            "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/NER/mgb/MGB-words.txt"
-            },
+            "splits": {"test": "MGB-words.txt"},
             "task_type": TaskType.SequenceLabeling,
             "class_labels": [
                 "B-PERS",
@@ -50,6 +48,8 @@ class MGBWordsDataset(DatasetBase):
         return {"input": "sentence", "label": "named entity labels are here"}
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "rt", encoding="UTF8") as fp:
             for idx, line in enumerate(fp):

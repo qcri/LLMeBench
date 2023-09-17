@@ -27,8 +27,8 @@ class WANLP22T3PropagandaDataset(DatasetBase):
             "link": "https://gitlab.com/araieval/propaganda-detection",
             "license": "Research Purpose Only",
             "splits": {
-                "test": "data/factuality_disinformation_harmful_content/propaganda/task1_test_gold_label_final.json",
-                "train": "data/factuality_disinformation_harmful_content/propaganda/task1_train.json",
+                "test": "task1_test_gold_label_final.json",
+                "train": "task1_train.json",
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [
@@ -61,6 +61,7 @@ class WANLP22T3PropagandaDataset(DatasetBase):
     def get_predefined_techniques(self):
         # Load a pre-defined list of propaganda techniques, if available
         if self.techniques_path and self.techniques_path.exists():
+            self.techniques_path = self.resolve_path(self.techniques_path)
             with open(self.techniques_path, "r", encoding="utf-8") as f:
                 techniques = [label.strip() for label in f.readlines()]
         else:
@@ -89,6 +90,8 @@ class WANLP22T3PropagandaDataset(DatasetBase):
         return techniques
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, mode="r", encoding="utf-8") as infile:
             json_data = json.load(infile)

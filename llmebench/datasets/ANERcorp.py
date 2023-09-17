@@ -50,8 +50,8 @@ class ANERcorpDataset(DatasetBase):
             "link": "https://camel.abudhabi.nyu.edu/anercorp/",
             "license": "CC BY-SA 4.0",
             "splits": {
-                "test": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt",
-                "train": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_train.txt",
+                "test": "ANERCorp_CamelLab_test.txt",
+                "train": "ANERCorp_CamelLab_train.txt",
             },
             "task_type": TaskType.SequenceLabeling,
             "class_labels": [
@@ -75,6 +75,7 @@ class ANERcorpDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
         data = []
         with open(data_path, "r") as reader:
             current_sentence = []
