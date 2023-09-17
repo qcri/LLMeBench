@@ -1,7 +1,7 @@
 <!----# Adding Dataset ([See Demo](https://youtu.be/_sO2PhKhKGA?feature=shared)) --->
 # Adding Dataset
 
-Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See [existing dataset modules](llmebench/datasets) for inspiration. Each new dataset class requires implementing four functions:
+Check if the dataset used by your task already has an implementation in `llmebench/datasets`. If not, implement a new dataset module (e.g. `llmebench/datasets/SemEval23.py`), which implements a class (e.g. `SemEval23Dataset`) which subclasses `DatasetBase`. See [existing dataset modules](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets) for inspiration. Each new dataset class requires implementing four functions:
 
 ```python
 class NewDataset(DatasetBase):
