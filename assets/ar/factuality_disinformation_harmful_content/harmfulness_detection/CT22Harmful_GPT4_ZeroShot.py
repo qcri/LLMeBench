@@ -2,14 +2,14 @@ import re
 
 from llmebench.datasets import CT22HarmfulDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import CheckworthinessTask
+from llmebench.tasks import HarmfulDetectionTask
 
 
 def config():
     return {
         "dataset": CT22HarmfulDataset,
         "dataset_args": {},
-        "task": CheckworthinessTask,
+        "task": HarmfulDetectionTask,
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {

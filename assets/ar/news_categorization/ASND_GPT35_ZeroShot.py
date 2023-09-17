@@ -8,7 +8,7 @@ def config():
         "dataset": ASNDDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
-        "task_args": {"test": "useless"},
+        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [
