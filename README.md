@@ -1,37 +1,42 @@
 # LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
-This repository contains code for the [LLMeBench framework](https://youtu.be/FkQn4UjYA0s?feature=shared) (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using [OpenAI's GPT](https://platform.openai.com/docs/guides/gpt) and [BLOOMZ](https://huggingface.co/bigscience/bloomz) models; it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+This repository contains code for the LLMeBench framework (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using **three** model providers: OpenAI (e.g., [GPT](https://platform.openai.com/docs/guides/gpt)), [HuggingFace Inference API](https://huggingface.co/docs/api-inference/), and Petals (e.g., [BLOOMZ](https://huggingface.co/bigscience/bloomz)); it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+
+<!---"https://github.com/qcri/LLMeBench/assets/3918663/15d989e0-edc7-489a-ba3b-36184a715383"--->
 
 <p align="center">
 <picture>
-<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/15d989e0-edc7-489a-ba3b-36184a715383" width="455" height="160"/>
+<img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/7f7a0da8-cd73-49d5-90d6-e5c62781b5c3" width="400" height="250"/>
 </picture>
 </p>
+
 
 ## Overview
 <p align="center">
 <picture>
-<img alt = "Summary and examples of the 53 datasets, 31 tasks, 3 models and metrics currently implemented and
-validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/a9b926c0-8a10-4334-84b2-ad0b4e3e5ceb" width="470" height="140"/>
+<img alt = "Summary and examples of the 53 datasets, 31 tasks, 3 model providers and metrics currently implemented and
+validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/8a0ddf60-5d2f-4e8c-a7d9-de37cdeac104" width="510" height="160"/>
 </picture>
 </p>
 
-- LLMeBench currently supports 31 [tasks](llmebench/tasks) featuring 3 [models](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in over **190 [benchmarking assets](assets/benchmark_v1)** ready to run.
+Developing **LLMeBench** is an ongoing effort and it will be continuously expanded. Currently, the framework features the following:
+- Supports 31 [tasks](llmebench/tasks) featuring 3 [model providers](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in **200 [benchmarking assets](assets/)** ready to run.
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
+- On-the-fly datasets download and dataset caching. 
 - Open-source.
 
 ## Quick Start!
-1. [Install](https://github.com/qcri/LLMeBench/tree/readme_update1#installation) LLMeBench.
-2. [Get the data](https://github.com/qcri/LLMeBench/tree/readme_update1#get-the-benchmark-data).
+1. [Install](https://github.com/qcri/LLMeBench/blob/main/README.md#installation) LLMeBench.
+2. Create a new folder "data/", then [download example data](https://llmebench.qcri.org/data/ArSAS.zip) into "data/" and unzip it.
 3. Evaluate!
 
-   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/benchmark_v1/sentiment/sentiment/ArSAS_Random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
    ```bash
    python -m llmebench --filter '*ArSAS_Random*' assets/ar/sentiment_emotion_others/sentiment/ results/
    ```
-   where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
+   where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
 
 ## Installation
 *pip package to be made available soon!*
@@ -54,19 +59,21 @@ pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the benchmark data
-Download the benchmark from [here](https://neurox.qcri.org/projects/llmebench/arabic_llm_benchmark_data.zip), and unzip it into the `LLMeBench` folder. After this process, there should be a `data` directory inside the top-level folder of the repository, with roughly the following contents:
-
+In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, download the benchmarking data from [here](https://llmebench.qcri.org/data/), an example command to download all these datasets:
 ```bash
-$ ls data/
-MT
-STS
-XNLI
-demography
-factuality_disinformation_harmful_content
-sentiment_emotion_others
-sequence_tagging_ner_pos_etc
-speech
+mkdir data/
+cd data
+wget -r -np -nH --cut-dirs=3 -A zip -R index.html  https://llmebench.qcri.org/data/
 ```
+
+Next, unzip the downloaded files to get a directory per dataset: 
+```bash
+for i in *.zip; do unzip "$i" -d "${i%%.zip}"; done
+```
+
+**_Voilà! all ready to start evaluation..._**
+
+**Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for datasets use and redistribution for research or non-commercial purposes .
 
 ## Usage
 To run the benchmark,
@@ -86,7 +93,7 @@ python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --
    - `export AZURE_API_KEY="..."` _before_ running the above command, or
    - prepending `AZURE_API_URL="..." AZURE_API_KEY="..."` to the above command.
    - supplying a dotenv file using the `--env` flag. Sample dotenv files are provided in the `env/` folder
-   - Each model's documentation specifies what environment variables are expected at runtime.
+   - Each [model provider's](llmebench/models) documentation specifies what environment variables are expected at runtime.
 
 #### Outputs format
 `<results-dir>`: This folder will contain the outputs resulting from running assets. It follows this structure:
@@ -98,7 +105,7 @@ python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --
   -  **_results.json_**: Contains a summary on number of processed and failed input samples, and evaluation results.
 - For few shot experiments, all results are stored in a sub-folder named like **_3_shot_**, where the number signifies the number of few shots samples provided in that particular experiment
 
-[jq](https://jqlang.github.io/jq/) is a helpful command line utility to analyze the json files. The simplest usage is `jq . summary.jsonl`, which will print a summary of all samples and model responses in a readable form.
+[jq](https://jqlang.github.io/jq/) is a helpful command line utility to analyze the resulting json files. The simplest usage is `jq . summary.jsonl`, which will print a summary of all samples and model responses in a readable form.
 
 #### Caching
 The framework provides caching (if `--ignore_cache` isn't passed), to enable the following:
@@ -111,12 +118,12 @@ The framework has some preliminary support to automatically select `n` examples 
 To run few shot assets, supply the `--n_shots <n>` option to the benchmarking script. This is set to 0 by default and will run only zero shot assets. If `--n_shots` is > zero, only few shot assets are run.
 
 ## Tutorial
-It is possible to extend the framework by at least one of the following components. Details on implementing each can be found in the [tutorial page](tutorial.md):
-- Model
+The [tutorials directory](docs/tutorials/) provides tutorials on the following: updating an existing asset, advanced usage commands to run different benchmarking use cases, and extending the framework by at least one of these components:
+- Model Provider
 - Task
 - Dataset
 - Asset
-
+   
 ## Citation
 Please cite our paper when referring to this framework:
 
