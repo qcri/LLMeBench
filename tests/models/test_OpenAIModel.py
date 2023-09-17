@@ -6,6 +6,8 @@ import openai
 from llmebench import Benchmark
 from llmebench.models import OpenAIModel
 
+from llmebench.utils import is_fewshot_asset
+
 
 class TestAssetsForOpenAIPrompts(unittest.TestCase):
     @classmethod
@@ -29,7 +31,7 @@ class TestAssetsForOpenAIPrompts(unittest.TestCase):
                 config = asset["config"]
                 dataset = config["dataset"](**config["dataset_args"])
                 data_sample = dataset.get_data_sample()
-                if "fewshot" in config["general_args"]:
+                if is_fewshot_asset(config, asset["module"].prompt):
                     prompt = asset["module"].prompt(
                         data_sample["input"],
                         [data_sample for _ in range(n_shots)],

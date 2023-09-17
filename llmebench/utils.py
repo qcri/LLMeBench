@@ -74,7 +74,7 @@ def get_data_paths(config, split):
                 assert (
                     requested_split[0] in available_splits
                 ), "Requested split not found in dataset"
-                if "test" in available_splits[requested_split[0]]:
+                if split in available_splits[requested_split[0]]:
                     # Pick "test"/"train" automatically, if available
                     data_paths.append(
                         (
@@ -115,6 +115,6 @@ def get_data_paths(config, split):
             assert (
                 split in available_splits
             ), f'No "{split}" split found in dataset, please specify split explicitly. Available splits are: {", ".join(available_splits)}'
-            data_paths.append(("test", available_splits[split]))
+            data_paths.append((split, available_splits[split]))
 
     return data_paths

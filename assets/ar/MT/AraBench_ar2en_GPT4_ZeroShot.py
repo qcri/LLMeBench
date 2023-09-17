@@ -15,7 +15,7 @@ def config():
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 5,
-        }
+        },
     }
 
 
