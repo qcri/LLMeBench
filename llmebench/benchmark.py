@@ -24,6 +24,7 @@ class SingleTaskBenchmark(object):
         prompt_fn,
         post_process_fn,
         cache_dir,
+        data_dir,
         ignore_cache=False,
         ignore_postprocessing=True,
         limit=-1,
@@ -33,6 +34,8 @@ class SingleTaskBenchmark(object):
 
         # Pipeline components
         dataset_args = config.get("dataset_args", {})
+        if "data_dir" not in dataset_args:
+            dataset_args["data_dir"] = data_dir
         self.dataset = config["dataset"](**dataset_args)
 
         task_args = config.get("task_args", {})
@@ -348,7 +351,17 @@ def main():
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Do not run any actual models, but load all the data and process few shots. Existing cache will be ignored and overwritten.",
+        help="Do not run any actual models, but load all the data and process"
+        " few shots. Existing cache will be ignored and overwritten.",
+    )
+
+    group = parser.add_argument_group("Data")
+    group.add_argument(
+        "--data_dir",
+        default="data/",
+        type=Path,
+        help="Default path for data. All relative paths will be resolved by"
+        " using this as the base path",
     )
 
     group = parser.add_argument_group("Few Shot Experiments")
@@ -404,6 +417,7 @@ def main():
                 prompt_fn,
                 post_process_fn,
                 cache_dir=args.results_dir / name,
+                data_dir=args.data_dir,
                 ignore_cache=args.ignore_cache,
                 limit=args.limit,
                 n_shots=args.n_shots,

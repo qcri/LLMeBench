@@ -52,8 +52,8 @@ class DatasetBase(ABC):
 
     """
 
-    def __init__(self, **kwargs):
-        pass
+    def __init__(self, data_dir, **kwargs):
+        self.data_dir = data_dir
 
     @staticmethod
     @abstractmethod
