@@ -1,29 +1,29 @@
-from llmebench.datasets import ASNDDataset
+import random
+
+from llmebench.datasets import SANADAlArabiyaDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
 
+random.seed(1333)
+
+
 def config():
     return {
-        "dataset": ASNDDataset,
+        "dataset": SANADAlArabiyaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
-                "crime-war-conflict",
-                "spiritual",
-                "health",
                 "politics",
-                "human-rights-press-freedom",
-                "education",
-                "business-and-economy",
-                "art-and-entertainment",
-                "others",
-                "science-and-technology",
+                "religion",
+                "medical",
                 "sports",
-                "environment",
+                "tech",
+                "finance",
+                "culture",
             ],
             "max_tries": 30,
         },
@@ -53,18 +53,11 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = (
-        f"Categorize the following tweet into one of the following categories: "
-        f"crime-war-conflict, spiritual, health, politics, human-rights-press-freedom, "
-        f"education, business-and-economy, art-and-entertainment, others, "
-        f"science-and-technology, sports, environment\n"
-        f"Provide only label and in English.\n"
-    )
-
+    base_prompt = f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture'
     return [
         {
             "role": "system",
-            "content": "You are an expert tweet annotator and know how to categorize news tweet.",
+            "content": "You are an expert news editor and know how to categorize news articles.",
         },
         {
             "role": "user",
@@ -76,12 +69,22 @@ def prompt(input_sample, examples):
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
+    label_list = config()["model_args"]["class_labels"]
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
-    label_fixed = label_fixed.replace("text:", "")
-    if label_fixed != "true" or label_fixed != "false":
-        if len(label_fixed.split()) > 1:
-            label_fixed = label_fixed.split()[0]
+    label_fixed = label_fixed.replace("science/physics", "tech")
+    label_fixed = label_fixed.replace("health/nutrition", "medical")
+
+    if label_fixed in label_list:
+        label_fixed = label_fixed
+
+    elif "science/physics" in label_fixed:
+        label_fixed = label_fixed.replace("science/physics", "tech")
+    elif label_fixed.startswith("culture"):
+        label_fixed = label_fixed.split("(")[0]
+        label_fixed = label_fixed.replace("culture.", "culture")
+    elif "/" in label:
+        label_fixed = random.choice(label_fixed.split("/")).strip()
     else:
         label_fixed = None
 

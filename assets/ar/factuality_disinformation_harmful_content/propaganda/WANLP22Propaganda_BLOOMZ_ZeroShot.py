@@ -38,9 +38,6 @@ def config():
             ],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/propaganda/task1_test_gold_label_final.json"
-        },
     }
 
 

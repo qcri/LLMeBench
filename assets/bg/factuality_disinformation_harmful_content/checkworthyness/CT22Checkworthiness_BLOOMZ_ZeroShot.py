@@ -14,9 +14,7 @@ def config():
             "class_labels": ["0", "1"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/bulgarian/CT22_bulgarian_1A_checkworthy_test_gold.tsv"
-        },
+        "general_args": {"test_split": "bg"},
     }
 
 

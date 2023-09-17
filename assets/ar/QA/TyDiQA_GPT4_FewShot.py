@@ -17,10 +17,7 @@ def config():
         "model_args": {
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/QA/tydiqa/tydiqa-goldp-dev-arabic.json",
-            "fewshot": {"train_data_path": "data/QA/arcd/arcd-train.json"},
-        },
+        "general_args": {"test_split": "dev"},
     }
 
 

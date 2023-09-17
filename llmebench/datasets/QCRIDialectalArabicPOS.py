@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class QCRIDialectalArabicPOSDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(QCRIDialectalArabicPOSDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -22,9 +24,55 @@ class QCRIDialectalArabicPOSDataset(DatasetBase):
                 isbn = {979-10-95546-00-9},
                 language = {english}
             }""",
+            "link": "https://alt.qcri.org/resources/da_resources/",
+            "license": "Apache License, Version 2.0",
+            "splits": {
+                "glf.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/glf.pos/glf.data_5.test.src-trg.sent",
+                },
+                "lev.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/lev.pos/lev.data_5.test.src-trg.sent",
+                },
+                "egy.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/egy.pos/egy.data_5.test.src-trg.sent",
+                },
+                "mgr.data_5": {
+                    "dev": "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.dev.src-trg.sent",
+                    "test": "data/sequence_tagging_ner_pos_etc/POS/mgr.pos/mgr.data_5.test.src-trg.sent",
+                },
+                "default": ["glf.data_5", "lev.data_5", "egy.data_5", "mgr.data_5"],
+            },
+            "task_type": TaskType.SequenceLabeling,
+            "class_labels": [
+                "ADJ",
+                "ADV",
+                "CASE",
+                "CONJ",
+                "DET",
+                "EMOT",
+                "FOREIGN",
+                "FUT_PART",
+                "HASH",
+                "MENTION",
+                "NEG_PART",
+                "NOUN",
+                "NSUFF",
+                "NUM",
+                "PART",
+                "PREP",
+                "PROG_PART",
+                "PRON",
+                "PUNC",
+                "URL",
+                "V",
+            ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "Original sentence",
             "label": "Sentence with POS tags",

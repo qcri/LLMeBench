@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ANERcorpDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ANERcorpDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -45,9 +47,28 @@ class ANERcorpDataset(DatasetBase):
                 language = "English",
                 ISBN = "979-10-95546-34-4",
             }""",
+            "link": "https://camel.abudhabi.nyu.edu/anercorp/",
+            "license": "CC BY-SA 4.0",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt",
+                "train": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_train.txt",
+            },
+            "task_type": TaskType.SequenceLabeling,
+            "class_labels": [
+                "B-PERS",
+                "I-PERS",
+                "B-LOC",
+                "I-LOC",
+                "B-ORG",
+                "I-ORG",
+                "B-MISC",
+                "I-MISC",
+                "O",
+            ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": ".كانت السبب الرئيس في سقوط البيزنطيين بسبب الدمار الذي كانت تخلفه الحملات الأولى المارة في بيزنطة ( مدينة القسطنطينية ) عاصمة الإمبراطورية البيزنطية وتحول حملات لاحقة نحوها",
             "label": "O O O O O B-PER O O O O O O O O O B-LOC O O B-LOC O O B-LOC I-LOC O O O O O",

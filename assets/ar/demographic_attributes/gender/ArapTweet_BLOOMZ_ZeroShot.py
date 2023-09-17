@@ -14,9 +14,6 @@ def config():
             "class_labels": ["Female", "Male"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt"
-        },
     }
 
 

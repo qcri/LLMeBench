@@ -13,9 +13,6 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/diacritization/WikiNewsTruth.txt"
-        },
     }
 
 

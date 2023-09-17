@@ -1,11 +1,11 @@
-from llmebench.datasets import Khouja20StanceDataset
+from llmebench.datasets import ANSStanceDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import StanceTask
 
 
 def config():
     return {
-        "dataset": Khouja20StanceDataset,
+        "dataset": ANSStanceDataset,
         "dataset_args": {},
         "task": StanceTask,
         "task_args": {},
@@ -13,9 +13,6 @@ def config():
         "model_args": {
             "class_labels": ["agree", "disagree"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/test.csv"
         },
     }
 

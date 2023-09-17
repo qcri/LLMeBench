@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class BibleMaghrebiDiacritizationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(BibleMaghrebiDiacritizationDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -22,9 +24,22 @@ class BibleMaghrebiDiacritizationDataset(DatasetBase):
                 isbn = {979-10-95546-25-2},
                 language = {english}
             }""",
+            "splits": {
+                "morrocan_f05": {
+                    "test": "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.test.src-trg.txt",
+                    "dev": "data/sequence_tagging_ner_pos_etc/diacritization/morrocan_f05.dev.src-trg.txt",
+                },
+                "tunisian_f05": {
+                    "test": "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.test.src-trg.txt",
+                    "dev": "data/sequence_tagging_ner_pos_etc/diacritization/tunisian_f05.dev.src-trg.txt",
+                },
+                "default": ["morrocan_f05", "tunisian_f05"],
+            },
+            "task_type": TaskType.Other,
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "Original sentence",
             "label": "Sentence with diacritized words",

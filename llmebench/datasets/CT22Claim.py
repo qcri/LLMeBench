@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class CT22ClaimDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT22ClaimDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": ["ar", "bg", "nl", "en", "tr"],
@@ -14,9 +16,20 @@ class CT22ClaimDataset(DatasetBase):
                  year={2022},
                 booktitle={Proceedings of the Working Notes of CLEF 2022 - Conference and Labs of the Evaluation Forum}
             }""",
+            "link": "https://gitlab.com/checkthat_lab/clef2022-checkthat-lab/clef2022-checkthat-lab",
+            "license": "Research Purpose Only",
+            "splits": {
+                "ar": {
+                    "test": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_train.tsv",
+                }
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["0", "1"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": "1"}
 
     def load_data(self, data_path):

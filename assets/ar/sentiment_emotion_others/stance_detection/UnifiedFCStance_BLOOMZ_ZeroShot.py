@@ -14,9 +14,6 @@ def config():
             "class_labels": ["agree", "disagree", "discuss", "unrelated"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl"
-        },
     }
 
 

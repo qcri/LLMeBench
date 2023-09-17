@@ -34,9 +34,6 @@ def config():
             ],
             "max_tries": 0,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/QADI_test-PalestinePS-corrected.txt",
-        },
     }
 
 

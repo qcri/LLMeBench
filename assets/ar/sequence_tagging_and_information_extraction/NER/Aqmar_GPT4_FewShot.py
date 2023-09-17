@@ -25,18 +25,7 @@ def config():
             ],
             "max_tries": 50,
         },
-        "general_args": {
-            "data_path": {
-                "split": "test",
-                "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-            },
-            "fewshot": {
-                "train_data_path": {
-                    "split": "dev",
-                    "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-                }
-            },
-        },
+        "general_args": {"fewshot": {"train_split": "dev"}},
     }
 
 

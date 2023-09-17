@@ -4,32 +4,28 @@ from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 
 
-class ArSarcasmDataset(DatasetBase):
+class ArSarcasm2Dataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(ArSarcasmDataset, self).__init__(**kwargs)
+        super(ArSarcasm2Dataset, self).__init__(**kwargs)
 
     @staticmethod
     def metadata():
         return {
             "language": "ar",
-            "citation": """@inproceedings{abu-farha-magdy-2020-arabic,
-                title = "From {A}rabic Sentiment Analysis to Sarcasm Detection: The {A}r{S}arcasm Dataset",
-                author = "Abu Farha, Ibrahim  and Magdy, Walid",
-                booktitle = "Proceedings of the 4th Workshop on Open-Source Arabic Corpora and Processing Tools, with a Shared Task on Offensive Language Detection",
-                month = may,
-                year = "2020",
-                address = "Marseille, France",
-                publisher = "European Language Resource Association",
-                url = "https://www.aclweb.org/anthology/2020.osact-1.5",
-                pages = "32--39",
-                language = "English",
-                ISBN = "979-10-95546-51-1",
+            "citation": """@inproceedings{abufarha-etal-2021-arsarcasm-v2,
+                title = "Overview of the WANLP 2021 Shared Task on Sarcasm and Sentiment Detection in Arabic",
+                author = "Abu Farha, Ibrahim  and
+                Zaghouani, Wajdi  and
+                Magdy, Walid",
+                booktitle = "Proceedings of the Sixth Arabic Natural Language Processing Workshop",
+                month = april,
+                year = "2021",
             }""",
-            "link": "https://github.com/iabufarha/ArSarcasm",
+            "link": "https://github.com/iabufarha/ArSarcasm-v2",
             "license": "MIT License",
             "splits": {
-                "test": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv",
-                "train": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_train.csv",
+                "test": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/testing_data.csv",
+                "train": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/training_data.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["TRUE", "FALSE"],

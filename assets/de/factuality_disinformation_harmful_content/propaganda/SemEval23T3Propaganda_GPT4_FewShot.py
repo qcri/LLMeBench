@@ -44,10 +44,8 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/ge_dev_subtask3.json",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/ge_train_subtask3.json",
-            },
+            "test_split": "de/dev",
+            "fewshot": {"train_split": "de/train"},
         },
     }
 

@@ -38,9 +38,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/demographic_attributes/location/arab+others.txt",
             "fewshot": {
-                "train_data_path": "data/demographic_attributes/location/arab+others.txt",  # TODO need to change the file
                 "deduplicate": False,
             },
         },

@@ -7,7 +7,8 @@ class SQuADBase(DatasetBase):
     def __init__(self, **kwargs):
         super(SQuADBase, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": {
                 "context": "context for the questions. Usually a snippet of a wikipedia article",

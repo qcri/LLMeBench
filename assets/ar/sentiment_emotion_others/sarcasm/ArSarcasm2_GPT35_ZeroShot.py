@@ -1,11 +1,11 @@
-from llmebench.datasets import ArSarcasmDataset
+from llmebench.datasets import ArSarcasm2Dataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import SarcasmTask
 
 
 def config():
     return {
-        "dataset": ArSarcasmDataset,
+        "dataset": ArSarcasm2Dataset,
         "dataset_args": {},
         "task": SarcasmTask,
         "task_args": {},
@@ -13,9 +13,6 @@ def config():
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 1,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/testing_data.csv"
         },
     }
 

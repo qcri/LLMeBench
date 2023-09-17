@@ -1,12 +1,14 @@
 import json
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class UnifiedFCStanceDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(UnifiedFCStanceDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -21,9 +23,18 @@ class UnifiedFCStanceDataset(DatasetBase):
                 booktitle = "Proceedings of the 2018 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 2 (Short Papers)",
                 year = "2018",
             }""",
+            "link": "https://alt.qcri.org/resources/arabic-fact-checking-and-stance-detection-corpus/",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl",
+                "train": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/stance/train.csv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["agree", "disagree", "discuss", "unrelated"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": {
                 # Train samples

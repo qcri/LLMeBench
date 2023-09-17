@@ -1,15 +1,18 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class CT23SubjectivityDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT23SubjectivityDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "SUBJ"}
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -21,6 +24,16 @@ class CT23SubjectivityDataset(DatasetBase):
                 year={2023},
                 organization={Springer}
             }""",
+            "link": "https://gitlab.com/checkthat_lab/clef2023-checkthat-lab",
+            "license": "CC BY NC SA 4.0",
+            "splits": {
+                "ar": {
+                    "dev": "data/factuality_disinformation_harmful_content/subjectivity/dev_ar.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/subjectivity/train_ar.tsv",
+                }
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["SUBJ", "OBJ"],
         }
 
     def load_data(self, data_path):
