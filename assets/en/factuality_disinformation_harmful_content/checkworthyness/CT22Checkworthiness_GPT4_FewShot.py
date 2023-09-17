@@ -16,12 +16,7 @@ def config():
             "class_labels": ["0", "1"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_test_gold.tsv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_train.tsv",
-            },
-        },
+        "general_args": {"test_split": "en", "fewshot": {"train_split": "en"}},
     }
 
 

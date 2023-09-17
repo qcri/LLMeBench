@@ -16,12 +16,7 @@ def config():
             "class_labels": ["0", "1"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_test_gold.tsv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_train.tsv",
-            },
-        },
+        "general_args": {"test_split": "tr", "fewshot": {"train_split": "tr"}},
     }
 
 

@@ -115,9 +115,6 @@ def config():
             ],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/demographic_attributes/name_info/wikidata_test.txt",
-        },
     }
 
 

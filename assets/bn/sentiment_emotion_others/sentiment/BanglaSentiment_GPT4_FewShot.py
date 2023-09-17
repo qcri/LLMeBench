@@ -14,12 +14,6 @@ def config():
             "class_labels": ["Positive", "Negative", "Neutral"],
             "max_tries": 20,
         },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sentiment/bn/bn_all_test.tsv",
-            "fewshot": {
-                "train_data_path": "data/sentiment_emotion_others/sentiment/bn/bn_all_train.tsv",
-            },
-        },
     }
 
 

@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class SemEval17T2STSDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(SemEval17T2STSDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -15,9 +17,20 @@ class SemEval17T2STSDataset(DatasetBase):
                 pages={1--14},
                 year={2017}
             }""",
+            "link": "https://alt.qcri.org/semeval2017/task2/index.php",
+            "splits": {
+                "test": {
+                    "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track2.ar-en.txt",
+                    "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track2.ar-en.txt",
+                },
+                "train": "data/STS/semeval-2017/ar_sts_data_updated/En_Ar_STS/en_ar.STS.All.txt",
+            },
+            "task_type": TaskType.Regression,
+            "score_range": (0, 5),
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "الجملة بالعربية\tالجملة english", "label": 1.2}
 
     def load_train_data(self, data_path):

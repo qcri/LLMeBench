@@ -26,9 +26,6 @@ def config():
             ],
             "max_tries": 150,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/mgb/MGB-words.txt"
-        },
     }
 
 

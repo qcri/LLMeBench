@@ -14,9 +14,6 @@ def config():
             "class_labels": ["yes", "no"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_covid19/covid19_infodemic_arabic_data_factuality_binary_test.tsv"
-        },
     }
 
 

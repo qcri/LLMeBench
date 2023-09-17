@@ -1,11 +1,11 @@
-from llmebench.datasets import Khouja20FactualityDataset
+from llmebench.datasets import ANSFactualityDataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import FactualityTask
 
 
 def config():
     return {
-        "dataset": Khouja20FactualityDataset,
+        "dataset": ANSFactualityDataset,
         "dataset_args": {},
         "task": FactualityTask,
         "task_args": {},
@@ -13,9 +13,6 @@ def config():
         "model_args": {
             "class_labels": ["true", "false"],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_khouja/claim/test.csv"
         },
     }
 

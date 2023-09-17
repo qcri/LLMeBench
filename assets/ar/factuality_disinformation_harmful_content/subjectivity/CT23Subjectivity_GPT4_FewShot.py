@@ -14,12 +14,7 @@ def config():
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/subjectivity/dev_ar.tsv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/subjectivity/train_ar.tsv"
-            },
-        },
+        "general_args": {"test_split": "ar/dev", "fewshot": {"train_split": "ar"}},
     }
 
 

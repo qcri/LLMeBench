@@ -25,12 +25,6 @@ def config():
             ],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": {
-                "split": "test",
-                "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-            }
-        },
     }
 
 

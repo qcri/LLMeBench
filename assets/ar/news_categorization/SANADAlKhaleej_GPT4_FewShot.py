@@ -1,6 +1,6 @@
 import random
 
-from llmebench.datasets import NewsCatAlKhaleejDataset
+from llmebench.datasets import SANADAlKhaleejDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
@@ -10,7 +10,7 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAlKhaleejDataset,
+        "dataset": SANADAlKhaleejDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
@@ -27,17 +27,35 @@ def config():
             ],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/news_categorization/SANAD_alkhaleej_news_cat_test.tsv"
-        },
     }
 
 
-def prompt(input_sample):
-    prompt_string = (
-        f'Categorize the news "article" into one of the following categories: culture, finance, medical, politics, religion, sports, tech\n\n'
-        f"article: {input_sample}\n"
-        f"category: \n"
+def few_shot_prompt(input_sample, base_prompt, examples):
+    out_prompt = base_prompt + "\n"
+    out_prompt = out_prompt + "Here are some examples:\n\n"
+
+    for index, example in enumerate(examples):
+        out_prompt = (
+            out_prompt
+            + "Example "
+            + str(index)
+            + ":"
+            + "\n"
+            + "article: "
+            + example["input"]
+            + "\ncategory: "
+            + example["label"]
+            + "\n\n"
+        )
+    out_prompt = out_prompt + "article: " + input_sample + "\ncategory: \n"
+
+    return out_prompt
+
+
+def prompt(input_sample, examples):
+    base_prompt = (
+        f'Categorize the news "article" into one of the following categories: culture, finance, medical, politics, religion, sports, tech\n'
+        f"Provide only label and in English.\n"
     )
     return [
         {
@@ -46,7 +64,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": prompt_string,
+            "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
 
@@ -54,6 +72,7 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
     label_list = config()["model_args"]["class_labels"]
+
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")

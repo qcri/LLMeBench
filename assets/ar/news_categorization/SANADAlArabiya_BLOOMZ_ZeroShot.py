@@ -1,7 +1,7 @@
 import random
 
-from llmebench.datasets import NewsCatAkhbaronaDataset
-from llmebench.models import LegacyOpenAIModel
+from llmebench.datasets import SANADAlArabiyaDataset
+from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
 
 random.seed(1333)
@@ -9,11 +9,11 @@ random.seed(1333)
 
 def config():
     return {
-        "dataset": NewsCatAkhbaronaDataset,
+        "dataset": SANADAlArabiyaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
-        "model": LegacyOpenAIModel,
+        "model": PetalsModel,
         "model_args": {
             "class_labels": [
                 "politics",
@@ -24,36 +24,34 @@ def config():
                 "finance",
                 "culture",
             ],
-            "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv"
+            "max_tries": 10,
         },
     }
 
 
 def prompt(input_sample):
+    arr = input_sample.split()
+
+    if len(arr) > 1000:
+        article = " ".join(arr[:1000])
+    else:
+        article = " ".join(arr)
+
     prompt_string = (
-        f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\n"
-        f"article: {input_sample}\n"
+        f"You are an expert news editor and you can categorize news articles.\n\n"
+        f'Categorize the following news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture\n'
+        f"Provide only label and in English.\n\n"
+        f"article: {article}\n"
         f"category: \n"
     )
-
-    print(prompt_string)
-
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": prompt_string,
-            }
-        ],
-    }
+    return {"prompt": prompt_string}
 
 
 def post_process(response):
-    label = response["choices"][0]["text"]
+    label = response["outputs"].strip().lower()
+    label = label.replace("<s>", "")
+    label = label.replace("</s>", "")
+
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")
@@ -63,7 +61,9 @@ def post_process(response):
     label_fixed = random.choice(label_fixed.split("/")).strip()
     if "science/physics" in label_fixed:
         label_fixed = label_fixed.replace("science/physics", "tech")
-    if label_fixed.startswith("culture"):
+    elif "science and technology" in label:
+        label_fixed = "tech"
+    elif label_fixed.startswith("culture"):
         label_fixed = label_fixed.split("(")[0]
 
         label_fixed = label_fixed.replace("culture.", "culture")

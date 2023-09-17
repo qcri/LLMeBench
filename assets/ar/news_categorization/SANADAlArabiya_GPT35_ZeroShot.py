@@ -1,20 +1,19 @@
 import random
 
-from llmebench.datasets import NewsCatAkhbaronaDataset
-from llmebench.models import OpenAIModel
+from llmebench.datasets import SANADAlArabiyaDataset
+from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import NewsCategorizationTask
-
 
 random.seed(1333)
 
 
 def config():
     return {
-        "dataset": NewsCatAkhbaronaDataset,
+        "dataset": SANADAlArabiyaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
-        "model": OpenAIModel,
+        "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [
                 "politics",
@@ -25,35 +24,25 @@ def config():
                 "finance",
                 "culture",
             ],
-            "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/SANAD_akhbarona_news_cat_test.tsv"
+            "max_tries": 3,
         },
     }
 
 
 def prompt(input_sample):
-    prompt_string = (
-        f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture\n\n'
-        f"article: {input_sample}\n"
-        f"category: \n"
-    )
-    return [
-        {
-            "role": "system",
-            "content": "You are an expert news editor and know how to categorize news articles.",
-        },
-        {
-            "role": "user",
-            "content": prompt_string,
-        },
-    ]
+    return {
+        "system_message": "You are an AI assistant that helps people find information.",
+        "messages": [
+            {
+                "sender": "user",
+                "text": f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\narticle: {input_sample}\ncategory: \n",
+            }
+        ],
+    }
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"]
-
+    label = response["choices"][0]["text"]
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")

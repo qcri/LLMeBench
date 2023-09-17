@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class WikiNewsPOSDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(WikiNewsPOSDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -15,9 +17,46 @@ class WikiNewsPOSDataset(DatasetBase):
                 pages={130--137},
                 year={2017}
             }""",
+            "link": "https://github.com/kdarwish/Farasa/blob/master/WikiNews.pos.ref",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruth.txt.POS.tab",
+                "train": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruthDev.txt",
+            },
+            "task_type": TaskType.SequenceLabeling,
+            "class_labels": [
+                "ABBREV",
+                "ADJ",
+                "ADJ/CONJ",
+                "ADJ/DET",
+                "ADJ/NUM",
+                "ADV",
+                "CASE",
+                "CONJ",
+                "DET",
+                "FOREIGN",
+                "FUT_PART",
+                "NOUN",
+                "NOUN/DET",
+                "NSUFF",
+                "NSUFF/ADJ",
+                "NSUFF/DET",
+                "NSUFF/NOUN",
+                "NUM",
+                "PART",
+                "PART/CONJ",
+                "PART/NOUN",
+                "PART/PART",
+                "PART/PREP",
+                "PREP",
+                "PRON",
+                "PUNC",
+                "V",
+            ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "Original sentence",
             "label": "Sentence with POS tags",

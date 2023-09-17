@@ -1,22 +1,35 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class CT22HarmfulDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT22HarmfulDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": ["ar", "bg", "nl", "en", "tr"],
             "citation": """@inproceedings{nakov2022overview,
-                    title={Overview of the CLEF-2022 CheckThat! lab task 1 on identifying relevant claims in tweets},
-                    author={Nakov, Preslav and Barr{\\'o}n-Cede{\\~n}o, Alberto and Da San Martino, Giovanni and Alam, Firoj and Kutlu, Mucahid and Zaghouani, Wajdi and Li, Chengkai and Shaar, Shaden and Mubarak, Hamdy and Nikolov, Alex},
-                     year={2022},
-                    booktitle={Proceedings of the Working Notes of CLEF 2022 - Conference and Labs of the Evaluation Forum}
-                }""",
+                title={Overview of the CLEF-2022 CheckThat! lab task 1 on identifying relevant claims in tweets},
+                author={Nakov, Preslav and Barr{\\'o}n-Cede{\\~n}o, Alberto and Da San Martino, Giovanni and Alam, Firoj and Kutlu, Mucahid and Zaghouani, Wajdi and Li, Chengkai and Shaar, Shaden and Mubarak, Hamdy and Nikolov, Alex},
+                 year={2022},
+                booktitle={Proceedings of the Working Notes of CLEF 2022 - Conference and Labs of the Evaluation Forum}
+            }""",
+            "link": "https://gitlab.com/checkthat_lab/clef2022-checkthat-lab/clef2022-checkthat-lab",
+            "license": "Research Purpose Only",
+            "splits": {
+                "ar": {
+                    "test": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_train.tsv",
+                },
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["0", "1"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Tweet", "label": "1"}
 
     def load_data(self, data_path):

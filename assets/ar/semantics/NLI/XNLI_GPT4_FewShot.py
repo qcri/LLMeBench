@@ -13,10 +13,7 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/XNLI/xnli.test.ar.tsv",
-            "fewshot": {"train_data_path": "data/XNLI/xnli.dev.tsv"},
-        },
+        "general_args": {"fewshot": {"train_split": "dev"}},
     }
 
 

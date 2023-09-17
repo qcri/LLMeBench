@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class WikiNewsLemmatizationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(WikiNewsLemmatizationDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -18,9 +20,16 @@ class WikiNewsLemmatizationDataset(DatasetBase):
                 publisher = "European Language Resources Association (ELRA)",
                 url = "https://aclanthology.org/L18-1181",
             }""",
+            "link": "http://alt.qcri.org/~hmubarak/WikiNews-26-06-2015-RefLemma.xlsx",
+            "license": "Research Purpose Only",
+            "splits": {
+                "test": "data/sequence_tagging_ner_pos_etc/lemmatization/WikiNews-26-06-2015-RefLemma.txt"
+            },
+            "task_type": TaskType.Other,
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "جوائز",
             "label": ("جوائز", "جائزة"),

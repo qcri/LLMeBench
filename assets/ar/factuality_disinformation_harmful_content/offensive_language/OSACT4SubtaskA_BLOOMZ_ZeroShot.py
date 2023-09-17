@@ -14,9 +14,6 @@ def config():
             "class_labels": ["OFF", "NOT_OFF"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt"
-        },
     }
 
 

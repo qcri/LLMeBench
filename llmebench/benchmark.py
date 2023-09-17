@@ -19,6 +19,7 @@ from llmebench import utils
 class SingleTaskBenchmark(object):
     def __init__(
         self,
+        name,
         config,
         prompt_fn,
         post_process_fn,
@@ -28,10 +29,19 @@ class SingleTaskBenchmark(object):
         limit=-1,
         n_shots=0,
     ):
+        self.name = name
+
         # Pipeline components
-        self.dataset = config["dataset"](**config["dataset_args"])
-        self.task = config["task"](dataset=self.dataset, **config["task_args"])
-        self.model = config["model"](**config["model_args"])
+        dataset_args = config.get("dataset_args", {})
+        self.dataset = config["dataset"](**dataset_args)
+
+        task_args = config.get("task_args", {})
+        self.task = config["task"](dataset=self.dataset, **task_args)
+
+        model_args = config.get("model_args", {})
+        self.model = config["model"](**model_args)
+
+        general_args = config.get("general_args", {})
 
         # Caching parameters
         self.cache_dir = cache_dir
@@ -43,14 +53,19 @@ class SingleTaskBenchmark(object):
         self.post_process_fn = post_process_fn
 
         # Data parameters
-        self.data_path = config["general_args"]["data_path"]
+        self.data_paths = utils.get_data_paths(config, "test")
+
         self.zeroshot = True
-        if "fewshot" in config["general_args"]:
+        if utils.is_fewshot_asset(config, prompt_fn):
             self.zeroshot = False
-            self.train_data_path = config["general_args"]["fewshot"]["train_data_path"]
-            self.deduplicate = config["general_args"]["fewshot"].get(
-                "deduplicate", True
-            )
+            self.deduplicate = True
+            self.train_data_paths = utils.get_data_paths(config, "train")
+
+            assert len(self.data_paths) == len(
+                self.train_data_paths
+            ), "A train split must be provided for every test split being run"
+            if "fewshot" in general_args:
+                self.deduplicate = general_args["fewshot"].get("deduplicate", True)
 
         self.limit = limit
         self.n_shots = n_shots
@@ -59,7 +74,12 @@ class SingleTaskBenchmark(object):
         return self.zeroshot
 
     def run_pipeline(
-        self, sample_key, input_sample, few_shot_examples, cache_payload=None
+        self,
+        sample_key,
+        input_sample,
+        few_shot_examples,
+        cache_payload=None,
+        dry_run=False,
     ):
         summarized_payload = {}
 
@@ -74,6 +94,9 @@ class SingleTaskBenchmark(object):
             else:
                 prompt = self.prompt_fn(input_sample)
             cache_payload["prompt"] = prompt
+
+        if dry_run:
+            return cache_payload, summarized_payload
 
         # Run the model
         if "model_output" in cache_payload:
@@ -115,101 +138,130 @@ class SingleTaskBenchmark(object):
 
         return cache_payload, summarized_payload
 
-    def run_benchmark(self):
-        # Handle cache
+    def run_benchmark(self, dry_run=False):
+        base_name = self.name
+        base_cache_dir = self.cache_dir
+
+        # Create sub-directory for few shot experiments
         if not self.is_zeroshot():
-            self.cache_dir = self.cache_dir / f"{self.n_shots}_shot"
+            base_name = f"{self.name}/{self.n_shots}_shot"
+            base_cache_dir = self.cache_dir / f"{self.n_shots}_shot"
 
-        # Create parent directory
-        if not self.cache_dir.exists():
-            self.cache_dir.mkdir(parents=True)
+        all_task_results = {}
+        for split_idx, (split_name, data_path) in enumerate(self.data_paths):
+            name = base_name
+            cache_dir = base_cache_dir
+            if len(self.data_paths) > 1:
+                name = f"{self.name}/{split_name}"
+                cache_dir = cache_dir / split_name
 
-        # Local cache
-        full_summary_path = self.cache_dir / "summary.jsonl"
-        failed_summary_path = self.cache_dir / "summary_failed.jsonl"
+            # Create parent directory
+            if not cache_dir.exists():
+                cache_dir.mkdir(parents=True)
 
-        data = self.dataset.load_data(self.data_path)
-        few_shots_data = []
-        if not self.zeroshot:
-            train_data = self.dataset.load_data(self.train_data_path)
+            # Local cache
+            full_summary_path = cache_dir / "summary.jsonl"
+            failed_summary_path = cache_dir / "summary_failed.jsonl"
 
-            few_shots_data = self.dataset.prepare_fewshots(
-                data, train_data, self.n_shots, deduplicate=self.deduplicate
-            )
+            data = self.dataset.load_data(data_path)
+            few_shots_data = []
+            if not self.zeroshot:
+                train_split_name, train_data_path = self.train_data_paths[split_idx]
+                train_data = self.dataset.load_data(train_data_path)
 
-        true_labels = []
-        predictions = []
+                few_shots_data = self.dataset.prepare_fewshots(
+                    data, train_data, self.n_shots, deduplicate=self.deduplicate
+                )
 
-        num_processed = 0
-        full_summary_fp = open(full_summary_path, "w")
+            true_labels = []
+            predictions = []
 
-        num_failed = 0
-        failed_summary_fp = open(failed_summary_path, "w")
+            num_processed = 0
+            full_summary_fp = open(full_summary_path, "w")
 
-        for sample_idx, (input_sample, few_shot_examples) in enumerate(
-            zip_longest(data, few_shots_data, fillvalue=None)
-        ):
-            if self.limit > 0 and sample_idx >= self.limit:
-                break
-            logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
-            num_processed += 1
-            cache_path = self.cache_dir / f"{sample_idx}.json"
-            true_labels.append(input_sample["label"])
+            num_failed = 0
+            failed_summary_fp = open(failed_summary_path, "w")
 
-            cache_payload = {"input": input_sample}
+            for sample_idx, (input_sample, few_shot_examples) in enumerate(
+                zip_longest(data, few_shots_data, fillvalue=None)
+            ):
+                if self.limit > 0 and sample_idx >= self.limit:
+                    break
+                logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
+                num_processed += 1
+                cache_path = cache_dir / f"{sample_idx}.json"
+                true_labels.append(input_sample["label"])
 
-            if few_shot_examples is not None:
-                cache_payload["few_shot_examples"] = few_shot_examples
+                cache_payload = {"input": input_sample}
 
-            if cache_path.exists() and not self.ignore_cache:
-                with open(cache_path, "r") as fp:
-                    cache_payload = json.load(fp)
+                if few_shot_examples is not None:
+                    cache_payload["few_shot_examples"] = few_shot_examples
 
-            summarized_payload = {
-                "input": input_sample["input"],
-                "label": input_sample["label"],
+                if cache_path.exists() and not self.ignore_cache and not dry_run:
+                    with open(cache_path, "r") as fp:
+                        cache_payload = json.load(fp)
+
+                summarized_payload = {
+                    "input": input_sample["input"],
+                    "label": input_sample["label"],
+                }
+
+                cache_payload, partial_summarized_payload = self.run_pipeline(
+                    sample_idx,
+                    input_sample["input"],
+                    few_shot_examples,
+                    cache_payload,
+                    dry_run,
+                )
+
+                summarized_payload.update(partial_summarized_payload)
+
+                if "filtered_output" in cache_payload:
+                    predictions.append(cache_payload["filtered_output"])
+                    full_summary_fp.write(
+                        json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                    )
+                else:
+                    if not dry_run:
+                        logging.error(f"\tNo prediction for sample")
+                        num_failed += 1
+                    predictions.append(None)
+                    full_summary_fp.write(
+                        json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                    )
+                    failed_summary_fp.write(
+                        json.dumps(summarized_payload, ensure_ascii=False) + "\n"
+                    )
+
+                # Save the cache payload
+                with open(cache_path, "w") as fp:
+                    json.dump(cache_payload, fp, ensure_ascii=False)
+
+            full_summary_fp.close()
+            failed_summary_fp.close()
+
+            if num_failed > 0:
+                logging.error(
+                    f"{num_failed}/{len(data)} samples do not have any predictions"
+                )
+            evaluation_scores = self.task.evaluate(true_labels, predictions)
+
+            # Prepare results
+            task_results = {
+                "num_processed": num_processed,
+                "num_failed": num_failed,
+                "evaluation_scores": evaluation_scores,
             }
+            logging.info(f"{name}: {task_results['evaluation_scores']}")
 
-            cache_payload, partial_summarized_payload = self.run_pipeline(
-                sample_idx, input_sample["input"], few_shot_examples, cache_payload
-            )
+            task_result_path = cache_dir / "results.json"
 
-            summarized_payload.update(partial_summarized_payload)
+            with open(task_result_path, "w") as fp:
+                json.dump(task_results, fp, ensure_ascii=False)
 
-            if "filtered_output" in cache_payload:
-                predictions.append(cache_payload["filtered_output"])
-                full_summary_fp.write(
-                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
-                )
-            else:
-                logging.error(f"\tNo prediction for sample")
-                num_failed += 1
-                predictions.append(None)
-                full_summary_fp.write(
-                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
-                )
-                failed_summary_fp.write(
-                    json.dumps(summarized_payload, ensure_ascii=False) + "\n"
-                )
+            all_task_results[name] = task_results
 
-            # Save the cache payload
-            with open(cache_path, "w") as fp:
-                json.dump(cache_payload, fp, ensure_ascii=False)
-
-        full_summary_fp.close()
-        failed_summary_fp.close()
-
-        if num_failed > 0:
-            logging.error(
-                f"{num_failed}/{len(data)} samples do not have any predictions"
-            )
-        evaluation_scores = self.task.evaluate(true_labels, predictions)
-
-        return {
-            "num_processed": num_processed,
-            "num_failed": num_failed,
-            "evaluation_scores": evaluation_scores,
-        }
+        return all_task_results
 
 
 class Benchmark(object):
@@ -293,6 +345,12 @@ def main():
         "-e", "--env", type=Path, help="Path to an .env file to load model parameters"
     )
 
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Do not run any actual models, but load all the data and process few shots. Existing cache will be ignored and overwritten.",
+    )
+
     group = parser.add_argument_group("Few Shot Experiments")
     group.add_argument(
         "-n",
@@ -341,6 +399,7 @@ def main():
         try:
             logging.info(f"Running benchmark: {name}")
             task_benchmark = SingleTaskBenchmark(
+                name,
                 config,
                 prompt_fn,
                 post_process_fn,
@@ -362,18 +421,11 @@ def main():
                 )
                 continue
 
-            task_results = task_benchmark.run_benchmark()
-            logging.info(f"{name}: {task_results['evaluation_scores']}")
+            all_task_results = task_benchmark.run_benchmark(dry_run=args.dry_run)
+            for task_name in all_task_results:
+                task_results = all_task_results[task_name]
 
-            task_result_path = task_benchmark.cache_dir / "results.json"
-
-            with open(task_result_path, "w") as fp:
-                json.dump(task_results, fp, ensure_ascii=False)
-
-            if not task_benchmark.is_zeroshot():
-                name = f"{name}_{task_benchmark.n_shots}"
-
-            all_results[name] = task_results
+                all_results[task_name] = task_results
         except Exception as e:
             logging.error(f"{name} failed to run")
             traceback.print_exc()

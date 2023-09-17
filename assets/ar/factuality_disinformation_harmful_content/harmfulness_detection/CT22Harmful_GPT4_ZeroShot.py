@@ -1,12 +1,8 @@
-import random
 import re
 
 from llmebench.datasets import CT22HarmfulDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import CheckworthinessTask
-
-
-random.seed(1333)
 
 
 def config():
@@ -20,9 +16,7 @@ def config():
             "class_labels": ["0", "1"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv"
-        },
+        "general_args": {"test_split": "ar"},
     }
 
 

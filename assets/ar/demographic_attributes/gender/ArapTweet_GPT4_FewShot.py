@@ -14,12 +14,6 @@ def config():
             "class_labels": ["Female", "Male"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/demographic_attributes/gender/test-ARAP-unique.txt",
-            "fewshot": {
-                "train_data_path": "data/demographic_attributes/gender/train-wajdi.tsv",
-            },
-        },
     }
 
 

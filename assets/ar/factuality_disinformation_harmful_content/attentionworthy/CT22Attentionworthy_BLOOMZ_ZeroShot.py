@@ -13,9 +13,7 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_test_gold.tsv"
-        },
+        "general_args": {"test_split": "ar"},
     }
 
 

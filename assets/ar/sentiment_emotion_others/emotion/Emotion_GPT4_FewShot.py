@@ -25,12 +25,6 @@ def config():
             ],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/emotion/test-gold.txt",
-            "fewshot": {
-                "train_data_path": "data/sentiment_emotion_others/emotion/train.txt",
-            },
-        },
     }
 
 

@@ -1,13 +1,15 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class CT22CheckworthinessDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(CT22CheckworthinessDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "some tweet",
             "label": "1",
@@ -15,6 +17,7 @@ class CT22CheckworthinessDataset(DatasetBase):
             "line_number": 0,
         }
 
+    @staticmethod
     def metadata():
         return {
             "language": ["ar", "bg", "nl", "en", "es", "tr"],
@@ -26,6 +29,36 @@ class CT22CheckworthinessDataset(DatasetBase):
                   year={2022},
                   organization={Springer}
             }""",
+            "link": "https://gitlab.com/checkthat_lab/clef2022-checkthat-lab/clef2022-checkthat-lab",
+            "license": "Research Purpose Only",
+            "splits": {
+                "ar": {
+                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/arabic/CT22_arabic_1A_checkworthy_train.tsv",
+                },
+                "bg": {
+                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/bulgarian/CT22_bulgarian_1A_checkworthy_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/bulgarian/CT22_bulgarian_1A_checkworthy_train.tsv",
+                },
+                "en": {
+                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_train.tsv",
+                },
+                "es": {
+                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/spanish/CT22_spanish_1A_checkworthy_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/spanish/CT22_spanish_1A_checkworthy_train.tsv",
+                },
+                "nl": {
+                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/dutch/CT22_dutch_1A_checkworthy_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/dutch/CT22_dutch_1A_checkworthy_train.tsv",
+                },
+                "tr": {
+                    "test": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_test_gold.tsv",
+                    "train": "data/factuality_disinformation_harmful_content/checkworthyness/turkish/CT22_turkish_1A_checkworthy_train.tsv",
+                },
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["0", "1"],
         }
 
     def load_data(self, data_path):

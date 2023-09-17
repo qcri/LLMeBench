@@ -1,15 +1,18 @@
 import pandas as pd
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class COVID19FactualityDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(COVID19FactualityDataset, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "some tweet", "label": "no"}
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -41,6 +44,13 @@ class COVID19FactualityDataset(DatasetBase):
                 doi = "10.18653/v1/2021.findings-emnlp.56",
                 pages = "611--649",
             }""",
+            "license": "CC BY NC SA 4.0",
+            "splits": {
+                "test": "data/factuality_disinformation_harmful_content/factuality_covid19/covid19_infodemic_arabic_data_factuality_binary_test.tsv",
+                "train": "data/factuality_disinformation_harmful_content/factuality_covid19/covid19_infodemic_arabic_data_factuality_binary_train.tsv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["yes", "no"],
         }
 
     def load_data(self, data_path):

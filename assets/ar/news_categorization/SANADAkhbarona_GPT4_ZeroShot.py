@@ -1,19 +1,20 @@
 import random
 
-from llmebench.datasets import NewsCatAlArabiyaDataset
-from llmebench.models import LegacyOpenAIModel
+from llmebench.datasets import SANADAkhbaronaDataset
+from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
+
 
 random.seed(1333)
 
 
 def config():
     return {
-        "dataset": NewsCatAlArabiyaDataset,
+        "dataset": SANADAkhbaronaDataset,
         "dataset_args": {},
         "task": NewsCategorizationTask,
         "task_args": {},
-        "model": LegacyOpenAIModel,
+        "model": OpenAIModel,
         "model_args": {
             "class_labels": [
                 "politics",
@@ -24,28 +25,32 @@ def config():
                 "finance",
                 "culture",
             ],
-            "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/SANAD_alarabiya_news_cat_test.tsv"
+            "max_tries": 30,
         },
     }
 
 
 def prompt(input_sample):
-    return {
-        "system_message": "You are an AI assistant that helps people find information.",
-        "messages": [
-            {
-                "sender": "user",
-                "text": f"Classify the following news article into only one of the following categories: politics, religion, medical, sports, tech, finance, or culture.\n\narticle: {input_sample}\ncategory: \n",
-            }
-        ],
-    }
+    prompt_string = (
+        f'Categorize the news "article" into one of the following categories: politics, religion, medical, sports, tech, finance, culture\n\n'
+        f"article: {input_sample}\n"
+        f"category: \n"
+    )
+    return [
+        {
+            "role": "system",
+            "content": "You are an expert news editor and know how to categorize news articles.",
+        },
+        {
+            "role": "user",
+            "content": prompt_string,
+        },
+    ]
 
 
 def post_process(response):
-    label = response["choices"][0]["text"]
+    label = response["choices"][0]["message"]["content"]
+
     label_fixed = label.lower()
     label_fixed = label_fixed.replace("category: ", "")
     label_fixed = label_fixed.replace("science/physics", "tech")

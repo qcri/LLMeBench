@@ -25,9 +25,6 @@ def config():
             ],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt"
-        },
     }
 
 
