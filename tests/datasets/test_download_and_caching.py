@@ -76,11 +76,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/MockDataset.zip",
+                download_url=f"http://localhost:{self.port}/Mock.zip",
             )
         )
 
-        self.check_downloaded(data_dir_path, "MockDataset", "zip")
+        self.check_downloaded(data_dir_path, "Mock", "zip")
 
     def test_auto_download_tar(self):
         "Test automatic downloading and extraction of *.tar datasets"
@@ -92,11 +92,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/MockDataset.tar",
+                download_url=f"http://localhost:{self.port}/Mock.tar",
             )
         )
 
-        self.check_downloaded(data_dir_path, "MockDataset", "tar")
+        self.check_downloaded(data_dir_path, "Mock", "tar")
 
     def test_auto_download_tar_gz(self):
         "Test automatic downloading and extraction of *.tar.gz datasets"
@@ -108,11 +108,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/MockDataset.tar.gz",
+                download_url=f"http://localhost:{self.port}/Mock.tar.gz",
             )
         )
 
-        self.check_downloaded(data_dir_path, "MockDataset", "tar.gz")
+        self.check_downloaded(data_dir_path, "Mock", "tar.gz")
 
     def test_auto_download_tar_bz2(self):
         "Test automatic downloading and extraction of *.tar.bz2 datasets"
@@ -124,11 +124,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/MockDataset.tar.bz2",
+                download_url=f"http://localhost:{self.port}/Mock.tar.bz2",
             )
         )
 
-        self.check_downloaded(data_dir_path, "MockDataset", "tar.bz2")
+        self.check_downloaded(data_dir_path, "Mock", "tar.bz2")
 
     def test_auto_download_tar_xz(self):
         "Test automatic downloading and extraction of *.tar.xz datasets"
@@ -140,11 +140,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/MockDataset.tar.xz",
+                download_url=f"http://localhost:{self.port}/Mock.tar.xz",
             )
         )
 
-        self.check_downloaded(data_dir_path, "MockDataset", "tar.xz")
+        self.check_downloaded(data_dir_path, "Mock", "tar.xz")
 
     def test_auto_download_default_url(self):
         "Test automatic downloading when download url is not provided"
@@ -161,7 +161,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         ):
             self.assertTrue(dataset.download_dataset(data_dir=data_dir.name))
 
-        self.check_downloaded(data_dir_path, "MockDataset", "zip")
+        self.check_downloaded(data_dir_path, "Mock", "zip")
 
     @patch.dict(
         "os.environ",
@@ -177,7 +177,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
 
         class MockDatasetWithDownloadURL(MockDataset):
             def metadata():
-                return {"download_url": f"http://localhost:{self.port}/MockDataset.zip"}
+                return {"download_url": f"http://localhost:{self.port}/Mock.zip"}
 
         dataset = MockDatasetWithDownloadURL(data_dir=data_dir_path)
         self.assertTrue(dataset.download_dataset(data_dir=data_dir.name))
@@ -219,8 +219,8 @@ class TestDatasetCaching(unittest.TestCase):
         data_dir_path = Path(data_dir.name)
 
         # Copy a archive to the download location
-        archive_file = Path("tests/datasets/archives/MockDataset.zip")
-        copy_archive_file = data_dir_path / "MockDataset.zip"
+        archive_file = Path("tests/datasets/archives/Mock.zip")
+        copy_archive_file = data_dir_path / "Mock.zip"
         copy_archive_file.write_bytes(archive_file.read_bytes())
 
         # download_dataset should not reach out to the invalid server,

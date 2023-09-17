@@ -2,6 +2,7 @@ import importlib.util
 import sys
 
 from inspect import signature
+
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -118,3 +119,22 @@ def get_data_paths(config, split):
             data_paths.append((split, available_splits[split]))
 
     return data_paths
+
+
+def resolve_path(path, dataset, data_dir):
+    """Return absolute path"""
+    if not isinstance(path, Path):
+        path = Path(path)
+
+    if not isinstance(data_dir, Path):
+        data_dir = Path(data_dir)
+
+    if not str(path).startswith(":depends:") and path.is_absolute():
+        return path
+    elif str(path).startswith(":depends:"):
+        return data_dir / str(path)[len(":depends:") + 1 :]
+    else:
+        dataset_name = dataset.__class__.__name__
+        if dataset_name.endswith("Dataset"):
+            dataset_name = dataset_name[: -len("Dataset")]
+        return data_dir / dataset_name / path
