@@ -1,19 +1,23 @@
+import random
 import re
 
-from llmebench.datasets import WANLP22PropagandaDataset
-from llmebench.models import PetalsModel
+from llmebench.datasets import WANLP22T3PropagandaDataset
+from llmebench.models import OpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
+
+
+random.seed(1333)
 
 
 def config():
     return {
-        "dataset": WANLP22PropagandaDataset,
+        "dataset": WANLP22T3PropagandaDataset,
         "dataset_args": {
             "techniques_path": "data/factuality_disinformation_harmful_content/propaganda/classes.txt"
         },
         "task": MultilabelPropagandaTask,
         "task_args": {},
-        "model": PetalsModel,
+        "model": OpenAIModel,
         "model_args": {
             "class_labels": [
                 "no technique",
@@ -36,49 +40,47 @@ def config():
                 "Thought-terminating cliché",
                 "Causal Oversimplification",
             ],
-            "max_tries": 3,
+            "max_tries": 30,
         },
     }
 
 
 def prompt(input_sample):
-    return {
-        "prompt": f'Label this "tweet" based on the following propaganda techniques:\n\n'
-        + f"'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
-        + f"\nGive the list of techniques seperated by a comma. Multiple techniques are allowed: \n"
-        + f"tweet: {input_sample}\n\n"
-        + f"labels: \n"
-    }
+    prompt_string = (
+        f'Label this "tweet" based on the following propaganda techniques:\n\n'
+        f"'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
+        f"\nAnswer (only yes/no) in the following format: \n"
+        f"'Doubt': 'yes', "
+        f"'Smears': 'no', \n\n"
+        f"tweet: {input_sample}\n\n"
+        f"label: \n"
+    )
+
+    return [
+        {
+            "role": "system",
+            "content": "You are an expert social media content analyst.",  # You are capable of identifying and annotating tweets correct or incorrect
+        },
+        {
+            "role": "user",
+            "content": prompt_string,
+        },
+    ]
 
 
 def fix_label(pred_label):
-    class_labels = [
-        "no technique",
-        "Smears",
-        "Exaggeration/Minimisation",
-        "Loaded Language",
-        "Appeal to fear/prejudice",
-        "Name calling/Labeling",
-        "Slogans",
-        "Repetition",
-        "Doubt",
-        "Obfuscation, Intentional vagueness, Confusion",
-        "Flag-waving",
-        "Glittering generalities (Virtue)",
-        "Misrepresentation of Someone's Position (Straw Man)",
-        "Presenting Irrelevant Data (Red Herring)",
-        "Appeal to authority",
-        "Whataboutism",
-        "Black-and-white Fallacy/Dictatorship",
-        "Thought-terminating cliché",
-        "Causal Oversimplification",
-    ]
-    class_labels = [c.lower() for c in class_labels]
-
-    pred_labels_bool = [bool(re.search(c.lower(), pred_label)) for c in class_labels]
-    pred_labels = [class_labels[i].lower() for i, c in enumerate(pred_labels_bool) if c]
+    if "used in this text" in pred_label:
+        return ["no technique"]
 
     labels_fixed = []
+    pred_label = pred_label.replace('"', "'").split("', '")
+    pred_labels = []
+
+    for l in pred_label:
+        splits = l.replace(",", "").split(":")
+        if "no" in splits[1]:
+            continue
+        pred_labels.append(splits[0].replace("'", ""))
 
     if len(pred_labels) == 0:
         return ["no technique"]
@@ -91,6 +93,7 @@ def fix_label(pred_label):
         # Handle case of single word labels like "Smears" so we just capitalize it
         label_fixed = label.capitalize()
 
+        # print(label)
         if "slogan" in label:
             label_fixed = "Slogans"
         if "loaded" in label:
@@ -145,7 +148,6 @@ def fix_label(pred_label):
         labels_fixed.append(label_fixed)
 
     out_put_labels = []
-
     # Remove no technique label when we have other techniques for the same text
     if len(labels_fixed) > 1:
         for flabel in labels_fixed:
@@ -157,10 +159,7 @@ def fix_label(pred_label):
 
 
 def post_process(response):
-    label = response["outputs"].strip().lower()
-    label = label.replace("<s>", "")
-    label = label.replace("</s>", "")
-
+    label = response["choices"][0]["message"]["content"].lower()
     pred_label = fix_label(label)
 
     return pred_label

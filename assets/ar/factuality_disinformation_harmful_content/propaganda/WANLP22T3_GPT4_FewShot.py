@@ -1,13 +1,17 @@
+import random
 import re
 
-from llmebench.datasets import WANLP22PropagandaDataset
+from llmebench.datasets import WANLP22T3PropagandaDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
 
 
+random.seed(1333)
+
+
 def config():
     return {
-        "dataset": WANLP22PropagandaDataset,
+        "dataset": WANLP22T3PropagandaDataset,
         "dataset_args": {
             "techniques_path": "data/factuality_disinformation_harmful_content/propaganda/classes.txt"
         },

@@ -42,7 +42,7 @@ from .STSQ2Q import Q2QSimDataset
 from .TyDiQA import TyDiQADataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset
 from .UnifiedFCStance import UnifiedFCStanceDataset
-from .WANLP22Propaganda import WANLP22PropagandaDataset
+from .WANLP22T3Propaganda import WANLP22T3PropagandaDataset
 from .WikiNewsDiacritization import WikiNewsDiacritizationDataset
 from .WikiNewsLemmatization import WikiNewsLemmatizationDataset
 from .WikiNewsPOS import WikiNewsPOSDataset
