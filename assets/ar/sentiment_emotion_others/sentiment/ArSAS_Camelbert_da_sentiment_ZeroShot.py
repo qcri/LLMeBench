@@ -15,9 +15,6 @@ def config():
             "inference_api_url": "https://api-inference.huggingface.co/models/CAMeL-Lab/bert-base-arabic-camelbert-da-sentiment",
             "max_tries": 5,
         },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sentiment/ArSAS-test.txt"
-        },
     }
 
 

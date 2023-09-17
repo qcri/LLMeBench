@@ -15,9 +15,6 @@ def config():
             "inference_api_url": "https://api-inference.huggingface.co/models/intfloat/multilingual-e5-small",
             "max_tries": 5,
         },
-        "general_args": {
-            "data_path": "data/STS/nsurl-2019-task8/test.tsv",
-        },
     }
 
 
