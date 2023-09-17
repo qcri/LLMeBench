@@ -1,8 +1,10 @@
-# Adding Model Provider ([See Demo](https://youtu.be/J5H-BD8HQsk?feature=shared))
-Next, check if the model provider you are trying to run the benchmark for has an implementation in `llmebench/models`. If not, implement a new model provider module (e.g. `llmebench/models/FastChat.py`), which implements a class (e.g. `FastChatModelBase`) which subclasses `ModelBase`. See an existing model providers module for inspiration. Each new model class requires implementing three functions:
+<!---# Adding Model Provider ([See Demo](https://youtu.be/J5H-BD8HQsk?feature=shared)) -->
+# Adding Model Provider
+
+Implementing a model to use for benchmarking can be done by defining a model provider that is hosting that model. . Check first if the model provider you are trying to access a model thorugh has an implementation in `llmebench/models`. If not, implement a new model provider module (e.g. `llmebench/models/FastChat.py`), which implements a class (e.g. `FastChatModelBase`) which subclasses `ModelBase`. See an existing model provider module for inspiration. Each new model class requires implementing three functions:
 
 ```python
-class NewModel(TaskBase):
+class NewModel(ModelBase):
 	def __init__(self, custom_param_1, custom_param_2, **kwargs):
 		# custom_param_1/2 are passed from `model_args` in the benchmark
 		# config
@@ -17,5 +19,7 @@ class NewModel(TaskBase):
         	# This function gets the full model response and must return the 
 		# part of the model response that contains the answer to the prompt
 ```
+
+**Note:** Further details on paramters and role for each function can be found [here](llmebench/models/model_base.py).
 
 Once the `Model` is implemented, export it in `llmebench/models/__init__.py`.
