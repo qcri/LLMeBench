@@ -73,7 +73,7 @@ for i in *.zip; do unzip "$i" -d "${i%%.zip}"; done
 
 **_Voilà! all ready to start evaluation..._**
 
-**Note:** Some datasets and associated assets are implemented in LLMeBench but the dataset files can't be re-distributed, it is the responsibility of the framework user to acquaire them from their original sources. 
+**Note:** Some datasets and associated assets are implemented in LLMeBench but the dataset files can't be re-distributed, it is the responsibility of the framework user to acquaire them from their original sources. The metadata for each `Dataset` includes a link to the primary page for the dataset, which can be used to obtain the data.
 
 **Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for datasets use and redistribution for research or non-commercial purposes .
 
