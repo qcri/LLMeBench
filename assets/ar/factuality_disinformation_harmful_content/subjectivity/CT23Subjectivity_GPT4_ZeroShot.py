@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": CT23SubjectivityDataset,
-        "dataset_args": {},
         "task": SubjectivityTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["SUBJ", "OBJ"],

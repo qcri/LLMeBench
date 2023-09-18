@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ArSASDataset,
-        "dataset_args": {},
         "task": SentimentTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],

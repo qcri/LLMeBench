@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": MLQADataset,
-        "dataset_args": {},
         "task": QATask,
-        "task_args": {},
         "model": HuggingFaceInferenceAPIModel,
         "model_args": {
             "task_type": HuggingFaceTaskTypes.Question_Answering,

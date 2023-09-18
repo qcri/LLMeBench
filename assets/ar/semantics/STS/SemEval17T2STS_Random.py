@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": SemEval17T2STSDataset,
-        "dataset_args": {},
         "task": STSTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {"task_type": TaskType.Regression, "score_range": (0, 5)},
         "general_args": {},

@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": QADIDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [

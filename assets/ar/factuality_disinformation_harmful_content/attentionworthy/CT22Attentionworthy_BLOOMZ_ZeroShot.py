@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": CT22AttentionworthyDataset,
-        "dataset_args": {},
         "task": AttentionworthyTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,

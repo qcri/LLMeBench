@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": PADTDataset,
-        "dataset_args": {},
         "task": ArabicParsingTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

@@ -14,9 +14,7 @@ def metadata():
 def config():
     return {
         "dataset": COVID19FactualityDataset,
-        "dataset_args": {},
         "task": FactualityTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["yes", "no"],

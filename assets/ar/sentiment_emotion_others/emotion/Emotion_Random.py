@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": EmotionDataset,
-        "dataset_args": {},
         "task": EmotionTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.MultiLabelClassification,

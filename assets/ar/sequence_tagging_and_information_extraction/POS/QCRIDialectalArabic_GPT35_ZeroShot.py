@@ -105,9 +105,7 @@ def metadata():
 def config():
     return {
         "dataset": QCRIDialectalArabicPOSDataset,
-        "dataset_args": {},
         "task": ArabicPOSTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "max_tries": 3,

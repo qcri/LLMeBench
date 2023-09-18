@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ANSFactualityDataset,
-        "dataset_args": {},
         "task": FactualityTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

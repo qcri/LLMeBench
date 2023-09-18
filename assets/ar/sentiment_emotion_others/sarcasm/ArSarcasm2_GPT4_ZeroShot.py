@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ArSarcasm2Dataset,
-        "dataset_args": {},
         "task": SarcasmTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],

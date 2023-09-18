@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": STSQ2QDataset,
-        "dataset_args": {},
         "task": Q2QSimDetectionTask,
-        "task_args": {},
         "model": HuggingFaceInferenceAPIModel,
         "model_args": {
             "task_type": HuggingFaceTaskTypes.Sentence_Similarity,

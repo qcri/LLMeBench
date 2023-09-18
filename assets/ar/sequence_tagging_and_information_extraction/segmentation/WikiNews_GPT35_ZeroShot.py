@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": WikiNewsSegmentationDataset,
-        "dataset_args": {},
         "task": ArabicSegmentationTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "max_tries": 3,

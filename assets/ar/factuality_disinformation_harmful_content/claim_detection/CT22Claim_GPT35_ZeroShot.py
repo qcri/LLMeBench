@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": CT22ClaimDataset,
-        "dataset_args": {},
         "task": ClaimDetectionTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["0", "1"],

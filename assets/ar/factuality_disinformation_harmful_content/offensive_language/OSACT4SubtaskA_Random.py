@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": OSACT4SubtaskADataset,
-        "dataset_args": {},
         "task": OffensiveTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

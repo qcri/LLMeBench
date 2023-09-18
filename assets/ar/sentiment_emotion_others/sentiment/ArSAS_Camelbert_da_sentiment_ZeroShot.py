@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ArSASDataset,
-        "dataset_args": {},
         "task": SentimentTask,
-        "task_args": {},
         "model": HuggingFaceInferenceAPIModel,
         "model_args": {
             "task_type": HuggingFaceTaskTypes.Text_Classification,

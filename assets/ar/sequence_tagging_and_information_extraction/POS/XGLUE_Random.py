@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": XGLUEPOSDataset,
-        "dataset_args": {},
         "task": ArabicPOSTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.SequenceLabeling,

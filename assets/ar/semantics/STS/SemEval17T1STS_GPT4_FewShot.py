@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": SemEval17T1STSDataset,
-        "dataset_args": {},
         "task": STSTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": BibleMaghrebiDiacritizationDataset,
-        "dataset_args": {},
         "task": ArabicDiacritizationTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

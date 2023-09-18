@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": UnifiedFCFactualityDataset,
-        "dataset_args": {},
         "task": FactualityTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

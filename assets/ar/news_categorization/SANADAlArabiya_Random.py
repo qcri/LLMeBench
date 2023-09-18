@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": SANADAlArabiyaDataset,
-        "dataset_args": {},
         "task": NewsCategorizationTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

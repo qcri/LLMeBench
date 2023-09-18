@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ArapTweetDataset,
-        "dataset_args": {},
         "task": DemographyGenderTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["Female", "Male"],

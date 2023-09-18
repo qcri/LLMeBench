@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ArapTweetDataset,
-        "dataset_args": {},
         "task": DemographyGenderTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": XNLIDataset,
-        "dataset_args": {},
         "task": XNLITask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

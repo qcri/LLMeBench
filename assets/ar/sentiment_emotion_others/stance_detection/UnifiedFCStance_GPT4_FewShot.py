@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
-        "dataset_args": {},
         "task": StanceTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

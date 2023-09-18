@@ -18,7 +18,6 @@ def config():
         "dataset": SemEval23T3PropagandaDataset,
         "dataset_args": {"techniques_path": "techniques_subtask3.txt"},
         "task": MultilabelPropagandaTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [

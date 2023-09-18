@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": CT22HarmfulDataset,
-        "dataset_args": {},
         "task": HarmfulDetectionTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

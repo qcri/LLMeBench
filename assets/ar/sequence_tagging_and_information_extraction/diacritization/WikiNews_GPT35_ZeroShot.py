@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": WikiNewsDiacritizationDataset,
-        "dataset_args": {},
         "task": ArabicDiacritizationTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "max_tries": 3,

@@ -19,7 +19,6 @@ def config():
             "tgt_lang": "en",
         },
         "task": MachineTranslationTask,
-        "task_args": {},
         "model": HuggingFaceInferenceAPIModel,
         "model_args": {
             "task_type": HuggingFaceTaskTypes.Translation,
