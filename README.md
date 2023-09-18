@@ -29,12 +29,12 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 
 ## Quick Start!
 1. [Install](https://github.com/qcri/LLMeBench/blob/main/README.md#installation) LLMeBench.
-2. Create a new folder "data/", then [download example data](https://llmebench.qcri.org/data/ArSAS.zip) into "data/" and unzip it.
+2. Create a new folder "data", then [download ArSAS dataset](https://llmebench.qcri.org/data/ArSAS.zip) into "data" and unzip it.
 3. Evaluate!
 
    For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
    ```bash
-   python -m llmebench --filter '*ArSAS_Random*' assets/ar/sentiment_emotion_others/sentiment/ results/
+   python -m llmebench --filter 'sentiment/ArSAS_Random*' assets/ results/
    ```
    where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
 
@@ -58,7 +58,7 @@ Install the dependencies and benchmarking package:
 pip install -e '.[dev,fewshot]'
 ```
 
-## Get the benchmark data
+## Get the Benchmark Data
 In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, download the benchmarking data from [here](https://llmebench.qcri.org/data/), an example command to download all these datasets:
 ```bash
 mkdir data/
@@ -72,6 +72,8 @@ for i in *.zip; do unzip "$i" -d "${i%%.zip}"; done
 ```
 
 **_Voilà! all ready to start evaluation..._**
+
+**Note:** Some datasets and associated assets are implemented in LLMeBench but the dataset files can't be re-distributed, it is the responsibility of the framework user to acquaire them from their original sources. 
 
 **Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for datasets use and redistribution for research or non-commercial purposes .
 
@@ -95,7 +97,7 @@ python -m llmebench --filter '*benchmarking_asset*' --limit <k> --n_shots <n> --
    - supplying a dotenv file using the `--env` flag. Sample dotenv files are provided in the `env/` folder
    - Each [model provider's](llmebench/models) documentation specifies what environment variables are expected at runtime.
 
-#### Outputs format
+#### Outputs Format
 `<results-dir>`: This folder will contain the outputs resulting from running assets. It follows this structure:
 - **all_results.json**: A file that presents summarized output of all assets that were run where `<results-dir>` was specified as the output directory.
 - The framework will create a sub-folder per benchmarking asset in this directory. A sub-folder will contain:
