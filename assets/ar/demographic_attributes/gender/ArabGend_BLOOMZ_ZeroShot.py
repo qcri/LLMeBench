@@ -14,9 +14,7 @@ def metadata():
 def config():
     return {
         "dataset": ArabGendDataset,
-        "dataset_args": {},
         "task": DemographyGenderTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["m", "f"],

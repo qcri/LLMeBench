@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": AdultDataset,
-        "dataset_args": {},
         "task": AdultTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["ADULT", "NOT_ADULT"],

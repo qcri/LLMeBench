@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": CT22CheckworthinessDataset,
-        "dataset_args": {},
         "task": CheckworthinessTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["0", "1"],

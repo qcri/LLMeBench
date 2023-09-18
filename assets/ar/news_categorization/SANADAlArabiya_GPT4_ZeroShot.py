@@ -20,9 +20,7 @@ def metadata():
 def config():
     return {
         "dataset": SANADAlArabiyaDataset,
-        "dataset_args": {},
         "task": NewsCategorizationTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [

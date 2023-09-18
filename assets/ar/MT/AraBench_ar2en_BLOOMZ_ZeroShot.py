@@ -19,7 +19,6 @@ def config():
             "tgt_lang": "en",
         },
         "task": MachineTranslationTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,

@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": CT22HarmfulDataset,
-        "dataset_args": {},
         "task": HarmfulDetectionTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

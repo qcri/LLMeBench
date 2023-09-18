@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": CT22AttentionworthyDataset,
-        "dataset_args": {},
         "task": AttentionworthyTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [

@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": WikiNewsSegmentationDataset,
-        "dataset_args": {},
         "task": ArabicSegmentationTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {"task_type": TaskType.Other},
         "general_args": {},

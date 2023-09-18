@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": STSQ2QDataset,
-        "dataset_args": {},
         "task": Q2QSimDetectionTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

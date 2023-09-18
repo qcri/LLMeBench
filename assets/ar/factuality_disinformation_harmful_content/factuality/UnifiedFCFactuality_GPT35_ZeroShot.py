@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": UnifiedFCFactualityDataset,
-        "dataset_args": {},
         "task": FactualityTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["true", "false"],

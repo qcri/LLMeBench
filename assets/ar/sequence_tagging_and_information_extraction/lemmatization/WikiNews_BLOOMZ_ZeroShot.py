@@ -14,9 +14,7 @@ def metadata():
 def config():
     return {
         "dataset": WikiNewsLemmatizationDataset,
-        "dataset_args": {},
         "task": LemmatizationTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,

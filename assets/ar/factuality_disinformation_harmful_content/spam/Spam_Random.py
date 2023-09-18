@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": SpamDataset,
-        "dataset_args": {},
         "task": SpamTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

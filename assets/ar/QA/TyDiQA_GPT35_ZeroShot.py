@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": TyDiQADataset,
-        "dataset_args": {},
         "task": QATask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "max_tries": 3,

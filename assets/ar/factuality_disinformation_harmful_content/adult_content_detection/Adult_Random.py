@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": AdultDataset,
-        "dataset_args": {},
         "task": AdultTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

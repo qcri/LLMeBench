@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": PADTDataset,
-        "dataset_args": {},
         "task": ArabicParsingTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {"task_type": TaskType.Other},
         "general_args": {},

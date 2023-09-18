@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": XNLIDataset,
-        "dataset_args": {},
         "task": XNLITask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

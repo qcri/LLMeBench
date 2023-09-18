@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ADIDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

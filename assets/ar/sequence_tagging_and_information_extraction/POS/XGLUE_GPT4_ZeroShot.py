@@ -105,9 +105,7 @@ def metadata():
 def config():
     return {
         "dataset": XGLUEPOSDataset,
-        "dataset_args": {},
         "task": ArabicPOSTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,

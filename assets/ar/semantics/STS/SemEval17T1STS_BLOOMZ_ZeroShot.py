@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": SemEval17T1STSDataset,
-        "dataset_args": {},
         "task": STSTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,

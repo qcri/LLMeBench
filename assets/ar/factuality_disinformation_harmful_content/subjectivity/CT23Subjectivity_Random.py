@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": CT23SubjectivityDataset,
-        "dataset_args": {},
         "task": SubjectivityTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

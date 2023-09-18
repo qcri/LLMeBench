@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": AqmarDataset,
-        "dataset_args": {},
         "task": NERTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [

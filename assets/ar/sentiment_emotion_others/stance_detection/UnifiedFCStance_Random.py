@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
-        "dataset_args": {},
         "task": StanceTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

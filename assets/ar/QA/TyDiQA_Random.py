@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": TyDiQADataset,
-        "dataset_args": {},
         "task": QATask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {"task_type": TaskType.QuestionAnswering},
         "general_args": {"test_split": "dev"},

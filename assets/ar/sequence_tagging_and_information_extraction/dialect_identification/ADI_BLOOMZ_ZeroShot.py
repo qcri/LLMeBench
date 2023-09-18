@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ADIDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [

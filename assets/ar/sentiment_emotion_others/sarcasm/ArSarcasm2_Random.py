@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ArSarcasm2Dataset,
-        "dataset_args": {},
         "task": SarcasmTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

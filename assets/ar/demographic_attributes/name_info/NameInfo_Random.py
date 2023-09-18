@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": NameInfoDataset,
-        "dataset_args": {},
         "task": DemographyNameInfoTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

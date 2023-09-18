@@ -23,7 +23,6 @@ def config():
         "dataset": WANLP22T3PropagandaDataset,
         "dataset_args": {"techniques_path": "classes.txt"},
         "task": MultilabelPropagandaTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [

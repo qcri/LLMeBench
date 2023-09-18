@@ -19,7 +19,6 @@ def config():
             "tgt_lang": "en",
         },
         "task": MachineTranslationTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 5,

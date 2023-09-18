@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": SpamDataset,
-        "dataset_args": {},
         "task": SpamTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["__label__ADS", "__label__NOTADS"],

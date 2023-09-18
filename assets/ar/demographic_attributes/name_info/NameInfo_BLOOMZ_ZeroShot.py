@@ -16,9 +16,7 @@ def metadata():
 def config():
     return {
         "dataset": NameInfoDataset,
-        "dataset_args": {},
         "task": DemographyNameInfoTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [

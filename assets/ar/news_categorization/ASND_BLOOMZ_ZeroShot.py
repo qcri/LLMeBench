@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": ASNDDataset,
-        "dataset_args": {},
         "task": NewsCategorizationTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [

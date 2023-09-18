@@ -17,9 +17,7 @@ def metadata():
 def config():
     return {
         "dataset": WikiNewsDiacritizationDataset,
-        "dataset_args": {},
         "task": ArabicDiacritizationTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {"task_type": TaskType.Other},
         "general_args": {},

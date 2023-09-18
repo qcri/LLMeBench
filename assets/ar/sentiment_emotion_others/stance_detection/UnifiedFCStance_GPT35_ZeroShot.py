@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
-        "dataset_args": {},
         "task": StanceTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["agree", "disagree", "unrelated"],

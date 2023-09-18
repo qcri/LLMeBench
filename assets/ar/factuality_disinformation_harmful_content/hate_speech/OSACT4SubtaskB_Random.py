@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": OSACT4SubtaskBDataset,
-        "dataset_args": {},
         "task": HateSpeechTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

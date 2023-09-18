@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": EmotionDataset,
-        "dataset_args": {},
         "task": EmotionTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [

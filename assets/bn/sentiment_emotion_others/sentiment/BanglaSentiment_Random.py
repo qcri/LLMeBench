@@ -15,9 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": BanglaSentimentDataset,
-        "dataset_args": {},
         "task": SentimentTask,
-        "task_args": {},
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,
