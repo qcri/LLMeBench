@@ -21,7 +21,7 @@ Before you begin, please ensure you have the following installed:
 
 
 ## Adding New Dataset, Task, Models or Features
-If you are adding [new dataset, task, models or features](tutorial), please ensure:
+If you are adding [new dataset, task, models or features](docs/tutorials), please ensure:
 
 - The code is well-documented.
 - You have added corresponding tests.
@@ -64,13 +64,13 @@ We welcome contributions of all types, however, we are particularly interested i
 - **Datasets:** Contribute by adding new datasets in the field of large language models.
   - Create a new dataset loading scripts to include your new dataset. Before doing so, please check if it has already been implemented.
   - Provide proper citations and documentation for the dataset.<br/>
-  Please check examples in the tutorial -- [adding dataset](tutorials/adding_dataset.md)
+  Please check examples in the tutorial -- [adding dataset](docs/tutorials/adding_dataset.md)
 - **Tasks:** Contribute on tasks that can help to the community, for exampels tasks reported in:
   - ***MMLU:*** [paper](https://arxiv.org/pdf/2009.03300.pdf), [hugging face](https://huggingface.co/datasets/cais/mmlu)  
   - ***BigBench:*** [paper](https://arxiv.org/abs/2206.04615), [git repo](https://github.com/google/BIG-bench)<br/>
-  Please find the examples in the tutorial -- [adding task](tutorials/adding_task.md)
+  Please find the examples in the tutorial -- [adding task](docs/tutorials/adding_task.md)
 - **Assets:** Contribute to the assets (prompts, post-processing etc.) associated with the tasks and datasets<br/>
-Please find the examples in the tutorial -- [adding asset](tutorials/adding_asset.md)
+Please find the examples in the tutorial -- [adding asset](docs/tutorials/adding_asset.md)
 
 
 
