@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import EmotionTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Jaccard similarity": "0.163"},
+    }
+
+
 def config():
     return {
         "dataset": EmotionDataset,

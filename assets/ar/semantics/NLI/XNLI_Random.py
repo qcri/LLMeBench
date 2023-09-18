@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import TaskType, XNLITask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Accuracy": "0.330"},
+    }
+
+
 def config():
     return {
         "dataset": XNLIDataset,

@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import DialectIDTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Macro-F1": "0.054"},
+    }
+
+
 def config():
     return {
         "dataset": QADIDataset,

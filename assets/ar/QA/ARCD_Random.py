@@ -5,6 +5,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import QATask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"F1": "0.085"},
+    }
+
+
 def config():
     return {
         "dataset": ARCDDataset,

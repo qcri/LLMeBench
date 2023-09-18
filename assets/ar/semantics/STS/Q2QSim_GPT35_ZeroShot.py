@@ -3,6 +3,15 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import Q2QSimDetectionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Micro-F1": "0.816"},
+    }
+
+
 def config():
     return {
         "dataset": STSQ2QDataset,

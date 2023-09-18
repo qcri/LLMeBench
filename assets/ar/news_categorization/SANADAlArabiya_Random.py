@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import NewsCategorizationTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Accuracy": "0.164"},
+    }
+
+
 def config():
     return {
         "dataset": SANADAlArabiyaDataset,

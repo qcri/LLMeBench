@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import MultilabelPropagandaTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Micro-F1": "0.119"},
+    }
+
+
 def config():
     return {
         "dataset": SemEval23T3PropagandaDataset,

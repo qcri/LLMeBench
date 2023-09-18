@@ -7,6 +7,15 @@ from llmebench.tasks import NewsCategorizationTask
 random.seed(1333)
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Accuracy": "0.582"},
+    }
+
+
 def config():
     return {
         "dataset": SANADAkhbaronaDataset,
