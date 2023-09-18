@@ -11,14 +11,29 @@ def metadata():
 def config():
 	# This function returns a dictionary with the dataset, task and model provider
 	# the current run is targeting along with arguments for each of these, as well
-	# as a path to the dataset itself.
+	# as a path to the dataset itself. The structure is as follows:
+	# {
+	# 	"dataset": llmebench.dataset.*Dataset,
+	# 	"dataset_args": {}, # Optional, arguments passed to Dataset constructor
+	# 	"task": llmebench.task.*Task,
+	# 	"task_args": {}, # Optional, arguments passed to Task constructor
+	# 	"model": llmebench.model.*Model,
+	# 	"model_args": {}, # Optional, arguments passed to Model constructor
+	# 	"general_args": { # Optional to define splits, fewshot settings
+	# 		"test_split": "test-gold" # Optional, "test" will be picked from the dataset automatically if available
+	# 		"fewshot": {
+	# 			"train_split": "dev" # Optional, "train" will be picked from the dataset automatically if available
+	# 			"deduplicate": False # Optional, enable/disable train/test deduplication
+	# 		}
+	# 	}
+	# }
 
 def prompt(input_sample):
 	# This function receives an input_sample and pre-processes it into the
 	# expected input for the model being used. For instance, OpenAIModel expects
 	# its input to be a dictionary with two keys, ``system_message`` and a list
 	# of ``messages`` with the ``sender`` and ``text`` in each message.
-	# See the documentation linked with the available models for exact specifications
+	# See the documentation linked with the available model providers for exact specifications
 
 def post_process(response):
 	# This function takes the output from the model, and post-processes it to extract
