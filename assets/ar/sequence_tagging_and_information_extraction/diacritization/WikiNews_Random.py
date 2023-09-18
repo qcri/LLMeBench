@@ -5,6 +5,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import ArabicDiacritizationTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"WER": "0.963"},
+    }
+
+
 def config():
     return {
         "dataset": WikiNewsDiacritizationDataset,

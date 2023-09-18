@@ -3,6 +3,14 @@ from llmebench.models import HuggingFaceInferenceAPIModel, HuggingFaceTaskTypes
 from llmebench.tasks import MachineTranslationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Helsinki-NLP/opus-mt-ar-en",
+        "description": "Sample HuggingFace Inference API asset for machine translation.",
+    }
+
+
 def config():
     return {
         "dataset": AraBenchDataset,

@@ -5,6 +5,15 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import HateSpeechTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.503"},
+    }
+
+
 def config():
     return {
         "dataset": OSACT4SubtaskBDataset,

@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import SpamTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Macro-F1": "0.405"},
+    }
+
+
 def config():
     return {
         "dataset": SpamDataset,

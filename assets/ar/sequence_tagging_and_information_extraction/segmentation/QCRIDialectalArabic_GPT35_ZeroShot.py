@@ -5,6 +5,15 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import ArabicSegmentationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Accuracy (Avg)": "0.283"},
+    }
+
+
 def config():
     return {
         "dataset": QCRIDialectalArabicSegmentationDataset,

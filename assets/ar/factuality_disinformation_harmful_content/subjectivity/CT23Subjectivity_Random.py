@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import SubjectivityTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Macro-F1": "0.496"},
+    }
+
+
 def config():
     return {
         "dataset": CT23SubjectivityDataset,

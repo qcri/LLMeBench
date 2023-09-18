@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import FactualityTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Weighted-F1": "0.582"},
+    }
+
+
 def config():
     return {
         "dataset": COVID19FactualityDataset,

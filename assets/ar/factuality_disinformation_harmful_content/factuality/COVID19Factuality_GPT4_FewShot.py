@@ -3,6 +3,15 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import FactualityTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Weighted-F1": "0.497"},
+    }
+
+
 def config():
     return {
         "dataset": COVID19FactualityDataset,

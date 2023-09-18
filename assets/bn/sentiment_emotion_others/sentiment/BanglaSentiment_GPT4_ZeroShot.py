@@ -3,6 +3,14 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import SentimentTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+    }
+
+
 def config():
     return {
         "dataset": BanglaSentimentDataset,

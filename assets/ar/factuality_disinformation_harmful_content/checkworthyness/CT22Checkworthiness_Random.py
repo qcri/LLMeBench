@@ -3,6 +3,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import CheckworthinessTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"F1 (POS)": "0.398"},
+    }
+
+
 def config():
     return {
         "dataset": CT22CheckworthinessDataset,

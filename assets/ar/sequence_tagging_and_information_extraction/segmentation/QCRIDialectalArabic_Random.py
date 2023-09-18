@@ -5,6 +5,15 @@ from llmebench.models import RandomModel
 from llmebench.tasks import ArabicSegmentationTask, TaskType
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "Random",
+        "description": "Random Baseline.",
+        "scores": {"Accuracy (Avg)": "0.316"},
+    }
+
+
 def config():
     return {
         "dataset": QCRIDialectalArabicSegmentationDataset,

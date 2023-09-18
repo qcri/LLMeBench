@@ -3,6 +3,15 @@ from llmebench.models import HuggingFaceInferenceAPIModel, HuggingFaceTaskTypes
 from llmebench.tasks import SentimentTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "CAMeL-Lab/bert-base-arabic-camelbert-da-sentiment",
+        "description": "Sample HuggingFace Inference API asset for classification.",
+        "scores": {"Macro-F1": "ar/sentiment_emotion_others/sentiment/ArSAS"},
+    }
+
+
 def config():
     return {
         "dataset": ArSASDataset,

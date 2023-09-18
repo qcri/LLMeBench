@@ -3,6 +3,15 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import HarmfulDetectionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"F1 (POS)": "0.144"},
+    }
+
+
 def config():
     return {
         "dataset": CT22HarmfulDataset,
