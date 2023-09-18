@@ -17,6 +17,7 @@ class TestBenchmarkAssets(unittest.TestCase):
 
         for asset_idx, asset in enumerate(self.assets):
             with self.subTest(msg=asset["name"], i=asset_idx):
+                self.assertIsInstance(asset["module"].metadata, types.FunctionType)
                 self.assertIsInstance(asset["module"].config, types.FunctionType)
                 self.assertIsInstance(asset["module"].prompt, types.FunctionType)
                 self.assertIsInstance(asset["module"].post_process, types.FunctionType)
@@ -54,3 +55,20 @@ class TestBenchmarkAssets(unittest.TestCase):
                         self.assertIn("config", subconfig)
                         self.assertIsInstance(subconfig["config"], dict)
                         self.validate_single_config(subconfig["config"])
+
+    def test_metadata_format(self):
+        "Test if metadata is well defined"
+
+        for asset in self.assets:
+            with self.subTest(msg=asset["name"]):
+                metadata = asset["module"].metadata()
+
+                self.assertIsInstance(metadata, dict)
+
+                self.assertIn("author", metadata)
+                self.assertIsInstance(metadata["author"], str)
+                self.assertIn("model", metadata)
+                self.assertIsInstance(metadata["model"], str)
+                self.assertIn("description", metadata)
+                self.assertIsInstance(metadata["description"], str)
+                self.assertIsInstance(metadata.get("scores", {}), dict)
