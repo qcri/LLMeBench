@@ -27,6 +27,13 @@ def config():
 	# 		}
 	# 	}
 	# }
+	#
+	# If the Dataset you are using does not have your required splits by default,
+	# "custom_test_split" and "custom_train_split" can be used instead. These are
+	# usually strings, but their structure is dictated by the data loader in a
+	# specific dataset. The framework supports absolute paths, relative paths (
+	# relative to `data_dir/*Dataset/`) or special paths prefixed with `:data_dir:`,
+	# which are resolved relative to `data_dir`.
 
 def prompt(input_sample):
 	# This function receives an input_sample and pre-processes it into the

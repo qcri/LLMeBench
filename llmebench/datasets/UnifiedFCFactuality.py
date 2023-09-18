@@ -25,7 +25,7 @@ class UnifiedFCFactualityDataset(DatasetBase):
             "license": "Research Purpose Only",
             "splits": {
                 "test": "ramy_arabic_fact_checking.tsv",
-                "train": ":depends:ANSStance/claim/train.csv",
+                "train": ":data_dir:ANSStance/claim/train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["true", "false"],
