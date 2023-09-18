@@ -27,7 +27,7 @@ class UnifiedFCStanceDataset(DatasetBase):
             "license": "Research Purpose Only",
             "splits": {
                 "test": "ramy_arabic_stance.jsonl",
-                "train": ":depends:ANSStance/stance/train.csv",
+                "train": ":data_dir:ANSStance/stance/train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["agree", "disagree", "discuss", "unrelated"],

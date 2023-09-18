@@ -22,7 +22,7 @@ class TyDiQADataset(SQuADBase):
             "license": "Apache License Version 2.0",
             "splits": {
                 "dev": "tydiqa-goldp-dev-arabic.json",
-                "train": ":depends:ARCD/arcd-train.json",
+                "train": ":data_dir:ARCD/arcd-train.json",
             },
             "task_type": TaskType.QuestionAnswering,
         }

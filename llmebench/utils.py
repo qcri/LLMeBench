@@ -51,6 +51,7 @@ def get_data_paths(config, split):
     assert split in ["train", "test"]
 
     dataset_args = config.get("dataset_args", {})
+    dataset_args["data_dir"] = ""
     dataset = config["dataset"](**dataset_args)
 
     if split == "test":
@@ -129,10 +130,10 @@ def resolve_path(path, dataset, data_dir):
     if not isinstance(data_dir, Path):
         data_dir = Path(data_dir)
 
-    if not str(path).startswith(":depends:") and path.is_absolute():
+    if not str(path).startswith(":data_dir:") and path.is_absolute():
         return path
-    elif str(path).startswith(":depends:"):
-        return data_dir / str(path)[len(":depends:") :]
+    elif str(path).startswith(":data_dir:"):
+        return data_dir / str(path)[len(":data_dir:") :]
     else:
         dataset_name = dataset.__class__.__name__
         if dataset_name.endswith("Dataset"):

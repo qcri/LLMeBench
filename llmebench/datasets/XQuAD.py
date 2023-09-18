@@ -23,7 +23,7 @@ class XQuADDataset(SQuADBase):
             "license": "CC-BY-SA4.0",
             "splits": {
                 "test": "xquad.ar.json",
-                "train": ":depends:ARCD/arcd-train.json",
+                "train": ":data_dir:ARCD/arcd-train.json",
             },
             "task_type": TaskType.QuestionAnswering,
         }
