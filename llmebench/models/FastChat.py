@@ -11,6 +11,10 @@ class FastChatModel(OpenAIModel):
     Accepts all arguments used by `OpenAIModel`, and overrides the arguments listed
     below with FastChat-specific variables.
 
+    See the [https://github.com/lm-sys/FastChat/blob/main/docs/model_support.md](model_support)
+    page in FastChat's documentation for supported models and instructions on extending
+    to custom models.
+
     Arguments
     ---------
     api_base : str
