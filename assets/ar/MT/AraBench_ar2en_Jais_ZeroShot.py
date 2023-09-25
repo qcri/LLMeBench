@@ -6,8 +6,8 @@ from llmebench.tasks import MachineTranslationTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "bloomz-176b (8bit quantized)",
-        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using FastChat.",
+        "model": "jais-13b-chat",
+        "description": "Locally hosted Jais Chat 13b model using FastChat.",
     }
 
 
