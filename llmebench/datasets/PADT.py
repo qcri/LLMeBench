@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class PADTDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(PADTDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -34,9 +36,16 @@ class PADTDataset(DatasetBase):
                 publisher={2004a}
             }
             """,
+            "link": "https://ufal.mff.cuni.cz/padt/PADT_1.0/docs/index.html",
+            "splits": {
+                "test": "arabic_PADT_test_gs.conll",
+                "train": "arabic_PADT_train.conll",
+            },
+            "task_type": TaskType.Other,
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": "Original sentence",
             "label": {
@@ -46,6 +55,8 @@ class PADTDataset(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
+
         data = []
         send_id = 0
         sent_lab = {}

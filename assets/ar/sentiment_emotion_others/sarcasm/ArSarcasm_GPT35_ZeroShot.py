@@ -3,19 +3,23 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import SarcasmTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"F1 (POS)": "0.465"},
+    }
+
+
 def config():
     return {
         "dataset": ArSarcasmDataset,
-        "dataset_args": {},
         "task": SarcasmTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
-            "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv"
+            "max_tries": 1,
         },
     }
 
@@ -37,24 +41,10 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    if not response:
-        return None
-
-    label = response["choices"][0]["text"]
-    content = label.strip().lower()
-    if (
-        "the tweet is not sarcastic" in content
-        or content == "not sarcastic"
-        or content == "no"
-    ):
-        return "FALSE"
-    elif (
-        content == "yes"
-        or "the tweet is sarcastic" in content
-        or content == "sarcastic"
-    ):
+    label = response["choices"][0]["text"].strip().lower()
+    if "yes" in label:
         return "TRUE"
-    else:
-        return None
+    elif "no" in label:
+        return "FALSE"
 
     return None

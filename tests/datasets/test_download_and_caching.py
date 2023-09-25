@@ -24,24 +24,14 @@ class SignalingHTTPServer(http.server.HTTPServer):
 
 
 class MockDataset(DatasetBase):
-    def metadata(self):
+    def metadata():
         return {}
 
-    def get_data_sample(self):
+    def get_data_sample():
         return {"input": "input", "label": "label"}
 
     def load_data(self, data_path):
         return [self.get_data_sample() for _ in range(100)]
-
-
-class MockDatasetWithDownloadURL(MockDataset):
-    def __init__(self, port, filename="MockDataset.zip", **kwargs):
-        self.port = port
-        self.filename = filename
-        super(MockDatasetWithDownloadURL, self).__init__(**kwargs)
-
-    def metadata(self):
-        return {"download_url": f"http://localhost:{self.port}/{self.filename}"}
 
 
 class TestDatasetAutoDownload(unittest.TestCase):
@@ -80,87 +70,98 @@ class TestDatasetAutoDownload(unittest.TestCase):
         "Test automatic downloading and extraction of *.zip datasets"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDataset(data_dir=data_dir.name)
+        dataset = MockDataset(data_dir=data_dir_path)
         self.assertTrue(
             dataset.download_dataset(
-                download_url=f"http://localhost:{self.port}/MockDataset.zip"
+                data_dir=data_dir.name,
+                download_url=f"http://localhost:{self.port}/Mock.zip",
             )
         )
 
-        self.check_downloaded(Path(data_dir.name), "MockDataset", "zip")
+        self.check_downloaded(data_dir_path, "Mock", "zip")
 
     def test_auto_download_tar(self):
         "Test automatic downloading and extraction of *.tar datasets"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDataset(data_dir=data_dir.name)
+        dataset = MockDataset(data_dir=data_dir_path)
         self.assertTrue(
             dataset.download_dataset(
-                download_url=f"http://localhost:{self.port}/MockDataset.tar"
+                data_dir=data_dir.name,
+                download_url=f"http://localhost:{self.port}/Mock.tar",
             )
         )
 
-        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar")
+        self.check_downloaded(data_dir_path, "Mock", "tar")
 
     def test_auto_download_tar_gz(self):
         "Test automatic downloading and extraction of *.tar.gz datasets"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDataset(data_dir=data_dir.name)
+        dataset = MockDataset(data_dir=data_dir_path)
         self.assertTrue(
             dataset.download_dataset(
-                download_url=f"http://localhost:{self.port}/MockDataset.tar.gz"
+                data_dir=data_dir.name,
+                download_url=f"http://localhost:{self.port}/Mock.tar.gz",
             )
         )
 
-        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar.gz")
+        self.check_downloaded(data_dir_path, "Mock", "tar.gz")
 
     def test_auto_download_tar_bz2(self):
         "Test automatic downloading and extraction of *.tar.bz2 datasets"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDataset(data_dir=data_dir.name)
+        dataset = MockDataset(data_dir=data_dir_path)
         self.assertTrue(
             dataset.download_dataset(
-                download_url=f"http://localhost:{self.port}/MockDataset.tar.bz2"
+                data_dir=data_dir.name,
+                download_url=f"http://localhost:{self.port}/Mock.tar.bz2",
             )
         )
 
-        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar.bz2")
+        self.check_downloaded(data_dir_path, "Mock", "tar.bz2")
 
     def test_auto_download_tar_xz(self):
         "Test automatic downloading and extraction of *.tar.xz datasets"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDataset(data_dir=data_dir.name)
+        dataset = MockDataset(data_dir=data_dir_path)
         self.assertTrue(
             dataset.download_dataset(
-                download_url=f"http://localhost:{self.port}/MockDataset.tar.xz"
+                data_dir=data_dir.name,
+                download_url=f"http://localhost:{self.port}/Mock.tar.xz",
             )
         )
 
-        self.check_downloaded(Path(data_dir.name), "MockDataset", "tar.xz")
+        self.check_downloaded(data_dir_path, "Mock", "tar.xz")
 
     def test_auto_download_default_url(self):
         "Test automatic downloading when download url is not provided"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDataset(data_dir=data_dir.name)
+        dataset = MockDataset(data_dir=data_dir_path)
         with patch.dict(
             "os.environ",
             {
                 "DEFAULT_DOWNLOAD_URL": f"http://localhost:{self.port}/",
             },
         ):
-            self.assertTrue(dataset.download_dataset())
+            self.assertTrue(dataset.download_dataset(data_dir=data_dir.name))
 
-        self.check_downloaded(Path(data_dir.name), "MockDataset", "zip")
+        self.check_downloaded(data_dir_path, "Mock", "zip")
 
     @patch.dict(
         "os.environ",
@@ -172,11 +173,16 @@ class TestDatasetAutoDownload(unittest.TestCase):
         "Test automatic downloading when download url is provided in metadata"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDatasetWithDownloadURL(data_dir=data_dir.name, port=self.port)
-        self.assertTrue(dataset.download_dataset())
+        class MockDatasetWithDownloadURL(MockDataset):
+            def metadata():
+                return {"download_url": f"http://localhost:{self.port}/Mock.zip"}
 
-        self.check_downloaded(Path(data_dir.name), "MockDatasetWithDownloadURL", "zip")
+        dataset = MockDatasetWithDownloadURL(data_dir=data_dir_path)
+        self.assertTrue(dataset.download_dataset(data_dir=data_dir.name))
+
+        self.check_downloaded(data_dir_path, "MockDatasetWithDownloadURL", "zip")
 
     @patch.dict(
         "os.environ",
@@ -188,13 +194,19 @@ class TestDatasetAutoDownload(unittest.TestCase):
         "Test automatic downloading when dataset is not actually available"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
-        dataset = MockDatasetWithDownloadURL(
-            data_dir=data_dir.name, port=self.port, filename="InvalidDataset.zip"
-        )
+        class MockDatasetWithDownloadURL(MockDataset):
+            def metadata():
+                return {
+                    "download_url": f"http://localhost:{self.port}/InvalidDataset.zip"
+                }
+
+        dataset = MockDatasetWithDownloadURL(data_dir=data_dir_path)
         self.assertFalse(
             dataset.download_dataset(
-                download_url="http://invalid.llmebench-server.org/Dataset.zip"
+                data_dir=data_dir.name,
+                download_url="http://invalid.llmebench-server.org/Dataset.zip",
             )
         )
 
@@ -204,17 +216,19 @@ class TestDatasetCaching(unittest.TestCase):
         "Test if an existing file _does not_ trigger a download"
 
         data_dir = TemporaryDirectory()
+        data_dir_path = Path(data_dir.name)
 
         # Copy a archive to the download location
-        archive_file = Path("tests/datasets/archives/MockDataset.zip")
-        copy_archive_file = Path(data_dir.name) / "MockDataset.zip"
+        archive_file = Path("tests/datasets/archives/Mock.zip")
+        copy_archive_file = data_dir_path / "Mock.zip"
         copy_archive_file.write_bytes(archive_file.read_bytes())
 
         # download_dataset should not reach out to the invalid server,
         # since file is present locally
-        dataset = MockDataset(data_dir=data_dir.name)
+        dataset = MockDataset(data_dir=data_dir_path)
         self.assertTrue(
             dataset.download_dataset(
-                download_url="http://invalid.llmebench-server.org/ExistingData.zip"
+                data_dir=data_dir.name,
+                download_url="http://invalid.llmebench-server.org/ExistingData.zip",
             )
         )

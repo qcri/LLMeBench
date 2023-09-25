@@ -1,12 +1,14 @@
 import csv
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ArSarcasmDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ArSarcasmDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -23,12 +25,23 @@ class ArSarcasmDataset(DatasetBase):
                 language = "English",
                 ISBN = "979-10-95546-51-1",
             }""",
+            "link": "https://github.com/iabufarha/ArSarcasm",
+            "license": "MIT License",
+            "splits": {
+                "test": "ArSarcasm_test.csv",
+                "train": "ArSarcasm_train.csv",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["TRUE", "FALSE"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "A tweet", "label": "TRUE"}
 
     def load_data(self, data_path):
+        data_path = self.resolve_path(data_path)
+
         data = []
         with open(data_path, "r", encoding="utf-8") as fp:
             reader = csv.DictReader(fp)

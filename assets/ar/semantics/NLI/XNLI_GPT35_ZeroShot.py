@@ -3,17 +3,23 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import XNLITask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Accuracy": "0.489"},
+    }
+
+
 def config():
     return {
         "dataset": XNLIDataset,
-        "dataset_args": {},
         "task": XNLITask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/XNLI/xnli.test.ar.tsv"},
     }
 
 

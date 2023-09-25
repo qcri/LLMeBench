@@ -1,14 +1,23 @@
-from llmebench.datasets import NewsCatASNDDataset
+import random
+
+from llmebench.datasets import ASNDDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.134"},
+    }
+
+
 def config():
     return {
-        "dataset": NewsCatASNDDataset,
-        "dataset_args": {},
+        "dataset": ASNDDataset,
         "task": NewsCategorizationTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [
@@ -26,9 +35,6 @@ def config():
                 "environment",
             ],
             "max_tries": 10,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv"
         },
     }
 

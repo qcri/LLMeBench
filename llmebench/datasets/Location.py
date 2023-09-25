@@ -1,10 +1,12 @@
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class LocationDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(LocationDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -15,13 +17,45 @@ class LocationDataset(DatasetBase):
                 pages={145--153},
                 year={2021}
             }""",
+            "link": "https://alt.qcri.org/resources/UL2C-UserLocationsToCountries.tsv",
+            "splits": {
+                "test": "arab+others.txt",
+                "train": "arab+others_dev.txt",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": [
+                "ae",
+                "OTHERS",
+                "bh",
+                "dz",
+                "eg",
+                "iq",
+                "jo",
+                "kw",
+                "lb",
+                "ly",
+                "ma",
+                "om",
+                "ps",
+                "qa",
+                "sa",
+                "sd",
+                "so",
+                "sy",
+                "tn",
+                "UNK",
+                "ye",
+                "mr",
+            ],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "Doha, Qatar", "label": "QA"}
 
     def load_data(self, data_path, no_labels=False):
-        # TODO: modify to iterator
+        data_path = self.resolve_path(data_path)
+
         # Format: location \t country_code
         data = []
         with open(data_path, "r") as fp:

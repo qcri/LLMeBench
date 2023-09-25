@@ -3,20 +3,24 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import CheckworthinessTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+    }
+
+
 def config():
     return {
         "dataset": CT22CheckworthinessDataset,
-        "dataset_args": {},
         "task": CheckworthinessTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["0", "1"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/checkworthyness/english/CT22_english_1A_checkworthy_test_gold.tsv"
-        },
+        "general_args": {"test_split": "en"},
     }
 
 

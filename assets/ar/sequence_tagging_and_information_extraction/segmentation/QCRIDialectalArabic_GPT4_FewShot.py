@@ -5,40 +5,34 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import ArabicSegmentationTask
 
 
-def config():
-    sets = [
-        ("egy", "egy.seg/egy.data_5.test.src.sent", "egy.seg/egy.data_5.dev.src.sent"),
-        ("glf", "glf.seg/glf.data_5.test.src.sent", "glf.seg/glf.data_5.dev.src.sent"),
-        ("mgr", "mgr.seg/mgr.data_5.test.src.sent", "mgr.seg/mgr.data_5.dev.src.sent"),
-        ("lev", "lev.seg/lev.data_5.test.src.sent", "lev.seg/lev.data_5.dev.src.sent"),
-    ]
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Accuracy (Avg)": "0.850"},
+    }
 
-    configs = []
-    for name, testset, devset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": QCRIDialectalArabicSegmentationDataset,
-                    "dataset_args": {},
-                    "task": ArabicSegmentationTask,
-                    "task_args": {},
-                    "model": OpenAIModel,
-                    "model_args": {
-                        "max_tries": 3,
-                    },
-                    "general_args": {
-                        "data_path": "data/sequence_tagging_ner_pos_etc/segmentation/"
-                        + testset,
-                        "fewshot": {
-                            "train_data_path": "data/sequence_tagging_ner_pos_etc/segmentation/"
-                            + devset
-                        },
-                    },
-                },
+
+def config():
+    return {
+        "dataset": QCRIDialectalArabicSegmentationDataset,
+        "task": ArabicSegmentationTask,
+        "model": OpenAIModel,
+        "model_args": {
+            "max_tries": 3,
+        },
+        "general_args": {
+            "fewshot": {
+                "train_split": [
+                    "glf.data_5/dev",
+                    "lev.data_5/dev",
+                    "egy.data_5/dev",
+                    "mgr.data_5/dev",
+                ],
             }
-        )
-    return configs
+        },
+    }
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):

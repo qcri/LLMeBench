@@ -3,19 +3,24 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import AttentionworthyTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Weighted-F1": "0.148"},
+    }
+
+
 def config():
     return {
         "dataset": CT22AttentionworthyDataset,
-        "dataset_args": {},
         "task": AttentionworthyTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/attentionworthy/CT22_arabic_1D_attentionworthy_test_gold.tsv"
-        },
+        "general_args": {"test_split": "ar"},
     }
 
 

@@ -3,20 +3,25 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import SubjectivityTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.428"},
+    }
+
+
 def config():
     return {
         "dataset": CT23SubjectivityDataset,
-        "dataset_args": {},
         "task": SubjectivityTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/subjectivity/dev_ar.tsv"
-        },
+        "general_args": {"test_split": "ar/dev"},
     }
 
 

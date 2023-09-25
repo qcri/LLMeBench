@@ -5,18 +5,22 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import ArabicParsingTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"UAS": "0.504"},
+    }
+
+
 def config():
     return {
         "dataset": PADTDataset,
-        "dataset_args": {},
         "task": ArabicParsingTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/Parsing/arabic_PADT_test_gs.conll"
         },
     }
 

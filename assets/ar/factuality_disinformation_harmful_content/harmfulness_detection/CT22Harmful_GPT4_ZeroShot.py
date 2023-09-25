@@ -1,28 +1,29 @@
-import random
 import re
 
 from llmebench.datasets import CT22HarmfulDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import CheckworthinessTask
+from llmebench.tasks import HarmfulDetectionTask
 
 
-random.seed(1333)
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"F1 (POS)": "0.533"},
+    }
 
 
 def config():
     return {
         "dataset": CT22HarmfulDataset,
-        "dataset_args": {},
-        "task": CheckworthinessTask,
-        "task_args": {},
+        "task": HarmfulDetectionTask,
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["0", "1"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/harmful/CT22_arabic_1C_harmful_test_gold.tsv"
-        },
+        "general_args": {"test_split": "ar"},
     }
 
 

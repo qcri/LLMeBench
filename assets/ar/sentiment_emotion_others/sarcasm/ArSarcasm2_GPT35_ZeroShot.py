@@ -1,21 +1,25 @@
-from llmebench.datasets import ArSarcasmDataset
+from llmebench.datasets import ArSarcasm2Dataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import SarcasmTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"F1 (POS)": "0.537"},
+    }
+
+
 def config():
     return {
-        "dataset": ArSarcasmDataset,
-        "dataset_args": {},
+        "dataset": ArSarcasm2Dataset,
         "task": SarcasmTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 1,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/testing_data.csv"
         },
     }
 

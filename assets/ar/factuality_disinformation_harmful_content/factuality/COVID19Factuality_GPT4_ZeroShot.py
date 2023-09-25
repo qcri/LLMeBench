@@ -3,19 +3,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import FactualityTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Weighted-F1": "0.372"},
+    }
+
+
 def config():
     return {
         "dataset": COVID19FactualityDataset,
-        "dataset_args": {},
         "task": FactualityTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["yes", "no"],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_covid19/covid19_infodemic_arabic_data_factuality_binary_test.tsv"
         },
     }
 

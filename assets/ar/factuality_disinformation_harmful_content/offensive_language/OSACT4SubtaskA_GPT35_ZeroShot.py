@@ -3,19 +3,23 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import OffensiveTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.460"},
+    }
+
+
 def config():
     return {
         "dataset": OSACT4SubtaskADataset,
-        "dataset_args": {},
         "task": OffensiveTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["OFF", "NOT_OFF"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt"
         },
     }
 

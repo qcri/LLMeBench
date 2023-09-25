@@ -3,18 +3,21 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import LemmatizationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+    }
+
+
 def config():
     return {
         "dataset": WikiNewsLemmatizationDataset,
-        "dataset_args": {},
         "task": LemmatizationTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/lemmatization/WikiNews-26-06-2015-RefLemma.txt"
         },
     }
 

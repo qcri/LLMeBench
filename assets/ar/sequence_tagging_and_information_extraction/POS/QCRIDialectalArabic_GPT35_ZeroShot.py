@@ -93,34 +93,24 @@ mapTags = {
 }
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Accuracy": "0.073"},
+    }
+
+
 def config():
-    sets = [
-        ("egy", "egy.pos/egy.data_5.test.src-trg.sent"),
-        ("glf", "glf.pos/glf.data_5.test.src-trg.sent"),
-        ("mgr", "mgr.pos/mgr.data_5.test.src-trg.sent"),
-        ("lev", "lev.pos/lev.data_5.test.src-trg.sent"),
-    ]
-    configs = []
-    for name, testset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": QCRIDialectalArabicPOSDataset,
-                    "dataset_args": {},
-                    "task": ArabicPOSTask,
-                    "task_args": {},
-                    "model": LegacyOpenAIModel,
-                    "model_args": {
-                        "max_tries": 3,
-                    },
-                    "general_args": {
-                        "data_path": f"data/sequence_tagging_ner_pos_etc/POS/{testset}"
-                    },
-                },
-            }
-        )
-    return configs
+    return {
+        "dataset": QCRIDialectalArabicPOSDataset,
+        "task": ArabicPOSTask,
+        "model": LegacyOpenAIModel,
+        "model_args": {
+            "max_tries": 3,
+        },
+    }
 
 
 def prompt(input_sample):

@@ -3,19 +3,23 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import FactualityTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.306"},
+    }
+
+
 def config():
     return {
         "dataset": UnifiedFCFactualityDataset,
-        "dataset_args": {},
         "task": FactualityTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["true", "false"],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_fact_checking.tsv"
         },
     }
 

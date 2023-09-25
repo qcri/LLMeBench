@@ -1,20 +1,24 @@
-from llmebench.datasets import Q2QSimDataset
+from llmebench.datasets import STSQ2QDataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import Q2QSimDetectionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Micro-F1": "0.816"},
+    }
+
+
 def config():
     return {
-        "dataset": Q2QSimDataset,
-        "dataset_args": {},
+        "dataset": STSQ2QDataset,
         "task": Q2QSimDetectionTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/STS/nsurl-2019-task8/test.tsv",
         },
     }
 

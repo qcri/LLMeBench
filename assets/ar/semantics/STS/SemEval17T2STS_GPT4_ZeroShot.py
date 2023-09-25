@@ -5,21 +5,22 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import STSTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"PC": "0.848"},
+    }
+
+
 def config():
     return {
         "dataset": SemEval17T2STSDataset,
-        "dataset_args": {},
         "task": STSTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": {
-                "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track2.ar-en.txt",
-                "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track2.ar-en.txt",
-            }
         },
     }
 

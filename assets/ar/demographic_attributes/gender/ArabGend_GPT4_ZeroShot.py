@@ -3,19 +3,22 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import DemographyGenderTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+    }
+
+
 def config():
     return {
         "dataset": ArabGendDataset,
-        "dataset_args": {},
         "task": DemographyGenderTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["m", "f"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/demographic_attributes/gender/gender-test.txt"
         },
     }
 

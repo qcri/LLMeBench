@@ -3,12 +3,19 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import DialectIDTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.169"},
+    }
+
+
 def config():
     return {
         "dataset": ADIDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [
@@ -26,9 +33,6 @@ def config():
                 "YEM",
             ],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv"
         },
     }
 

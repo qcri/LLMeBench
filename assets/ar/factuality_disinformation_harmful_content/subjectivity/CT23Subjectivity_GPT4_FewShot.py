@@ -3,23 +3,25 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import SubjectivityTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Macro-F1": "0.745"},
+    }
+
+
 def config():
     return {
         "dataset": CT23SubjectivityDataset,
-        "dataset_args": {},
         "task": SubjectivityTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/subjectivity/dev_ar.tsv",
-            "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/subjectivity/train_ar.tsv"
-            },
-        },
+        "general_args": {"test_split": "ar/dev", "fewshot": {"train_split": "ar"}},
     }
 
 

@@ -3,12 +3,19 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import DemographyNameInfoTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Weighted-F1": "0.626"},
+    }
+
+
 def config():
     return {
         "dataset": NameInfoDataset,
-        "dataset_args": {},
         "task": DemographyNameInfoTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -114,9 +121,6 @@ def config():
                 "kz",
             ],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/demographic_attributes/name_info/wikidata_test.txt"
         },
     }
 

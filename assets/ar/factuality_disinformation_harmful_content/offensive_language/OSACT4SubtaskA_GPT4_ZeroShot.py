@@ -3,19 +3,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import OffensiveTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.623"},
+    }
+
+
 def config():
     return {
         "dataset": OSACT4SubtaskADataset,
-        "dataset_args": {},
         "task": OffensiveTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["OFF", "NOT_OFF"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt"
         },
     }
 

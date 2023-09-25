@@ -5,12 +5,19 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import NERTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Macro F1": "0.390"},
+    }
+
+
 def config():
     return {
         "dataset": AqmarDataset,
-        "dataset_args": {},
         "task": NERTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -25,18 +32,7 @@ def config():
             ],
             "max_tries": 50,
         },
-        "general_args": {
-            "data_path": {
-                "split": "test",
-                "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-            },
-            "fewshot": {
-                "train_data_path": {
-                    "split": "dev",
-                    "path": "data/sequence_tagging_ner_pos_etc/NER/aqmar/AQMAR_Arabic_NER_corpus-1.0",
-                }
-            },
-        },
+        "general_args": {"fewshot": {"train_split": "dev"}},
     }
 
 

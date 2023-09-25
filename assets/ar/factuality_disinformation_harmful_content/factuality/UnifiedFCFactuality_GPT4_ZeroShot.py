@@ -3,19 +3,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import FactualityTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.581"},
+    }
+
+
 def config():
     return {
         "dataset": UnifiedFCFactualityDataset,
-        "dataset_args": {},
         "task": FactualityTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["true", "false"],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_fact_checking.tsv"
         },
     }
 

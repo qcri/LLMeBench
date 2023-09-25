@@ -1,24 +1,25 @@
-from llmebench.datasets import ArSarcasmDataset
+from llmebench.datasets import ArSarcasm2Dataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import SarcasmTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"F1 (POS)": "0.537"},
+    }
+
+
 def config():
     return {
-        "dataset": ArSarcasmDataset,
-        "dataset_args": {},
+        "dataset": ArSarcasm2Dataset,
         "task": SarcasmTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/testing_data.csv",
-            "fewshot": {
-                "train_data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm2/training_data.csv",
-            },
         },
     }
 

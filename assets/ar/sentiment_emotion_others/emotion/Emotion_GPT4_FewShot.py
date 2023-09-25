@@ -3,12 +3,19 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import EmotionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Jaccard similarity": "0.489"},
+    }
+
+
 def config():
     return {
         "dataset": EmotionDataset,
-        "dataset_args": {},
         "task": EmotionTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -24,12 +31,6 @@ def config():
                 "trust",
             ],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/emotion/test-gold.txt",
-            "fewshot": {
-                "train_data_path": "data/sentiment_emotion_others/emotion/train.txt",
-            },
         },
     }
 

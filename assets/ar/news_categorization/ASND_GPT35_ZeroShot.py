@@ -1,14 +1,21 @@
-from llmebench.datasets import NewsCatASNDDataset
+from llmebench.datasets import ASNDDataset
 from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.512"},
+    }
+
+
 def config():
     return {
-        "dataset": NewsCatASNDDataset,
-        "dataset_args": {},
+        "dataset": ASNDDataset,
         "task": NewsCategorizationTask,
-        "task_args": {"test": "useless"},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [
@@ -26,9 +33,6 @@ def config():
                 "environment",
             ],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv"
         },
     }
 

@@ -3,17 +3,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import XNLITask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Accuracy": "0.753"},
+    }
+
+
 def config():
     return {
         "dataset": XNLIDataset,
-        "dataset_args": {},
         "task": XNLITask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/XNLI/xnli.test.ar.tsv"},
     }
 
 

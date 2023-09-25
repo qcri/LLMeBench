@@ -3,19 +3,22 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import SentimentTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+    }
+
+
 def config():
     return {
         "dataset": BanglaSentimentDataset,
-        "dataset_args": {},
         "task": SentimentTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["Positive", "Negative", "Neutral"],
             "max_tries": 10,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sentiment/bn/bn_all_test.tsv"
         },
     }
 

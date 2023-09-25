@@ -3,12 +3,19 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import DemographyLocationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.118"},
+    }
+
+
 def config():
     return {
         "dataset": LocationDataset,
-        "dataset_args": {},
         "task": DemographyLocationTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [
@@ -36,9 +43,6 @@ def config():
                 "mr",
             ],
             "max_tries": 2,
-        },
-        "general_args": {
-            "data_path": "data/demographic_attributes/location/arab+others.txt"
         },
     }
 

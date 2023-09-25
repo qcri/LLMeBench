@@ -3,22 +3,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import SarcasmTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"F1 (POS)": "0.504"},
+    }
+
+
 def config():
     return {
         "dataset": ArSarcasmDataset,
-        "dataset_args": {},
         "task": SarcasmTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv",
-            "fewshot": {
-                "train_data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_train.csv",
-            },
         },
     }
 

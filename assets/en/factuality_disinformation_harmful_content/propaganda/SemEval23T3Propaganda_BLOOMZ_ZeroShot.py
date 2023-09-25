@@ -5,14 +5,19 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import MultilabelPropagandaTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+    }
+
+
 def config():
     return {
         "dataset": SemEval23T3PropagandaDataset,
-        "dataset_args": {
-            "techniques_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/techniques_subtask3.txt"
-        },
+        "dataset_args": {"techniques_path": "techniques_subtask3.txt"},
         "task": MultilabelPropagandaTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [
@@ -43,9 +48,7 @@ def config():
             ],
             "max_tries": 3,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/en_dev_subtask3.json"
-        },
+        "general_args": {"test_split": "en/dev"},
     }
 
 

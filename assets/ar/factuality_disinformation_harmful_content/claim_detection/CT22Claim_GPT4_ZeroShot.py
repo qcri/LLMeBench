@@ -1,22 +1,27 @@
-from llmebench.datasets import CT22CheckworthinessDataset
+from llmebench.datasets import CT22ClaimDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import CheckworthinessTask
+from llmebench.tasks import ClaimDetectionTask
+
+
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Accuracy": "0.587"},
+    }
 
 
 def config():
     return {
-        "dataset": CT22CheckworthinessDataset,
-        "dataset_args": {},
-        "task": CheckworthinessTask,
-        "task_args": {},
+        "dataset": CT22ClaimDataset,
+        "task": ClaimDetectionTask,
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["0", "1"],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/claim_covid19/CT22_arabic_1B_claim_test_gold.tsv"
-        },
+        "general_args": {"test_split": "ar"},
     }
 
 

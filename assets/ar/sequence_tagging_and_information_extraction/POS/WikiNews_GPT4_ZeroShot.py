@@ -93,18 +93,22 @@ mapTags = {
 }
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Accuracy": "0.479"},
+    }
+
+
 def config():
     return {
         "dataset": WikiNewsPOSDataset,
-        "dataset_args": {},
         "task": ArabicPOSTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/POS/WikiNewsTruth.txt.POS.tab"
         },
     }
 

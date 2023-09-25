@@ -5,21 +5,22 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import STSTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"PC": "0.537"},
+    }
+
+
 def config():
     return {
         "dataset": SemEval17T1STSDataset,
-        "dataset_args": {},
         "task": STSTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": {
-                "sentences_path": "data/STS/semeval-2017/STS2017.eval.v1.1/STS.input.track1.ar-ar.txt",
-                "gt_data_path": "data/STS/semeval-2017/STS2017.gs/STS.gs.track1.ar-ar.txt",
-            }
         },
     }
 

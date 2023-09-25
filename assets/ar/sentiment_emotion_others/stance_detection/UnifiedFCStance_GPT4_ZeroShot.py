@@ -5,18 +5,22 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import StanceTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.495"},
+    }
+
+
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
-        "dataset_args": {},
         "task": StanceTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl"
         },
     }
 

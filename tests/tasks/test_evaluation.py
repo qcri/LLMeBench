@@ -17,9 +17,13 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
                 config = asset["config"]
-                dataset = config["dataset"](**config["dataset_args"])
+                dataset_args = config.get("dataset_args", {})
+                dataset_args["data_dir"] = ""
+                dataset = config["dataset"](**dataset_args)
                 data_sample = dataset.get_data_sample()
-                task = config["task"](dataset=dataset, **config["task_args"])
+
+                task_args = config.get("task_args", {})
+                task = config["task"](dataset=dataset, **task_args)
                 try:
                     task.evaluate([data_sample["label"]], [None])
                 except Exception as e:
@@ -36,9 +40,13 @@ class TestAssetsTaskEvaluation(unittest.TestCase):
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
                 config = asset["config"]
-                dataset = config["dataset"](**config["dataset_args"])
+                dataset_args = config.get("dataset_args", {})
+                dataset_args["data_dir"] = ""
+                dataset = config["dataset"](**dataset_args)
                 data_sample = dataset.get_data_sample()
-                task = config["task"](dataset=dataset, **config["task_args"])
+
+                task_args = config.get("task_args", {})
+                task = config["task"](dataset=dataset, **task_args)
                 evaluation_scores = task.evaluate(
                     [data_sample["label"]], [data_sample["label"]]
                 )

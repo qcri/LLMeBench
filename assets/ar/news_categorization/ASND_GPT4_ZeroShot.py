@@ -1,14 +1,21 @@
-from llmebench.datasets import NewsCatASNDDataset
+from llmebench.datasets import ASNDDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import NewsCategorizationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.667"},
+    }
+
+
 def config():
     return {
-        "dataset": NewsCatASNDDataset,
-        "dataset_args": {},
+        "dataset": ASNDDataset,
         "task": NewsCategorizationTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -26,9 +33,6 @@ def config():
                 "environment",
             ],
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv"
         },
     }
 

@@ -1,22 +1,26 @@
 import re
 
-from llmebench.datasets import Q2QSimDataset
+from llmebench.datasets import STSQ2QDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import Q2QSimDetectionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Micro-F1": "0.910"},
+    }
+
+
 def config():
     return {
-        "dataset": Q2QSimDataset,
-        "dataset_args": {},
+        "dataset": STSQ2QDataset,
         "task": Q2QSimDetectionTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/STS/nsurl-2019-task8/test.tsv",
         },
     }
 

@@ -3,21 +3,26 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import AdultTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Macro-F1": "0.832"},
+    }
+
+
 def config():
     return {
         "dataset": AdultDataset,
-        "dataset_args": {},
         "task": AdultTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["ADULT", "NOT_ADULT"],
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
             "fewshot": {
-                "train_data_path": "data/factuality_disinformation_harmful_content/adult/adult-train.tsv",
                 "deduplicate": True,
             },
         },

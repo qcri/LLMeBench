@@ -3,19 +3,23 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import StanceTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.232"},
+    }
+
+
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
-        "dataset_args": {},
         "task": StanceTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["agree", "disagree", "unrelated"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl"
         },
     }
 

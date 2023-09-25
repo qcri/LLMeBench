@@ -3,32 +3,24 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import ArabicDiacritizationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"WER": "0.899"},
+    }
+
+
 def config():
-    sets = [
-        ("mor", "morrocan_f05.test.src-tgt.txt"),
-        ("tun", "tunisian_f05.test.src-tgt.txt"),
-    ]
-    configs = []
-    for name, testset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": BibleMaghrebiDiacritizationDataset,
-                    "dataset_args": {},
-                    "task": ArabicDiacritizationTask,
-                    "task_args": {},
-                    "model": OpenAIModel,
-                    "model_args": {
-                        "max_tries": 3,
-                    },
-                    "general_args": {
-                        "data_path": f"data/sequence_tagging_ner_pos_etc/diacritization/{testset}"
-                    },
-                },
-            }
-        )
-    return configs
+    return {
+        "dataset": BibleMaghrebiDiacritizationDataset,
+        "task": ArabicDiacritizationTask,
+        "model": OpenAIModel,
+        "model_args": {
+            "max_tries": 3,
+        },
+    }
 
 
 def prompt(input_sample):

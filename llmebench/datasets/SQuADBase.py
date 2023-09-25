@@ -7,7 +7,8 @@ class SQuADBase(DatasetBase):
     def __init__(self, **kwargs):
         super(SQuADBase, self).__init__(**kwargs)
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {
             "input": {
                 "context": "context for the questions. Usually a snippet of a wikipedia article",
@@ -18,6 +19,7 @@ class SQuADBase(DatasetBase):
         }
 
     def load_data(self, data_path, no_labels=False):
+        data_path = self.resolve_path(data_path)
         data = []
 
         with open(data_path, "r") as reader:

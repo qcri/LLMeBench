@@ -3,19 +3,23 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import StanceTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.235"},
+    }
+
+
 def config():
     return {
         "dataset": UnifiedFCStanceDataset,
-        "dataset_args": {},
         "task": StanceTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["agree", "disagree", "discuss", "unrelated"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/factuality_stance_ramy/ramy_arabic_stance.jsonl"
         },
     }
 

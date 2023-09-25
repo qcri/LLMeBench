@@ -5,12 +5,19 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import NERTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.504"},
+    }
+
+
 def config():
     return {
         "dataset": MGBWordsDataset,
-        "dataset_args": {},
         "task": NERTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -25,9 +32,6 @@ def config():
                 "O",
             ],
             "max_tries": 150,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/mgb/MGB-words.txt"
         },
     }
 

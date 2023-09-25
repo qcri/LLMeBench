@@ -3,12 +3,18 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import DemographyLocationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+    }
+
+
 def config():
     return {
         "dataset": LocationDataset,
-        "dataset_args": {},
         "task": DemographyLocationTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -38,9 +44,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/demographic_attributes/location/arab+others.txt",
             "fewshot": {
-                "train_data_path": "data/demographic_attributes/location/arab+others.txt",  # TODO need to change the file
                 "deduplicate": False,
             },
         },

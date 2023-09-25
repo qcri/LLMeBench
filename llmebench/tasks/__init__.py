@@ -1,3 +1,5 @@
+from enum import Enum
+
 from .Adult import AdultTask
 from .ArabicDiacritization import ArabicDiacritizationTask
 from .ArabicParsing import ArabicParsingTask
@@ -29,3 +31,16 @@ from .Stance import StanceTask
 from .STS import STSTask
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
+
+TaskType = Enum(
+    "TaskType",
+    [
+        "Classification",
+        "MultiLabelClassification",
+        "SequenceLabeling",
+        "QuestionAnswering",
+        "SequenceToSequence",
+        "Regression",
+        "Other",
+    ],
+)

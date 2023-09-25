@@ -5,19 +5,23 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import SarcasmTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"F1 (POS)": "0.286"},
+    }
+
+
 def config():
     return {
         "dataset": ArSarcasmDataset,
-        "dataset_args": {},
         "task": SarcasmTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv"
         },
     }
 

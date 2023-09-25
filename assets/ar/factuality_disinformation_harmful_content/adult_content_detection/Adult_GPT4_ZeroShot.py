@@ -3,19 +3,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import AdultTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": "0.727"},
+    }
+
+
 def config():
     return {
         "dataset": AdultDataset,
-        "dataset_args": {},
         "task": AdultTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["ADULT", "NOT_ADULT"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv"
         },
     }
 

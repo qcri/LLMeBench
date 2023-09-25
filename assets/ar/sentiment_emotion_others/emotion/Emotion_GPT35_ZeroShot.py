@@ -3,12 +3,19 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import EmotionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Jaccard similarity": "0.395"},
+    }
+
+
 def config():
     return {
         "dataset": EmotionDataset,
-        "dataset_args": {},
         "task": EmotionTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [
@@ -24,9 +31,6 @@ def config():
                 "trust",
             ],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/emotion/test-gold.txt"
         },
     }
 

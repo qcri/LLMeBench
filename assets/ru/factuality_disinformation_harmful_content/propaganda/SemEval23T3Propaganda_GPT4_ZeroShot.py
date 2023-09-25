@@ -5,14 +5,19 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+    }
+
+
 def config():
     return {
         "dataset": SemEval23T3PropagandaDataset,
-        "dataset_args": {
-            "techniques_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/techniques_subtask3.txt"
-        },
+        "dataset_args": {"techniques_path": "techniques_subtask3.txt"},
         "task": MultilabelPropagandaTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -43,9 +48,7 @@ def config():
             ],
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/propaganda_semeval23/ru_dev_subtask3.json",
-        },
+        "general_args": {"test_split": "ru/dev"},
     }
 
 

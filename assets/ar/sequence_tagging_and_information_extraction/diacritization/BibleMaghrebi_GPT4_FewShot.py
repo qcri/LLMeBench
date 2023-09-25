@@ -3,37 +3,29 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import ArabicDiacritizationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"WER": "0.994"},
+    }
+
+
 def config():
-    sets = [
-        ("mor", "morrocan_f05.test.src-trg.txt", "morrocan_f05.dev.src-trg.txt"),
-        ("tun", "tunisian_f05.test.src-trg.txt", "tunisian_f05.dev.src-trg.txt"),
-    ]
-    configs = []
-    for name, testset, devset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": BibleMaghrebiDiacritizationDataset,
-                    "dataset_args": {},
-                    "task": ArabicDiacritizationTask,
-                    "task_args": {},
-                    "model": OpenAIModel,
-                    "model_args": {
-                        "max_tries": 3,
-                    },
-                    "general_args": {
-                        "data_path": "data/sequence_tagging_ner_pos_etc/diacritization/"
-                        + testset,
-                        "fewshot": {
-                            "train_data_path": "data/sequence_tagging_ner_pos_etc/diacritization/"
-                            + devset
-                        },
-                    },
-                },
+    return {
+        "dataset": BibleMaghrebiDiacritizationDataset,
+        "task": ArabicDiacritizationTask,
+        "model": OpenAIModel,
+        "model_args": {
+            "max_tries": 3,
+        },
+        "general_args": {
+            "fewshot": {
+                "train_split": ["morrocan_f05/dev", "tunisian_f05/dev"],
             }
-        )
-    return configs
+        },
+    }
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):

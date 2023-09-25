@@ -5,22 +5,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import SentimentTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Macro-F1": "0.598"},
+    }
+
+
 def config():
     return {
         "dataset": ArSASDataset,
-        "dataset_args": {},
         "task": SentimentTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sentiment/ArSAS-test.txt",
-            "fewshot": {
-                "train_data_path": "data/sentiment_emotion_others/sentiment/ArSAS-train.txt",
-            },
         },
     }
 

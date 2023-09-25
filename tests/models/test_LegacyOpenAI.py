@@ -24,7 +24,9 @@ class TestAssetsForLegacyOpenAIPrompts(unittest.TestCase):
         for asset in self.assets:
             with self.subTest(msg=asset["name"]):
                 config = asset["config"]
-                dataset = config["dataset"](**config["dataset_args"])
+                dataset_args = config.get("dataset_args", {})
+                dataset_args["data_dir"] = ""
+                dataset = config["dataset"](**dataset_args)
                 data_sample = dataset.get_data_sample()
                 if "fewshot" in config["general_args"]:
                     prompt = asset["module"].prompt(

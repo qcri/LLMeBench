@@ -3,33 +3,24 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import ArabicDiacritizationTask
 
 
-def config():
-    sets = [
-        ("mor", "morrocan_f05.test.src-tgt.txt"),
-        ("tun", "tunisian_f05.test.src-tgt.txt"),
-    ]
-    configs = []
-    for name, testset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": BibleMaghrebiDiacritizationDataset,
-                    "dataset_args": {},
-                    "task": ArabicDiacritizationTask,
-                    "task_args": {},
-                    "model": LegacyOpenAIModel,
-                    "model_args": {
-                        "max_tries": 3,
-                    },
-                    "general_args": {
-                        "data_path": f"data/sequence_tagging_ner_pos_etc/diacritization/{testset}"
-                    },
-                },
-            }
-        )
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"WER": "0.928"},
+    }
 
-    return configs
+
+def config():
+    return {
+        "dataset": BibleMaghrebiDiacritizationDataset,
+        "task": ArabicDiacritizationTask,
+        "model": LegacyOpenAIModel,
+        "model_args": {
+            "max_tries": 3,
+        },
+    }
 
 
 def prompt(input_sample):

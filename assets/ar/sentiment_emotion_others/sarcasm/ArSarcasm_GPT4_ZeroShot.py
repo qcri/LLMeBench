@@ -3,19 +3,23 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import SarcasmTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"F1 (POS)": "0.400"},
+    }
+
+
 def config():
     return {
         "dataset": ArSarcasmDataset,
-        "dataset_args": {},
         "task": SarcasmTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["TRUE", "FALSE"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/sarcasm/ArSarcasm/ArSarcasm_test.csv"
         },
     }
 
@@ -24,29 +28,27 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "## INSTRUCTION\nYou are an expert in sarcasm detection.\n\n",
+            "content": "You are an expert in sarcasm detection.\n\n",
         },
         {
             "role": "user",
-            "content": 'You are an AI assistant, an expert at detecting sarcasm in text. Say yes if the tweet is sarcastic and say no if the tweet is not sarcastic: "'
-            + input_sample
-            + '"',
+            "content": (
+                'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic '
+                'and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: '
+                + input_sample
+                + "\n"
+                "label: \n"
+            ),
         },
     ]
 
 
 def post_process(response):
-    content = response["choices"][0]["message"]["content"].lower()
-
-    if (
-        content.startswith("no")
-        or "\nNo" in content
-        or "tweet is not sarcastic" in content
-        or "answer is no" in content
-        or "would say no" in content
-    ):
-        return "FALSE"
-    elif content == "yes" or content == "نعم":
+    content = response["choices"][0]["message"]["content"]
+    content = content.strip().lower()
+    if "yes" in content:
         return "TRUE"
-    else:
-        return None
+    elif "no" in content:
+        return "FALSE"
+
+    return None

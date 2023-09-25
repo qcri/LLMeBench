@@ -3,12 +3,19 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import DialectIDTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Macro-F1": "0.260"},
+    }
+
+
 def config():
     return {
         "dataset": ADIDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "class_labels": [
@@ -28,11 +35,7 @@ def config():
             "max_tries": 30,
         },
         "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/all_v2.tsv",
-            "fewshot": {
-                "train_data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/fewshot_dev.tsv",  # TODO update
-                "deduplicate": False,
-            },
+            "fewshot": {"deduplicate": False, "train_split": "dev"},
         },
     }
 

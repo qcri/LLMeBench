@@ -5,18 +5,22 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import ArabicSegmentationTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Accuracy": "0.195"},
+    }
+
+
 def config():
     return {
         "dataset": WikiNewsSegmentationDataset,
-        "dataset_args": {},
         "task": ArabicSegmentationTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/segmentation/WikiNewsTruth.txt"
         },
     }
 

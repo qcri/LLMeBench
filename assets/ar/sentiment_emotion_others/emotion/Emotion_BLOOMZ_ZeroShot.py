@@ -3,12 +3,19 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import EmotionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Jaccard similarity": "0.142"},
+    }
+
+
 def config():
     return {
         "dataset": EmotionDataset,
-        "dataset_args": {},
         "task": EmotionTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [
@@ -24,9 +31,6 @@ def config():
                 "trust",
             ],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/sentiment_emotion_others/emotion/test-gold.txt"
         },
     }
 

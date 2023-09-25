@@ -1,22 +1,26 @@
 import re
 
-from llmebench.datasets import Q2QSimDataset
+from llmebench.datasets import STSQ2QDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import Q2QSimDetectionTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Micro-F1": "0.895"},
+    }
+
+
 def config():
     return {
-        "dataset": Q2QSimDataset,
-        "dataset_args": {},
+        "dataset": STSQ2QDataset,
         "task": Q2QSimDetectionTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/STS/nsurl-2019-task8/test.tsv",
         },
     }
 

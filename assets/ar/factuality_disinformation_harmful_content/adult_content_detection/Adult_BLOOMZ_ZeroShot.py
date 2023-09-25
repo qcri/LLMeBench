@@ -3,19 +3,23 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import AdultTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.513"},
+    }
+
+
 def config():
     return {
         "dataset": AdultDataset,
-        "dataset_args": {},
         "task": AdultTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["ADULT", "NOT_ADULT"],
             "max_tries": 10,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/adult/adult-test.tsv",
         },
     }
 

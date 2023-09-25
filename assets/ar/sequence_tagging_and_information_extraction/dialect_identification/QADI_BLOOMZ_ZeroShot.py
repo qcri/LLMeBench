@@ -3,12 +3,19 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import DialectIDTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.067"},
+    }
+
+
 def config():
     return {
         "dataset": QADIDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": [
@@ -33,9 +40,6 @@ def config():
                 "MA",
             ],
             "max_tries": 0,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/dialect_identification/QADI_test-PalestinePS-corrected.txt",
         },
     }
 

@@ -93,53 +93,34 @@ mapTags = {
 }
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Accuracy": "0.323"},
+    }
+
+
 def config():
-    sets = [
-        (
-            "egy",
-            "egy.pos/egy.data_5.test.src-trg.sent",
-            "egy.pos/egy.data_5.dev.src-trg.sent",
-        ),
-        (
-            "glf",
-            "glf.pos/glf.data_5.test.src-trg.sent",
-            "glf.pos/glf.data_5.dev.src-trg.sent",
-        ),
-        (
-            "mgr",
-            "mgr.pos/mgr.data_5.test.src-trg.sent",
-            "mgr.pos/mgr.data_5.dev.src-trg.sent",
-        ),
-        (
-            "lev",
-            "lev.pos/lev.data_5.test.src-trg.sent",
-            "lev.pos/lev.data_5.dev.src-trg.sent",
-        ),
-    ]
-    configs = []
-    for name, testset, devset in sets:
-        configs.append(
-            {
-                "name": name,
-                "config": {
-                    "dataset": QCRIDialectalArabicPOSDataset,
-                    "dataset_args": {},
-                    "task": ArabicPOSTask,
-                    "task_args": {},
-                    "model": OpenAIModel,
-                    "model_args": {
-                        "max_tries": 30,
-                    },
-                    "general_args": {
-                        "data_path": f"data/sequence_tagging_ner_pos_etc/POS/{testset}",
-                        "fewshot": {
-                            "train_data_path": f"data/sequence_tagging_ner_pos_etc/POS/{devset}"
-                        },
-                    },
-                },
+    return {
+        "dataset": QCRIDialectalArabicPOSDataset,
+        "task": ArabicPOSTask,
+        "model": OpenAIModel,
+        "model_args": {
+            "max_tries": 30,
+        },
+        "general_args": {
+            "fewshot": {
+                "train_split": [
+                    "glf.data_5/dev",
+                    "lev.data_5/dev",
+                    "egy.data_5/dev",
+                    "mgr.data_5/dev",
+                ],
             }
-        )
-    return configs
+        },
+    }
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):

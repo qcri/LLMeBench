@@ -7,19 +7,22 @@ from llmebench.tasks import QATask
 random.seed(3333)
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"F1": "0.704"},
+    }
+
+
 def config():
     return {
         "dataset": ARCDDataset,
-        "dataset_args": {},
         "task": QATask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/QA/arcd/arcd-test.json",
-            "fewshot": {"train_data_path": "data/QA/arcd/arcd-train.json"},
         },
     }
 

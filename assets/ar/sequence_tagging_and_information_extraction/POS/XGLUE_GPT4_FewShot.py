@@ -93,22 +93,24 @@ mapTags = {
 }
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Accuracy": "0.524"},
+    }
+
+
 def config():
     return {
         "dataset": XGLUEPOSDataset,
-        "dataset_args": {},
         "task": ArabicPOSTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 30,
         },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.test.src-trg.txt",
-            "fewshot": {
-                "train_data_path": "data/sequence_tagging_ner_pos_etc/POS/XGLUE/ar.dev.src-trg.txt"
-            },
-        },
+        "general_args": {"fewshot": {"train_split": "dev"}},
     }
 
 

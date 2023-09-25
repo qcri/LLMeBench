@@ -3,19 +3,23 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import OffensiveTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": "0.533"},
+    }
+
+
 def config():
     return {
         "dataset": OSACT4SubtaskADataset,
-        "dataset_args": {},
         "task": OffensiveTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["OFF", "NOT_OFF"],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/offensive_language/OSACT2020-sharedTask-test-tweets-labels.txt"
         },
     }
 

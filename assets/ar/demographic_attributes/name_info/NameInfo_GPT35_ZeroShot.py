@@ -3,12 +3,19 @@ from llmebench.models import LegacyOpenAIModel
 from llmebench.tasks import DemographyNameInfoTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-35-turbo (version 0301)",
+        "description": "GPT35 model hosted on Azure, using the Completion API. API version '2023-03-15-preview'.",
+        "scores": {"Weighted-F1": "0.570"},
+    }
+
+
 def config():
     return {
         "dataset": NameInfoDataset,
-        "dataset_args": {},
         "task": DemographyNameInfoTask,
-        "task_args": {},
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": [
@@ -114,9 +121,6 @@ def config():
                 "kz",
             ],
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/demographic_attributes/name_info/wikidata_test.txt",
         },
     }
 
