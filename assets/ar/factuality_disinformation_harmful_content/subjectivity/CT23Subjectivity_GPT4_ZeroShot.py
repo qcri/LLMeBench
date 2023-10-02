@@ -1,5 +1,3 @@
-import re
-
 from llmebench.datasets import CT23SubjectivityDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import SubjectivityTask
@@ -9,8 +7,8 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Macro-F1": "0.677"},
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"Macro-F1": "0.725"},
     }
 
 
@@ -19,24 +17,20 @@ def config():
         "dataset": CT23SubjectivityDataset,
         "task": SubjectivityTask,
         "model": OpenAIModel,
-        "model_args": {
-            "class_labels": ["SUBJ", "OBJ"],
-            "max_tries": 30,
-        },
         "general_args": {"test_split": "ar/dev"},
     }
 
 
 def prompt(input_sample):
     prompt_string = (
-        f'Annotate the "sentence" as subjective or objective\n\n'
-        f"tweet: {input_sample}\n"
-        f"label: \n"
+        f"صنف الجملة إلى لاموضوعية أو موضوعية.\n\n"
+        f"التغريدة: {input_sample}\n"
+        f"التصنيف: \n"
     )
     return [
         {
             "role": "system",
-            "content": "You are an expert annotator, who can analyze the information in the sentence and determine whether the sentence is subjective or objective.",  # You are capable of identifying and annotating tweets correct or incorrect
+            "content": "أنت خبير في تصنيف النصوص، ويمكنك تحليل المعلومات الموجودة في الجملة وتحديد ما إذا كانت الجملة موضوعية أم لاموضوعية.",
         },
         {
             "role": "user",
@@ -48,14 +42,12 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
 
-    if "label: objective" in label:
-        label_fixed = "OBJ"
-    elif "label: subjective" in label:
+    if "لاموضوعية" in label:
         label_fixed = "SUBJ"
-    elif label == "objective" or label == "objective.":
+    elif (
+        label == "موضوعية" or label == "التصنيف: موضوعية" or "التصنيف: موضوعية" in label
+    ):
         label_fixed = "OBJ"
-    elif label == "subjective" or label == "subjective.":
-        label_fixed = "SUBJ"
     else:
         label_fixed = None
 
