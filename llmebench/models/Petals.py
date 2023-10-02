@@ -127,6 +127,6 @@ class PetalsModel(ModelBase):
                 if not response["ok"]:
                     raise PetalsFailure("processing", response["traceback"])
             else:
-                raise PetalsFailure(connect_message["traceback"])
+                raise PetalsFailure("connection", connect_message["traceback"])
 
         return response
