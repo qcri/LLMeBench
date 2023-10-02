@@ -10,7 +10,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.prompts.example_selector import MaxMarginalRelevanceExampleSelector
 from langchain.vectorstores import FAISS
 
-from pooch import Decompress, Pooch, retrieve, Untar, Unzip
+from pooch import Decompress, HTTPDownloader, Pooch, retrieve, Untar, Unzip
 
 import llmebench.utils as utils
 
@@ -319,7 +319,7 @@ class DatasetBase(ABC):
             yield examples
 
     @classmethod
-    def download_dataset(cls, data_dir, download_url=None):
+    def download_dataset(cls, data_dir, download_url=None, default_url=None):
         """
         Utility method to download a dataset if not present locally on disk.
         Can handle datasets of types *.zip, *.tar, *.tar.gz, *.tar.bz2, *.tar.xz.
@@ -420,7 +420,6 @@ class DatasetBase(ABC):
         if metadata_url is not None:
             download_urls.append(metadata_url)
 
-        default_url = os.getenv("DEFAULT_DOWNLOAD_URL")
         if default_url is not None:
             if default_url.endswith("/"):
                 default_url = default_url[:-1]
@@ -454,6 +453,9 @@ class DatasetBase(ABC):
                     path=data_dir,
                     progressbar=True,
                     processor=decompress,
+                    downloader=HTTPDownloader(
+                        headers={"User-Agent": "curl/8.1.2", "Accept": "*/*"}
+                    ),
                 )
                 # If it was a *.tar.* file, we can safely delete the
                 # intermediate *.tar file
@@ -465,7 +467,9 @@ class DatasetBase(ABC):
                 logging.warning(f"Failed to download: {e}")
                 continue
 
-        logging.warning(f"Failed to download dataset")
+        logging.warning(
+            f"Failed to download dataset, tried the following urls: {', '.join(download_urls)}"
+        )
 
         return False
 

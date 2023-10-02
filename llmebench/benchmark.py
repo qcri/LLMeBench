@@ -325,8 +325,8 @@ class Benchmark(object):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("benchmark_dir", type=Path)
-    parser.add_argument("results_dir", type=Path)
+    parser.add_argument("benchmark_dir", nargs="?", type=Path)
+    parser.add_argument("results_dir", nargs="?", type=Path)
     parser.add_argument(
         "-f",
         "--filter",
@@ -355,8 +355,8 @@ def main():
         " few shots. Existing cache will be ignored and overwritten.",
     )
 
-    group = parser.add_argument_group("Data")
-    group.add_argument(
+    data_args = parser.add_argument_group("Data")
+    data_args.add_argument(
         "--data_dir",
         default="data/",
         type=Path,
@@ -364,8 +364,21 @@ def main():
         " using this as the base path",
     )
 
-    group = parser.add_argument_group("Few Shot Experiments")
-    group.add_argument(
+    data_args.add_argument(
+        "--download_server",
+        type=str,
+        default="https://llmebench.qcri.org/data/",
+        help="URL to server containing dataset archives",
+    )
+
+    data_args.add_argument(
+        "--download",
+        type=str,
+        help="Download the dataset with the given name (e.g Aqmar)",
+    )
+
+    few_shot_args = parser.add_argument_group("Few Shot Experiments")
+    few_shot_args.add_argument(
         "-n",
         "--n_shots",
         default=0,
@@ -386,6 +399,26 @@ def main():
 
     if args.env:
         load_dotenv(args.env)
+
+    if args.download:
+        dataset_name = args.download
+        if not dataset_name.endswith("Dataset"):
+            dataset_name = f"{dataset_name}Dataset"
+        try:
+            mod = __import__("llmebench.datasets", fromlist=[dataset_name])
+            dataset = getattr(mod, dataset_name)
+        except AttributeError:
+            logging.error(f"{dataset_name} not found in llmebench.datasets)")
+            return
+        dataset.download_dataset(args.data_dir, default_url=args.download_server)
+        return
+    else:
+        if args.benchmark_dir is None or args.results_dir is None:
+            logging.error(parser.print_usage())
+            logging.error(
+                "The following arguments are required: benchmark_dir, results_dir"
+            )
+            return
 
     benchmark = Benchmark(args.benchmark_dir)
 
