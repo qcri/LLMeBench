@@ -1,5 +1,3 @@
-import random
-
 from llmebench.datasets import ASNDDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import NewsCategorizationTask
@@ -9,8 +7,8 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "bloomz-176b (8bit quantized)",
-        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
-        "scores": {"Macro-F1": "0.134"},
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals. Improved prompt with length limit removed from previous version.",
+        "scores": {"Macro-F1": "0.371"},
     }
 
 
@@ -19,42 +17,18 @@ def config():
         "dataset": ASNDDataset,
         "task": NewsCategorizationTask,
         "model": PetalsModel,
-        "model_args": {
-            "class_labels": [
-                "crime-war-conflict",
-                "spiritual",
-                "health",
-                "politics",
-                "human-rights-press-freedom",
-                "education",
-                "business-and-economy",
-                "art-and-entertainment",
-                "others",
-                "science-and-technology",
-                "sports",
-                "environment",
-            ],
-            "max_tries": 10,
-        },
     }
 
 
 def prompt(input_sample):
-    arr = input_sample.split()
-
-    if len(arr) > 1000:
-        article = " ".join(arr[:1000])
-    else:
-        article = " ".join(arr)
-
     prompt_string = (
-        f"You are an expert news editor and know how to categorize news articles.\n\n"
+        f"You are an expert news editor and know how to categorize news tweets.\n\n"
         f"Categorize the following tweet into one of the following categories: "
         f"crime-war-conflict, spiritual, health, politics, human-rights-press-freedom, "
         f"education, business-and-economy, art-and-entertainment, others, "
         f"science-and-technology, sports, environment\n"
         f"Provide only label and in English.\n\n"
-        f"\ntweet: {article}"
+        f"\ntweet: {input_sample}"
         f"\ncategory: \n"
     )
 
@@ -66,21 +40,30 @@ def post_process(response):
     label = label.replace("<s>", "")
     label = label.replace("</s>", "")
 
-    label_fixed = label.lower()
-    label_fixed = label_fixed.replace("category: ", "")
-    label_fixed = label_fixed.replace("science/physics", "tech")
-    label_fixed = label_fixed.replace("health/nutrition", "medical")
-    if len(label_fixed.split("\s+")) > 1:
-        label_fixed = label_fixed.split("\s+")[0]
-    label_fixed = random.choice(label_fixed.split("/")).strip()
-    if "science/physics" in label_fixed:
-        label_fixed = label_fixed.replace("science/physics", "tech")
-    elif "science and technology" in label:
-        label_fixed = "tech"
-    elif label_fixed.startswith("culture"):
-        label_fixed = label_fixed.split("(")[0]
-
-        label_fixed = label_fixed.replace("culture.", "culture")
+    if "crime-war-conflict" in label or "war" in label:
+        label_fixed = "crime-war-conflict"
+    elif "spiritual" in label:
+        label_fixed = "spiritual"
+    elif "health" in label:
+        label_fixed = "health"
+    elif "politics" in label:
+        label_fixed = "politics"
+    elif "human-rights-press-freedom" in label:
+        label_fixed = "human-rights-press-freedom"
+    elif "education" in label:
+        label_fixed = "education"
+    elif "business-and-economy" in label:
+        label_fixed = "business-and-economy"
+    elif "art-and-entertainment" in label or "entertainment" in label:
+        label_fixed = "art-and-entertainment"
+    elif "others" in label:
+        label_fixed = "others"
+    elif "science-and-technology" in label or "science" in label:
+        label_fixed = "science-and-technology"
+    elif "sports" in label:
+        label_fixed = "sports"
+    elif "environment" in label:
+        label_fixed = "environment"
     else:
         label_fixed = None
 
