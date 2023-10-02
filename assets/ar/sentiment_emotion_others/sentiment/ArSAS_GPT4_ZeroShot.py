@@ -7,8 +7,8 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Macro-F1": "0.569"},
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"Macro-F1": "0.547"},
     }
 
 
@@ -17,10 +17,6 @@ def config():
         "dataset": ArSASDataset,
         "task": SentimentTask,
         "model": OpenAIModel,
-        "model_args": {
-            "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
-            "max_tries": 3,
-        },
     }
 
 
@@ -32,7 +28,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"Choose only one sentiment between: Positive, Negative, Neutral, or Mixed for this Arabic sentence: \n {input_sample}",
+            "content": f'وصف المهمّة: مهمّتك هي تحديد الشعور الذي يعكسه نص معيّن باللغة العربيّة. وسيكون الإدخال نصًا باللغة العربيّة بينما يمكن أن تتمثّل المخرجات بواحدة من الفئات التالية ."Positive", "Negative", "Neutral", "Mixed": ملاحظة: يجب أن تنحسر المخرجات بواحدة من الفئات المذكورة من دون أي توضيح أو تفاصيل إضافيّة.\nInput: {input_sample}\nLabel: ',
         },
     ]
 
