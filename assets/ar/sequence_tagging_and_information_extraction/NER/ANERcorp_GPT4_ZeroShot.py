@@ -1,39 +1,24 @@
-import os
 import re
 
 from llmebench.datasets import ANERcorpDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import NERTask
+
+
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"Macro-F1": "0.350"},
+    }
 
 
 def config():
     return {
         "dataset": ANERcorpDataset,
-        "dataset_args": {},
         "task": NERTask,
-        "task_args": {},
-        "model": GPTChatCompletionModel,
-        "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": [
-                "B-PERS",
-                "I-PERS",
-                "B-LOC",
-                "I-LOC",
-                "B-ORG",
-                "I-ORG",
-                "B-MISC",
-                "I-MISC",
-            ],
-            "max_tries": 150,
-        },
-        "general_args": {
-            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt"
-        },
+        "model": OpenAIModel,
     }
 
 
@@ -45,7 +30,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f'وصف المهمّة: أنت تعمل خبيرًا في التعرّف إلى الكيانات المسمّاة ومهمّتك هي توصيف نص عربي معيّن بتسميات الكيانات المسمّاة. فعليك تحديد أي كيانات مسمّاة موجودة في النص وتسميتها. وتسميات الكيانات المسمّاة التي ستستخدمها هي PER (للأشخاص)، وLOC (للمواقع)، وORG (للمؤسّسات)، وMISC (للكيانات المتنوّعة). وقد تواجه كيانات تتألّف من عدّة كلمات، لذا تأكّد من تسمية كلّ كلمة في الكيان بالبادئة المناسبة ("B" للكلمة الأولى من الكيان، و"I" لأي كلمة غير الكلمة الأولى). أمّا بالنسبة إلى الكلمات التي لا تشكل جزءًا من أي كيان مسمّى، فعليك الرد بـ"O".\nملاحظة: تأكّد من إصدار النواتج بشكل لائحة من العديد، على أن يتألّف كلّ عديد منها من كلمة من نص الإدخال وتسمية الكيان المسمّى المقابل لها.\n الإدخال: {input_sample.split()}'
+            "content": f'وصف المهمّة: أنت تعمل خبيرًا في التعرّف إلى الكيانات المسمّاة ومهمّتك هي توصيف نص عربي معيّن بتسميات الكيانات المسمّاة. فعليك تحديد أي كيانات مسمّاة موجودة في النص وتسميتها. وتسميات الكيانات المسمّاة التي ستستخدمها هي PER (للأشخاص)، وLOC (للمواقع)، وORG (للمؤسّسات)، وMISC (للكيانات المتنوّعة). وقد تواجه كيانات تتألّف من عدّة كلمات، لذا تأكّد من تسمية كلّ كلمة في الكيان بالبادئة المناسبة ("B" للكلمة الأولى من الكيان، و"I" لأي كلمة غير الكلمة الأولى). أمّا بالنسبة إلى الكلمات التي لا تشكل جزءًا من أي كيان مسمّى، فعليك الرد بـ"O".\nملاحظة: تأكّد من إصدار النواتج بشكل لائحة من العديد، على أن يتألّف كلّ عديد منها من كلمة من نص الإدخال وتسمية الكيان المسمّى المقابل لها.\n الإدخال: {input_sample.split()}',
         },
     ]
 
