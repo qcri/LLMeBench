@@ -9,8 +9,8 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Macro-F1": "0.355"},
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"Macro-F1": "0.350"},
     }
 
 
@@ -19,19 +19,6 @@ def config():
         "dataset": ANERcorpDataset,
         "task": NERTask,
         "model": OpenAIModel,
-        "model_args": {
-            "class_labels": [
-                "B-PERS",
-                "I-PERS",
-                "B-LOC",
-                "I-LOC",
-                "B-ORG",
-                "I-ORG",
-                "B-MISC",
-                "I-MISC",
-            ],
-            "max_tries": 150,
-        },
     }
 
 
@@ -43,13 +30,14 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"Task Description: You are working as a named entity recognition expert and your task is to label a given arabic text with named entity labels. Your task is to identify and label any named entities present in the text. The named entity labels that you will be using are PER (person), LOC (location), ORG (organization) and MISC (miscellaneous). You may encounter multi-word entities, so make sure to label each word of the entity with the appropriate prefix ('B' for first word entity, 'I' for any non-initial word entity). For words which are not part of any named entity, you should return 'O'.\nNote: Your output format should be a list of tuples, where each tuple consists of a word from the input text and its corresponding named entity label.\nInput:{input_sample.split()}",
+            "content": f'وصف المهمّة: أنت تعمل خبيرًا في التعرّف إلى الكيانات المسمّاة ومهمّتك هي توصيف نص عربي معيّن بتسميات الكيانات المسمّاة. فعليك تحديد أي كيانات مسمّاة موجودة في النص وتسميتها. وتسميات الكيانات المسمّاة التي ستستخدمها هي PER (للأشخاص)، وLOC (للمواقع)، وORG (للمؤسّسات)، وMISC (للكيانات المتنوّعة). وقد تواجه كيانات تتألّف من عدّة كلمات، لذا تأكّد من تسمية كلّ كلمة في الكيان بالبادئة المناسبة ("B" للكلمة الأولى من الكيان، و"I" لأي كلمة غير الكلمة الأولى). أمّا بالنسبة إلى الكلمات التي لا تشكل جزءًا من أي كيان مسمّى، فعليك الرد بـ"O".\nملاحظة: تأكّد من إصدار النواتج بشكل لائحة من العديد، على أن يتألّف كلّ عديد منها من كلمة من نص الإدخال وتسمية الكيان المسمّى المقابل لها.\n الإدخال: {input_sample.split()}',
         },
     ]
 
 
 def post_process(response):
     response = response["choices"][0]["message"]["content"]
+    response = response.replace("\n", "").strip()
     possible_tags = [
         "B-PER",
         "I-PER",
