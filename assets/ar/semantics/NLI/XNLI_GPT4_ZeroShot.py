@@ -1,26 +1,22 @@
-import os
-
 from llmebench.datasets import XNLIDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import XNLITask
+
+
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"Accuracy": "0.740"},
+    }
 
 
 def config():
     return {
         "dataset": XNLIDataset,
-        "dataset_args": {},
         "task": XNLITask,
-        "task_args": {},
-        "model": GPTChatCompletionModel,
-        "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
-            "max_tries": 3,
-        },
-        "general_args": {"data_path": "data/XNLI/xnli.test.ar.tsv"},
+        "model": OpenAIModel,
     }
 
 
