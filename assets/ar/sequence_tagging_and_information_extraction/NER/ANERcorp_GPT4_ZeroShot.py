@@ -1,25 +1,24 @@
+import os
 import re
 
 from llmebench.datasets import ANERcorpDataset
-from llmebench.models import OpenAIModel
+from llmebench.models import GPTChatCompletionModel
 from llmebench.tasks import NERTask
-
-
-def metadata():
-    return {
-        "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Macro-F1": "0.355"},
-    }
 
 
 def config():
     return {
         "dataset": ANERcorpDataset,
+        "dataset_args": {},
         "task": NERTask,
-        "model": OpenAIModel,
+        "task_args": {},
+        "model": GPTChatCompletionModel,
         "model_args": {
+            "api_type": "azure",
+            "api_version": "2023-03-15-preview",
+            "api_base": os.environ["AZURE_API_URL"],
+            "api_key": os.environ["AZURE_API_KEY"],
+            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": [
                 "B-PERS",
                 "I-PERS",
@@ -32,6 +31,9 @@ def config():
             ],
             "max_tries": 150,
         },
+        "general_args": {
+            "data_path": "data/sequence_tagging_ner_pos_etc/NER/AnerCorp/ANERCorp_CamelLab_test.txt"
+        },
     }
 
 
@@ -43,13 +45,14 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"Task Description: You are working as a named entity recognition expert and your task is to label a given arabic text with named entity labels. Your task is to identify and label any named entities present in the text. The named entity labels that you will be using are PER (person), LOC (location), ORG (organization) and MISC (miscellaneous). You may encounter multi-word entities, so make sure to label each word of the entity with the appropriate prefix ('B' for first word entity, 'I' for any non-initial word entity). For words which are not part of any named entity, you should return 'O'.\nNote: Your output format should be a list of tuples, where each tuple consists of a word from the input text and its corresponding named entity label.\nInput:{input_sample.split()}",
+            "content": f'وصف المهمّة: أنت تعمل خبيرًا في التعرّف إلى الكيانات المسمّاة ومهمّتك هي توصيف نص عربي معيّن بتسميات الكيانات المسمّاة. فعليك تحديد أي كيانات مسمّاة موجودة في النص وتسميتها. وتسميات الكيانات المسمّاة التي ستستخدمها هي PER (للأشخاص)، وLOC (للمواقع)، وORG (للمؤسّسات)، وMISC (للكيانات المتنوّعة). وقد تواجه كيانات تتألّف من عدّة كلمات، لذا تأكّد من تسمية كلّ كلمة في الكيان بالبادئة المناسبة ("B" للكلمة الأولى من الكيان، و"I" لأي كلمة غير الكلمة الأولى). أمّا بالنسبة إلى الكلمات التي لا تشكل جزءًا من أي كيان مسمّى، فعليك الرد بـ"O".\nملاحظة: تأكّد من إصدار النواتج بشكل لائحة من العديد، على أن يتألّف كلّ عديد منها من كلمة من نص الإدخال وتسمية الكيان المسمّى المقابل لها.\n الإدخال: {input_sample.split()}'
         },
     ]
 
 
 def post_process(response):
     response = response["choices"][0]["message"]["content"]
+    response = response.replace("\n", "").strip()
     possible_tags = [
         "B-PER",
         "I-PER",
