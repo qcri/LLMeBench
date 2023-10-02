@@ -1,42 +1,36 @@
-import os
-
-from llmebench.datasets import SubjectivityDataset
-from llmebench.models import GPTChatCompletionModel
+from llmebench.datasets import CT23SubjectivityDataset
+from llmebench.models import OpenAIModel
 from llmebench.tasks import SubjectivityTask
+
+
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"Macro-F1": "0.725"},
+    }
 
 
 def config():
     return {
-        "dataset": SubjectivityDataset,
-        "dataset_args": {},
+        "dataset": CT23SubjectivityDataset,
         "task": SubjectivityTask,
-        "task_args": {},
-        "model": GPTChatCompletionModel,
-        "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": ["SUBJ", "OBJ"],
-            "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/factuality_disinformation_harmful_content/subjectivity/dev_ar.tsv"
-        },
+        "model": OpenAIModel,
+        "general_args": {"test_split": "ar/dev"},
     }
 
 
 def prompt(input_sample):
     prompt_string = (
-        f'صنف الجملة إلى لاموضوعية أو موضوعية.\n\n'
+        f"صنف الجملة إلى لاموضوعية أو موضوعية.\n\n"
         f"التغريدة: {input_sample}\n"
         f"التصنيف: \n"
     )
     return [
         {
             "role": "system",
-            "content": "أنت خبير في تصنيف النصوص، ويمكنك تحليل المعلومات الموجودة في الجملة وتحديد ما إذا كانت الجملة موضوعية أم لاموضوعية."
+            "content": "أنت خبير في تصنيف النصوص، ويمكنك تحليل المعلومات الموجودة في الجملة وتحديد ما إذا كانت الجملة موضوعية أم لاموضوعية.",
         },
         {
             "role": "user",
@@ -50,7 +44,9 @@ def post_process(response):
 
     if "لاموضوعية" in label:
         label_fixed = "SUBJ"
-    elif label == "موضوعية" or label == "التصنيف: موضوعية" or "التصنيف: موضوعية" in label:
+    elif (
+        label == "موضوعية" or label == "التصنيف: موضوعية" or "التصنيف: موضوعية" in label
+    ):
         label_fixed = "OBJ"
     else:
         label_fixed = None
