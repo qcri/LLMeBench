@@ -7,8 +7,8 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"F1": "0.705"},
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"F1": "0.654"},
     }
 
 
@@ -17,9 +17,6 @@ def config():
         "dataset": ARCDDataset,
         "task": QATask,
         "model": OpenAIModel,
-        "model_args": {
-            "max_tries": 50,
-        },
     }
 
 
@@ -31,7 +28,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:",
+            "content": f"مهمتك هي الإجابة على الأسئلة باللغة العربية بناءً على سياق معين.\nملاحظة: يجب أن تكون إجاباتك مستخرجة من السياق المحدد دون أي اضافات.\nلست بحاجة إلى تقديم إجابة كاملة.\nالسياق: {input_sample['context']}\n السؤال: {input_sample['question']}\n الجواب:",
         },
     ]
 
