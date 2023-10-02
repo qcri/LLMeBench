@@ -1,48 +1,34 @@
-import os
-import random
+from llmebench.datasets import ASNDDataset
+from llmebench.models import OpenAIModel
+from llmebench.tasks import NewsCategorizationTask
 
-from llmebench.datasets import NewsCatASNDDataset
-from llmebench.models import GPTChatCompletionModel
-from llmebench.tasks import NewsCatASNDTask
+
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. Uses an prompt specified in Arabic.",
+        "scores": {"Macro-F1": "0.739"},
+    }
 
 
 def config():
     return {
-        "dataset": NewsCatASNDDataset,
-        "dataset_args": {},
-        "task": NewsCatASNDTask,
-        "task_args": {},
-        "model": GPTChatCompletionModel,
-        "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
-            "class_labels": [
-                "crime-war-conflict",
-                "spiritual",
-                "health",
-                "politics",
-                "human-rights-press-freedom",
-                "education",
-                "business-and-economy",
-                "art-and-entertainment",
-                "others",
-                "science-and-technology",
-                "sports",
-                "environment",
-            ],
-            "max_tries": 30,
-        },
-        "general_args": {
-            "data_path": "data/news_categorization/Arabic_Social_Media_News_Dataset_ASND/sm_news_ar_tst.csv"
-        },
+        "dataset": ASNDDataset,
+        "task": NewsCategorizationTask,
+        "model": OpenAIModel,
     }
 
 
 def prompt(input_sample):
-    prompt_string = (f"صنف التغريدة التالية إلى واحدة من الفئات التالية: " f"جريمة-حرب-صراع ، روحي-ديني ، صحة ، سياسة ، حقوق-الإنسان-حرية-الصحافة ، " f"تعليم ، أعمال-اقتصاد ، فن-ترفيه ، أخرى ، " f"علوم-تكنولوجيا ، رياضة ، بيئة\n" f"\nالتغريدة: {input_sample}" f"\nالفئة: \n")
+    prompt_string = (
+        f"صنف التغريدة التالية إلى واحدة من الفئات التالية: "
+        f"جريمة-حرب-صراع ، روحي-ديني ، صحة ، سياسة ، حقوق-الإنسان-حرية-الصحافة ، "
+        f"تعليم ، أعمال-اقتصاد ، فن-ترفيه ، أخرى ، "
+        f"علوم-تكنولوجيا ، رياضة ، بيئة\n"
+        f"\nالتغريدة: {input_sample}"
+        f"\nالفئة: \n"
+    )
 
     return [
         {
