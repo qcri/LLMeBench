@@ -22,6 +22,7 @@ from .MultilabelPropaganda import MultilabelPropagandaTask
 from .NER import NERTask
 from .NewsCategorization import NewsCategorizationTask
 from .Offensive import OffensiveTask
+from .PIQA import PIQATask
 from .Q2QSimDetect import Q2QSimDetectionTask
 from .QA import QATask
 from .Sarcasm import SarcasmTask
@@ -31,7 +32,6 @@ from .Stance import StanceTask
 from .STS import STSTask
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
-from .PIQA import PIQATask
 
 TaskType = Enum(
     "TaskType",

@@ -2,6 +2,7 @@ from llmebench.datasets import PIQADataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import PIQATask
 
+
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
