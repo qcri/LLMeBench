@@ -6,7 +6,7 @@ from llmebench.tasks import PIQATask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "phi-1.5",
+        "model": "https://huggingface.co/microsoft/phi-1_5",
         "description": "Locally hosted Phi-1.5b model using FastChat.",
     }
 
@@ -14,10 +14,6 @@ def metadata():
 def config():
     return {
         "dataset": PIQADataset,
-        "dataset_args": {
-            "src_lang": "ar",
-            "tgt_lang": "en",
-        },
         "task": PIQATask,
         "model": FastChatModel,
         "model_args": {
@@ -34,7 +30,7 @@ def prompt(input_sample):
         },
         {
             "role": "user",
-            "content": f'Question: {input_sample["goal"]},\nA. {input_sample["sol1"]}\nB. {input_sample["sol2"]}\nAnswer: ',
+            "content": f'Question: {input_sample["goal"]},\nA. {input_sample["sol1"]}\nB. {input_sample["sol2"]} \nAnswer: ',
         },
     ]
 
