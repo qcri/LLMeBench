@@ -35,6 +35,7 @@ from .Stance import StanceTask
 from .STS import STSTask
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
+from .PIQA import PIQATask
 
 TaskType = Enum(
     "TaskType",
