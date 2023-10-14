@@ -1,7 +1,9 @@
+import json
+
+import pandas as pd
+
 from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
-import pandas as pd
-import json
 
 
 class PIQADataset(DatasetBase):
@@ -34,19 +36,29 @@ class PIQADataset(DatasetBase):
 
     @staticmethod
     def get_data_sample():
-        return {"input": "When boiling butter, when it's ready, you can", "sol1": "Pour it onto a plate", "sol2": "Pour it into a jar", "label": "1"}
+        return {
+            "input": "When boiling butter, when it's ready, you can",
+            "sol1": "Pour it onto a plate",
+            "sol2": "Pour it into a jar",
+            "label": "1",
+        }
 
     def load_data(self, data_path, no_labels=False):
         data_path = self.resolve_path(data_path + ".jsonl")
         label_path = self.resolve_path(data_path + "-labels.lst")
         data = []
         label_data = pd.read_csv(label_path, sep="\t", header=None)
-        
+
         with open(data_path, "r", encoding="utf-8") as json_file:
-                for index, line in enumerate(json_file):
-                    json_obj = json.loads(line)
-                    label = label_data.loc[index]
-                    data.append(
-                    {"input": json_obj["goal"], "sol1": json_obj["sol1"], "sol2":json_obj["sol2"], "label": label}
-                    )
+            for index, line in enumerate(json_file):
+                json_obj = json.loads(line)
+                label = label_data.loc[index]
+                data.append(
+                    {
+                        "input": json_obj["goal"],
+                        "sol1": json_obj["sol1"],
+                        "sol2": json_obj["sol2"],
+                        "label": label,
+                    }
+                )
         return data

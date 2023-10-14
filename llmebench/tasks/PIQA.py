@@ -26,4 +26,3 @@ class PIQATask(TaskBase):
         }
 
         return results
-

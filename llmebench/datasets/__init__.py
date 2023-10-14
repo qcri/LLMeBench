@@ -44,7 +44,7 @@ from .NameInfo import NameInfoDataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
-from .ProppySpan import ProppySpanDataset
+from .PIQA import PIQADataset
 from .QADI import QADIDataset
 from .QCRIDialectalArabicPOS import QCRIDialectalArabicPOSDataset
 from .QCRIDialectalArabicSegmentation import QCRIDialectalArabicSegmentationDataset
@@ -69,4 +69,3 @@ from .WikiNewsSegmentation import WikiNewsSegmentationDataset
 from .XGLUEPOS import XGLUEPOSDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
-from .PIQA import PIQADataset
