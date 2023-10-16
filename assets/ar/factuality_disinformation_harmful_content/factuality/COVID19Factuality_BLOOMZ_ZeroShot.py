@@ -29,8 +29,7 @@ def prompt(input_sample):
         input_sample = arr[:1000]
 
     prompt_string = (
-        f"Classify following the tweet as yes or no.\n"
-        f"Provide only label.\n\n"
+        f'Does the following tweet contain a factually correct claim or not? Answer only by yes or no.\n\n'
         f"tweet: {input_sample}\n"
         f"label: \n"
     )
@@ -46,13 +45,13 @@ def post_process(response):
     label = label.replace("</s>", "")
     label = label.lower()
 
-    if label.startswith("I am unable to verify".lower()) or label.startswith(
-        "I am unable to categorize".lower()
+    if (label.startswith("i am unable to verify") or label.startswith(
+            "i am unable to categorize") or label.startswith("i cannot") or "cannot" in label
     ):
         label_fixed = None
-    elif "label: incorrect" in label or "incorrect" in label or label == "no":
+    elif "label: incorrect" in label or "incorrect" in label or label == "no" or label == "لا":
         label_fixed = "no"
-    elif "label: correct" in label or "correct" in label or label == "yes":
+    elif "label: correct" in label or "correct" in label or "yes" in label or "نعم" in label:
         label_fixed = "yes"
     else:
         label_fixed = None

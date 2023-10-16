@@ -26,8 +26,8 @@ def config():
 
 def prompt(input_sample):
     prompt_string = (
-        f"Detect the information in the sentence as correct or incorrect. Use label as yes or no.\n\n"
-        f"text: {input_sample}\n"
+        f"Does the following tweet contain a factually correct claim or not? Answer only by yes or no.\n\n"
+        f"tweet: {input_sample}\n"
         f"label: \n"
     )
     return {
@@ -44,17 +44,16 @@ def prompt(input_sample):
 def post_process(response):
     label = response["choices"][0]["text"].lower().replace(".", "").lower()
 
-    if label.startswith("I am unable to verify".lower()) or label.startswith(
-        "I am unable to categorize".lower()
+    if (label.startswith("i am unable to verify") or label.startswith(
+            "i am unable to categorize") or label.startswith("i cannot") or "cannot" in label
     ):
         label_fixed = None
-    elif "incorrect" in label or "label: no" in label:
+    elif "label: incorrect" in label or "incorrect" in label or label == "no" or label == "لا":
         label_fixed = "no"
-    elif "correct" in label or "label: yes" in label:
+    elif "label: correct" in label or "correct" in label or "yes" in label or "نعم" in label:
         label_fixed = "yes"
-    elif "no" == label or "yes" == label:
-        label_fixed = label
     else:
         label_fixed = None
+
 
     return label_fixed
