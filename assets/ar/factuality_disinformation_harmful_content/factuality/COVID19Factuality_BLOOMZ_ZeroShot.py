@@ -8,6 +8,7 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "bloomz-176b (8bit quantized)",
         "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Weighted-F1": "0.749"},
     }
 
 
