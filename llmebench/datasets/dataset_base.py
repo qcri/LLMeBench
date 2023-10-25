@@ -329,7 +329,9 @@ class DatasetBase(ABC):
         download_url : str
             The url to the dataset. If not provided, falls back to the `download_url`
             provided by the Dataset's metadata. If missing, falls back to a default
-            server specified by the environment variable `DEFAULT_DOWNLOAD_URL`
+            server specified by the `default_url` argument
+        default_url : str
+            Default server url to fall back to incase of missing download_urls
 
         Returns
         -------
@@ -411,7 +413,7 @@ class DatasetBase(ABC):
         # Priority:
         #   Fn Argument
         #   Dataset metadata["download_url"]
-        #   DEFAULT_DOWNLOAD_URL/Dataset_name.zip
+        #   default_url/Dataset_name.zip
         download_urls = []
         if download_url is not None:
             download_urls.append(download_url)
@@ -419,6 +421,10 @@ class DatasetBase(ABC):
         metadata_url = cls.metadata().get("download_url", None)
         if metadata_url is not None:
             download_urls.append(metadata_url)
+        else:
+            logging.warning(
+                f"No default download url specified for {dataset_name}, will try to download from LLMeBench servers."
+            )
 
         if default_url is not None:
             if default_url.endswith("/"):
@@ -445,7 +451,10 @@ class DatasetBase(ABC):
                     extension = ext
                     break
             try:
-                logging.info(f"Trying {download_url}")
+                logging.info(f"Trying to fetch from {download_url}")
+                if (Path(data_dir) / f"{dataset_name}{extension}").exists():
+                    logging.info(f"Cached dataset found")
+                    return True
                 retrieve(
                     download_url,
                     known_hash=None,
@@ -462,6 +471,7 @@ class DatasetBase(ABC):
                 if extension in supported_extensions[:3]:
                     tar_file_path = Path(data_dir) / f"{dataset_name}.tar"
                     tar_file_path.unlink()
+                logging.info(f"Fetch successful")
                 return True
             except Exception as e:
                 logging.warning(f"Failed to download: {e}")
