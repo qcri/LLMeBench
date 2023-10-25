@@ -31,17 +31,17 @@ class SingleTaskBenchmark(object):
         self.name = name
 
         # Pipeline components
-        dataset_args = config.get("dataset_args", {})
-        if "data_dir" not in dataset_args:
-            dataset_args["data_dir"] = data_dir
-        self.data_dir = dataset_args["data_dir"]
-        self.dataset = config["dataset"](**dataset_args)
+        self.dataset_args = config.get("dataset_args", {})
+        if "data_dir" not in self.dataset_args:
+            self.dataset_args["data_dir"] = data_dir
+        self.data_dir = self.dataset_args["data_dir"]
+        self.dataset_cls = config["dataset"]
 
-        task_args = config.get("task_args", {})
-        self.task = config["task"](dataset=self.dataset, **task_args)
+        self.task_args = config.get("task_args", {})
+        self.task_cls = config["task"]
 
-        model_args = config.get("model_args", {})
-        self.model = config["model"](**model_args)
+        self.model_args = config.get("model_args", {})
+        self.model_cls = config["model"]
 
         general_args = config.get("general_args", {})
 
@@ -62,6 +62,7 @@ class SingleTaskBenchmark(object):
         if utils.is_fewshot_asset(config, prompt_fn):
             self.zeroshot = False
             self.deduplicate = True
+            self.fewshot_embedding_model_name = None
             self.train_data_paths = utils.get_data_paths(config, "train")
 
             assert len(self.data_paths) == len(
@@ -69,12 +70,20 @@ class SingleTaskBenchmark(object):
             ), "A train split must be provided for every test split being run"
             if "fewshot" in general_args:
                 self.deduplicate = general_args["fewshot"].get("deduplicate", True)
+                self.fewshot_embedding_model_name = general_args["fewshot"].get(
+                    "embedding_model_name", None
+                )
 
         self.limit = limit
         self.n_shots = n_shots
 
     def is_zeroshot(self):
         return self.zeroshot
+
+    def initialize_pipeline(self):
+        self.dataset = self.dataset_cls(**self.dataset_args)
+        self.task = self.task_cls(dataset=self.dataset, **self.task_args)
+        self.model = self.model_cls(**self.model_args)
 
     def run_pipeline(
         self,
@@ -142,6 +151,8 @@ class SingleTaskBenchmark(object):
         return cache_payload, summarized_payload
 
     def run_benchmark(self, dry_run=False):
+        self.initialize_pipeline()
+
         base_name = self.name
         base_cache_dir = self.cache_dir
 
@@ -179,7 +190,11 @@ class SingleTaskBenchmark(object):
                 train_data = self.dataset.load_data(train_data_path)
 
                 few_shots_data = self.dataset.prepare_fewshots(
-                    data, train_data, self.n_shots, deduplicate=self.deduplicate
+                    data,
+                    train_data,
+                    self.n_shots,
+                    embedding_model_name=self.fewshot_embedding_model_name,
+                    deduplicate=self.deduplicate,
                 )
 
             true_labels = []
