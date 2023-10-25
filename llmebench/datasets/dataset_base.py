@@ -234,7 +234,14 @@ class DatasetBase(ABC):
         new_sample["input"] = json.loads(new_sample["input"])
         return new_sample
 
-    def prepare_fewshots(self, target_data, train_data, n_shots, deduplicate=True):
+    def prepare_fewshots(
+        self,
+        target_data,
+        train_data,
+        n_shots,
+        embedding_model_name=None,
+        deduplicate=True,
+    ):
         """
         Returns a generator for fewshot samples _per test instance_
 
@@ -246,6 +253,9 @@ class DatasetBase(ABC):
             Train/Dev samples to pick few shot samples from
         n_shots : int
             Number of samples to pick for each test sample
+        embedding_model_name : str
+            The model to use for extracting embeddings to use for similarity computation.
+            Defaults to 'distiluse-base-multilingual-cased-v1'
         deduplicate : bool, defaults to True
             Whether the training samples should be de-duplicated (w.r.t test
             samples).
@@ -256,7 +266,9 @@ class DatasetBase(ABC):
             A generator that returns `n_shots` train samples for every
             test sample
         """
-        """"""
+
+        if embedding_model_name is None:
+            embedding_model_name = "distiluse-base-multilingual-cased-v1"
 
         # Stringify inputs for few shot
         deserialization_required = False
@@ -291,10 +303,7 @@ class DatasetBase(ABC):
                 )
 
         # TODO: MaxMarginalRelevanceExampleSelector should be generalized
-        # TODO: Need to handle not str inputs
-        embedding_model = HuggingFaceEmbeddings(
-            model_name="distiluse-base-multilingual-cased-v1"
-        )
+        embedding_model = HuggingFaceEmbeddings(model_name=embedding_model_name)
         example_selector = MaxMarginalRelevanceExampleSelector.from_examples(
             train_data, embedding_model, FAISS, input_keys=["input"], k=n_shots
         )
