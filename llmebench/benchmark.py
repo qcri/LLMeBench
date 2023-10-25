@@ -34,6 +34,7 @@ class SingleTaskBenchmark(object):
         dataset_args = config.get("dataset_args", {})
         if "data_dir" not in dataset_args:
             dataset_args["data_dir"] = data_dir
+        self.data_dir = dataset_args["data_dir"]
         self.dataset = config["dataset"](**dataset_args)
 
         task_args = config.get("task_args", {})
@@ -55,6 +56,7 @@ class SingleTaskBenchmark(object):
 
         # Data parameters
         self.data_paths = utils.get_data_paths(config, "test")
+        self.should_download = "custom_test_split" not in config
 
         self.zeroshot = True
         if utils.is_fewshot_asset(config, prompt_fn):
@@ -142,6 +144,12 @@ class SingleTaskBenchmark(object):
     def run_benchmark(self, dry_run=False):
         base_name = self.name
         base_cache_dir = self.cache_dir
+
+        # Download dataset if not already present on disk and custom splits are not specified
+        if self.should_download:
+            self.dataset.download_dataset(
+                self.data_dir, default_url="https://llmebench.qcri.org/data/"
+            )
 
         # Create sub-directory for few shot experiments
         if not self.is_zeroshot():
