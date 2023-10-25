@@ -153,13 +153,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         data_dir_path = Path(data_dir.name)
 
         dataset = MockDataset(data_dir=data_dir_path)
-        with patch.dict(
-            "os.environ",
-            {
-                "DEFAULT_DOWNLOAD_URL": f"http://localhost:{self.port}/",
-            },
-        ):
-            self.assertTrue(dataset.download_dataset(data_dir=data_dir.name))
+        self.assertTrue(
+            dataset.download_dataset(
+                data_dir=data_dir.name, default_url=f"http://localhost:{self.port}/"
+            )
+        )
 
         self.check_downloaded(data_dir_path, "Mock", "zip")
 

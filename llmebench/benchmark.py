@@ -1,5 +1,3 @@
-import argparse
-
 import importlib
 import json
 import logging
@@ -36,6 +34,7 @@ class SingleTaskBenchmark(object):
         dataset_args = config.get("dataset_args", {})
         if "data_dir" not in dataset_args:
             dataset_args["data_dir"] = data_dir
+        self.data_dir = dataset_args["data_dir"]
         self.dataset = config["dataset"](**dataset_args)
 
         task_args = config.get("task_args", {})
@@ -57,6 +56,7 @@ class SingleTaskBenchmark(object):
 
         # Data parameters
         self.data_paths = utils.get_data_paths(config, "test")
+        self.should_download = "custom_test_split" not in config
 
         self.zeroshot = True
         if utils.is_fewshot_asset(config, prompt_fn):
@@ -144,6 +144,12 @@ class SingleTaskBenchmark(object):
     def run_benchmark(self, dry_run=False):
         base_name = self.name
         base_cache_dir = self.cache_dir
+
+        # Download dataset if not already present on disk and custom splits are not specified
+        if self.should_download:
+            self.dataset.download_dataset(
+                self.data_dir, default_url="https://llmebench.qcri.org/data/"
+            )
 
         # Create sub-directory for few shot experiments
         if not self.is_zeroshot():
@@ -324,10 +330,18 @@ class Benchmark(object):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("benchmark_dir", type=Path)
-    parser.add_argument("results_dir", type=Path)
-    parser.add_argument(
+    parser = utils.ArgumentParserWithDefaultSubcommand()
+    parser.set_default_subparser("benchmark")
+    subparsers = parser.add_subparsers(
+        help="Defaults to 'benchmark'. Specify a command before the help flag to see detailed usage for each command.",
+        dest="subparser_name",
+    )
+
+    parser_main = subparsers.add_parser("benchmark", help="Run the benchmark")
+
+    parser_main.add_argument("benchmark_dir", type=Path)
+    parser_main.add_argument("results_dir", type=Path)
+    parser_main.add_argument(
         "-f",
         "--filter",
         default="*.py",
@@ -335,8 +349,8 @@ def main():
         " Examples are '*ZeroShot*', 'Demography*', '*.py' (default)."
         " The .py extension is added automatically if missing.",
     )
-    parser.add_argument("--ignore_cache", action="store_true")
-    parser.add_argument(
+    parser_main.add_argument("--ignore_cache", action="store_true")
+    parser_main.add_argument(
         "-l",
         "--limit",
         default=-1,
@@ -344,28 +358,35 @@ def main():
         help="Limit the number of input instances that will be processed",
     )
 
-    parser.add_argument(
+    parser_main.add_argument(
         "-e", "--env", type=Path, help="Path to an .env file to load model parameters"
     )
 
-    parser.add_argument(
+    parser_main.add_argument(
         "--dry-run",
         action="store_true",
         help="Do not run any actual models, but load all the data and process"
         " few shots. Existing cache will be ignored and overwritten.",
     )
 
-    group = parser.add_argument_group("Data")
-    group.add_argument(
-        "--data_dir",
-        default="data/",
-        type=Path,
-        help="Default path for data. All relative paths will be resolved by"
-        " using this as the base path",
+    parser_download = subparsers.add_parser(
+        "download", help="Download specific dataset"
     )
 
-    group = parser.add_argument_group("Few Shot Experiments")
-    group.add_argument(
+    parser_download.add_argument(
+        "--download_server",
+        type=str,
+        default="https://llmebench.qcri.org/data/",
+        help="URL to server containing dataset archives",
+    )
+    parser_download.add_argument(
+        "dataset_name",
+        type=str,
+        help="Download the dataset with the given name (e.g Aqmar)",
+    )
+
+    few_shot_args = parser_main.add_argument_group("Few Shot Experiments")
+    few_shot_args.add_argument(
         "-n",
         "--n_shots",
         default=0,
@@ -376,6 +397,16 @@ def main():
         " and when it is non-zero, only few shot experiments will be run.",
     )
 
+    # Common options
+    for subparser in [parser_main, parser_download]:
+        subparser.add_argument(
+            "--data_dir",
+            default="data/",
+            type=Path,
+            help="Default path for data. All relative paths will be resolved by"
+            " using this as the base path",
+        )
+
     args = parser.parse_args()
 
     logging.basicConfig(
@@ -384,8 +415,29 @@ def main():
         format="%(asctime)s %(levelname)s %(message)s",
     )
 
+    # Handle downloading of datasets
+    if args.subparser_name == "download":
+        dataset_name = args.dataset_name
+        if not dataset_name.endswith("Dataset"):
+            dataset_name = f"{dataset_name}Dataset"
+        try:
+            mod = __import__("llmebench.datasets", fromlist=[dataset_name])
+            dataset = getattr(mod, dataset_name)
+        except AttributeError:
+            logging.error(f"{dataset_name} not found in llmebench.datasets)")
+            return
+        dataset.download_dataset(args.data_dir, default_url=args.download_server)
+        return
+
     if args.env:
         load_dotenv(args.env)
+
+    if args.benchmark_dir is None or args.results_dir is None:
+        logging.error(parser.print_usage())
+        logging.error(
+            "The following arguments are required: benchmark_dir, results_dir"
+        )
+        return
 
     benchmark = Benchmark(args.benchmark_dir)
 
