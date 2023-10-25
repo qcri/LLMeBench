@@ -5,9 +5,13 @@ from .ArabicDiacritization import ArabicDiacritizationTask
 from .ArabicParsing import ArabicParsingTask
 from .ArabicPOS import ArabicPOSTask
 from .ArabicSegmentation import ArabicSegmentationTask
+from .ArAIEVAL import ArAIEVAL
+from .ArPro import ArPro
+from .ArProSpan import ArProSpan
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
 from .ClaimDetection import ClaimDetectionTask
+from .Classification import ClassificationTask
 from .DemographyGender import DemographyGenderTask
 from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask

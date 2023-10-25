@@ -6,8 +6,14 @@ from .ANSStance import ANSStanceDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+from .ArAIEVAL232A import ArAIEVAL232A
+from .ArAIEVAL_1A import ArAIEVAL_1A
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
+from .ArProBinary import ArProBinary
+from .ArProCoarse import ArProCoarse
+from .ArProMultilabel import ArProMultilabel
+from .ArProSpan import ArProSpan
 from .ArSarcasm import ArSarcasmDataset
 from .ArSarcasm2 import ArSarcasm2Dataset
 from .ArSAS import ArSASDataset
@@ -38,6 +44,7 @@ from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
+from .SST2 import SST2
 from .STSQ2Q import STSQ2QDataset
 from .TyDiQA import TyDiQADataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset
