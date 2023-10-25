@@ -21,6 +21,7 @@ from .CT22Claim import CT22ClaimDataset
 from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
+from .HuggingFace import HuggingFaceDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
@@ -38,7 +39,6 @@ from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
-from .SST2 import SST2Dataset
 from .STSQ2Q import STSQ2QDataset
 from .TyDiQA import TyDiQADataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset

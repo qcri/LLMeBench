@@ -1,4 +1,4 @@
-from llmebench.datasets import SST2Dataset
+from llmebench.datasets import HuggingFaceDataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import SentimentTask
 
@@ -13,10 +13,18 @@ def metadata():
 
 def config():
     return {
-        "dataset": SST2Dataset,
+        "dataset": HuggingFaceDataset,
+        "dataset_args": {
+            "huggingface_dataset_name": "sst2",
+            "column_mapping": {
+                "input": "sentence",
+                "label": "label",
+                "input_id": "idx",
+            },
+        },
         "task": SentimentTask,
         "model": FastChatModel,
-        "general_args": {"test_split": "dev"},
+        "general_args": {"custom_test_split": "validation"},
     }
 
 
@@ -42,8 +50,8 @@ def post_process(response):
     out = out.strip().lower()
 
     if out == "positive":
-        return "1"
+        return 1
     elif out == "negative":
-        return "0"
+        return 0
     else:
         return None
