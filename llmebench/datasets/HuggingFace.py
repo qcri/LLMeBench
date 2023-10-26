@@ -5,6 +5,25 @@ from llmebench.tasks import TaskType
 
 
 class HuggingFaceDataset(DatasetBase):
+    """
+    Generic HuggingFace dataset loader
+
+    This data loader provides a way to load datasets on HuggingFace Hub and transform
+    them into the format required by the framework.
+
+    Attributes
+    ----------
+    data_dir : str
+        Base path of data containing all datasets. Defaults to "data" in the current
+        working directory.
+    huggingface_dataset_name : str
+        Name of the dataset on HuggingFace Hub (e.g. 'sst2')
+    column_mapping : dict
+        Mapping defining which of the columns in the loaded data are "input" and "label".
+        The supplied dict must contain mappings for "input" and "label", and may contain
+        other mappings (such as "input_id").
+    """
+
     def __init__(self, huggingface_dataset_name, column_mapping, **kwargs):
         self.huggingface_dataset_name = huggingface_dataset_name
 
