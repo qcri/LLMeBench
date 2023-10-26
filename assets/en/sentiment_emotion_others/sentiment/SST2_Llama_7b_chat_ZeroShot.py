@@ -6,8 +6,9 @@ from llmebench.tasks import SentimentTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "...",
-        "description": "...",
+        "model": "Llama-2-13b-chat-hf",
+        "description": "Locally hosted Llama-2-13b-chat hf model using FastChat.",
+        "scores": {"Accuracy": "0.861"},
     }
 
 
