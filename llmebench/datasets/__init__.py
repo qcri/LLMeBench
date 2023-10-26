@@ -6,8 +6,8 @@ from .ANSStance import ANSStanceDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+from .ArAIEVAL231A import ArAIEVAL231A
 from .ArAIEVAL232A import ArAIEVAL232A
-from .ArAIEVAL_1A import ArAIEVAL_1A
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
 from .ArProBinary import ArProBinary

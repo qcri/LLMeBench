@@ -12,15 +12,33 @@ class ClassificationTask(TaskBase):
             p if p else self.get_random_prediction(set(true_labels))
             for p in predicted_labels
         ]
+
+        acc_score = accuracy_score(true_labels, predicted_labels)
+        macro_precision = precision_score(
+            true_labels, predicted_labels, average="macro"
+        )
+        macro_recall = recall_score(true_labels, predicted_labels, average="macro")
+        macro_f1 = f1_score(true_labels, predicted_labels, average="macro")
+
+        micro_precision = precision_score(
+            true_labels, predicted_labels, average="micro"
+        )
+        micro_recall = recall_score(true_labels, predicted_labels, average="micro")
+        micro_f1 = f1_score(true_labels, predicted_labels, average="micro")
+
+        w_precision = precision_score(true_labels, predicted_labels, average="weighted")
+        w_recall = recall_score(true_labels, predicted_labels, average="weighted")
+        w_f1 = f1_score(true_labels, predicted_labels, average="weighted")
+
         return {
-            "Macro F1": f1_score(true_labels, predicted_labels, average="macro"),
-            "Micro F1": f1_score(true_labels, predicted_labels, average="micro"),
-            "Accuracy": accuracy_score(true_labels, predicted_labels),
-            "Weighted Precision": precision_score(
-                true_labels, predicted_labels, average="weighted"
-            ),
-            "Weighted Recall": recall_score(
-                true_labels, predicted_labels, average="weighted"
-            ),
-            "Weighted F1": f1_score(true_labels, predicted_labels, average="weighted"),
+            "Accuracy": acc_score,
+            "Macro precision": macro_precision,
+            "Macro recall": macro_recall,
+            "Macro F1": macro_f1,
+            "Micro precision": micro_precision,
+            "Micro recall": micro_recall,
+            "Micro F1": micro_f1,
+            "Weighted Precision": w_precision,
+            "Weighted Recall": w_recall,
+            "Weighted F1": w_f1,
         }

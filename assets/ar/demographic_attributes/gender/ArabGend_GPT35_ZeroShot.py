@@ -1,6 +1,6 @@
 from llmebench.datasets import ArabGendDataset
 from llmebench.models import LegacyOpenAIModel
-from llmebench.tasks import DemographyGenderTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -14,7 +14,7 @@ def metadata():
 def config():
     return {
         "dataset": ArabGendDataset,
-        "task": DemographyGenderTask,
+        "task": ClassificationTask,
         "model": LegacyOpenAIModel,
         "model_args": {
             "class_labels": ["m", "f"],
