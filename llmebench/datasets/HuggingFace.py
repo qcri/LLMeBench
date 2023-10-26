@@ -56,7 +56,7 @@ class HuggingFaceDataset(DatasetBase):
             "link": "https://huggingface.co/datasets/",
             "license": "Mixed",
             "splits": {
-                "None. HuggingFaceDataset asset must use custom_test_split/custom_train_split": None,
+                "None. HuggingFaceDataset asset must use custom_test_split and custom_train_split": None,
             },
             "task_type": TaskType.Other,
         }
