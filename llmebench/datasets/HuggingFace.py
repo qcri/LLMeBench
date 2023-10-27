@@ -42,7 +42,6 @@ class HuggingFaceDataset(DatasetBase):
     @staticmethod
     def metadata():
         return {
-            "language": "multilingual",
             "citation": """@inproceedings{Lhoest_Datasets_A_Community_2021,
                 author = {Lhoest, Quentin and Villanova del Moral, Albert and von Platen, Patrick and Wolf, Thomas and Šaško, Mario and Jernite, Yacine and Thakur, Abhishek and Tunstall, Lewis and Patil, Suraj and Drame, Mariama and Chaumond, Julien and Plu, Julien and Davison, Joe and Brandeis, Simon and Sanh, Victor and Le Scao, Teven and Canwen Xu, Kevin and Patry, Nicolas and Liu, Steven and McMillan-Major, Angelina and Schmid, Philipp and Gugger, Sylvain and Raw, Nathan and Lesage, Sylvain and Lozhkov, Anton and Carrigan, Matthew and Matussière, Théo and von Werra, Leandro and Debut, Lysandre and Bekman, Stas and Delangue, Clément},
                 booktitle = {Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing: System Demonstrations},
@@ -54,11 +53,7 @@ class HuggingFaceDataset(DatasetBase):
                 year = {2021}
             }""",
             "link": "https://huggingface.co/datasets/",
-            "license": "Mixed",
-            "splits": {
-                "None. HuggingFaceDataset asset must use custom_test_split and custom_train_split": None,
-            },
-            "task_type": TaskType.Other,
+            "generic": True,
         }
 
     @staticmethod
