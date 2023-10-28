@@ -1,7 +1,6 @@
 import datasets
 
 from llmebench.datasets.dataset_base import DatasetBase
-from llmebench.tasks import TaskType
 
 
 class HuggingFaceDataset(DatasetBase):
@@ -9,7 +8,10 @@ class HuggingFaceDataset(DatasetBase):
     Generic HuggingFace dataset loader
 
     This data loader provides a way to load datasets on HuggingFace Hub and transform
-    them into the format required by the framework.
+    them into the format required by the framework. Assets using this loader *must*
+    provide a `custom_test_split`, which should correspond to a split in the dataset
+    as defined on the Hub. Similarly, `custom_train_split` must also be provided for
+    few shot assets.
 
     Attributes
     ----------
@@ -31,11 +33,6 @@ class HuggingFaceDataset(DatasetBase):
         assert "input" in column_mapping
         assert "label" in column_mapping
         self.column_mapping = column_mapping
-
-        # Loading the dataset will automatically download it
-        self.dataset = datasets.load_dataset(
-            huggingface_dataset_name, cache_dir=kwargs["data_dir"]
-        )
 
         super(HuggingFaceDataset, self).__init__(**kwargs)
 
@@ -61,8 +58,12 @@ class HuggingFaceDataset(DatasetBase):
         return {"input": "Test Input", "label": "0"}
 
     def load_data(self, data_split, no_labels=False):
+        dataset = datasets.load_dataset(
+            huggingface_dataset_name, split=data_split, cache_dir=self.data_dir
+        )
+
         data = []
-        for sample in self.dataset[data_split]:
+        for sample in dataset:
             processed_sample = {}
             for sample_key, column_name in self.column_mapping.items():
                 processed_sample[sample_key] = sample[column_name]

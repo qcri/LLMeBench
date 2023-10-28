@@ -78,7 +78,6 @@ def get_data_paths(config, split):
     assert split in ["train", "test"]
 
     dataset_args = config.get("dataset_args", {})
-    dataset_args["data_dir"] = ""
     dataset = config["dataset"](**dataset_args)
 
     if split == "test":

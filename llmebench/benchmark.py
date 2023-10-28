@@ -32,9 +32,7 @@ class SingleTaskBenchmark(object):
 
         # Pipeline components
         self.dataset_args = config.get("dataset_args", {})
-        if "data_dir" not in self.dataset_args:
-            self.dataset_args["data_dir"] = data_dir
-        self.data_dir = self.dataset_args["data_dir"]
+        self.data_dir = data_dir
         self.dataset_cls = config["dataset"]
 
         self.task_args = config.get("task_args", {})
@@ -81,6 +79,8 @@ class SingleTaskBenchmark(object):
         return self.zeroshot
 
     def initialize_pipeline(self):
+        if "data_dir" not in self.dataset_args:
+            self.dataset_args["data_dir"] = self.data_dir
         self.dataset = self.dataset_cls(**self.dataset_args)
         self.task = self.task_cls(dataset=self.dataset, **self.task_args)
         self.model = self.model_cls(**self.model_args)
