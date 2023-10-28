@@ -1,14 +1,13 @@
 from llmebench.datasets import HuggingFaceDataset
-from llmebench.models import FastChatModel
+from llmebench.models import OpenAIModel
 from llmebench.tasks import SentimentTask
 
 
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "Llama-2-13b-chat-hf",
-        "description": "Locally hosted Llama-2-13b-chat hf model using FastChat.",
-        "scores": {"Accuracy": "0.924"},
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
     }
 
 
@@ -24,7 +23,11 @@ def config():
             },
         },
         "task": SentimentTask,
-        "model": FastChatModel,
+        "model": OpenAIModel,
+        "model_args": {
+            "class_labels": ["positive", "negative"],
+            "max_tries": 3,
+        },
         "general_args": {"custom_test_split": "validation"},
     }
 
@@ -33,7 +36,7 @@ def prompt(input_sample):
     prompt_string = (
         f"You are tasked with analyzing the sentiment of the given sentence. "
         f"Please read it carefully and determine whether the sentiment expressed is positive or negative. Provide only label.\n\n"
-        f"sentence: {input_sample.strip()}\n"
+        f"sentence: {input_sample}\n"
         f"label:\n"
     )
     return [
@@ -46,27 +49,18 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    mapping = {"positive": 1, "negative": 0}
-
-    pred_label = response["choices"][0]["message"]["content"].lower()
-
-    if "\n\nlabel: negative" in pred_label:
-        pred_label = "negative"
-    elif "\n\nlabel: positive" in pred_label:
-        pred_label = "positive"
-    elif "\n\nlabel:" in pred_label:
-        pred_label = pred_label.split("\n\nlabel:")[1]
-        pred_label = pred_label.strip().lower()
-    if pred_label == "positive" or pred_label == "negative":
-        return mapping[pred_label]
-    elif "\n\nnegative" in pred_label:
-        pred_label = "negative"
-    elif "\n\npositive" in pred_label:
-        pred_label = "positive"
-    else:
-        pred_label = None
-
-    if pred_label is not None:
-        return mapping[pred_label]
-    else:
+    if not response:
         return None
+    label = response["choices"][0]["message"]["content"].lower()
+
+    label_fixed = label.replace("label:", "").replace("sentiment: ", "").strip()
+
+    if label_fixed.startswith("Please provide the text"):
+        label_fixed = None
+
+    if label_fixed == "positive":
+        return 1
+    elif label_fixed == "negative":
+        return 0
+
+    return None

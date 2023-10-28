@@ -59,7 +59,7 @@ class HuggingFaceDataset(DatasetBase):
 
     def load_data(self, data_split, no_labels=False):
         dataset = datasets.load_dataset(
-            huggingface_dataset_name, split=data_split, cache_dir=self.data_dir
+            self.huggingface_dataset_name, split=data_split, cache_dir=self.data_dir
         )
 
         data = []
