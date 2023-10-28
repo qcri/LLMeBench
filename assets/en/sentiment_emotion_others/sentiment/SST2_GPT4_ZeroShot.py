@@ -1,4 +1,4 @@
-from llmebench.datasets import SST2
+from llmebench.datasets import HuggingFaceDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import SentimentTask
 
@@ -13,13 +13,22 @@ def metadata():
 
 def config():
     return {
-        "dataset": SST2,
+        "dataset": HuggingFaceDataset,
+        "dataset_args": {
+            "huggingface_dataset_name": "sst2",
+            "column_mapping": {
+                "input": "sentence",
+                "label": "label",
+                "input_id": "idx",
+            },
+        },
         "task": SentimentTask,
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["positive", "negative"],
             "max_tries": 3,
         },
+        "general_args": {"custom_test_split": "validation"},
     }
 
 
@@ -45,7 +54,13 @@ def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
 
     label_fixed = label.replace("label:", "").replace("sentiment: ", "").strip()
+
     if label_fixed.startswith("Please provide the text"):
         label_fixed = None
 
-    return label_fixed
+    if label_fixed == "positive":
+        return 1
+    elif label_fixed == "negative":
+        return 0
+
+    return None
