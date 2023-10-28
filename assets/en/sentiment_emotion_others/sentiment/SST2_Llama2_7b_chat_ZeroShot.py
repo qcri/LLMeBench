@@ -1,6 +1,6 @@
 from llmebench.datasets import HuggingFaceDataset
 from llmebench.models import FastChatModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -23,7 +23,7 @@ def config():
                 "input_id": "idx",
             },
         },
-        "task": SentimentTask,
+        "task": ClassificationTask,
         "model": FastChatModel,
         "general_args": {"custom_test_split": "validation"},
     }

@@ -1,6 +1,6 @@
 from llmebench.datasets import HuggingFaceDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -22,7 +22,7 @@ def config():
                 "input_id": "idx",
             },
         },
-        "task": SentimentTask,
+        "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["positive", "negative"],

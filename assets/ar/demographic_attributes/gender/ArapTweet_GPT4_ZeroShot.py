@@ -1,6 +1,6 @@
 from llmebench.datasets import ArapTweetDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import DemographyGenderTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -15,7 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": ArapTweetDataset,
-        "task": DemographyGenderTask,
+        "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
             "class_labels": ["Female", "Male"],
