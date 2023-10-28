@@ -5,8 +5,6 @@ from .ArabicDiacritization import ArabicDiacritizationTask
 from .ArabicParsing import ArabicParsingTask
 from .ArabicPOS import ArabicPOSTask
 from .ArabicSegmentation import ArabicSegmentationTask
-from .ArPro import ArPro
-from .ArProSpan import ArProSpanTask
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
 from .ClaimDetection import ClaimDetectionTask
@@ -21,7 +19,6 @@ from .HarmfulDetection import HarmfulDetectionTask
 from .HateSpeech import HateSpeechTask
 from .Lemmatization import LemmatizationTask
 from .MachineTranslation import MachineTranslationTask
-from .MultiLabelClassification import MultiLabelClassificationTask
 from .MultilabelPropaganda import MultilabelPropagandaTask
 from .NER import NERTask
 from .NewsCategorization import NewsCategorizationTask
@@ -35,7 +32,6 @@ from .Stance import StanceTask
 from .STS import STSTask
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
-
 
 TaskType = Enum(
     "TaskType",

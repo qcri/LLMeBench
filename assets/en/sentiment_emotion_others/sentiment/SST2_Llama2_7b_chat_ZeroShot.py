@@ -1,4 +1,4 @@
-from llmebench.datasets import SST2
+from llmebench.datasets import HuggingFaceDataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import ClassificationTask
 
@@ -14,13 +14,18 @@ def metadata():
 
 def config():
     return {
-        "dataset": SST2,
+        "dataset": HuggingFaceDataset,
+        "dataset_args": {
+            "huggingface_dataset_name": "sst2",
+            "column_mapping": {
+                "input": "sentence",
+                "label": "label",
+                "input_id": "idx",
+            },
+        },
         "task": ClassificationTask,
         "model": FastChatModel,
-        "model_args": {
-            "class_labels": ["positive", "negative"],
-            "max_tries": 3,
-        },
+        "general_args": {"custom_test_split": "validation"},
     }
 
 
@@ -28,7 +33,7 @@ def prompt(input_sample):
     prompt_string = (
         f"You are tasked with analyzing the sentiment of the given sentence. "
         f"Please read it carefully and determine whether the sentiment expressed is positive or negative. Provide only label.\n\n"
-        f"sentence: {input_sample}\n"
+        f"sentence: {input_sample.strip()}\n"
         f"label:\n"
     )
     return [
@@ -41,6 +46,8 @@ def prompt(input_sample):
 
 
 def post_process(response):
+    mapping = {"positive": 1, "negative": 0}
+
     pred_label = response["choices"][0]["message"]["content"].lower()
 
     if "\n\nlabel: negative" in pred_label:
@@ -51,7 +58,7 @@ def post_process(response):
         pred_label = pred_label.split("\n\nlabel:")[1]
         pred_label = pred_label.strip().lower()
     if pred_label == "positive" or pred_label == "negative":
-        return pred_label
+        return mapping[pred_label]
     elif "\n\nnegative" in pred_label:
         pred_label = "negative"
     elif "\n\npositive" in pred_label:
@@ -59,4 +66,7 @@ def post_process(response):
     else:
         pred_label = None
 
-    return pred_label
+    if pred_label is not None:
+        return mapping[pred_label]
+    else:
+        return None
