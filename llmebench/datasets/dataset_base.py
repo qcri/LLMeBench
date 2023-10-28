@@ -54,7 +54,7 @@ class DatasetBase(ABC):
 
     """
 
-    def __init__(self, data_dir, **kwargs):
+    def __init__(self, data_dir="data/", **kwargs):
         self.data_dir = data_dir
 
     @staticmethod

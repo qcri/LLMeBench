@@ -21,12 +21,15 @@ from .ASND import ASNDDataset
 from .BanglaSentiment import BanglaSentimentDataset
 from .BibleMaghrebiDiacritization import BibleMaghrebiDiacritizationDataset
 from .COVID19Factuality import COVID19FactualityDataset
+from .CSV import CSVDataset
 from .CT22Attentionworthy import CT22AttentionworthyDataset
 from .CT22Checkworthiness import CT22CheckworthinessDataset
 from .CT22Claim import CT22ClaimDataset
 from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
+from .HuggingFace import HuggingFaceDataset
+from .JSONL import JSONLDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
@@ -46,6 +49,7 @@ from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
 from .SST2 import SST2
 from .STSQ2Q import STSQ2QDataset
+from .TSV import TSVDataset
 from .TyDiQA import TyDiQADataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset
 from .UnifiedFCStance import UnifiedFCStanceDataset

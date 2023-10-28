@@ -26,6 +26,11 @@ class TestDatasetMetadata(unittest.TestCase):
                 metadata = dataset.metadata()
 
                 self.assertIsInstance(metadata, dict)
+
+                is_generic_dataset = metadata.get("generic", False)
+                if is_generic_dataset:
+                    continue
+
                 self.assertIn("citation", metadata)
                 self.assertIsInstance(metadata["citation"], str)
                 self.assertIn("language", metadata)
