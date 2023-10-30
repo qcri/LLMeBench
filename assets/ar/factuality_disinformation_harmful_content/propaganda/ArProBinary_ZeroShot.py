@@ -1,6 +1,6 @@
 import re
 
-from llmebench.datasets import ArAIEVAL231A
+from llmebench.datasets import ArAIEVAL23
 from llmebench.models import OpenAIModel
 from llmebench.tasks import ClassificationTask
 
@@ -15,7 +15,7 @@ def metadata():
 
 def config():
     return {
-        "dataset": ArAIEVAL231A,
+        "dataset": ArAIEVAL23,
         "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
