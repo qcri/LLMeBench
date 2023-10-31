@@ -1,8 +1,8 @@
 import re
 
-from llmebench.datasets import ArAIEVAL23
+from llmebench.datasets import ArProBinaryDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import ClassificationTask
+from llmebench.tasks import ArProTask
 
 
 def metadata():
@@ -10,28 +10,24 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
         "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Micro-F1": "0.526"},
     }
 
 
 def config():
     return {
-        "dataset": ArAIEVAL23,
-        "task": ClassificationTask,
+        "dataset": ArProBinaryDataset,
+        "task": ArProTask,
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "/Users/firojalamqcri/QCRI/ALT_tanbih/shared_tasks/araieval/wanlp2023_araieval/task1/data/task1A_test.jsonl"  # os.environ["FILE_PATH"],
         },
     }
 
 
 def prompt(input_sample):
     prompt_text = (
-        f"Propagandistic Content Detection:\n\n"
-        f"Given the rise of information dissemination through various channels, it is crucial to identify propagandistic content in text. Your task is to analyze the provided text and determine if it contains elements of propaganda.\n\n"
-        f"Prompt: Read the text passage below and decide whether it demonstrates propagandistic content. If so, answer only as true or false\n\n"
+        f"Your task is to analyze the text and determine if it contains elements of propaganda. Based on the instructions, analyze the following 'text' and predict whether it contains the use of any propaganda technique. Answer only by true or false. Return only predicted label.\n\n"
         f"text: {input_sample}\n"
         f"label: \n"
     )

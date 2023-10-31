@@ -1,6 +1,6 @@
 import re
 
-from llmebench.datasets import ArProCoarse
+from llmebench.datasets import ArProCoarseDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
 
@@ -10,19 +10,17 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
         "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Micro-F1": "0.587"},
     }
 
 
 def config():
     return {
-        "dataset": ArProCoarse,
+        "dataset": ArProCoarseDataset,
         "task": MultilabelPropagandaTask,
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
-        },
-        "general_args": {
-            "data_path": "data/task1A_test.jsonl"  # os.environ["FILE_PATH"],
         },
     }
 

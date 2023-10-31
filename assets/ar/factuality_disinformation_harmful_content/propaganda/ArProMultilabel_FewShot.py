@@ -1,9 +1,19 @@
 import ast
 import re
+import codecs
 
-from llmebench.datasets import ArProCoarse
+from llmebench.datasets import ArProMultilabelDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
+
+ESCAPE_SEQUENCE_RE = re.compile(r'''
+    ( \\U........      # 8-digit hex escapes
+    | \\u....          # 4-digit hex escapes
+    | \\x..            # 2-digit hex escapes
+    | \\[0-7]{1,3}     # Octal escapes
+    | \\N\{[^}]+\}     # Unicode characters by name
+    | \\[\\'"abfnrtv]  # Single-character escapes
+    )''', re.UNICODE | re.VERBOSE)
 
 
 def metadata():
@@ -11,18 +21,18 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
         "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Micro-F1": "0.467"},
     }
 
 
 def config():
     return {
-        "dataset": ArProCoarse,
+        "dataset": ArProMultilabelDataset,
         "task": MultilabelPropagandaTask,
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 10,
         },
-        "dataset_args": {"data_path": "data/task1A_test.jsonl"},
     }
 
 
@@ -30,8 +40,7 @@ def prompt(input_sample, examples):
     prompt_text = (
         f"Your task is to analyze the text and determine if it contains the following propaganda techniques.\n\n"
         f"'Appeal to Time' , 'Conversation Killer' , 'Slogans' , 'Red Herring' , 'Straw Man' , 'Whataboutism' , 'Appeal to Authority' , 'Appeal to Fear/Prejudice' , 'Appeal to Popularity' , 'Appeal to Values' , 'Flag Waving' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Obfuscation/Vagueness/Confusion' , 'Repetition' , 'Appeal to Hypocrisy' , 'Doubt' , 'Guilt by Association' , 'Name Calling/Labeling' , 'Questioning the Reputation' , 'Causal Oversimplification' , 'Consequential Oversimplification' , 'False Dilemma/No Choice' , 'no technique'"
-        f"Below you will find a few examples of text with coarse-grained propaganda techniques:\n\n"
-        f"Below you will find a few examples of text with coarse-grained propaganda techniques:\n\n"
+        f"Below you will find a few examples of text with propaganda techniques:\n\n"
     )
 
     fs_prompt = few_shot_prompt(input_sample, prompt_text, examples)
@@ -45,6 +54,8 @@ def prompt(input_sample, examples):
             "content": fs_prompt,
         },
     ]
+
+
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
@@ -76,27 +87,26 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     return out_prompt
 
 
+def decode_escapes(s):
+    def decode_match(match):
+        return codecs.decode(match.group(0), 'unicode-escape')
+
+    return ESCAPE_SEQUENCE_RE.sub(decode_match, s)
+
+
 def fix_single_label(label):
+    label_fixed = ""
     if "slogan" in label:
         label_fixed = "Slogans"
     if "loaded" in label:
         label_fixed = "Loaded_Language"
     if "prejudice" in label or "fear" in label or "mongering" in label:
         label_fixed = "Appeal_to_Fear-Prejudice"
-    if (
-        "terminating" in label
-        or "thought" in label
-        or "conversation" in label
-        or "killer" in label
-    ):
+    if "terminating" in label or "thought" in label or "conversation" in label or "killer" in label:
         label_fixed = "Conversation_Killer"
     if "calling" in label or label == "name c" or "labeling" in label:
         label_fixed = "Name_Calling-Labeling"
-    if (
-        "minimisation" in label
-        or label == "exaggeration minim"
-        or "exaggeration" in label
-    ):
+    if "minimisation" in label or label == "exaggeration minim" or "exaggeration" in label:
         label_fixed = "Exaggeration-Minimisation"
     if "values" in label:
         label_fixed = "Appeal_to_Values"
@@ -135,35 +145,44 @@ def fix_single_label(label):
     if "hypocrisy" in label:
         label_fixed = "Appeal_to_Hypocrisy"
 
-    if (
-        "no propaganda" in label
-        or "no technique" in label
-        or label == ""
-        or label == "no"
-        or label == "appeal to history"
-        or label == "appeal to emotion"
-        or label == "appeal to"
-        or label == "appeal"
-        or label == "appeal to author"
-        or label == "emotional appeal"
-        or "no techn" in label
-        or "hashtag" in label
-        or "theory" in label
-        or "specific mention" in label
-        or "religious" in label
-        or "gratitude" in label
-    ):
+    if ("no propaganda" in label or "no technique" in label
+            or label == ""
+            or label == "no"
+            or label == "appeal to history"
+            or label == "appeal to emotion"
+            or label == "appeal to"
+            or label == "appeal"
+            or label == "appeal to author"
+            or label == "emotional appeal"
+            or "no techn" in label
+            or "hashtag" in label
+            or "theory" in label
+            or "specific mention" in label
+            or "sarcasm" in label
+            or "frustration" in label
+            or "analogy" in label
+            or "metaphor" in label
+            or "religious" in label
+            or "gratitude" in label
+            or 'no_technique' in label
+            or "technique" in label):
         label_fixed = "no_technique"
 
-    return label_fixed
+    #print(label_fixed)
 
+    return label_fixed
 
 def fix_multilabel(pred_label):
     if "used in this text" in pred_label or "no technique" in pred_label:
         return ["no_technique"]
 
     labels_fixed = []
-    pred_label = pred_label.replace("'", '"')
+    pred_label = pred_label.replace("'label: ","").replace("'label': ","").replace("\"\"","\"").replace("\'\'","\'")
+
+
+    pred_label = decode_escapes(pred_label).replace("\'", "\"")
+    if not pred_label.startswith("["):
+        pred_label = "[" + pred_label + "]"
     pred_label = ast.literal_eval(pred_label)
 
     for label in pred_label:
@@ -180,7 +199,6 @@ def fix_multilabel(pred_label):
         return out_put_labels
 
     return labels_fixed
-
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]  # .lower()

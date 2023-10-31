@@ -1,8 +1,8 @@
 import re
 
-from llmebench.datasets import ArProBinary
+from llmebench.datasets import ArProBinaryDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import ArPro
+from llmebench.tasks import ArProTask
 
 
 def metadata():
@@ -10,18 +10,18 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
         "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
+        "scores": {"Micro-F1": "0.592"},
     }
 
 
 def config():
     return {
-        "dataset": ArProBinary,
-        "task": ArPro,
+        "dataset": ArProBinaryDataset,
+        "task": ArProTask,
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/task1A_test.jsonl"},
     }
 
 
