@@ -5,11 +5,11 @@ from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 
 
-class ArProMultilabel(DatasetBase):
+class ArProMultilabelDataset(DatasetBase):
     def __init__(self, techniques_path=None, **kwargs):
         # Get the path to the file listing the target techniques
         self.techniques_path = Path(techniques_path) if techniques_path else None
-        super(ArProMultilabel, self).__init__(**kwargs)
+        super(ArProMultilabelDataset, self).__init__(**kwargs)
 
     @staticmethod
     def metadata():
@@ -21,8 +21,8 @@ class ArProMultilabel(DatasetBase):
             "link": "",
             "license": "",
             "splits": {
-                "test": "ArMPro_multilabel_test.jsonl",
-                "train": "ArMPro_multilabel_train.jsonl",
+                "test": ":data_dir:ArMPro/multilabel/ArMPro_multilabel_test.jsonl",
+                "train": ":data_dir:ArMPro_multilabel_train.jsonl"
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [
@@ -107,7 +107,7 @@ class ArProMultilabel(DatasetBase):
                 line_data = json.loads(line)
                 id = line_data.get("paragraph_id", None)
                 text = line_data.get("paragraph", "")
-                label = line_data.get("label", "")
+                label = line_data.get("labels", "")
                 if len(label) == 0:
                     label = ["no_technique"]
                 data.append({"input": text, "label": label, "line_number": id})

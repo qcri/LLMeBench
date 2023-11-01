@@ -4,9 +4,9 @@ from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 
 
-class ArProBinary(DatasetBase):
+class ArProBinaryDataset(DatasetBase):
     def __init__(self, **kwargs):
-        super(ArProBinary, self).__init__(**kwargs)
+        super(ArProBinaryDataset, self).__init__(**kwargs)
 
     @staticmethod
     def metadata():
@@ -18,8 +18,8 @@ class ArProBinary(DatasetBase):
             "link": "",
             "license": "",
             "splits": {
-                "test": "ArMPro_binary_test.jsonl",
-                "train": "ArMPro_binary_train.jsonl",
+                "test": ":data_dir:ArMPro/binary/ArMPro_binary_test.jsonl",
+                "train": ":data_dir:ArMPro/binary/ArMPro_binary_train.jsonl",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["true", "false"],

@@ -5,11 +5,11 @@ from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 
 
-class ArProCoarse(DatasetBase):
+class ArProCoarseDataset(DatasetBase):
     def __init__(self, techniques_path=None, **kwargs):
         # Get the path to the file listing the target techniques
         self.techniques_path = Path(techniques_path) if techniques_path else None
-        super(ArProCoarse, self).__init__(**kwargs)
+        super(ArProCoarseDataset, self).__init__(**kwargs)
 
     @staticmethod
     def metadata():
@@ -21,8 +21,8 @@ class ArProCoarse(DatasetBase):
             "link": "",
             "license": "",
             "splits": {
-                "test": "ArMPro_coarse_test.jsonl",
-                "train": "ArMPro_coarse_train.jsonl",
+                "test": ":data_dir:ArMPro/coarse/ArMPro_coarse_test.jsonl",
+                "train": ":data_dir:ArMPro/coarse/ArMPro_coarse_train.jsonl",
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [
@@ -73,7 +73,7 @@ class ArProCoarse(DatasetBase):
                 line_data = json.loads(line)
                 id = line_data.get("paragraph_id", None)
                 text = line_data.get("paragraph", "")
-                label = line_data.get("label", "")
+                label = line_data.get("labels", "")
                 if len(label) == 0:
                     label = ["no_technique"]
                 data.append({"input": text, "label": label, "line_number": id})

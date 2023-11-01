@@ -3,9 +3,9 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from llmebench.tasks.task_base import TaskBase
 
 
-class ArPro(TaskBase):
+class ArProTask(TaskBase):
     def __init__(self, **kwargs):
-        super(ArPro, self).__init__(**kwargs)
+        super(ArProTask, self).__init__(**kwargs)
 
     def evaluate(self, true_labels, predicted_labels):
         predicted_labels = [
