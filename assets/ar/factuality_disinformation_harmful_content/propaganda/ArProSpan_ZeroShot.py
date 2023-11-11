@@ -21,8 +21,8 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. We implemented correcting predicted span by GPT. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning",
-        "scores": {"Micro-F1": "0.267"},
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. We implemented correcting predicted span by GPT.",
+        "scores": {"Micro-F1": "0.117"},
     }
 
 
@@ -38,7 +38,7 @@ def config():
     }
 
 
-def prompt(input_sample, examples):
+def prompt(input_sample):
     prompt_text = (
         f"Your task is to analyze the Paragraph and determine if it contains the following propaganda techniques.\n\n"
         f"'Appeal to Time' , 'Conversation Killer' , 'Slogans' , 'Red Herring' , 'Straw Man' , 'Whataboutism' , "
@@ -47,8 +47,12 @@ def prompt(input_sample, examples):
         f"'Doubt' , 'Guilt by Association' , 'Name Calling/Labeling' , 'Questioning the Reputation' , 'Causal Oversimplification' , "
         f"'Consequential Oversimplification' , 'False Dilemma/No Choice' , 'no technique'"
     )
-    fs_prompt = few_shot_prompt(input_sample, prompt_text, examples)
 
+    out_prompt = prompt_text + (
+        f"\nBased on the instructions above analyze the following Paragraph and answer exactly and only by returning a list of the matching labels from the aforementioned techniques and specify the start position and end position of the text span matching each technique."
+        f'Use the following template and return the results as a list of json strings  [{{"technique": ,"text": ,"start": ,"end": }}]\n\n'
+    )
+    out_prompt = out_prompt + "Paragraph: " + input_sample + "\nlabel: \n"
 
     return [
         {
@@ -57,44 +61,9 @@ def prompt(input_sample, examples):
         },
         {
             "role": "user",
-            "content": fs_prompt,
+            "content": out_prompt,
         },
     ]
-
-
-def few_shot_prompt(input_sample, base_prompt, examples):
-    out_prompt = base_prompt + "\n"
-
-    for index, example in enumerate(examples):
-        sent = example["input"]
-        ex_labels = []
-
-        for l in example["label"]:
-            #print(l)
-            l.pop('par_txt',None)
-            ex_labels.append(l)
-
-        ex_labels = str(ex_labels)
-
-        out_prompt = (
-            out_prompt
-            + "Example "
-            + str(index+1)
-            + ":\n"
-            + "Paragraph: "
-            + sent
-            + "\nlabel: "
-            + ex_labels
-            + "\n\n"
-        )
-
-    out_prompt = out_prompt + (
-        f"Based on the instructions and examples above analyze the following Paragraph and answer exactly and only by returning a list of the matching labels from the aforementioned techniques and specify the start position and end position of the text span matching each technique."
-        f'Use the following template and return the results as a list of json strings  [{{"technique": ,"text": ,"start": ,"end": }}]\n\n'
-    )
-    out_prompt = out_prompt + "Paragraph: " + input_sample + "\nlabel: \n"
-
-    return out_prompt
 
 
 def decode_escapes(s):
@@ -232,7 +201,7 @@ def fix_span(prediction):
 
 
 def post_process(response):
-    labels = response["choices"][0]["message"]["content"].lower().replace("label: ", "").strip()
+    labels = response["choices"][0]["message"]["content"].lower()
     labels = fix_span(labels)
 
     return labels

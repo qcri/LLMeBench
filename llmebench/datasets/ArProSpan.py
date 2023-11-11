@@ -1,12 +1,14 @@
 import json
+from pathlib import Path
 
 from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 
 
-class ArProSpan(DatasetBase):
-    def __init__(self, **kwargs):
-        super(ArProSpan, self).__init__(**kwargs)
+class ArProSpanDataset(DatasetBase):
+    def __init__(self, techniques_path=None, **kwargs):
+        self.techniques_path = Path(techniques_path) if techniques_path else None
+        super(ArProSpanDataset, self).__init__(**kwargs)
 
     @staticmethod
     def metadata():
@@ -18,8 +20,8 @@ class ArProSpan(DatasetBase):
             "link": "",
             "license": "",
             "splits": {
-                "test": "ArMPro_span_test.jsonl",
-                "train": "ArMPro_span_train.jsonl",
+                "test": ":data_dir:ArMPro/span/ArMPro_span_test.jsonl",
+                "train": ":data_dir:ArMPro/span/ArMPro_span_train.jsonl",
             },
             "task_type": TaskType.SequenceLabeling,
             "class_labels": [
@@ -53,10 +55,10 @@ class ArProSpan(DatasetBase):
     @staticmethod
     def get_data_sample():
         return {
-            "id": "001",
+            "input_id": "001",
             "input": "paragraph",
-            "label": ["no_technique"],
-            "type": "paragraph",
+            "label": [{"technique": "Guilt_by_Association", "start": 13, "end": 52}],
+            "line_number": 1,
         }
 
     def get_predefined_techniques(self):
@@ -102,9 +104,16 @@ class ArProSpan(DatasetBase):
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 line_data = json.loads(line)
-                id = line_data.get("paragraph_id", None)
+                id = line_data.get("paragraph_id", "")
                 text = line_data.get("paragraph", "")
-                label = line_data.get("label", "").lower()
-                data.append({"input": text, "label": label, "line_number": id})
+                label = line_data.get("labels", [])
+
+                # we need to par text at evaluation to do some matching against predicted spans
+                for l in label:
+                    l['par_txt'] = text
+
+                data.append({"input": text, "input_id": id, "label": label, "line_number": line_idx})
+
+        print('loaded %d docs from file...'%len(data))
 
         return data
