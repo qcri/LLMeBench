@@ -40,7 +40,7 @@ def config():
 
 def prompt(input_sample):
     prompt_text = (
-        f"Your task is to analyze the Paragraph and determine if it contains the following propaganda techniques.\n\n"
+        f"Your task is to analyze the Paragraph and determine if it contains the following propaganda techniques and then generate an Explanation/rationale for your predictions.\n"
         f"'Appeal to Time' , 'Conversation Killer' , 'Slogans' , 'Red Herring' , 'Straw Man' , 'Whataboutism' , "
         f"'Appeal to Authority' , 'Appeal to Fear/Prejudice' , 'Appeal to Popularity' , 'Appeal to Values' , 'Flag Waving' , "
         f"'Exaggeration/Minimisation' , 'Loaded Language' , 'Obfuscation/Vagueness/Confusion' , 'Repetition' , 'Appeal to Hypocrisy' , "
@@ -49,10 +49,38 @@ def prompt(input_sample):
     )
 
     out_prompt = prompt_text + (
-        f"\nBased on the instructions above analyze the following Paragraph and answer exactly and only by returning a list of the matching labels from the aforementioned techniques and specify the start position and end position of the text span matching each technique."
-        f'Use the following template and return the results as a list of json strings  [{{"technique": ,"text": ,"start": ,"end": }}]\n\n'
+        f"\nBased on the instructions above analyze the following Paragraph and answer exactly and only by returning a list of "
+        f"the matching labels from the aforementioned techniques, and specify the start position and end position of the text span matching each technique, "
+        f"and for each predicted technique, return a 1-sentence long Explanation for your label."
+        f' Use the following template and return the results as a Labels list of json strings [{{"technique": ,"text": ,"start": ,"end": ,"explanation": }}]\n\n'
     )
-    out_prompt = out_prompt + "Paragraph: " + input_sample + "\nlabel: \n"
+    # out_prompt = out_prompt + "Paragraph: " + input_sample + "\n\nInitial Labels List: \n\n"
+
+    out_prompt = out_prompt + "Paragraph: " + input_sample + "\n\nLabels: \n\n"
+
+
+    # out_prompt = out_prompt + (
+    #     f"Based on the instructions above, and your predictions in Initial Labels List, "
+    #     f"analyze the Paragraph again and answer exactly and only by returning a list of the matching "
+    #     f"labels from the aforementioned techniques and specify the start position and end position of the "
+    #     f"text span matching each technique. Use the following template and return the results as a Final "
+    #     f'Labels List of json strings [{{"technique": ,"text": ,"start": ,"end": }}]\n\n'
+    # )
+
+    # out_prompt = out_prompt + (
+    #     f"Given your predictions in Initial Labels List and the associated explanations, analyze the Paragraph again "
+    #     f"and revise your decision and make any "
+    #     f"needed corrections/updates on the predicted labels. "
+    #     f"Use the following template and return the predictions after revision as a Final "
+    #     f'Labels List of json strings [{{"technique": ,"text": ,"start": ,"end": , "explanation": }}]\n\n'
+    # )
+
+   # out_prompt = out_prompt + (
+    #f"Given your predictions in Labels list, read your explanation per prediction and revise your prediction. "
+    #f'Analyze the Paragraph AGAIN and answer exactly and only by returning a list of Final Labels as json strings [{{"technique": ,"text": ,"start": ,"end": }}]\n\n'
+    #)
+    #
+    #out_prompt = out_prompt + "Final Labels: \n\n"
 
     return [
         {
@@ -154,7 +182,8 @@ def fix_single_label(label):
             or "religious" in label
             or "gratitude" in label
             or 'no_technique' in label
-            or "technique" in label):
+            or "technique" in label
+            or 'rhetorical' in label):
         label_fixed = "no_technique"
 
     return label_fixed
@@ -202,6 +231,19 @@ def fix_span(prediction):
 
 def post_process(response):
     labels = response["choices"][0]["message"]["content"].lower()
+    #labels1,labels2 = labels.split("final labels:")
+    #labels1 = labels1.replace('labels:','').split("\n")[0].strip()
+    #labels1 = fix_span(labels1)
+    #labels = fix_span(labels2)
+
+    labels = labels.replace("labels:","")
     labels = fix_span(labels)
+
+    # if labels1 != labels:
+    #     print(labels1)
+    #     print('=' * 35)
+    #     print(labels)
+    # else:
+    #     print("=================LABELS BEFORE MATCH AFTER===================")
 
     return labels
