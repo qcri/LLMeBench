@@ -204,6 +204,9 @@ def fix_single_label(label):
 
 def fix_span(prediction):
     # print(prediction)
+    if prediction.endswith(","):
+        prediction = prediction[0:-1] + "}]"
+
     prediction = prediction.replace("},\n{", "}, {").replace("\\n", " ").replace("\n", " ").replace(
         '[  ', '[').replace('[ ', '[').replace("  {", "{").replace(" ]", "]").replace('  ]', ']').strip()
 
