@@ -75,19 +75,6 @@ def emotions_array(labels):
 
 
 def post_process(response):
-    #emotions_array(response["choices"][0]["message"]["content"])
     out = emotions_array(response["choices"][0]["message"]["content"])
-    out = out.strip().lower()
 
-    if "i apologize" in out:
-        return None
-
-    j = out.find("label:")
-    if j > 0:
-        out = out[j + len("label:") :]
-    else:
-        j = out.find(" is:\n\n")
-        if j > 0:
-            out = out[j + len(" is:\n\n") :]
-    out = out.strip().title().lower()
     return out
