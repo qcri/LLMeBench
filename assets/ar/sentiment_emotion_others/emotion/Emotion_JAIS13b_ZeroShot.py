@@ -68,7 +68,7 @@ def emotions_array(labels):
     labels_arr = []
     for x, y in emotions_positions.items():
         v = 0
-        if x in labels:
+        if x.lower() in labels:
             v = 1
         labels_arr.append(v)
     return labels_arr
