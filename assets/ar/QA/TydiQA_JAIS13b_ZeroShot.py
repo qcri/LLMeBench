@@ -11,6 +11,7 @@ def metadata():
         "scores": {"F1": ""},
     }
 
+
 def config():
     return {
         "dataset": TyDiQADataset,
@@ -19,13 +20,12 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"test_split": "dev"}
+        "general_args": {"test_split": "dev"},
     }
 
+
 def prompt(input_sample):
-    base_prompt = (
-        f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:"
-    )
+    base_prompt = f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:"
 
     return [
         {
