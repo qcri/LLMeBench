@@ -8,8 +8,8 @@ from llmebench.tasks import Q2QSimDetectionTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "JAIS-13b",
-        "description": "Locally hosted JAIS-13b-chat model using FastChat.",
+        "model": "Jais-13b",
+        "description": "Locally hosted Jais-13b-chat model using FastChat.",
         "scores": {"Macro-F1": ""},
     }
 
@@ -28,9 +28,7 @@ def config():
 def prompt(input_sample):
     q1, q2 = input_sample.split("\t")
     input_sample = q1 + "\t" + q2
-    base_prompt = (
-        f"Are the following two questions semantically similar (i.e., asking for similar information)? The output should be exactly in form yes or no.\n\n{input_sample}"
-    )
+    base_prompt = f"Are the following two questions semantically similar (i.e., asking for similar information)? The output should be exactly in form yes or no.\n\n{input_sample}"
 
     return [
         {
