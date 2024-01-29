@@ -8,7 +8,7 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "JAIS-13b",
         "description": "Locally hosted JAIS-13b-chat model using FastChat.",
-        "scores": {"Macro-F1": ""},
+        "scores": {"Jaccard similarity": "0.16779"},
     }
 
 
@@ -68,26 +68,13 @@ def emotions_array(labels):
     labels_arr = []
     for x, y in emotions_positions.items():
         v = 0
-        if x in labels:
+        if x.lower() in labels:
             v = 1
         labels_arr.append(v)
     return labels_arr
 
 
 def post_process(response):
-    #emotions_array(response["choices"][0]["message"]["content"])
     out = emotions_array(response["choices"][0]["message"]["content"])
-    out = out.strip().lower()
 
-    if "i apologize" in out:
-        return None
-
-    j = out.find("label:")
-    if j > 0:
-        out = out[j + len("label:") :]
-    else:
-        j = out.find(" is:\n\n")
-        if j > 0:
-            out = out[j + len(" is:\n\n") :]
-    out = out.strip().title().lower()
     return out
