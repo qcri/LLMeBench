@@ -26,7 +26,7 @@ def config():
 
 def prompt(input_sample):
     base_prompt = (
-        f'Given the following tweet, label it as "HS" or "NOT_HS" based on the content of the tweet: \n {input_sample}'
+        f'If the following Arabic tweet has hate speech, just say "HS", otherwise, say "NOT_HS" without explanation: \n {input_sample}'
     )
     return [
         {
