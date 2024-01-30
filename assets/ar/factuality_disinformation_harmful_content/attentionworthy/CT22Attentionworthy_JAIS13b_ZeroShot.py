@@ -6,9 +6,8 @@ from llmebench.tasks import AttentionworthyTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "JAIS-13b",
-        "description": "Locally hosted JAIS-13b-chat model using FastChat.",
-        "scores": {"Macro-F1": ""},
+        "model": "Jais-13b-chat",
+        "description": "Locally hosted Jais-13b-chat model using FastChat.",
     }
 
 
