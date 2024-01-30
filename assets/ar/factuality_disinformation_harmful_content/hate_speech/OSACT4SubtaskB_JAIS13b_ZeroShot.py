@@ -25,9 +25,7 @@ def config():
 
 
 def prompt(input_sample):
-    base_prompt = (
-        f'Given the following tweet, label it as "HS" or "NOT_HS" based on the content of the tweet: \n {input_sample}'
-    )
+    base_prompt = f'Given the following tweet, label it as "HS" or "NOT_HS" based on the content of the tweet: \n {input_sample}'
     return [
         {
             "role": "user",

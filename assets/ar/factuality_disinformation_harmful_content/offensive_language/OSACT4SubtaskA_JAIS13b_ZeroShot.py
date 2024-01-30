@@ -25,9 +25,7 @@ def config():
 
 
 def prompt(input_sample):
-    base_prompt = (
-        f'if the following Arabic sentence is offensive, just say "OFF", otherwise, say just "NOT_OFF" without explanation: \n {input_sample}'
-    )
+    base_prompt = f'if the following Arabic sentence is offensive, just say "OFF", otherwise, say just "NOT_OFF" without explanation: \n {input_sample}'
     return [
         {
             "role": "user",

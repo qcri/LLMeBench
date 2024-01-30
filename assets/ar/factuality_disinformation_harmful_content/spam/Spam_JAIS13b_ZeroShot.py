@@ -25,9 +25,7 @@ def config():
 
 
 def prompt(input_sample):
-    base_prompt = (
-        f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}\n"
-    )
+    base_prompt = f"If the following sentence can be classified as spam or contains an advertisemnt, write '__label__ADS' without explnanation, otherwise write '__label__NOTADS' without explanantion.\n {input_sample}\n"
     return [
         {
             "role": "user",
@@ -42,7 +40,7 @@ def post_process(response):
     if j > 0:
         out = out[0:j]
     if "NOTADS" in out:
-        out = '__label__NOTADS'
+        out = "__label__NOTADS"
     elif "ADS" in out:
-        out = '__label__ADS'
+        out = "__label__ADS"
     return out

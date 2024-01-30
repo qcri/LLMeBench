@@ -36,7 +36,7 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].lower().replace('.', '')
+    label = response["choices"][0]["message"]["content"].lower().replace(".", "")
 
     if "لاموضوعية" in label:
         label_fixed = "SUBJ"
