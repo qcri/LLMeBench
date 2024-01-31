@@ -1,5 +1,3 @@
-import re
-
 from llmebench.datasets import SemEval17T1STSDataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import STSTask
@@ -8,9 +6,8 @@ from llmebench.tasks import STSTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "JAIS-13b",
-        "description": "Locally hosted JAIS-13b-chat model using FastChat.",
-        "scores": {"Macro-F1": ""},
+        "model": "Jais-13b-chat",
+        "description": "Locally hosted Jais-13b-chat model using FastChat.",
     }
 
 
