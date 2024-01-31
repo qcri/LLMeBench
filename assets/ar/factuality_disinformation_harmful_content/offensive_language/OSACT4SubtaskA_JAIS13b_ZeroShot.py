@@ -1,6 +1,6 @@
-from llmebench.datasets import ARCDDataset
+from llmebench.datasets import OSACT4SubtaskADataset
 from llmebench.models import FastChatModel
-from llmebench.tasks import QATask
+from llmebench.tasks import OffensiveTask
 
 
 def metadata():
@@ -13,18 +13,18 @@ def metadata():
 
 def config():
     return {
-        "dataset": ARCDDataset,
-        "task": QATask,
+        "dataset": OSACT4SubtaskADataset,
+        "task": OffensiveTask,
         "model": FastChatModel,
         "model_args": {
+            "class_labels": ["OFF", "NOT_OFF"],
             "max_tries": 3,
         },
     }
 
 
 def prompt(input_sample):
-    base_prompt = f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:"
-
+    base_prompt = f'if the following Arabic sentence is offensive, just say "OFF", otherwise, say just "NOT_OFF" without explanation: \n {input_sample}'
     return [
         {
             "role": "user",
@@ -34,4 +34,8 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    return response["choices"][0]["message"]["content"]
+    out = response["choices"][0]["message"]["content"]
+    j = out.find(".")
+    if j > 0:
+        out = out[0:j]
+    return out

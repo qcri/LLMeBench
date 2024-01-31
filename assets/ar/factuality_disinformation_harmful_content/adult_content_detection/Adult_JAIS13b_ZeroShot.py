@@ -1,6 +1,6 @@
-from llmebench.datasets import ARCDDataset
+from llmebench.datasets import AdultDataset
 from llmebench.models import FastChatModel
-from llmebench.tasks import QATask
+from llmebench.tasks import AdultTask
 
 
 def metadata():
@@ -13,18 +13,22 @@ def metadata():
 
 def config():
     return {
-        "dataset": ARCDDataset,
-        "task": QATask,
+        "dataset": AdultDataset,
+        "task": AdultTask,
         "model": FastChatModel,
         "model_args": {
+            "class_labels": ["ADULT", "NOT_ADULT"],
             "max_tries": 3,
         },
     }
 
 
 def prompt(input_sample):
-    base_prompt = f"Your task is to answer questions in Arabic based on a given context.\nNote: Your answers should be spans extracted from the given context without any illustrations.\nYou don't need to provide a complete answer\nContext:{input_sample['context']}\nQuestion:{input_sample['question']}\nAnswer:"
-
+    base_prompt = (
+        f'Given the following tweet, label it as "ADULT" or "NOT_ADULT" based on the content of the tweet.\n\n'
+        f"tweet: {input_sample}\n"
+        f"label: \n"
+    )
     return [
         {
             "role": "user",
@@ -34,4 +38,8 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    return response["choices"][0]["message"]["content"]
+    out = response["choices"][0]["message"]["content"].replace("label: ", "")
+    j = out.find(".")
+    if j > 0:
+        out = out[0:j]
+    return out

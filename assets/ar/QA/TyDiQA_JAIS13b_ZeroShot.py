@@ -6,9 +6,8 @@ from llmebench.tasks import QATask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "JAIS-13b",
-        "description": "Locally hosted JAIS-13b-chat model using FastChat.",
-        "scores": {"F1": ""},
+        "model": "Jais-13b-chat",
+        "description": "Locally hosted Jais-13b-chat model using FastChat.",
     }
 
 
@@ -36,5 +35,4 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    out = response["choices"][0]["message"]["content"]
-    return out
+    return response["choices"][0]["message"]["content"]
