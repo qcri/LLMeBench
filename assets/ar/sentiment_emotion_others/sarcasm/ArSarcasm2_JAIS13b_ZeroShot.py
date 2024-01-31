@@ -1,6 +1,6 @@
-from llmebench.datasets import ArSASDataset
+from llmebench.datasets import ArSarcasm2Dataset
 from llmebench.models import FastChatModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import SarcasmTask
 
 
 def metadata():
@@ -8,23 +8,26 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "Jais-13b-chat",
         "description": "Locally hosted Jais-13b-chat model using FastChat.",
-        "scores": {"Macro-F1": "0.304"},
     }
 
 
 def config():
     return {
-        "dataset": ArSASDataset,
-        "task": SentimentTask,
+        "dataset": ArSarcasm2Dataset,
+        "task": SarcasmTask,
         "model": FastChatModel,
+        "model_args": {
+            "class_labels": ["TRUE", "FALSE"],
+            "max_tries": 3,
+        },
     }
 
 
 def prompt(input_sample):
     base_prompt = (
-        f'Classify the sentiment of the following sentence as "Positive", "Negative", "Neutral" or "Mixed". Output only the label and nothing else.\n'
-        f"Sentence: {input_sample}\n"
-        f"Label: "
+        f'Predict whether the following "tweet" is sarcastic. Return "yes" if the tweet is sarcastic '
+        f'and "no" if the tweet is not sarcastic. Provide only label.\n\ntweet: {input_sample} \n'
+        f"label: \n"
     )
 
     return [
@@ -50,4 +53,8 @@ def post_process(response):
         if j > 0:
             out = out[j + len(" is:\n\n") :]
     out = out.strip().title()
-    return out
+    if out.lower() == "yes":
+        return "TRUE"
+    elif out.lower() == "no":
+        return "FALSE"
+    return None
