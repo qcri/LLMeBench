@@ -59,21 +59,15 @@ pip install -e '.[dev,fewshot]'
 ```
 
 ## Get the Benchmark Data
-In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, download the benchmarking data from [here](https://llmebench.qcri.org/data/), an example command to download all these datasets:
-```bash
-mkdir data/
-cd data
-wget -r -np -nH --cut-dirs=3 -A zip -R index.html  https://llmebench.qcri.org/data/
-```
+In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, the framework *automatically* downloads the datasets when possible. Manually downloading them (for example to explore the data before running any assets) can be done as follows:
 
-Next, unzip the downloaded files to get a directory per dataset: 
 ```bash
-for i in *.zip; do unzip "$i" -d "${i%%.zip}"; done
+python -m llmebench download <DatasetName>
 ```
 
 **_Voilà! all ready to start evaluation..._**
 
-**Note:** Some datasets and associated assets are implemented in LLMeBench but the dataset files can't be re-distributed, it is the responsibility of the framework user to acquaire them from their original sources. The metadata for each `Dataset` includes a link to the primary page for the dataset, which can be used to obtain the data.
+**Note:** Some datasets and associated assets are implemented in LLMeBench but the dataset files can't be re-distributed, it is the responsibility of the framework user to acquire them from their original sources. The metadata for each `Dataset` includes a link to the primary page for the dataset, which can be used to obtain the data. The data should be downloaded and present in a folder under `data/<DatasetName>`, where `<DatasetName>` is the same as implementation under `llmebench.datasets`. For instance, the `ADIDataset` should have it's data under `data/ADI/`.
 
 **Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for datasets use and redistribution for research or non-commercial purposes .
 

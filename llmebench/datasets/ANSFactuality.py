@@ -26,8 +26,8 @@ class ANSFactualityDataset(DatasetBase):
             "link": "https://github.com/latynt/ans",
             "download_url": "https://github.com/latynt/ans/archive/refs/heads/master.zip",
             "splits": {
-                "test": "claim/test.csv",
-                "train": "claim/train.csv",
+                "test": "ans-master/data/claim/test.csv",
+                "train": "ans-master/data/claim/train.csv",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["true", "false"],

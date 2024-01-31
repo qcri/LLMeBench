@@ -8,6 +8,7 @@ from .ArabicSegmentation import ArabicSegmentationTask
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
 from .ClaimDetection import ClaimDetectionTask
+from .Classification import ClassificationTask
 from .DemographyGender import DemographyGenderTask
 from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask

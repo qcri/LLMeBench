@@ -23,6 +23,9 @@ def config():
             "class_labels": ["Positive", "Negative", "Neutral", "Mixed"],
             "max_tries": 3,
         },
+        "general_args": {
+            "fewshot": {"embedding_model_name": "distiluse-base-multilingual-cased-v1"}
+        },
     }
 
 
