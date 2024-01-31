@@ -49,7 +49,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = f'Does the following tweet contain a factually correct claim or not? Answer only by yes or no.'
+    base_prompt = f"Does the following tweet contain a factually correct claim or not? Answer only by yes or no."
     return [
         {
             "role": "system",
@@ -65,14 +65,27 @@ def prompt(input_sample, examples):
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
 
-    if (label.startswith("i am unable to verify") or label.startswith(
-        "i am unable to categorize") or label.startswith("i cannot") or "cannot" in label
+    if (
+        label.startswith("i am unable to verify")
+        or label.startswith("i am unable to categorize")
+        or label.startswith("i cannot")
+        or "cannot" in label
     ):
-        #print(label)
+        # print(label)
         label_fixed = None
-    elif "label: incorrect" in label or "incorrect" in label or label == "no" or label == "لا":
+    elif (
+        "label: incorrect" in label
+        or "incorrect" in label
+        or label == "no"
+        or label == "لا"
+    ):
         label_fixed = "no"
-    elif "label: correct" in label or "correct" in label or "yes" in label or "نعم" in label:
+    elif (
+        "label: correct" in label
+        or "correct" in label
+        or "yes" in label
+        or "نعم" in label
+    ):
         label_fixed = "yes"
     else:
         label_fixed = None
