@@ -6,9 +6,8 @@ from llmebench.tasks import ClassificationTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "JAIS-13b",
-        "description": "Locally hosted JAIS-13b-chat model using FastChat.",
-        "scores": {"Macro-F1": ""},
+        "model": "Jais-13b-chat",
+        "description": "Locally hosted Jais-13b-chat model using FastChat.",
     }
 
 
@@ -40,8 +39,8 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
-    if label.lower() == 'male':
-        return 'm'
+    if label.lower() == "male":
+        return "m"
     elif "female" in label.lower():
         return "f"
     else:
