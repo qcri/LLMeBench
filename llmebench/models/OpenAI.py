@@ -1,6 +1,7 @@
 import os
 
 import openai
+import litellm
 
 from llmebench.models.model_base import ModelBase
 
@@ -79,7 +80,7 @@ class OpenAIModelBase(ModelBase):
             model_name or engine_name or openai_vars["model"] or azure_vars["model"]
         )
 
-        openai.api_type = api_type
+        litellm.api_type = api_type
 
         if api_type == "azure" and api_base is None:
             raise Exception(
@@ -87,7 +88,7 @@ class OpenAIModelBase(ModelBase):
             )
 
         if api_base:
-            openai.api_base = api_base
+            litellm.api_base = api_base
 
         if api_type == "azure" and api_version is None:
             raise Exception(
@@ -95,14 +96,14 @@ class OpenAIModelBase(ModelBase):
             )
 
         if api_version:
-            openai.api_version = api_version
+            litellm.api_version = api_version
 
         if api_key is None:
             raise Exception(
                 "API Key must be provided as model config or environment variable (`OPENAI_API_KEY` or `AZURE_API_KEY`)"
             )
 
-        openai.api_key = api_key
+        litellm.api_key = api_key
 
         self.model_params = {}
 
@@ -200,7 +201,7 @@ class LegacyOpenAIModel(OpenAIModelBase):
         system_message = processed_input["system_message"]
         messages = processed_input["messages"]
         prompt = self.create_prompt(system_message, messages)
-        response = openai.Completion.create(
+        response = litellm.text_completion(
             prompt=prompt, stop=["<|im_end|>"], **self.model_params
         )
 
@@ -239,7 +240,7 @@ class OpenAIModel(OpenAIModelBase):
             Response from the openai python library
 
         """
-        response = openai.ChatCompletion.create(
+        response = litellm.completion(
             messages=processed_input, **self.model_params
         )
 
