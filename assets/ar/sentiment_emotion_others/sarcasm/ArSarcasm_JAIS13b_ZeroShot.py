@@ -6,9 +6,8 @@ from llmebench.tasks import SarcasmTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "JAIS-13b",
-        "description": "Locally hosted JAIS-13b-chat model using FastChat.",
-        "scores": {"Macro-F1": ""},
+        "model": "Jais-13b-chat",
+        "description": "Locally hosted Jais-13b-chat model using FastChat.",
     }
 
 
@@ -54,8 +53,8 @@ def post_process(response):
         if j > 0:
             out = out[j + len(" is:\n\n") :]
     out = out.strip().title()
-    if out.lower() == 'yes':
+    if out.lower() == "yes":
         return "TRUE"
-    elif out.lower() == 'no':
+    elif out.lower() == "no":
         return "FALSE"
     return None
