@@ -40,7 +40,7 @@ def prompt(input_sample):
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
-    # label = label.replace("gender:", "").strip()
+    label = label.strip()
     if "gender: Female" in label or "\nFemale" in label or label == "Female":
         label = "Female"
     elif (
