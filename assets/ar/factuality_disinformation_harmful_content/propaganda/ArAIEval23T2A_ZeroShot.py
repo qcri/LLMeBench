@@ -1,6 +1,6 @@
 import re
 
-from llmebench.datasets import ArAIEVAL231A
+from llmebench.datasets import ArAIEVAL232A
 from llmebench.models import OpenAIModel
 from llmebench.tasks import ClassificationTask
 
@@ -10,13 +10,13 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
         "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Micro-F1": "0.600", "Macro F1": "0.600"},
+        "scores": {"Micro-F1": "0.759", "Macro F1": "0.707"},
     }
 
 
 def config():
     return {
-        "dataset": ArAIEVAL231A,
+        "dataset": ArAIEVAL232A,
         "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
@@ -28,9 +28,8 @@ def config():
 
 def prompt(input_sample):
     prompt_text = (
-        f"Propagandistic Content Detection:\n\n"
-        f"Given the rise of information dissemination through various channels, it is crucial to identify propagandistic content in text. Your task is to analyze the provided text and determine if it contains elements of propaganda.\n\n"
-        f"Prompt: Read the text passage below and decide whether it demonstrates propagandistic content. If so, answer only as true or false\n\n"
+        f"Disinformation is defined as fabricated or deliberately manipulated text, speech or visual context, and also intentionally created conspiracy theories or rumors. It can contain hate speech, offensive, spam and harmful content.\n\n"
+        f"Read the text below and decide whether it contain such content. If so, answer only as disinfo or no-disinfo\n\n"
         f"text: {input_sample}\n"
         f"label: \n"
     )
@@ -38,7 +37,7 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are an expert fact checker.",
+            "content": "You are an expert social media analyst.",
         },
         {
             "role": "user",

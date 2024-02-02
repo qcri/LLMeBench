@@ -22,23 +22,23 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/ArAIEVAL231A/task1A_test.jsonl"},
+        "general_args": {
+            "data_path": "data/ArAIEVAL231A/ArAiEval23_disinfo_subtask2A_test.jsonl"
+        },
     }
 
 
 def prompt(input_sample, examples):
     prompt_text = (
-        f"Propagandistic Content Detection:\n\n"
-        f"Given the rise of information dissemination through various channels, it is crucial to identify propagandistic content in text. Your task is to analyze the provided text and determine if it contains elements of propaganda.\n\n"
-        f"Prompt: Read the text passage below and decide whether it demonstrates propagandistic content. If so, answer only as true or false\n\n"
-        f"Illustrative examples are provided below:\n\n"
+        f"Disinformation is defined as fabricated or deliberately manipulated text, speech or visual context, and also intentionally created conspiracy theories or rumors. It can contain hate speech, offensive, spam and harmful content.\n\n"
+        f"Below you will find a few examples that can help you to understand:\n\n"
     )
 
     fs_prompt = few_shot_prompt(input_sample, prompt_text, examples)
     return [
         {
             "role": "system",
-            "content": "You are an expert fact checker.",
+            "content": "You are an expert social media analyst.",
         },
         {
             "role": "user",
@@ -55,6 +55,10 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
         out_prompt = out_prompt + "text: " + sent + "\n" + "label: " + label + "\n\n"
 
+    out_prompt = (
+        out_prompt
+        + "Read the text below and decide whether it contain such content. If so, answer only as disinfo or no-disinfo\n\n"
+    )
     out_prompt = out_prompt + "text: " + input_sample + "\nlabel: \n"
 
     return out_prompt
