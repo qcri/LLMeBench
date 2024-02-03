@@ -1,7 +1,7 @@
 <!---# Adding Model Provider ([See Demo](https://youtu.be/J5H-BD8HQsk?feature=shared)) -->
 # Adding Model Provider
 
-Implementing a model to use for benchmarking can be done by defining a model provider that is hosting that model. . Check first if the model provider you are trying to access a model thorugh has an implementation in `llmebench/models`. If not, implement a new model provider module (e.g. `llmebench/models/FastChat.py`), which implements a class (e.g. `FastChatModel`) which subclasses `ModelBase`. See an existing model provider module for inspiration. Each new model class requires implementing three functions:
+Implementing a model to use for benchmarking can be done by defining a model provider that is hosting that model. . Check first if the model provider you are trying to access a model through has an implementation in `llmebench/models`. If not, implement a new model provider module (e.g. `llmebench/models/FastChat.py`), which implements a class (e.g. `FastChatModel`) which subclasses `ModelBase`. See an existing model provider module for inspiration. Each new model class requires implementing three functions:
 
 ```python
 class NewModel(ModelBase):
@@ -20,6 +20,6 @@ class NewModel(ModelBase):
 		# part of the model response that contains the answer to the prompt
 ```
 
-**Note:** Further details on paramters and role for each function can be found [here](https://github.com/qcri/LLMeBench/blob/main/llmebench/models/model_base.py).
+**Note:** Further details on parameters and role for each function can be found [here](https://github.com/qcri/LLMeBench/blob/main/llmebench/models/model_base.py).
 
 Once the `Model` is implemented, export it in `llmebench/models/__init__.py`.
