@@ -22,7 +22,7 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/ArAIEVAL231A/task1A_test.jsonl"},
+        "general_args": {"test_split": "task1A", "train_split":"task1A"},
     }
 
 
