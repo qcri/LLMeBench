@@ -6,7 +6,8 @@ from .ANSStance import ANSStanceDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
-from .ArAIEVAL231A import ArAIEVAL231A
+from .ArAIEVAL23Task1 import ArAIEVAL23Task1
+from .ArAIEVAL23Task2 import ArAIEVAL23Task2
 from .ArAIEVAL231B import ArAIEVAL231B
 from .ArAIEVAL232A import ArAIEVAL232A
 from .ArAIEVAL232B import ArAIEVAL232B

@@ -80,6 +80,7 @@ def get_data_paths(config, split):
     dataset_args = config.get("dataset_args", {})
     dataset = config["dataset"](**dataset_args)
 
+
     if split == "test":
         data_args = config.get("general_args", {})
     elif split == "train":
@@ -136,6 +137,7 @@ def get_data_paths(config, split):
     else:
         # Use default splits
         available_splits = dataset.metadata()["splits"]
+        print(available_splits)
         if "default" in available_splits:
             # Multilevel splits
             for av_split in available_splits["default"]:

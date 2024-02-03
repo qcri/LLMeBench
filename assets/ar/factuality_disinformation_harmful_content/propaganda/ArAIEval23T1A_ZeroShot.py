@@ -1,6 +1,6 @@
 import re
 
-from llmebench.datasets import ArAIEVAL231A
+from llmebench.datasets import ArAIEVAL23Task1
 from llmebench.models import OpenAIModel
 from llmebench.tasks import ClassificationTask
 
@@ -16,13 +16,14 @@ def metadata():
 
 def config():
     return {
-        "dataset": ArAIEVAL231A,
+        "dataset": ArAIEVAL23Task1,
         "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"data_path": "data/ArAIEVAL231A/task1A_test.jsonl"},
+        "dataset_args": {"splits": "task1A"},
+        "general_args": {"splits": "task1A"},
     }
 
 
