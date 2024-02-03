@@ -22,7 +22,7 @@ def config():
         "model_args": {
             "max_tries": 3,
         },
-        "general_args": {"test_split": "task1A", "train_split":"task1A"},
+        "general_args": {"test_split": "task1A", "train_split": "task1A"},
     }
 
 

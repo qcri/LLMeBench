@@ -80,7 +80,6 @@ def get_data_paths(config, split):
     dataset_args = config.get("dataset_args", {})
     dataset = config["dataset"](**dataset_args)
 
-
     if split == "test":
         data_args = config.get("general_args", {})
     elif split == "train":
