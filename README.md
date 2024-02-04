@@ -24,7 +24,7 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
-- On-the-fly datasets download and dataset caching. 
+- On-the-fly datasets download and dataset caching.
 - Open-source.
 
 ## Quick Start!
@@ -119,7 +119,7 @@ The [tutorials directory](docs/tutorials/) provides tutorials on the following: 
 - Task
 - Dataset
 - Asset
-   
+
 ## Citation
 Please cite our paper when referring to this framework:
 
