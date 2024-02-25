@@ -8,6 +8,7 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "Jais-13b-chat",
         "description": "Locally hosted Jais-13b-chat model using FastChat.",
+        "scores": {"F1 (POS)": "0.221"},
     }
 
 
