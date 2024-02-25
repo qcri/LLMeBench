@@ -54,3 +54,6 @@ from .WikiNewsSegmentation import WikiNewsSegmentationDataset
 from .XGLUEPOS import XGLUEPOSDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
+from .BanFakeNews import BanFakeNewsDataset
+from .BanglaNewsCategorization import BanglaNewsCategorizationDataset
+from .BanglaVITD import BanglaVITDDataset
