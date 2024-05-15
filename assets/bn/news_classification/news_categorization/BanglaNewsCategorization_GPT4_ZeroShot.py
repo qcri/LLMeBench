@@ -17,7 +17,14 @@ def config():
         "task": SentimentTask,
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": ['entertainment', 'state', 'sports', 'national', 'kolkata', 'international'],
+            "class_labels": [
+                "entertainment",
+                "state",
+                "sports",
+                "national",
+                "kolkata",
+                "international",
+            ],
             "max_tries": 20,
         },
     }
