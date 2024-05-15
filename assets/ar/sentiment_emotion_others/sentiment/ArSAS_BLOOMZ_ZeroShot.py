@@ -26,10 +26,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "Choose only one sentiment between: Positive, Negative, Neutral, or Mixed for this Arabic sentence. Provide only label.\n\n"
-        + "sentence: "
-        + input_sample
-        + "label: "
+        "prompt": (
+            "Choose only one sentiment between: Positive, Negative, Neutral, or Mixed for this Arabic sentence. Provide only label.\n\n"
+            + "sentence: "
+            + input_sample
+            + "label: "
+        )
     }
 
 

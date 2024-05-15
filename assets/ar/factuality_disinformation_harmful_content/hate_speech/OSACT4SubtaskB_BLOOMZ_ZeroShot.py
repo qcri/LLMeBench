@@ -28,10 +28,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": 'Given the following Arabic tweet, label it as "HS" or "NOT_HS" based on the content of the tweet. Provide only label.\n\n'
-        + "sentence: "
-        + input_sample
-        + "label: \n"
+        "prompt": (
+            'Given the following Arabic tweet, label it as "HS" or "NOT_HS" based on the content of the tweet. Provide only label.\n\n'
+            + "sentence: "
+            + input_sample
+            + "label: \n"
+        )
     }
 
 

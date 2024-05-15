@@ -7,7 +7,9 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "intfloat/multilingual-e5-small",
-        "description": "Sample HuggingFace Inference API asset for sentence similarity.",
+        "description": (
+            "Sample HuggingFace Inference API asset for sentence similarity."
+        ),
         "scores": {"Micro-F1": "ar/semantics/STS/Q2QSim"},
     }
 

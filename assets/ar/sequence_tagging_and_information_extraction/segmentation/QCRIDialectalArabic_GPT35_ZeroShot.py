@@ -31,11 +31,13 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"A word can be composed of one root and one or multiple affixed, \
+                "text": (
+                    f"A word can be composed of one root and one or multiple affixed, \
                     segment the following sentence into its morphological constituents:\n {input_sample}\
                     The input will be a list of words in the sentence. \
                     The output format should be a list of tuples, where each tuple consists of a word from the input text and its segmented form joined by a + sign.\
-                    ",
+                    "
+                ),
             }
         ],
     }

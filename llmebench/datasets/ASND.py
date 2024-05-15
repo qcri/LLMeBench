@@ -32,7 +32,9 @@ class ASNDDataset(DatasetBase):
                 url = "https://aclanthology.org/2020.wanlp-1.21",
                 pages = "226--236",                
             }""",
-            "link": "https://github.com/shammur/Arabic_news_text_classification_datasets/",
+            "link": (
+                "https://github.com/shammur/Arabic_news_text_classification_datasets/"
+            ),
             "license": "CC BY 4.0",
             "splits": {
                 "test": "sm_news_ar_tst.csv",
