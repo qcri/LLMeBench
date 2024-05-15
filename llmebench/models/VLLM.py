@@ -54,17 +54,13 @@ class VLLMModel(ModelBase):
     ):
         # API parameters
         self.api_url = api_url or os.getenv("VLLM_API_URL")
+        self.user_session_id = os.getenv("USER_SESSION_ID")
         if self.api_url is None:
             raise Exception(
                 "API url must be provided as model config or environment variable (`VLLM_API_URL`)"
             )
         self.api_timeout = timeout
-        self.request_header = {
-            "type": "open_inference_session",
-            "max_length": max_tokens,
-        }
-
-        # BLOOM parameters
+        # Parameters
         tolerance = 1e-7
         self.temperature = temperature
         if self.temperature < tolerance:
@@ -112,7 +108,7 @@ class VLLMModel(ModelBase):
             "messages": processed_input,
             "max_tokens": self.max_tokens,
             "temperature": self.temperature,
-            "user_session_id": "c9bf635f-b0cc-d278-a2c5-01eaae654461",
+            "user_session_id": self.user_session_id,
         }
         try:
             response = requests.post(
