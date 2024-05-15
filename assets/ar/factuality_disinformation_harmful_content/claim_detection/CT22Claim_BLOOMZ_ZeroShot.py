@@ -26,10 +26,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "Does this sentence contain a factual claim? Answer only by yes or no. Provide only label.\n\n"
-        + "Sentence: "
-        + input_sample
-        + "\nLabel: \n"
+        "prompt": (
+            "Does this sentence contain a factual claim? Answer only by yes or no. Provide only label.\n\n"
+            + "Sentence: "
+            + input_sample
+            + "\nLabel: \n"
+        )
     }
 
 

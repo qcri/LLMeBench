@@ -25,11 +25,13 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "Your task is to answer arabic questions based on a given context. Your answers should be extracted from the context."
-        + "\n"
-        + f"Context: {input_sample['context']}\n"
-        + f"Question: {input_sample['question']}\n"
-        + "Answer: "
+        "prompt": (
+            "Your task is to answer arabic questions based on a given context. Your answers should be extracted from the context."
+            + "\n"
+            + f"Context: {input_sample['context']}\n"
+            + f"Question: {input_sample['question']}\n"
+            + "Answer: "
+        )
     }
 
 

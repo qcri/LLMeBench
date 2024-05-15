@@ -7,7 +7,9 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "Jais-13b-chat",
-        "description": "Locally hosted Jais-13b-chat model using FastChat. 3-shot results.",
+        "description": (
+            "Locally hosted Jais-13b-chat model using FastChat. 3-shot results."
+        ),
         "scores": {"Jaccard similarity": "0.1001005"},
     }
 
