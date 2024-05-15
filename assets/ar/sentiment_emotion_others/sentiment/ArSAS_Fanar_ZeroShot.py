@@ -10,7 +10,7 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "Fanar 7B",
         "description": "Locally hosted Fanar 7B model using the VLLM.",
-        #"scores": {"Macro-F1": "0.251"}, # needs to be updated after applying post-processing
+        # "scores": {"Macro-F1": "0.251"}, # needs to be updated after applying post-processing
     }
 
 
