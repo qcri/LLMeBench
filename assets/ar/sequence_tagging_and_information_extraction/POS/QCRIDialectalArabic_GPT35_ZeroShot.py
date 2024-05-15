@@ -123,7 +123,7 @@ def prompt(input_sample):
                  The output format should be a list of tuples, where each tuple consists of a word from the input text and its \
                  corresponding POS tag label from the tag label set: \
                  ["ABBREV", "ADJ", "ADV", "CASE", "CONJ", "DET", "EMOT", "FOREIGN", "FUT_PART", "HASH", "MENTION", "NEG_PART", "NOUN", \
-                 "NSUFF", "NUM", "PART", "PREP", "PROG_PART", "PRON", "PUNC", "URL", "V"]. \
+                 "NSUFF", "NUM", "PART", "PREP", "PROG_PART", "PRON", "PUNC", "URL", "V"].\
                 Note: Your response should include only a list of tuples, in the order that the words appear in the input sentence, \
                 with each tuple containing the corresponding POS tag label for a word. Input:+: {input_sample}',
             }
