@@ -76,13 +76,16 @@ def few_shot_prompt(input_sample, base_prompt, examples):
             + "\n\n"
         )
 
-    out_prompt = out_prompt + f"""
+    out_prompt = (
+        out_prompt
+        + f"""
     
         Text for analysis:
         {input_sample}
         
         Please provide the applicable labels below:
     """
+    )
 
     return out_prompt
 

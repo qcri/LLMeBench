@@ -76,13 +76,16 @@ def few_shot_prompt(input_sample, base_prompt, examples):
         )
 
     # Append the sentence we want the model to predict for but leave the Label blank
-    out_prompt = out_prompt + f"""
+    out_prompt = (
+        out_prompt
+        + f"""
     
         Text for analysis:
         {input_sample}
         
         Please provide the applicable labels below:
     """
+    )
 
     return out_prompt
 
