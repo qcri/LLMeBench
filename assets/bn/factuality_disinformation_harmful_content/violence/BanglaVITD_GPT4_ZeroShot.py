@@ -1,6 +1,6 @@
-from llmebench.datasets import BanFakeNewsDataset
+from llmebench.datasets import BanglaVITDDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -13,27 +13,27 @@ def metadata():
 
 def config():
     return {
-        "dataset": BanFakeNewsDataset,
-        "task": SentimentTask,
+        "dataset": BanglaVITDDataset,
+        "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": ["True", "Clickbaits", "Satire", "Fake"],
+            "class_labels": ["Direct Violence", "Passive Violence", "Non-Violence"],
             "max_tries": 20,
         },
     }
 
 
 def prompt(input_sample):
-    prompt_string = f"""Based on the content of the news, please classify it as either "True", "Clickbaits", "Satire", or "Fake". Provide only the label as your response. 
-        
-        news: {input_sample}
+    prompt_string = f"""Based on the content of the text, please classify it as either "Direct Violence", "Passive Violence", or "Non-Violence". Provide only the label as your response. 
+
+        text: {input_sample}
 
         label: """
 
     return [
         {
             "role": "system",
-            "content": "You are a expert annotator. Your task is to analyze the news and identify the appropriate category of the news.",
+            "content": "You are a expert annotator. Your task is to analyze the text and identify the appropriate category of the text.",
         },
         {
             "role": "user",

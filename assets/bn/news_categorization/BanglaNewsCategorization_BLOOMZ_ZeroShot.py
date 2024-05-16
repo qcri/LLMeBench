@@ -1,6 +1,6 @@
-from llmebench.datasets import BanFakeNewsDataset
+from llmebench.datasets import BanglaNewsCategorizationDataset
 from llmebench.models import PetalsModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -13,18 +13,25 @@ def metadata():
 
 def config():
     return {
-        "dataset": BanFakeNewsDataset,
-        "task": SentimentTask,
+        "dataset": BanglaNewsCategorizationDataset,
+        "task": ClassificationTask,
         "model": PetalsModel,
         "model_args": {
-            "class_labels": ["True", "Clickbaits", "Satire", "Fake"],
+            "class_labels": [
+                "entertainment",
+                "state",
+                "sports",
+                "national",
+                "kolkata",
+                "international",
+            ],
             "max_tries": 10,
         },
     }
 
 
 def prompt(input_sample):
-    prompt_string = f"""Label the following news as True, Clickbaits, Satire, or Fake. Provide only the label as your response. 
+    prompt_string = f"""Label the following news as 'entertainment', 'state', 'sports', 'national', 'kolkata', or 'international'. Provide only the label as your response. 
 
         news: {input_sample}
 

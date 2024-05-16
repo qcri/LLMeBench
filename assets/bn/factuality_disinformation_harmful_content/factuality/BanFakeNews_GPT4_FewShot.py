@@ -1,7 +1,6 @@
-from llmebench.datasets import BanglaNewsCategorizationDataset
+from llmebench.datasets import BanFakeNewsDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import SentimentTask
-import os
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -14,11 +13,11 @@ def metadata():
 
 def config():
     return {
-        "dataset": BanglaNewsCategorizationDataset,
-        "task": SentimentTask,
+        "dataset": BanFakeNewsDataset,
+        "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": ['entertainment', 'state', 'sports', 'national', 'kolkata', 'international'],
+            "class_labels": ["True", "Clickbaits", "Satire", "Fake"],
             "max_tries": 20,
         },
     }
@@ -48,7 +47,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = 'Annotate the "news" into "one" of the following categories: "entertainment", "state", "sports", "national", "kolkata", or "international"'
+    base_prompt = 'Annotate the "news" into "one" of the following categories: "True", "Clickbaits", "Satire", or "Fake".'
     return [
         {
             "role": "system",

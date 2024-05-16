@@ -1,6 +1,6 @@
 from llmebench.datasets import BanglaNewsCategorizationDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -14,10 +14,17 @@ def metadata():
 def config():
     return {
         "dataset": BanglaNewsCategorizationDataset,
-        "task": SentimentTask,
+        "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": ['entertainment', 'state', 'sports', 'national', 'kolkata', 'international'],
+            "class_labels": [
+                "entertainment",
+                "state",
+                "sports",
+                "national",
+                "kolkata",
+                "international",
+            ],
             "max_tries": 20,
         },
     }

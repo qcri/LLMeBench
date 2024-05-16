@@ -1,6 +1,6 @@
-from llmebench.datasets import BanglaNewsCategorizationDataset
+from llmebench.datasets import BanglaVITDDataset
 from llmebench.models import PetalsModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -13,20 +13,20 @@ def metadata():
 
 def config():
     return {
-        "dataset": BanglaNewsCategorizationDataset,
-        "task": SentimentTask,
+        "dataset": BanglaVITDDataset,
+        "task": ClassificationTask,
         "model": PetalsModel,
         "model_args": {
-            "class_labels": ['entertainment', 'state', 'sports', 'national', 'kolkata', 'international'],
+            "class_labels": ["Direct Violence", "Passive Violence", "Non-Violence"],
             "max_tries": 10,
         },
     }
 
 
 def prompt(input_sample):
-    prompt_string = f"""Label the following news as 'entertainment', 'state', 'sports', 'national', 'kolkata', or 'international'. Provide only the label as your response. 
+    prompt_string = f"""Label the following news as "Direct Violence", "Passive Violence", or "Non-Violence". Provide only the label as your response. 
 
-        news: {input_sample}
+        text: {input_sample}
 
         label: """
 

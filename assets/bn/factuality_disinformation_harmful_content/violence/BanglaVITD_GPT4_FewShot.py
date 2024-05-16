@@ -1,6 +1,6 @@
-from llmebench.datasets import BanFakeNewsDataset
+from llmebench.datasets import BanglaVITDDataset
 from llmebench.models import OpenAIModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -13,11 +13,11 @@ def metadata():
 
 def config():
     return {
-        "dataset": BanFakeNewsDataset,
-        "task": SentimentTask,
+        "dataset": BanglaVITDDataset,
+        "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": ["True", "Clickbaits", "Satire", "Fake"],
+            "class_labels": ["Direct Violence", "Passive Violence", "Non-Violence"],
             "max_tries": 20,
         },
     }
@@ -34,24 +34,24 @@ def few_shot_prompt(input_sample, base_prompt, examples):
             + str(index)
             + ":"
             + "\n"
-            + "news: "
+            + "text: "
             + example["input"]
             + "\nlabel: "
             + example["label"]
             + "\n\n"
         )
 
-    out_prompt = out_prompt + "news: " + input_sample + "\nlabel: \n"
+    out_prompt = out_prompt + "text: " + input_sample + "\nlabel: \n"
 
     return out_prompt
 
 
 def prompt(input_sample, examples):
-    base_prompt = 'Annotate the "news" into "one" of the following categories: "True", "Clickbaits", "Satire", or "Fake".'
+    base_prompt = 'Annotate the "text" into "one" of the following categories: "Direct Violence", "Passive Violence", or "Non-Violence".'
     return [
         {
             "role": "system",
-            "content": f"You are a expert annotator. Your task is to analyze the news and identify the appropriate category of the news.\n",
+            "content": f"You are a expert annotator. Your task is to analyze the text and identify the appropriate category of the text.\n",
         },
         {
             "role": "user",
