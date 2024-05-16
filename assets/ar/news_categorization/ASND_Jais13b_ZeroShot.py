@@ -6,9 +6,9 @@ from llmebench.tasks import NewsCategorizationTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "Jais-13b",
+        "model": "Jais-13b-chat",
         "description": "Locally hosted Jais-13b-chat model using FastChat.",
-        "scores": {"Macro-F1": "0.1955"},
+        "scores": {"Macro-F1": "0.156"},
     }
 
 
@@ -22,12 +22,12 @@ def config():
 
 def prompt(input_sample):
     base_prompt = (
-        f"Classify the following tweet into one of the following categories: "
-        f"spiritual, crime-war-conflict, health, politics, human-rights-press-freedom, "
-        f"education, business-and-economy, art-and-entertainment, others, "
-        f"science-and-technology, sports or environment\n"
-        f"\ntweet: {input_sample}"
-        f"\ncategory: \n"
+        f"صنف التغريدة التالية إلى واحدة من الفئات التالية: "
+        f"جريمة-حرب-صراع ، روحي-ديني ، صحة ، سياسة ، حقوق-الإنسان-حرية-الصحافة ، "
+        f"تعليم ، أعمال-اقتصاد ، فن-ترفيه ، أخرى ، "
+        f"علوم-تكنولوجيا ، رياضة ، بيئة\n"
+        f"\nالتغريدة: {input_sample}"
+        f"\nالفئة: \n"
     )
 
     return [
@@ -39,34 +39,33 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].lower()
+    label = response["choices"][0]["message"]["content"]
 
-    if "crime-war-conflict" in label or "war" in label:
+    if "جريمة-حرب-صراع" in label or "صراع-حرب" in label:
         label_fixed = "crime-war-conflict"
-    elif "spiritual" in label:
+    elif "روحي" in label or "ديني" in label:
         label_fixed = "spiritual"
-    elif "health" in label:
+    elif "صحة" in label:
         label_fixed = "health"
-    elif "politics" in label:
+    elif "سياسة" in label:
         label_fixed = "politics"
-    elif "human-rights-press-freedom" in label:
+    elif "حقوق-الإنسان-حرية-الصحافة" in label:
         label_fixed = "human-rights-press-freedom"
-    elif "education" in label:
+    elif "تعليم" in label:
         label_fixed = "education"
-    elif "business-and-economy" in label:
+    elif "أعمال-و-اقتصاد" in label or "أعمال" in label or "اقتصاد" in label:
         label_fixed = "business-and-economy"
-    elif "art-and-entertainment" in label or "entertainment" in label:
+    elif "فن-و-ترفيه" in label or "ترفيه" in label:
         label_fixed = "art-and-entertainment"
-    elif "others" in label:
+    elif "أخرى" in label:
         label_fixed = "others"
-    elif "science-and-technology" in label or "science" in label:
+    elif "علم-و-تكنولوجيا" in label or "علوم" in label or "تكنولوجيا" in label:
         label_fixed = "science-and-technology"
-    elif "sports" in label:
+    elif "رياضة" in label:
         label_fixed = "sports"
-    elif "environment" in label:
+    elif "بيئة" in label:
         label_fixed = "environment"
     else:
-        label_fixed = None
-
+        label_fixed = "others"
 
     return label_fixed
