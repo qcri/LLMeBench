@@ -12,7 +12,10 @@ from .ArSarcasm import ArSarcasmDataset
 from .ArSarcasm2 import ArSarcasm2Dataset
 from .ArSAS import ArSASDataset
 from .ASND import ASNDDataset
+from .BanFakeNews import BanFakeNewsDataset
+from .BanglaNewsCategorization import BanglaNewsCategorizationDataset
 from .BanglaSentiment import BanglaSentimentDataset
+from .BanglaVITD import BanglaVITDDataset
 from .BibleMaghrebiDiacritization import BibleMaghrebiDiacritizationDataset
 from .COVID19Factuality import COVID19FactualityDataset
 from .CSV import CSVDataset
@@ -54,6 +57,3 @@ from .WikiNewsSegmentation import WikiNewsSegmentationDataset
 from .XGLUEPOS import XGLUEPOSDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
-from .BanFakeNews import BanFakeNewsDataset
-from .BanglaNewsCategorization import BanglaNewsCategorizationDataset
-from .BanglaVITD import BanglaVITDDataset

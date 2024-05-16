@@ -1,6 +1,7 @@
+import csv
+
 from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
-import csv
 
 
 class BanglaNewsCategorizationDataset(DatasetBase):
@@ -37,7 +38,14 @@ class BanglaNewsCategorizationDataset(DatasetBase):
                 "train": "train.tsv",
             },
             "task_type": TaskType.Classification,
-            "class_labels": ['entertainment', 'state', 'sports', 'national', 'kolkata', 'international'],
+            "class_labels": [
+                "entertainment",
+                "state",
+                "sports",
+                "national",
+                "kolkata",
+                "international",
+            ],
         }
 
     @staticmethod
@@ -49,11 +57,13 @@ class BanglaNewsCategorizationDataset(DatasetBase):
 
         data = []
         with open(data_path, "r") as fp:
-            reader = csv.reader(fp, delimiter='\t')
+            reader = csv.reader(fp, delimiter="\t")
             next(fp)
             for line_idx, line in enumerate(reader):
-                content, label = line[0], line[1] #line.strip().split("\t")
+                content, label = line[0], line[1]  # line.strip().split("\t")
                 label = label.capitalize()
-                data.append({"input": content, "label": label, "article_id": line_idx+1})
+                data.append(
+                    {"input": content, "label": label, "article_id": line_idx + 1}
+                )
 
         return data

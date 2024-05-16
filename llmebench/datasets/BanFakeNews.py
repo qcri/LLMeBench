@@ -39,6 +39,12 @@ class BanFakeNewsDataset(DatasetBase):
             for line_idx, line in enumerate(fp):
                 id, headline, content, label = line.strip().split("\t")
                 label = label.capitalize()
-                data.append({"input": headline+"\n"+content, "label": label, "article_id": id})
+                data.append(
+                    {
+                        "input": headline + "\n" + content,
+                        "label": label,
+                        "article_id": id,
+                    }
+                )
 
         return data
