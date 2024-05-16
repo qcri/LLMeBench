@@ -29,7 +29,9 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": f"Diacritize fully the following Arabic sentence: {input_sample}",
+                "text": (
+                    f"Diacritize fully the following Arabic sentence: {input_sample}"
+                ),
             }
         ],
     }
