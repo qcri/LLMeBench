@@ -28,7 +28,7 @@ class BanFakeNewsDataset(DatasetBase):
 
     @staticmethod
     def get_data_sample():
-        return {"input": "News", "label": "Fake", "article_id": 1}
+        return {"input": "News", "label": "Fake", "id": 1}
 
     def load_data(self, data_path):
         data_path = self.resolve_path(data_path)
@@ -39,6 +39,12 @@ class BanFakeNewsDataset(DatasetBase):
             for line_idx, line in enumerate(fp):
                 id, headline, content, label = line.strip().split("\t")
                 label = label.capitalize()
-                data.append({"input": headline+"\n"+content, "label": label, "article_id": id})
+                data.append(
+                    {
+                        "input": headline + "\n" + content,
+                        "label": label,
+                        "id": id,
+                    }
+                )
 
         return data

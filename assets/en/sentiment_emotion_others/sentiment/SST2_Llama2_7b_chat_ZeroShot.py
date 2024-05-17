@@ -39,7 +39,9 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are a data annotation expert specializing in sentiment analysis.",
+            "content": (
+                "You are a data annotation expert specializing in sentiment analysis."
+            ),
         },
         {"role": "user", "content": prompt_string},
     ]
