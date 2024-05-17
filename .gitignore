@@ -14,6 +14,7 @@ data
 
 # Tests
 .coverage
+.coverage.Arid.local.57674.812565
 
 
 # IDE stuff
