@@ -65,7 +65,9 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are an expert social media content analyst.",  # You are capable of identifying and annotating tweets correct or incorrect
+            "content": (
+                "You are an expert social media content analyst."
+            ),  # You are capable of identifying and annotating tweets correct or incorrect
         },
         {
             "role": "user",

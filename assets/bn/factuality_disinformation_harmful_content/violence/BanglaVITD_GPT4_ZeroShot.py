@@ -1,4 +1,4 @@
-from llmebench.datasets import BanglaSentimentDataset
+from llmebench.datasets import BanglaVITDDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import ClassificationTask
 
@@ -6,25 +6,25 @@ from llmebench.tasks import ClassificationTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "model": "gpt-3.5-turbo",
+        "description": "GPT3.5 Turbo 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
     }
 
 
 def config():
     return {
-        "dataset": BanglaSentimentDataset,
+        "dataset": BanglaVITDDataset,
         "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {
-            "class_labels": ["Positive", "Negative", "Neutral"],
+            "class_labels": ["Direct Violence", "Passive Violence", "Non-Violence"],
             "max_tries": 20,
         },
     }
 
 
 def prompt(input_sample):
-    prompt_string = f"""Based on the content of the text, please classify it as either "Positive", "Negative", or "Neutral". Provide only the label as your response. 
+    prompt_string = f"""Based on the content of the text, please classify it as either "Direct Violence", "Passive Violence", or "Non-Violence". Provide only the label as your response. 
 
         text: {input_sample}
 
@@ -33,7 +33,7 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are a expert annotator. Your task is to analyze the text and identify sentiment polarity.",
+            "content": "You are a expert annotator. Your task is to analyze the text and identify the appropriate category of the text.",
         },
         {
             "role": "user",

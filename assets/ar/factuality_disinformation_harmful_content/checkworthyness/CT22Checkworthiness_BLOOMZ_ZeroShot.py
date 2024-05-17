@@ -27,10 +27,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "Classify the sentence as checkworthy or not checkworthy. Provide only label.\n\n"
-        + "sentence: "
-        + input_sample
-        + "label: \n"
+        "prompt": (
+            "Classify the sentence as checkworthy or not checkworthy. Provide only label.\n\n"
+            + "sentence: "
+            + input_sample
+            + "label: \n"
+        )
     }
 
 
