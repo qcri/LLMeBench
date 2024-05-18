@@ -24,7 +24,7 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
-- On-the-fly datasets download and dataset caching. 
+- On-the-fly datasets download and dataset caching.
 - Open-source.
 
 ## Quick Start!
@@ -119,18 +119,28 @@ The [tutorials directory](docs/tutorials/) provides tutorials on the following: 
 - Task
 - Dataset
 - Asset
-   
+
 ## Citation
-Please cite our paper when referring to this framework:
+Please cite our papers when referring to this framework:
 
 ```
+@inproceedings{abdelali-2024-larabench,
+  title = "{{LAraBench}: Benchmarking Arabic AI with Large Language Models}",
+  author ={Ahmed Abdelali and Hamdy Mubarak and Shammur Absar Chowdhury and Maram Hasanain and Basel Mousi and Sabri Boughorbel and Samir Abdaljalil and Yassine El Kheir and Daniel Izham and Fahim Dalvi and Majd Hawasly and Nizi Nazar and Yousseif Elshahawy and Ahmed Ali and Nadir Durrani and Natasa Milic-Frayling and Firoj Alam},
+  booktitle = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: Volume 1, Long Papers},
+  month = mar,
+  year = {2024},
+  address = {Malta},
+  publisher = {Association for Computational Linguistics},
+}
+
 @article{dalvi2023llmebench,
-      title={LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking},
+      title={{LLMeBench}: A Flexible Framework for Accelerating LLMs Benchmarking},
       author={Fahim Dalvi and Maram Hasanain and Sabri Boughorbel and Basel Mousi and Samir Abdaljalil and Nizi Nazar and Ahmed Abdelali and Shammur Absar Chowdhury and Hamdy Mubarak and Ahmed Ali and Majd Hawasly and Nadir Durrani and Firoj Alam},
-      year={2023},
-      eprint={2308.04945},
-      journal={arXiv:2308.04945},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2308.04945}
+      booktitle = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations},
+      month = mar,
+      year = {2024},
+      address = {Malta},
+      publisher = {Association for Computational Linguistics},
 }
 ```

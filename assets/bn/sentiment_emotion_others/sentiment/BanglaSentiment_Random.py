@@ -1,6 +1,6 @@
 from llmebench.datasets import BanglaSentimentDataset
 from llmebench.models import RandomModel
-from llmebench.tasks import SentimentTask, TaskType
+from llmebench.tasks import ClassificationTask, TaskType
 
 
 def metadata():
@@ -15,7 +15,7 @@ def metadata():
 def config():
     return {
         "dataset": BanglaSentimentDataset,
-        "task": SentimentTask,
+        "task": ClassificationTask,
         "model": RandomModel,
         "model_args": {
             "task_type": TaskType.Classification,

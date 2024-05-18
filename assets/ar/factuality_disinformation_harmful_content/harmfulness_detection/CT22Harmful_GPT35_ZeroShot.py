@@ -31,8 +31,10 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": "Classify the sentence as harmful or not harmful. Answer only by yes or no. Provide only "
-                "label.\n\n" + "sentence: " + input_sample + "label: \n",
+                "text": (
+                    "Classify the sentence as harmful or not harmful. Answer only by yes or no. Provide only "
+                    "label.\n\n" + "sentence: " + input_sample + "label: \n"
+                ),
             }
         ],
     }

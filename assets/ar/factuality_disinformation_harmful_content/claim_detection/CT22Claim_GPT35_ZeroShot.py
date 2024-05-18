@@ -31,8 +31,10 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": "Does this sentence contain a factual claim? Answer only by yes or no."
-                "\n\nsentence: " + input_sample + "label: \n",
+                "text": (
+                    "Does this sentence contain a factual claim? Answer only by yes or no."
+                    "\n\nsentence: " + input_sample + "label: \n"
+                ),
             }
         ],
     }

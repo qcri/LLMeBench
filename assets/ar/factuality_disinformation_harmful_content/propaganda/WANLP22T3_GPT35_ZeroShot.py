@@ -32,12 +32,14 @@ def prompt(input_sample):
         "messages": [
             {
                 "sender": "user",
-                "text": "From the text below detect the following propaganda techniques: "
-                + "no-technique, smears, exaggeration-minimisation, loaded-language, appeal-to-fear-prejudice, name-calling-labeling, slogans, repetition, doubt, obfuscation-intentional-vagueness-confusion, flag-waving, glittering-generalities-virtue, presenting-irrelevant-data-red-herring, appeal-to-authority, whataboutism, black-and-white-fallacy-dictatorship, thought-terminating-cliché, causal-oversimplification. "
-                + "\n Provide one or more labels.\n\n"
-                + "sentence: "
-                + input_sample
-                + "label: \n",
+                "text": (
+                    "From the text below detect the following propaganda techniques: "
+                    + "no-technique, smears, exaggeration-minimisation, loaded-language, appeal-to-fear-prejudice, name-calling-labeling, slogans, repetition, doubt, obfuscation-intentional-vagueness-confusion, flag-waving, glittering-generalities-virtue, presenting-irrelevant-data-red-herring, appeal-to-authority, whataboutism, black-and-white-fallacy-dictatorship, thought-terminating-cliché, causal-oversimplification. "
+                    + "\n Provide one or more labels.\n\n"
+                    + "sentence: "
+                    + input_sample
+                    + "label: \n"
+                ),
             }
         ],
     }
