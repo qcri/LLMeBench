@@ -26,10 +26,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "Classify the following sentence as 'spam' or 'not_spam'. Provide only label.\n\n"
-        + "sentence: "
-        + input_sample
-        + "label: "
+        "prompt": (
+            "Classify the following sentence as 'spam' or 'not_spam'. Provide only label.\n\n"
+            + "sentence: "
+            + input_sample
+            + "label: "
+        )
     }
 
 

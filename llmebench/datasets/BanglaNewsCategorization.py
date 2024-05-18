@@ -1,3 +1,4 @@
+
 from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 import csv
@@ -37,23 +38,34 @@ class BanglaNewsCategorizationDataset(DatasetBase):
                 "train": "train.tsv",
             },
             "task_type": TaskType.Classification,
-            "class_labels": ['entertainment', 'state', 'sports', 'national', 'kolkata', 'international'],
+
+            "class_labels": [
+                "entertainment",
+                "state",
+                "sports",
+                "national",
+                "kolkata",
+                "international",
+            ],
         }
 
     @staticmethod
     def get_data_sample():
-        return {"input": "News", "label": "entertainment", "article_id": 1}
+        return {"input": "News", "label": "entertainment", "id": 1}
 
     def load_data(self, data_path):
         data_path = self.resolve_path(data_path)
 
         data = []
         with open(data_path, "r") as fp:
-            reader = csv.reader(fp, delimiter='\t')
+            reader = csv.reader(fp, delimiter="\t")
             next(fp)
             for line_idx, line in enumerate(reader):
-                content, label = line[0], line[1] #line.strip().split("\t")
+                content, label = line[0], line[1]  # line.strip().split("\t")
                 label = label.capitalize()
-                data.append({"input": content, "label": label, "article_id": line_idx+1})
+                data.append(
+                    {"input": content, "label": label, "id": line_idx + 1}
+                )
+
 
         return data

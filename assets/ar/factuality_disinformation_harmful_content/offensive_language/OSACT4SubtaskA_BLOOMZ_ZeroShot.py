@@ -26,10 +26,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": 'Given the following Arabic tweet, label it as "OFF" if it contains offensive content, or label it as "NOT_OFF" otherwise, based on the content of the tweet. Provide only label.\n\n'
-        + "sentence: "
-        + input_sample
-        + "label: "
+        "prompt": (
+            'Given the following Arabic tweet, label it as "OFF" if it contains offensive content, or label it as "NOT_OFF" otherwise, based on the content of the tweet. Provide only label.\n\n'
+            + "sentence: "
+            + input_sample
+            + "label: "
+        )
     }
 
 

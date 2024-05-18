@@ -1,4 +1,4 @@
-from llmebench.datasets import BanglaSentimentDataset
+from llmebench.datasets import BanFakeNewsDataset
 from llmebench.models import PetalsModel
 from llmebench.tasks import ClassificationTask
 
@@ -13,20 +13,20 @@ def metadata():
 
 def config():
     return {
-        "dataset": BanglaSentimentDataset,
+        "dataset": BanFakeNewsDataset,
         "task": ClassificationTask,
         "model": PetalsModel,
         "model_args": {
-            "class_labels": ["Positive", "Negative", "Neutral"],
+            "class_labels": ["True", "Clickbaits", "Satire", "Fake"],
             "max_tries": 10,
         },
     }
 
 
 def prompt(input_sample):
-    prompt_string = f"""Label the following text as Neutral Positive, or Negative. Provide only the label as your response. 
+    prompt_string = f"""Label the following news as True, Clickbaits, Satire, or Fake. Provide only the label as your response. 
 
-        text: {input_sample}
+        news: {input_sample}
 
         label: """
 
