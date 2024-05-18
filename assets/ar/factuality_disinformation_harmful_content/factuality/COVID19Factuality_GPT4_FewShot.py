@@ -8,7 +8,7 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "gpt-4-32k (version 0314)",
         "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'. 3 samples where chosen per test sample based on MaxMarginalRelevance for few shot learning.",
-        "scores": {"Weighted-F1": "0.497"},
+        "scores": {"Weighted-F1": "0.491"},
     }
 
 
@@ -49,11 +49,11 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def prompt(input_sample, examples):
-    base_prompt = f'Annotate the "tweet" into one of the following categories: yes or no. Provide only label.'
+    base_prompt = f"Does the following tweet contain a factually correct claim or not? Answer only by yes or no."
     return [
         {
             "role": "system",
-            "content": "You are a social media expert, a fact-checker and you can annotate tweets.",
+            "content": "You are an expert fact-checker.",
         },
         {
             "role": "user",
@@ -63,20 +63,28 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"]
+    label = response["choices"][0]["message"]["content"].lower()
 
     if (
+        label.startswith("i am unable to verify")
+        or label.startswith("i am unable to categorize")
+        or label.startswith("i cannot")
+        or "cannot" in label
+    ):
+        # print(label)
+        label_fixed = None
+    elif (
         "label: incorrect" in label
         or "incorrect" in label
         or label == "no"
-        or "label: no" in label
+        or label == "لا"
     ):
         label_fixed = "no"
     elif (
         "label: correct" in label
         or "correct" in label
-        or label == "yes"
-        or "label: yes" in label
+        or "yes" in label
+        or "نعم" in label
     ):
         label_fixed = "yes"
     else:

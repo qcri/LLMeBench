@@ -7,7 +7,9 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "togethercomputer/RedPajama-INCITE-Chat-3B-v1",
-        "description": "Locally hosted RedPajama-INCITE-Chat 3b parameters model using FastChat.",
+        "description": (
+            "Locally hosted RedPajama-INCITE-Chat 3b parameters model using FastChat."
+        ),
         "scores": {"Accuracy": "0.681"},
     }
 
@@ -39,7 +41,9 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": "You are a data annotation expert specializing in sentiment analysis.",
+            "content": (
+                "You are a data annotation expert specializing in sentiment analysis."
+            ),
         },
         {"role": "user", "content": prompt_string},
     ]

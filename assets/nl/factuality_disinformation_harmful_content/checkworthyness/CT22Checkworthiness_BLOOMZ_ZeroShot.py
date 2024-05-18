@@ -26,10 +26,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "Classify the tweet as checkworthy or not checkworthy. Provide only label.\n\n"
-        + "tweet: "
-        + input_sample
-        + "label: \n"
+        "prompt": (
+            "Classify the tweet as checkworthy or not checkworthy. Provide only label.\n\n"
+            + "tweet: "
+            + input_sample
+            + "label: \n"
+        )
     }
 
 

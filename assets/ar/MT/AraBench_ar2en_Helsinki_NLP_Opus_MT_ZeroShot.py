@@ -7,7 +7,9 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "Helsinki-NLP/opus-mt-ar-en",
-        "description": "Sample HuggingFace Inference API asset for machine translation.",
+        "description": (
+            "Sample HuggingFace Inference API asset for machine translation."
+        ),
     }
 
 
@@ -22,7 +24,9 @@ def config():
         "model": HuggingFaceInferenceAPIModel,
         "model_args": {
             "task_type": HuggingFaceTaskTypes.Translation,
-            "inference_api_url": "https://api-inference.huggingface.co/models/Helsinki-NLP/opus-mt-ar-en",
+            "inference_api_url": (
+                "https://api-inference.huggingface.co/models/Helsinki-NLP/opus-mt-ar-en"
+            ),
             "max_tries": 5,
         },
     }

@@ -6,8 +6,9 @@ from llmebench.tasks import StanceTask
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "Jais-13b-chat",
-        "description": "Locally hosted Jais-13b-chat model using FastChat.",
+        "model": "Jais-13b",
+        "description": "Locally hosted Jais-13b-chat model using FastChat. 5-shot",
+        "scores": {"Macro-F1": "0.5272154156628485"},
     }
 
 
@@ -23,7 +24,7 @@ def config():
     }
 
 
-def prompt(input_sample):
+def prompt(input_sample, examples):
     ref_s = input_sample["sentence_1"]
     claim = input_sample["sentence_2"]
     base_prompt = (
@@ -37,9 +38,43 @@ def prompt(input_sample):
     return [
         {
             "role": "user",
-            "content": base_prompt,
+            "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
+
+
+def few_shot_prompt(input_sample, base_prompt, examples):
+    out_prompt = base_prompt
+    for example in examples:
+        ref_s = example["input"]["sentence_1"]
+        claim = example["input"]["sentence_2"]
+
+        out_prompt = (
+            out_prompt
+            + "reference sentence: "
+            + ref_s
+            + "\nclaim: "
+            + claim
+            + "\nlabel: "
+            + example["label"]
+            + "\n\n"
+        )
+
+    # Append the sentence we want the model to predict for but leave the label blank
+
+    ref_s = input_sample["sentence_1"]
+    claim = input_sample["sentence_2"]
+
+    out_prompt = (
+        out_prompt
+        + "reference sentence: "
+        + ref_s
+        + "\nclaim: "
+        + claim
+        + "\nlabel: \n"
+    )
+
+    return out_prompt
 
 
 def post_process(response):
