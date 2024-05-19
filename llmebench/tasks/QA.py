@@ -65,7 +65,11 @@ class QATask(TaskBase):
                 self.f1_score, prediction, ground_truths
             )
 
-        exact_match = 100.0 * exact_match / total
-        f1 = 100.0 * f1 / total
+        # Original script was returning 100* F1 but we report F1 in Larabench so no need to return % here.
+        # exact_match = 100.0 * exact_match / total
+        # f1 = 100.0 * f1 / total
+
+        exact_match = exact_match / total
+        f1 = f1 / total
 
         return {"exact_match": exact_match, "f1": f1}
