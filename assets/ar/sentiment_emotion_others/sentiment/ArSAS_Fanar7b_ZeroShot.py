@@ -51,7 +51,7 @@ def post_process(response):
         label = label.replace("<s>", "")
         label = label.replace("</s>", "")
     else:
-        #print("Response .. " + str(response))
+        # print("Response .. " + str(response))
         label = ""
 
     return label

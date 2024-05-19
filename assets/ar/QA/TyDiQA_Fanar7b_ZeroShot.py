@@ -30,10 +30,10 @@ def prompt(input_sample):
             "role": "user",
             "content": (
                 "مهمتك هي الإجابة على الأسئلة العربية بناء على سياق معين. يجب أن تستخرج إجاباتك من السياق."
-            + "\n"
-            + f"السياق: {input_sample['context']}\n"
-            + f"السؤال:  {input_sample['question']}\n"
-            + "الإجابة: "
+                + "\n"
+                + f"السياق: {input_sample['context']}\n"
+                + f"السؤال:  {input_sample['question']}\n"
+                + "الإجابة: "
             ),
         },
     ]
@@ -50,12 +50,12 @@ def post_process(response):
         label = label.replace("<s>", "")
         label = label.replace("</s>", "")
     else:
-        #print("Response .. " + str(response))
+        # print("Response .. " + str(response))
         label = ""
 
     label = label.replace("الجواب:", "")
     label = label.replace("الإجابة:", "")
-    label = label.replace("الجواب هو:","")
+    label = label.replace("الجواب هو:", "")
 
     label = label.strip()
 
