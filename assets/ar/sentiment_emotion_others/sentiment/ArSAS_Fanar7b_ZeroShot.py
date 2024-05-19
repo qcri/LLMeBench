@@ -46,12 +46,12 @@ def post_process(response):
             label = response["messages"]["content"].strip()
             label = label.replace("<s>", "")
             label = label.replace("</s>", "")
-    elif "content" in response["messages"]:
-        label = response["messages"]["content"].strip()
+    elif "content" in response:
+        label = response["content"].strip()
         label = label.replace("<s>", "")
         label = label.replace("</s>", "")
     else:
-        random.seed(1234)
-        labels = config()["model_args"]["class_labels"]
-        label = random.choice(labels)
+        #print("Response .. " + str(response))
+        label = ""
+
     return label
