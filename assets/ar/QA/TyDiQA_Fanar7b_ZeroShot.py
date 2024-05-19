@@ -55,6 +55,8 @@ def post_process(response):
 
     label = label.replace("الجواب:", "")
     label = label.replace("الإجابة:", "")
+    label = label.replace("الجواب هو:","")
+
     label = label.strip()
 
     return label
