@@ -9,6 +9,10 @@ from .ArabGend import ArabGendDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
 from .ArSarcasm import ArSarcasmDataset
+from .ArProBinary import ArProBinaryDataset
+from .ArProCoarse import ArProCoarseDataset
+from .ArProMultilabel import ArProMultilabelDataset
+from .ArProSpan import ArProSpanDataset
 from .ArSarcasm2 import ArSarcasm2Dataset
 from .ArSAS import ArSASDataset
 from .ASND import ASNDDataset
