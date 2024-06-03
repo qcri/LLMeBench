@@ -30,7 +30,7 @@ class ArMemesDataset(DatasetBase):
 
     @staticmethod
     def get_data_sample():
-        return {"text": "text", "image": "base64", "label": "propaganda"}
+        return {"input": {"text": "text", "image": "base64"}, "label": "propaganda"}
 
     # Function to encode the image
     def encode_image(self, image_path):
