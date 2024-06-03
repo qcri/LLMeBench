@@ -8,6 +8,7 @@ def metadata():
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "Jais-13b-chat",
         "description": "Locally hosted Jais-13b-chat model using FastChat.",
+        "scores": {"Macro-F1": "0.5717"},
     }
 
 
@@ -21,11 +22,7 @@ def config():
 
 
 def prompt(input_sample):
-    base_prompt = (
-        f"صنف الجملة إلى لاموضوعية أو موضوعية.\n\n"
-        f"التغريدة: {input_sample}\n"
-        f"التصنيف: \n"
-    )
+    base_prompt = f"Classify the sentence as Subjective or Objective. Provide only label.\n\ntext: {input_sample}label: "
     return [
         {
             "role": "user",
@@ -35,15 +32,18 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"].lower().replace(".", "")
+    label = (
+        response["choices"][0]["message"]["content"].lower().replace(".", "").strip()
+    )
 
-    if "لاموضوعية" in label:
-        label_fixed = "SUBJ"
-    elif (
-        label == "موضوعية" or label == "التصنيف: موضوعية" or "التصنيف: موضوعية" in label
-    ):
+    if "label: objective" in label:
         label_fixed = "OBJ"
-    else:
-        label_fixed = None
+    elif "label: subjective" in label:
+        label_fixed = "SUBJ"
+    elif label == "objective" or label == "objective.":
+        label_fixed = "OBJ"
+
+    elif label == "subjective" or label == "subjective.":
+        label_fixed = "SUBJ"
 
     return label_fixed
