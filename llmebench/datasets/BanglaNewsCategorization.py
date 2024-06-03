@@ -50,7 +50,7 @@ class BanglaNewsCategorizationDataset(DatasetBase):
 
     @staticmethod
     def get_data_sample():
-        return {"input": "News", "label": "entertainment", "article_id": 1}
+        return {"input": "News", "label": "entertainment", "id": 1}
 
     def load_data(self, data_path):
         data_path = self.resolve_path(data_path)
@@ -62,8 +62,6 @@ class BanglaNewsCategorizationDataset(DatasetBase):
             for line_idx, line in enumerate(reader):
                 content, label = line[0], line[1]  # line.strip().split("\t")
                 label = label.capitalize()
-                data.append(
-                    {"input": content, "label": label, "article_id": line_idx + 1}
-                )
+                data.append({"input": content, "label": label, "id": line_idx + 1})
 
         return data
