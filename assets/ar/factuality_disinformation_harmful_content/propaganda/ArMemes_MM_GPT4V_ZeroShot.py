@@ -74,7 +74,6 @@ def prompt(input_sample):
 
 def post_process(response):
     data = response["choices"][0]["message"]["content"]
-    print(data)
     data = re.search(r"```json\n(.*)\n```", data, re.DOTALL).group(1)
     data = json.loads(data)
 

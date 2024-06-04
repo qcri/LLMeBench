@@ -31,17 +31,7 @@ def config():
 
 
 def prompt(input_sample):
-    # base64_image = input_sample["image"]
     t_text = input_sample["text"]
-    # prompt = (
-    #     "You are an expert social media image analyzer specializing in identifying propaganda in Arabic contexts. "
-    #     "I will provide you with Arabic memes and the text extracted from these images. Your task is to briefly analyze them. "
-    #     "To accurately perform this task, you will: (a) Explicitly focus on the image content to understand the context and provide a meaningful description and "
-    #     "(b) pay close attention to the extracted text to enrich your description and support your analysis. "
-    #     'Finally, provide response in valid JSON format with two fields with a format: {"description": "text", "classification": "propaganda"}. Output only json. '
-    #     'The "description" should be very short in maximum 100 words and "classification" label should be "propaganda" or "not-propaganda" or "not-meme" or "other". '
-    #     "Note, other is a category, which is used to label the image that does not fall in any of the previous category."
-    # )
     prompt = (
         "You are an expert social media analyst specializing in identifying propaganda in Arabic contexts. "
         "I will provide you with the text extracted from images/memes observed on various social media platforms. "

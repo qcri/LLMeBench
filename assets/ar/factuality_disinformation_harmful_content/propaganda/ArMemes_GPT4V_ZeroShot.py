@@ -1,4 +1,5 @@
 import json
+import re
 
 from llmebench.datasets import ArMemesDataset
 from llmebench.models import OpenAIModel
@@ -62,44 +63,12 @@ def prompt(input_sample):
     ]
 
 
-def preprocess_string(json_string, return_json=True):
-    # Replace single quotes with double quotes
-    json_string = json_string.strip().replace("\n", "")
-
-    # Remove trailing commas
-    json_string = json_string.replace("json", "")
-    json_string = json_string.replace("```", "")
-
-    # Fix double quotes within string values
-    decoder = json.JSONDecoder(
-        object_pairs_hook=lambda pairs: {
-            k: v.replace('\\"', '"') if isinstance(v, str) else v for k, v in pairs
-        }
-    )
-    json_data, _ = decoder.raw_decode(json_string)
-
-    if return_json:
-        return json_data
-    else:
-        # Return the preprocessed string
-        return json.dumps(json_data)
-
-
-def parseLLMJsonResponse(response_txt: str):
-    import re
-
-    obj = {}
-    parts = re.findall(
-        r"""(?:\"|\')([^"]*)(?:\"|\')(?=:)(?:\:\s*)(?:\")?(true|false|[-0-9]+[\.]*[\d]*(?=,)|[0-9a-zA-Z\(\)\@\:\,\/\!\+\-\.\$\ \\\']*)(?:\")?""",
-        response_txt,
-    )
-    for k, v in parts:
-        obj[k.strip()] = v
-    return obj
-
-
 def post_process(response):
-    t_message = parseLLMJsonResponse(response["choices"][0]["message"]["content"])
-    pred_label = t_message["classification"].lower()
+    data = response["choices"][0]["message"]["content"]
+    data = re.search(r"```json\n(.*)\n```", data, re.DOTALL).group(1)
+    data = json.loads(data)
 
-    return pred_label
+    # Extract the classification label
+    classification_label = data["classification"]
+
+    return classification_label
