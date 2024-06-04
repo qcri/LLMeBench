@@ -31,6 +31,7 @@ from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
 from .NameInfo import NameInfoDataset
+from .NativQA import NativQADataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
