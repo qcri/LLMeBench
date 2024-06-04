@@ -211,7 +211,7 @@ class SingleTaskBenchmark(object):
             ):
                 if self.limit > 0 and sample_idx >= self.limit:
                     break
-                logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
+                # logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
                 num_processed += 1
                 cache_path = cache_dir / f"{sample_idx}.json"
                 true_labels.append(input_sample["label"])
@@ -445,7 +445,7 @@ def main():
         return
 
     if args.env:
-        load_dotenv(args.env)
+        load_dotenv(args.env, override=True)
 
     if args.benchmark_dir is None or args.results_dir is None:
         logging.error(parser.print_usage())
