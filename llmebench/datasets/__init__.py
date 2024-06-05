@@ -8,6 +8,7 @@ from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
+from .ArMemes import ArMemesDataset
 from .ArSarcasm import ArSarcasmDataset
 from .ArSarcasm2 import ArSarcasm2Dataset
 from .ArSAS import ArSASDataset
