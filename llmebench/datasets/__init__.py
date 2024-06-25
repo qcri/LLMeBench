@@ -32,7 +32,7 @@ from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
 from .NameInfo import NameInfoDataset
-from .NativQA import NativQADataset
+from .MultiNativQA import MultiNativQADataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
@@ -47,6 +47,7 @@ from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
 from .STSQ2Q import STSQ2QDataset
+from .ThatiAR import ThatiARDataset
 from .TSV import TSVDataset
 from .TyDiQA import TyDiQADataset
 from .UnifiedFCFactuality import UnifiedFCFactualityDataset

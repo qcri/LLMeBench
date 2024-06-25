@@ -20,7 +20,7 @@ from .HateSpeech import HateSpeechTask
 from .Lemmatization import LemmatizationTask
 from .MachineTranslation import MachineTranslationTask
 from .MultilabelPropaganda import MultilabelPropagandaTask
-from .NativQA import NativQATask
+from .MultiNativQA import MultiNativQATask
 from .NER import NERTask
 from .NewsCategorization import NewsCategorizationTask
 from .Offensive import OffensiveTask
