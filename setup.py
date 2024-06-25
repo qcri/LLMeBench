@@ -9,12 +9,4 @@ class PostInstallCommand(install):
         install.run(self)
         subprocess.run(["python", "-m", "nltk.downloader", "punkt"], check=True)
 
-setup(
-    setup_requires=['nltk'],
-    install_requires=[
-        'nltk==3.8.1',
-    ],
-    cmdclass={
-        'install': PostInstallCommand,
-    },
-)
+setup()
