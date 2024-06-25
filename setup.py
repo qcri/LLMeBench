@@ -2,11 +2,12 @@ from setuptools import setup
 from setuptools.command.install import install
 import nltk
 
+
 class PostInstallCommand(install):
     """Post-installation for installation mode."""
     def run(self):
         install.run(self)
-        nltk.download('punkt')
+        subprocess.run(["python", "-m", "nltk.downloader", "punkt"], check=True)
 
 setup(
     setup_requires=['nltk'],
