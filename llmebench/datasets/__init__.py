@@ -47,7 +47,6 @@ from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
 from .Spam import SpamDataset
 from .STSQ2Q import STSQ2QDataset
-from .Subjectivity import SubjectivityDataset
 from .ThatiAR import ThatiARDataset
 from .TSV import TSVDataset
 from .TyDiQA import TyDiQADataset
