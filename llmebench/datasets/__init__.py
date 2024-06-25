@@ -31,8 +31,8 @@ from .JSONL import JSONLDataset
 from .Location import LocationDataset
 from .MGBWords import MGBWordsDataset
 from .MLQA import MLQADataset
-from .NameInfo import NameInfoDataset
 from .MultiNativQA import MultiNativQADataset
+from .NameInfo import NameInfoDataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
