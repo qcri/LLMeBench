@@ -17,7 +17,6 @@ def config():
         "dataset": ThatiARDataset,
         "task": SubjectivityTask,
         "model": OpenAIModel,
-        "general_args": {"test_split": "ar/test"},
     }
 
 

@@ -21,19 +21,15 @@ def config():
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
         },
-        "general_args": {
-            "test_split": "ar/test",
-            "fewshot": {"train_split": "ar/train"},
-        },
     }
 
 
 def prompt(input_sample, examples):
-    base_prompt = "Identify whether the 'sentence' is subjective or objective. Provide only label.\n"
+    base_prompt = f"صنف الجملة التالية لأحد النوعين: جملة ذاتية أو جملة موضوعية< \n الجُمل الذاتية تعبر عن مشاعر أو تذوق أدبي أو تفسير شخصي للمواضيع والأحداث، أما الجمل الموضوعية فتعرض حقائق وأحداث ومواضيع مبنية على بيانات واقعية. \n\n"
     return [
         {
             "role": "system",
-            "content": "You are social media expert. You can annotate important tweets and require attention from journalists, fact-checker, and government entities.",
+            "content": "أنت خبير في تصنيف النصوص، ويمكنك تحليل المعلومات الموجودة في الجملة وتحديد ما إذا كانت الجملة ذاتية أو موضوعية.",
         },
         {
             "role": "user",
@@ -44,24 +40,24 @@ def prompt(input_sample, examples):
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
-    out_prompt = out_prompt + "Here are some examples:\n\n"
+    out_prompt = out_prompt + "هذه بعض الأمثلة:\n\n"
     for index, example in enumerate(examples):
-        label = "objective" if example["label"] == "OBJ" else "subjective"
+        label = "جملة موضوعية" if example["label"] == "OBJ" else "جملةذاتية"
 
         out_prompt = (
             out_prompt
-            + "Example "
+            + "مثال "
             + str(index)
             + ":"
             + "\n"
-            + "sentence: "
+            + "الجملة: "
             + example["input"]
-            + "\nlabel: "
+            + "\nالتصنيف: "
             + label
             + "\n\n"
         )
 
-    out_prompt = out_prompt + "sentence: " + input_sample + "\nlabel: \n"
+    out_prompt = out_prompt + "الجملة: " + input_sample + "\nالتصنيف: \n"
 
     return out_prompt
 
@@ -69,14 +65,14 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
 
-    if "label: objective" in label:
+    if "التصنيف: جملةموضوعية" in label:
         label_fixed = "OBJ"
-    elif "label: subjective" in label:
+    elif "التصنيف: جملة ذاتية" in label:
         label_fixed = "SUBJ"
-    elif label == "objective" or label == "objective.":
+    elif label == "موضوعية" or label == "موضوعية.":
         label_fixed = "OBJ"
 
-    elif label == "subjective" or label == "subjective.":
+    elif label == "ذاتية" or label == "ذاتية.":
         label_fixed = "SUBJ"
 
     return label_fixed
