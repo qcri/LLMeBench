@@ -10,7 +10,7 @@ class ThatiARDataset(DatasetBase):
 
     @staticmethod
     def get_data_sample():
-        return {"input": "some tweet", "label": "SUBJ"}
+        return {"input": "sentence", "label": "SUBJ"}
 
     @staticmethod
     def metadata():
@@ -29,7 +29,7 @@ class ThatiARDataset(DatasetBase):
             "license": "CC BY NC SA 4.0",
             "splits": {
                 "train": "subjectivity_2024_train.tsv",
-                "dev": "subjectivity_2024_dev",
+                "dev": "subjectivity_2024_dev.tsv",
                 "test": "subjectivity_2024_test.tsv",
             },
             "task_type": TaskType.Classification,
