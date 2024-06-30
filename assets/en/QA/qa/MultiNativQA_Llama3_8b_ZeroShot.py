@@ -9,7 +9,7 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "LLama 3 8b",
-        "description": "Deployed on Azure.",        
+        "description": "Deployed on Azure.",
         "scores": {},
     }
 
@@ -44,16 +44,16 @@ def prompt(input_sample):
         {
             "role": "assistant",
             "content": assistant_prompt,
-        },        
+        },
         {
             "role": "user",
             "content": question_prompt,
-        }
+        },
     ]
 
 
 def post_process(response):
-    data=response['output']
-    response=json.loads(data)
-    answer = response['answer']
+    data = response["output"]
+    response = json.loads(data)
+    answer = response["answer"]
     return answer
