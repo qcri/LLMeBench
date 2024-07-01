@@ -23,7 +23,6 @@ def config():
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
         },
-        # "general_args": {"test_split": "test"},
     }
 
 
