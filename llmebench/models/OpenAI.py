@@ -86,6 +86,8 @@ class OpenAIModelBase(ModelBase):
                 "API URL must be provided as model config or environment variable (`AZURE_API_BASE`)"
             )
 
+        openai.api_type = api_type
+
         if api_base:
             openai.api_base = api_base
 
@@ -102,9 +104,6 @@ class OpenAIModelBase(ModelBase):
                 "API Key must be provided as model config or environment variable (`OPENAI_API_KEY` or `AZURE_API_KEY`)"
             )
 
-        if api_type == "openai":
-            openai.api_type = api_type
-
         self.model_params = {}
 
         if model_name is None:
@@ -112,10 +111,8 @@ class OpenAIModelBase(ModelBase):
                 "Model/Engine must be provided as model config or environment variable `OPENAI_MODEL`/`AZURE_ENGINE_NAME`"
             )
 
-        if api_type == "azure":
-            self.model_params["model"] = model_name
-        else:
-            self.model_params["model"] = model_name
+        openai.api_key = api_key
+        self.model_params["model"] = model_name
 
         # GPT parameters
         self.model_params["temperature"] = temperature

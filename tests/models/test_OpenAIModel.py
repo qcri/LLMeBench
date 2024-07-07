@@ -90,7 +90,7 @@ class TestOpenAIConfig(unittest.TestCase):
         self.assertEqual(openai.api_type, "azure")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(openai.api_version, "v1")
-        self.assertEqual(model.model_params["engine"], "private-model")
+        self.assertEqual(model.model_params["model"], "private-model")
 
     @patch.dict(
         "os.environ",
@@ -111,7 +111,7 @@ class TestOpenAIConfig(unittest.TestCase):
         self.assertEqual(openai.api_type, "azure")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(openai.api_version, "v1")
-        self.assertEqual(model.model_params["engine"], "private-model")
+        self.assertEqual(model.model_params["model"], "private-model")
 
     @patch.dict(
         "os.environ", {"OPENAI_API_KEY": "secret-key", "OPENAI_MODEL": "private-model"}
