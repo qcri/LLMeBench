@@ -81,14 +81,12 @@ class OpenAIModelBase(ModelBase):
             model_name or engine_name or openai_vars["model"] or azure_vars["model"]
         )
 
-        
-
         if api_type == "azure" and api_base is None:
             raise Exception(
                 "API URL must be provided as model config or environment variable (`AZURE_API_BASE`)"
             )
 
-        if api_base:            
+        if api_base:
             openai.api_base = api_base
 
         if api_type == "azure" and api_version is None:
@@ -97,7 +95,7 @@ class OpenAIModelBase(ModelBase):
             )
 
         if api_version:
-            openai.api_version=api_version
+            openai.api_version = api_version
 
         if api_key is None:
             raise Exception(
