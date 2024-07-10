@@ -69,11 +69,8 @@ class TestAssetsForOpenAIPrompts(unittest.TestCase):
 class TestOpenAIConfig(unittest.TestCase):
     def test_openai_config(self):
         "Test if model config parameters passed as arguments are used"
-        model = OpenAIModel(
-            api_type="llmebench", api_key="secret-key", model_name="private-model"
-        )
+        model = OpenAIModel(api_key="secret-key", model_name="private-model")
 
-        self.assertEqual(openai.api_type, "llmebench")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(model.model_params["model"], "private-model")
 

@@ -131,8 +131,10 @@ class OpenAIModelBase(ModelBase):
                 api_key=api_key,
                 base_url=f"{api_base}/openai/deployments/{model_name}/",
             )
-        elif api_type == "openai" and api_base:
+        elif api_type == "openai":
             self.client = OpenAI(api_key=api_key)
+        else:
+            raise Exception('API type must be one of "azure" or "openai"')
 
     @staticmethod
     def read_azure_env_vars():
