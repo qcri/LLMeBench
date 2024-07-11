@@ -69,11 +69,8 @@ class TestAssetsForOpenAIPrompts(unittest.TestCase):
 class TestOpenAIConfig(unittest.TestCase):
     def test_openai_config(self):
         "Test if model config parameters passed as arguments are used"
-        model = OpenAIModel(
-            api_type="llmebench", api_key="secret-key", model_name="private-model"
-        )
+        model = OpenAIModel(api_key="secret-key", model_name="private-model")
 
-        self.assertEqual(openai.api_type, "llmebench")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(model.model_params["model"], "private-model")
 
@@ -90,7 +87,7 @@ class TestOpenAIConfig(unittest.TestCase):
         self.assertEqual(openai.api_type, "azure")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(openai.api_version, "v1")
-        self.assertEqual(model.model_params["engine"], "private-model")
+        self.assertEqual(model.model_params["model"], "private-model")
 
     @patch.dict(
         "os.environ",
@@ -111,7 +108,7 @@ class TestOpenAIConfig(unittest.TestCase):
         self.assertEqual(openai.api_type, "azure")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(openai.api_version, "v1")
-        self.assertEqual(model.model_params["engine"], "private-model")
+        self.assertEqual(model.model_params["model"], "private-model")
 
     @patch.dict(
         "os.environ", {"OPENAI_API_KEY": "secret-key", "OPENAI_MODEL": "private-model"}

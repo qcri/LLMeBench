@@ -1,6 +1,8 @@
+import json
 import os
 
 import openai
+from openai import AzureOpenAI, OpenAI
 
 from llmebench.models.model_base import ModelBase
 
@@ -57,7 +59,7 @@ class OpenAIModelBase(ModelBase):
         max_tokens=800,
         frequency_penalty=0,
         presence_penalty=0,
-        **kwargs
+        **kwargs,
     ):
         # API parameters
         # Order of priority is:
@@ -79,12 +81,12 @@ class OpenAIModelBase(ModelBase):
             model_name or engine_name or openai_vars["model"] or azure_vars["model"]
         )
 
-        openai.api_type = api_type
-
         if api_type == "azure" and api_base is None:
             raise Exception(
                 "API URL must be provided as model config or environment variable (`AZURE_API_BASE`)"
             )
+
+        openai.api_type = api_type
 
         if api_base:
             openai.api_base = api_base
@@ -102,8 +104,6 @@ class OpenAIModelBase(ModelBase):
                 "API Key must be provided as model config or environment variable (`OPENAI_API_KEY` or `AZURE_API_KEY`)"
             )
 
-        openai.api_key = api_key
-
         self.model_params = {}
 
         if model_name is None:
@@ -111,10 +111,8 @@ class OpenAIModelBase(ModelBase):
                 "Model/Engine must be provided as model config or environment variable `OPENAI_MODEL`/`AZURE_ENGINE_NAME`"
             )
 
-        if api_type == "azure":
-            self.model_params["engine"] = model_name
-        else:
-            self.model_params["model"] = model_name
+        openai.api_key = api_key
+        self.model_params["model"] = model_name
 
         # GPT parameters
         self.model_params["temperature"] = temperature
@@ -124,9 +122,19 @@ class OpenAIModelBase(ModelBase):
         self.model_params["presence_penalty"] = presence_penalty
 
         super(OpenAIModelBase, self).__init__(
-            retry_exceptions=(openai.error.Timeout, openai.error.RateLimitError),
-            **kwargs
+            retry_exceptions=(openai.Timeout, openai.RateLimitError), **kwargs
         )
+
+        if api_type == "azure":
+            self.client = AzureOpenAI(
+                api_version=api_version,
+                api_key=api_key,
+                base_url=f"{api_base}/openai/deployments/{model_name}/",
+            )
+        elif api_type == "openai":
+            self.client = OpenAI(api_key=api_key)
+        else:
+            raise Exception('API type must be one of "azure" or "openai"')
 
     @staticmethod
     def read_azure_env_vars():
@@ -169,11 +177,11 @@ class LegacyOpenAIModel(OpenAIModelBase):
         """Returns the first reply, if available"""
         if (
             "choices" in response
-            and isinstance(response["choices"], list)
-            and len(response["choices"]) > 0
-            and "text" in response["choices"][0]
+            and isinstance(response.choices, list)
+            and len(response.choices) > 0
+            and "text" in response.choices[0]
         ):
-            return response["choices"][0]["text"]
+            return response.choices[0].text
 
         return response
 
@@ -200,7 +208,7 @@ class LegacyOpenAIModel(OpenAIModelBase):
         system_message = processed_input["system_message"]
         messages = processed_input["messages"]
         prompt = self.create_prompt(system_message, messages)
-        response = openai.Completion.create(
+        response = self.client.completions.create(
             prompt=prompt, stop=["<|im_end|>"], **self.model_params
         )
 
@@ -239,8 +247,8 @@ class OpenAIModel(OpenAIModelBase):
             Response from the openai python library
 
         """
-        response = openai.ChatCompletion.create(
+        response = self.client.chat.completions.create(
             messages=processed_input, **self.model_params
         )
-
+        response = json.loads(response.json())
         return response
