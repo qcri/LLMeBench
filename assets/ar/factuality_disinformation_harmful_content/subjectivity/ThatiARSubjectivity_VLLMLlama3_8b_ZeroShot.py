@@ -1,7 +1,7 @@
 import json
 
 from llmebench.datasets import ThatiARDataset
-from llmebench.models import AzureModel
+from llmebench.models import VLLMModel
 from llmebench.tasks import SubjectivityTask
 
 
@@ -18,7 +18,7 @@ def config():
     return {
         "dataset": ThatiARDataset,
         "task": SubjectivityTask,
-        "model": AzureModel,
+        "model": VLLMModel,
         "model_args": {
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
