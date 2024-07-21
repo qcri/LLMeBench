@@ -37,7 +37,9 @@ class TestFastChatConfig(unittest.TestCase):
         )
 
         self.assertEqual(openai.api_type, "openai")
-        self.assertEqual(openai.api_base, "llmebench.qcri.org")
+        self.assertEqual(
+            model.client.base_url.raw_path.decode("utf-8"), "llmebench.qcri.org/"
+        )
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(model.model_params["model"], "private-model")
 
@@ -54,7 +56,9 @@ class TestFastChatConfig(unittest.TestCase):
         model = FastChatModel()
 
         self.assertEqual(openai.api_type, "openai")
-        self.assertEqual(openai.api_base, "llmebench.qcri.org")
+        self.assertEqual(
+            model.client.base_url.raw_path.decode("utf-8"), "llmebench.qcri.org/"
+        )
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(model.model_params["model"], "private-model")
 
@@ -71,6 +75,8 @@ class TestFastChatConfig(unittest.TestCase):
         model = FastChatModel(model_name="another-model")
 
         self.assertEqual(openai.api_type, "openai")
-        self.assertEqual(openai.api_base, "llmebench.qcri.org")
+        self.assertEqual(
+            model.client.base_url.raw_path.decode("utf-8"), "llmebench.qcri.org/"
+        )
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(model.model_params["model"], "another-model")
