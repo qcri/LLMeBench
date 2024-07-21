@@ -73,8 +73,6 @@ class AnthropicModel(ModelBase):
         self.model_params["max_tokens"] = max_tokens
         self.client = anthropic.Anthropic(api_key=self.api_key)
 
-
-
     def summarize_response(self, response):
         """Returns the first reply from the "assistant", if available"""
         if (
