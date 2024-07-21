@@ -45,6 +45,7 @@ class FastChatModel(OpenAIModel):
                 "API url must be provided as model config or environment variable (`FASTCHAT_MODEL`)"
             )
         # checks for valid config settings)
+        print("calling fastchet")
         super(FastChatModel, self).__init__(
             api_base=api_base, api_key=api_key, model_name=model_name, **kwargs
         )

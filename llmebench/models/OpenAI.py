@@ -88,9 +88,6 @@ class OpenAIModelBase(ModelBase):
 
         openai.api_type = api_type
 
-        if api_base:
-            openai.api_base = api_base
-
         if api_type == "azure" and api_version is None:
             raise Exception(
                 "API version must be provided as model config or environment variable (`AZURE_API_VERSION`)"
@@ -132,7 +129,9 @@ class OpenAIModelBase(ModelBase):
                 base_url=f"{api_base}/openai/deployments/{model_name}/",
             )
         elif api_type == "openai":
-            self.client = OpenAI(api_key=api_key)
+            if not api_base:
+                api_base = "https://api.openai.com/v1"
+            self.client = OpenAI(base_url=api_base, api_key=api_key)
         else:
             raise Exception('API type must be one of "azure" or "openai"')
 

@@ -10,6 +10,8 @@ This repository contains code for the LLMeBench framework (described in <a href=
 </picture>
 </p>
 
+## Recent Updates
+- 21st July, 2024 -- Multimodal capability added. Assests included for GPT-o (OpenAI), Sonet (Anthrophic). 
 
 ## Overview
 <p align="center">
@@ -20,7 +22,8 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/8
 </p>
 
 Developing **LLMeBench** is an ongoing effort and it will be continuously expanded. Currently, the framework features the following:
-- Supports 31 [tasks](llmebench/tasks) featuring 3 [model providers](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in **200 [benchmarking assets](assets/)** ready to run.
+- Supports 34 [tasks](llmebench/tasks) featuring 7 [model providers](llmebench/models). Tested with 66 [datasets](llmebench/datasets) associated with 16 languages, resulting in **300 [benchmarking assets](assets/)** ready to run.
+- Support for **multimodality**
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.

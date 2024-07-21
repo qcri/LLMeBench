@@ -52,20 +52,3 @@ def post_process(response):
         label_fixed = "SUBJ"
 
     return label_fixed
-
-
-def post_process_old(response):
-    label = response["choices"][0]["message"]["content"].lower()
-
-    if "لاموضوعية" in label:
-        label_fixed = "SUBJ"
-    elif "ذاتية" in label:
-        label_fixed = "SUBJ"
-    elif (
-        label == "موضوعية" or label == "التصنيف: موضوعية" or "التصنيف: موضوعية" in label
-    ):
-        label_fixed = "OBJ"
-    else:
-        label_fixed = None
-
-    return label_fixed

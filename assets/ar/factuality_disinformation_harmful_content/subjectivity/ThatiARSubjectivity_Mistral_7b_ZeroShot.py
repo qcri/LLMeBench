@@ -31,7 +31,6 @@ def prompt(input_sample):
     assistant_prompt = """
         I am an Arabic AI assistant specialized in classifying sentences into subjective or objective.         
     """
-    # A subjective sentence expresses personal opinions, feelings, or beliefs, while an objective sentence presents facts, data, or unbiased information. I will only provide label as subjective or objective.
 
     prompt = f"""
         Classify the following Arabic 'sentence' as subjective or objective. Provide only the label. Please do not provide any additional text. 
