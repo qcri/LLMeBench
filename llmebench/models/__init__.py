@@ -1,3 +1,4 @@
+from .Anthropic import AnthropicModel
 from .AzureModel import AzureModel
 from .FastChat import FastChatModel
 from .HuggingFaceInferenceAPI import HuggingFaceInferenceAPIModel, HuggingFaceTaskTypes
