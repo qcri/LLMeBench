@@ -9,7 +9,7 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "claude-3-5-sonnet-20240620",
-        "description": "Anthropic model",
+        "description": "Anthropic model - claude-3-5-sonnet. Find more https://www.anthropic.com/news/claude-3-5-sonnet",
         "scores": {},
     }
 
