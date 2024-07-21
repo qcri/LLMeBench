@@ -7,6 +7,23 @@ import anthropic
 from llmebench.models.model_base import ModelBase
 
 
+class AnthropicFailure(Exception):
+    """Exception class to map various failure types from the AzureModel server"""
+
+    def __init__(self, failure_type, failure_message):
+        self.type_mapping = {
+            "processing": "Model Inference failure",
+            "connection": "Failed to connect to the API endpoint",
+        }
+        self.type = failure_type
+        self.failure_message = failure_message
+
+    def __str__(self):
+        return (
+            f"{self.type_mapping.get(self.type, self.type)}: \n {self.failure_message}"
+        )
+
+
 class AnthropicModel(ModelBase):
     """
     Anthropic Model interface.
@@ -72,6 +89,10 @@ class AnthropicModel(ModelBase):
         self.model_params["top_p"] = top_p
         self.model_params["max_tokens"] = max_tokens
         self.client = anthropic.Anthropic(api_key=self.api_key)
+
+        super(AnthropicModel, self).__init__(
+            retry_exceptions=(TimeoutError, AnthropicFailure), **kwargs
+        )
 
     def summarize_response(self, response):
         """Returns the first reply from the "assistant", if available"""
