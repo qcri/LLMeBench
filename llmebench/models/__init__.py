@@ -4,4 +4,4 @@ from .HuggingFaceInferenceAPI import HuggingFaceInferenceAPIModel, HuggingFaceTa
 from .OpenAI import LegacyOpenAIModel, OpenAIModel
 from .Petals import PetalsModel
 from .Random import RandomModel
-from .VLLM import VLLMFanarModel, VLLMModel
+from .VLLM import VLLMModel
