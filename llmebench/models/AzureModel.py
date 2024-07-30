@@ -92,9 +92,10 @@ class AzureModel(ModelBase):
 
         Arguments
         ---------
-        processed_input : dictionary
-            Must be a dictionary with one key "prompt", the value of which
-            must be a string.
+        processed_input : list
+            Must be list of dictionaries, where each dictionary has two keys;
+            "role" defines a role in the chat (e.g. "system", "user") and
+            "content" defines the actual message for that turn
 
         Returns
         -------
