@@ -71,24 +71,27 @@ class TestAnthropicConfig(unittest.TestCase):
         "Test if model config parameters passed as arguments are used"
         model = AnthropicModel(api_key="secret-key", model_name="private-model")
         self.assertEqual(model.api_key, "secret-key")
+        self.assertEqual(model.model, "private-model")
 
     @patch.dict(
         "os.environ",
         {
-            "ANTHROPIC_API_KEY": "secret-key",
-            "ANTHROPIC_MODEL": "model",
+            "ANTHROPIC_API_KEY": "secret-env-key",
+            "ANTHROPIC_MODEL": "private-env-model",
         },
     )
     def test_anthropic_config_env_var(self):
         "Test if model config parameters passed as environment variables are used"
-        model = AnthropicModel(api_key="secret-key", model_name="private-model")
-        self.assertEqual(model.api_key, "secret-key")
+        model = AnthropicModel()
+
+        self.assertEqual(model.api_key, "secret-env-key")
+        self.assertEqual(model.model, "private-env-model")
 
     @patch.dict(
         "os.environ",
         {
-            "ANTHROPIC_API_KEY": "secret-key",
-            "ANTHROPIC_MODEL": "model",
+            "ANTHROPIC_API_KEY": "secret-env-key",
+            "ANTHROPIC_MODEL": "private-env-model",
         },
     )
     def test_anthropic_config_priority(self):
@@ -96,3 +99,4 @@ class TestAnthropicConfig(unittest.TestCase):
         model = AnthropicModel(api_key="secret-key", model_name="private-model")
 
         self.assertEqual(model.api_key, "secret-key")
+        self.assertEqual(model.model, "private-model")
