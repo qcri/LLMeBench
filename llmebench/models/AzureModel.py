@@ -13,7 +13,7 @@ class AzureModelFailure(Exception):
     def __init__(self, failure_type, failure_message):
         self.type_mapping = {
             "processing": "Model Inference failure",
-            "connection": "Failed to connect to BLOOM Petal server",
+            "connection": "Failed to connect to Azure deployment",
         }
         self.type = failure_type
         self.failure_message = failure_message
@@ -32,7 +32,10 @@ class AzureModel(ModelBase):
     ---------
     api_url : str
         URL where the AzureModel server is hosted. If not provided, the implementation will
-        look at environment variable `AzureModel_API_URL`
+        look at environment variable `AZURE_DEPLOYMENT_API_URL`
+    api_key : str
+        Authentication token for the API. If not provided, the implementation will derive it
+        from environment variables `OPENAI_API_KEY` or `AZURE_API_KEY`.
     timeout : int
         Number of seconds before the request to the server is timed out
     temperature : float
@@ -89,9 +92,10 @@ class AzureModel(ModelBase):
 
         Arguments
         ---------
-        processed_input : dictionary
-            Must be a dictionary with one key "prompt", the value of which
-            must be a string.
+        processed_input : list
+            Must be list of dictionaries, where each dictionary has two keys;
+            "role" defines a role in the chat (e.g. "system", "user") and
+            "content" defines the actual message for that turn
 
         Returns
         -------
@@ -122,16 +126,26 @@ class AzureModel(ModelBase):
             response = requests.post(
                 self.api_url, headers=headers, json=body, timeout=self.api_timeout
             )
-            if response.status_code != 200:
-                raise AzureModelFailure(
-                    "processing",
-                    "Processing failed with status: {}".format(response.status_code),
-                )
 
-            # Parse the final response
+        except Exception as e:
+            raise AzureModelFailure(
+                "connection",
+                f"Failed to connect to {self.api_url}",
+            )
+
+        if response.status_code != 200:
+            raise AzureModelFailure(
+                "processing",
+                "Processing failed with status: {}".format(response.status_code),
+            )
+
+        # Parse the final response
+        try:
             response_data = response.json()
-            # logging.info(f"initial_response: {response_data}")
-        except AzureModelFailure as e:
-            print("Error occurred:", e)
+        except Exception as e:
+            raise AzureModelFailure(
+                "processing",
+                "Processing failed: {}".format(response),
+            )
 
         return response_data
