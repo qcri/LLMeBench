@@ -39,9 +39,6 @@ class TestAssetsForAzureDepModelPrompts(unittest.TestCase):
                 else:
                     prompt = asset["module"].prompt(data_sample["input"])
 
-                # self.assertIsInstance(prompt, dict)
-                # self.assertIn("prompt", prompt)
-                # self.assertIsInstance(prompt["prompt"], str)
                 self.assertIsInstance(prompt, list)
 
                 for message in prompt:
@@ -69,7 +66,7 @@ class TestAzureDepModelConfig(unittest.TestCase):
     )
     def test_azure_deployed_model_config_env_var(self):
         "Test if model config parameters passed as environment variables are used"
-        model = AzureModel(api_url="azure.llmebench.org", api_key="secret-key")
+        model = AzureModel()
 
         self.assertEqual(model.api_url, "azure.llmebench.org")
         self.assertEqual(model.api_key, "secret-key")
@@ -77,12 +74,12 @@ class TestAzureDepModelConfig(unittest.TestCase):
     @patch.dict(
         "os.environ",
         {
-            "AZURE_DEPLOYMENT_API_URL": "petals.llmebench.org",
-            "AZURE_DEPLOYMENT_API_KEY": "secret-key",
+            "AZURE_DEPLOYMENT_API_URL": "azure-env.llmebench.org",
+            "AZURE_DEPLOYMENT_API_KEY": "secret-env-key",
         },
     )
     def test_azure_deployed_model_config_priority(self):
-        "Test if model config parameters passed as environment variables are used"
+        "Test if model config parameters passed directly get priority"
         model = AzureModel(api_url="azure.llmebench.org", api_key="secret-key")
 
         self.assertEqual(model.api_url, "azure.llmebench.org")
