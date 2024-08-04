@@ -83,16 +83,7 @@ class AnthropicModel(ModelBase):
         )
 
     def summarize_response(self, response):
-        """Returns the first reply from the "assistant", if available"""
-        if (
-            "choices" in response
-            and isinstance(response["choices"], list)
-            and len(response["choices"]) > 0
-            and "message" in response["choices"][0]
-            and "content" in response["choices"][0]["message"]
-            and response["choices"][0]["message"]["role"] == "assistant"
-        ):
-            return response["choices"][0]["message"]["content"]
+        """Returns the response"""
 
         return response
 
@@ -102,13 +93,16 @@ class AnthropicModel(ModelBase):
 
         Arguments
         ---------
-        processed_input : dictionary
-            Must be a dictionary with one key "prompt", the value of which
-            must be a string.
+        processed_input : list
+            Must be list of dictionaries, where each dictionary has two keys;
+            "role" defines a role in the chat (e.g. "user") and
+            "content" can be a list or message for that turn. The list can have object with {"type": text,"text": "text"} for text input/prompt or {"type":"image","source":{"type":"base64","media_type":"image/jpeg","data":"media_file"}},{"type":"text","text":"What is in this image?"} for multimodal (image + text)
 
         Returns
         -------
         response : AnthropicModel API response
+            Response from the anthropic python library
+
         """
 
         response = self.client.messages.create(
