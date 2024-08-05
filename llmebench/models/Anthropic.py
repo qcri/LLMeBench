@@ -7,23 +7,6 @@ import anthropic
 from llmebench.models.model_base import ModelBase
 
 
-class AnthropicFailure(Exception):
-    """Exception class to map various failure types from the AzureModel server"""
-
-    def __init__(self, failure_type, failure_message):
-        self.type_mapping = {
-            "processing": "Model Inference failure",
-            "connection": "Failed to connect to the API endpoint",
-        }
-        self.type = failure_type
-        self.failure_message = failure_message
-
-    def __str__(self):
-        return (
-            f"{self.type_mapping.get(self.type, self.type)}: \n {self.failure_message}"
-        )
-
-
 class AnthropicModel(ModelBase):
     """
     Anthropic Model interface.
@@ -43,7 +26,6 @@ class AnthropicModel(ModelBase):
 
     def __init__(
         self,
-        api_base=None,
         api_key=None,
         model_name=None,
         timeout=20,
@@ -53,7 +35,6 @@ class AnthropicModel(ModelBase):
         **kwargs,
     ):
         # API parameters
-        self.api_base = api_base or os.getenv("ANTHROPIC_API_URL")
         self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
         self.model_name = model_name or os.getenv("ANTHROPIC_MODEL")
 
@@ -91,20 +72,18 @@ class AnthropicModel(ModelBase):
         self.client = anthropic.Anthropic(api_key=self.api_key)
 
         super(AnthropicModel, self).__init__(
-            retry_exceptions=(TimeoutError, AnthropicFailure), **kwargs
+            retry_exceptions=(
+                TimeoutError,
+                anthropic.APIStatusError,
+                anthropic.RateLimitError,
+                anthropic.APITimeoutError,
+                anthropic.APIConnectionError,
+            ),
+            **kwargs,
         )
 
     def summarize_response(self, response):
-        """Returns the first reply from the "assistant", if available"""
-        if (
-            "choices" in response
-            and isinstance(response["choices"], list)
-            and len(response["choices"]) > 0
-            and "message" in response["choices"][0]
-            and "content" in response["choices"][0]["message"]
-            and response["choices"][0]["message"]["role"] == "assistant"
-        ):
-            return response["choices"][0]["message"]["content"]
+        """Returns the response"""
 
         return response
 
@@ -114,13 +93,19 @@ class AnthropicModel(ModelBase):
 
         Arguments
         ---------
-        processed_input : dictionary
-            Must be a dictionary with one key "prompt", the value of which
-            must be a string.
+        processed_input : list
+            Must be list of dictionaries, where each dictionary has two keys;
+            "role" defines a role in the chat (e.g. "user") and
+            "content" can be a list or message for that turn. If it is a list, it must contain objects matching one of the following:
+                - {"type": "text", "text": "....."} for text input/prompt
+                - {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": "media_file"}} for image input
+                - the list can contain mix of the above formats for multimodal input (image + text)
 
         Returns
         -------
         response : AnthropicModel API response
+            Response from the anthropic python library
+
         """
 
         response = self.client.messages.create(
