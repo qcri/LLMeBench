@@ -59,11 +59,18 @@ class TestAssetsForAnthropicPrompts(unittest.TestCase):
                             if elem["type"] == "text":
                                 self.assertIn("text", elem)
                                 self.assertIsInstance(elem["text"], str)
-                            elif elem["type"] == "image_url":
-                                self.assertIn("image_url", elem)
-                                self.assertIsInstance(elem["image_url"], dict)
-                                self.assertIn("url", elem["image_url"])
-                                self.assertIsInstance(elem["image_url"]["url"], str)
+                            elif elem["type"] == "image":
+                                self.assertIn("source", elem)
+                                self.assertIsInstance(elem["source"], dict)
+
+                                # Current support is for base64
+                                self.assertIn("type", elem["source"])
+                                self.assertIsInstance(elem["source"]["type"], str)
+                                self.assertIn("data", elem["source"])
+                                self.assertIsInstance(elem["source"]["data"], str)
+
+                                self.assertIn("media_type", elem["source"])
+                                self.assertIsInstance(elem["source"]["media_type"], str)
 
 
 class TestAnthropicConfig(unittest.TestCase):

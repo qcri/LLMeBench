@@ -96,7 +96,10 @@ class AnthropicModel(ModelBase):
         processed_input : list
             Must be list of dictionaries, where each dictionary has two keys;
             "role" defines a role in the chat (e.g. "user") and
-            "content" can be a list or message for that turn. The list can have object with {"type": text,"text": "text"} for text input/prompt or {"type":"image","source":{"type":"base64","media_type":"image/jpeg","data":"media_file"}},{"type":"text","text":"What is in this image?"} for multimodal (image + text)
+            "content" can be a list or message for that turn. If it is a list, it must contain objects matching one of the following:
+                - {"type": "text", "text": "....."} for text input/prompt
+                - {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": "media_file"}} for image input
+                - the list can contain mix of the above formats for multimodal input (image + text)
 
         Returns
         -------
