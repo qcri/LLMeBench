@@ -62,7 +62,7 @@ pip install -e '.[dev,fewshot]'
 In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, the framework *automatically* downloads the datasets when possible. Manually downloading them (for example to explore the data before running any assets) can be done as follows:
 
 ```bash
-python -m llmebench download <DatasetName>
+python -m llmebench data download <DatasetName>
 ```
 
 **_Voilà! all ready to start evaluation..._**
