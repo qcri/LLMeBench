@@ -11,7 +11,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from llmebench import utils
+from llmebench import asset_utils, utils
 
 
 class SingleTaskBenchmark(object):
@@ -384,22 +384,6 @@ def main():
         " few shots. Existing cache will be ignored and overwritten.",
     )
 
-    parser_download = subparsers.add_parser(
-        "download", help="Download specific dataset"
-    )
-
-    parser_download.add_argument(
-        "--download_server",
-        type=str,
-        default="https://llmebench.qcri.org/data/",
-        help="URL to server containing dataset archives",
-    )
-    parser_download.add_argument(
-        "dataset_name",
-        type=str,
-        help="Download the dataset with the given name (e.g Aqmar)",
-    )
-
     few_shot_args = parser_main.add_argument_group("Few Shot Experiments")
     few_shot_args.add_argument(
         "-n",
@@ -412,8 +396,47 @@ def main():
         " and when it is non-zero, only few shot experiments will be run.",
     )
 
+    parser_data = subparsers.add_parser("data", help="Dataset specific commands")
+
+    data_subparsers = parser_data.add_subparsers(
+        dest="data_subparser_name",
+    )
+
+    parser_data_download = data_subparsers.add_parser(
+        "download", help="Download specific dataset"
+    )
+
+    parser_data_download.add_argument(
+        "--download_server",
+        type=str,
+        default="https://llmebench.qcri.org/data/",
+        help="URL to server containing dataset archives",
+    )
+    parser_data_download.add_argument(
+        "dataset_name",
+        type=str,
+        help="Download the dataset with the given name (e.g Aqmar)",
+    )
+
+    parser_assets = subparsers.add_parser("assets", help="Assets specific commands")
+
+    assets_subparsers = parser_assets.add_subparsers(
+        dest="assets_subparser_name",
+    )
+
+    parser_assets_download = assets_subparsers.add_parser(
+        "download",
+        help="Download all assets. Will update if assets to latest version if they are already present.",
+    )
+    parser_assets_download.add_argument(
+        "--work_dir",
+        type=str,
+        default="./",
+        help="Default path for managing the benchmarking assets. Assets will be saved in `<work_dir>/assets`, and associated versioning files in `<work_dir>/.git`. Be default <work_dir> is set to the current working directory.",
+    )
+
     # Common options
-    for subparser in [parser_main, parser_download]:
+    for subparser in [parser_main, parser_data_download]:
         subparser.add_argument(
             "--data_dir",
             default="data/",
@@ -431,19 +454,29 @@ def main():
     )
 
     # Handle downloading of datasets
-    if args.subparser_name == "download":
-        dataset_name = args.dataset_name
-        if not dataset_name.endswith("Dataset"):
-            dataset_name = f"{dataset_name}Dataset"
-        try:
-            mod = __import__("llmebench.datasets", fromlist=[dataset_name])
-            dataset = getattr(mod, dataset_name)
-        except AttributeError:
-            logging.error(f"{dataset_name} not found in llmebench.datasets)")
-            return
-        dataset.download_dataset(args.data_dir, default_url=args.download_server)
+    if args.subparser_name == "data":
+        if args.data_subparser_name == "download":
+            dataset_name = args.dataset_name
+            if not dataset_name.endswith("Dataset"):
+                dataset_name = f"{dataset_name}Dataset"
+            try:
+                mod = __import__("llmebench.datasets", fromlist=[dataset_name])
+                dataset = getattr(mod, dataset_name)
+            except AttributeError:
+                logging.error(f"{dataset_name} not found in llmebench.datasets)")
+                return
+            dataset.download_dataset(args.data_dir, default_url=args.download_server)
+        else:
+            parser_data.print_help()
+        return
+    elif args.subparser_name == "assets":
+        if args.assets_subparser_name == "download":
+            asset_utils.download_all(args.work_dir)
+        else:
+            parser_assets.print_help()
         return
 
+    # We must be performing benchmarking now and not any subcommands
     if args.env:
         load_dotenv(args.env, override=True)
 
