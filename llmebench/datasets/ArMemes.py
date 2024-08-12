@@ -2,8 +2,6 @@ import base64
 import json
 import os
 
-from PIL import Image
-
 from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
 

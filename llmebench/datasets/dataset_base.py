@@ -6,10 +6,6 @@ import random
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.prompts.example_selector import MaxMarginalRelevanceExampleSelector
-from langchain.vectorstores import FAISS
-
 from pooch import Decompress, HTTPDownloader, Pooch, retrieve, Untar, Unzip
 
 import llmebench.utils as utils
@@ -266,6 +262,12 @@ class DatasetBase(ABC):
             A generator that returns `n_shots` train samples for every
             test sample
         """
+
+        from langchain.embeddings import HuggingFaceEmbeddings
+        from langchain.prompts.example_selector import (
+            MaxMarginalRelevanceExampleSelector,
+        )
+        from langchain.vectorstores import FAISS
 
         if embedding_model_name is None:
             embedding_model_name = "distiluse-base-multilingual-cased-v1"
