@@ -31,35 +31,16 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 - Open-source.
 
 ## Quick Start!
-1. [Install](https://github.com/qcri/LLMeBench/blob/main/README.md#installation) LLMeBench.
-2. Create a new folder "data", then [download ArSAS dataset](https://llmebench.qcri.org/data/ArSAS.zip) into "data" and unzip it.
-3. Evaluate!
+1. Install LLMeBench: `pip install llmebench`
+2. Download the current assets: `python -m llmebench assets download`. This will fetch assets and place them in the current working directory.
+3. Download one of the dataset, e.g. ArSAS. `python -m llmebench data download ArSAS`. This will download the data to the current working directory inside the `data` folder.
+4. Evaluate!
 
-   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   For example, to evaluate the performance of a random baseline for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you can run:
    ```bash
    python -m llmebench --filter 'sentiment/ArSAS_Random*' assets/ results/
    ```
-   where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
-
-## Installation
-*pip package to be made available soon!*
-
-Clone this repository:
-```bash
-git clone https://github.com/qcri/LLMeBench.git
-cd LLMeBench
-```
-
-Create and activate virtual environment:
-```bash
-python -m venv .envs/llmebench
-source .envs/llmebench/bin/activate
-```
-
-Install the dependencies and benchmarking package:
-```bash
-pip install -e '.[dev,fewshot]'
-```
+   which uses the [ArSAS_random "asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate. Here, `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
 
 ## Get the Benchmark Data
 In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, the framework *automatically* downloads the datasets when possible. Manually downloading them (for example to explore the data before running any assets) can be done as follows:
