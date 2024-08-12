@@ -1,7 +1,7 @@
 import json
 
 from llmebench.datasets import ThatiARDataset
-from llmebench.models import AzureModel
+from llmebench.models import VLLMModel
 from llmebench.tasks import SubjectivityTask
 
 
@@ -9,7 +9,7 @@ def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
         "model": "LLama 3 8b",
-        "description": "Deployed on Azure.",
+        "description": "Deployed on the local server.",
         "scores": {},
     }
 
@@ -18,7 +18,7 @@ def config():
     return {
         "dataset": ThatiARDataset,
         "task": SubjectivityTask,
-        "model": AzureModel,
+        "model": VLLMModel,
         "model_args": {
             "class_labels": ["SUBJ", "OBJ"],
             "max_tries": 30,
@@ -54,10 +54,9 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    data = response["output"]
+    data = response["choices"][0]["message"]["content"]
     response = json.loads(data)
     label = response["label"]
-
     if "label: objective" in label:
         label_fixed = "OBJ"
     elif "label: subjective" in label:
