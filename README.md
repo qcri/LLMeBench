@@ -31,7 +31,7 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 - Open-source.
 
 ## Quick Start!
-1. Install LLMeBench: `pip install llmebench[fewshot]`
+1. Install LLMeBench: `pip install 'llmebench[fewshot]'`
 2. Download the current assets: `python -m llmebench assets download`. This will fetch assets and place them in the current working directory.
 3. Download one of the dataset, e.g. ArSAS. `python -m llmebench data download ArSAS`. This will download the data to the current working directory inside the `data` folder.
 4. Evaluate!
