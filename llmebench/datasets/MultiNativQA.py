@@ -11,9 +11,10 @@ class MultiNativQADataset(DatasetBase):
     @staticmethod
     def get_data_sample():
         return {
+            "data_id": "a unique question id",
             "input": {
                 "question": "question to be answered",
-                "question_id": "a unique question id",
+                "length": "number of words in answer",
             },
             "label": "A long answer",
         }
@@ -93,7 +94,7 @@ class MultiNativQADataset(DatasetBase):
                 data.append(
                     {
                         "data_id": id,
-                        "input": {"question":question,"length":length},
+                        "input": {"question": question, "length": length},
                         "label": answer,
                     }
                 )
