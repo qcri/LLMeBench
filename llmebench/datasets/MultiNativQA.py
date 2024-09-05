@@ -74,7 +74,6 @@ class MultiNativQADataset(DatasetBase):
                     "nepali_np",
                     "english_qa",
                 ],
-                # "default": ["arabic_qa"],
             },
             "task_type": TaskType.Other,
         }
@@ -90,10 +89,11 @@ class MultiNativQADataset(DatasetBase):
                 id = row[0]
                 question = row[3]
                 answer = row[4]
+                length = answer.split()
                 data.append(
                     {
                         "data_id": id,
-                        "input": question,
+                        "input": {"question":question,"length":length},
                         "label": answer,
                     }
                 )
