@@ -19,6 +19,7 @@ def config():
         "dataset": MultiNativQADataset,
         "task": MultiNativQATask,
         "model": AzureModel,
+        "general_args": {"test_split": "arabic"},
     }
 
 
