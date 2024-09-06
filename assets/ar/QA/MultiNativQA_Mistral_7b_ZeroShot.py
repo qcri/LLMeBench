@@ -45,15 +45,17 @@ def prompt(input_sample):
             "role": "user",
             "content": question_prompt,
         },
-        {
-            "role": "assistant",
-            "content": assistant_prompt,
-        },
+        # {
+        #     "role": "assistant",
+        #     "content": assistant_prompt,
+        # },
     ]
 
 
 def post_process(response):
     data = response["output"]
+    if "\n\n" in data:
+        data = data.split("\n\n")[0]
     response = json.loads(data)
     answer = response["answer"]
     return answer
