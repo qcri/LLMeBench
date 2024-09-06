@@ -27,17 +27,17 @@ def prompt(input_sample):
 
     # Define the question prompt
     question_prompt = f"""
-    Please use your expertise to answer the following English question. You should only Answer in English. 
-    Provide your response in the following JSON format: {{"answer": "your answer"}}. 
-    Please provide JSON output only. No additional text.
+    Please use your expertise to answer the following English question. Answer in English and rate your confidence level from 1 to 10.
+    Provide your response in the following JSON format: {{"answer": "your answer", "score": your confidence score}}. 
+    Please provide JSON output only. No additional text. Answer should be limited to less or equal to {input_sample['length']} words.
 
-    Question: {input_sample}
-    Answer: 
+    Question: {input_sample['question']}
     """
 
     # Define the assistant prompt
     assistant_prompt = """
-    I am an English AI assistant specialized in providing detailed and accurate answers across various fields. I aim to deliver clear, concise, and relevant information. How can I assist you today?
+    I am an English AI assistant specialized in providing detailed and accurate answers across various fields.
+    I aim to deliver clear, concise, and relevant information. How can I assist you today?
     """
 
     return [
