@@ -32,12 +32,12 @@ def prompt(input_sample):
     Please provide JSON output only. No additional text.
 
     Question: {input_sample}
-    Answer: 
     """
 
     # Define the assistant prompt
     assistant_prompt = """
-    I am an English AI assistant specialized in providing detailed and accurate answers across various fields. I aim to deliver clear, concise, and relevant information. How can I assist you today?
+    I am an English AI assistant specialized in providing detailed and accurate answers across various fields.
+    I aim to deliver clear, concise, and relevant information. How can I assist you today?
     """
 
     return [
