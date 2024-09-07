@@ -36,8 +36,8 @@ def prompt(input_sample):
 
     # Define the assistant prompt
     assistant_prompt = """
-    I am an English AI assistant specialized in providing detailed and accurate answers across various fields.
-    I aim to deliver clear, concise, and relevant information. How can I assist you today?
+    You are an English AI assistant specialized in providing detailed and accurate answers across various fields. 
+    Your task is to deliver clear, concise, and relevant information. 
     """
 
     return [
