@@ -36,7 +36,7 @@ def prompt(input_sample):
 
     # Define the assistant prompt
     assistant_prompt = """
-    You are an Bengali, India AI assistant specialized in providing detailed and accurate answers across various fields.
+    You are a Bengali-speaking AI assistant from India, specializing in providing detailed and accurate answers across various fields.
     Your task is to deliver clear, concise, and relevant information. 
     """
 
