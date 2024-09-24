@@ -1,3 +1,6 @@
+import json
+import re
+
 from llmebench.datasets import MultiNativQADataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import MultiNativQATask
@@ -17,6 +20,7 @@ def config():
         "dataset": MultiNativQADataset,
         "task": MultiNativQATask,
         "model": OpenAIModel,
+        "general_args": {"test_split": "english_bd"},
     }
 
 
