@@ -65,8 +65,10 @@ def post_process(response):
     )
     label_fixed = None
 
-    label_fixed = label.lower().strip()  # Convert to lowercase and strip leading/trailing whitespace
-    
+    label_fixed = (
+        label.lower().strip()
+    )  # Convert to lowercase and strip leading/trailing whitespace
+
     # Update conditions to match labels without surrounding whitespace
     if label_fixed.startswith("no"):
         label_fixed = "no_not_interesting"
@@ -75,7 +77,9 @@ def post_process(response):
     elif "yes_harmful" in label_fixed:
         label_fixed = "harmful"
     elif label_fixed.startswith("yes"):
-        label_fixed = label_fixed.strip()  # Keep the original label if it starts with "yes"
+        label_fixed = (
+            label_fixed.strip()
+        )  # Keep the original label if it starts with "yes"
     elif "yes_blame_authoritie" in label_fixed:
         label_fixed = "yes_blame_authoritie"
     elif "yes_discusses_action_taken" in label_fixed:

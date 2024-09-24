@@ -62,7 +62,9 @@ def prompt(input_sample, examples):
         },
     ]
 
+
 import re
+
 
 def post_process(response):
     print(response)
@@ -70,10 +72,9 @@ def post_process(response):
 
     label = label.replace("label:", "").strip()
 
-
     label = label.replace("<s>", "").replace("</s>", "")
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
-    
+
     label_fixed = label_fixed.replace("التصنيف:", "")
     if label_fixed.startswith("لا"):
         label_fixed = "no_not_interesting"
@@ -105,5 +106,5 @@ def post_process(response):
         label_fixed = "yes_calls_for_action"
     else:
         label_fixed = None
-        
+
     return label_fixed

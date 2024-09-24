@@ -57,13 +57,15 @@ def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
     label = (
-    label.replace(" - ", ", ")
-    .replace(",", "")
-    .replace(".", "")
-    .replace("label:", "")
+        label.replace(" - ", ", ")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("label:", "")
     )
 
-    label = label.lower().strip()  # Convert to lowercase and strip leading/trailing whitespace
+    label = (
+        label.lower().strip()
+    )  # Convert to lowercase and strip leading/trailing whitespace
 
     if label.startswith("no"):
         label_fixed = "no_not_interesting"

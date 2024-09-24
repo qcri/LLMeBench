@@ -2,6 +2,7 @@ from llmebench.datasets import CT22AttentionworthyDataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import AttentionworthyTask
 
+
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
@@ -9,6 +10,7 @@ def metadata():
         "description": "Deployed on Azure.",
         "scores": {"Weighted-F1": "0.412"},
     }
+
 
 def config():
     return {
@@ -32,11 +34,12 @@ def config():
         "general_args": {"test_split": "ar"},
     }
 
+
 def prompt(input_sample):
     base_prompt = (
         'قم بتصنيف "التغريدة" التالية إلى واحدة من الفئات التالية: '
-        'yes_discusses_action_taken، harmful، yes_discusses_cure، yes_asks_question، no_not_interesting، yes_other، yes_blame_authorities، '
-        'yes_contains_advice، yes_calls_for_action. قدم التصنيف فقط.\n\n'
+        "yes_discusses_action_taken، harmful، yes_discusses_cure، yes_asks_question، no_not_interesting، yes_other، yes_blame_authorities، "
+        "yes_contains_advice، yes_calls_for_action. قدم التصنيف فقط.\n\n"
         f"التغريدة: '{input_sample}'\n"
         "التصنيف: "
     )
@@ -47,9 +50,11 @@ def prompt(input_sample):
         },
     ]
 
+
 import re
 
 import re
+
 
 def post_process(response):
     print(response)
@@ -58,10 +63,9 @@ def post_process(response):
 
     label = label.replace("label:", "").strip()
 
-
     label = label.replace("<s>", "").replace("</s>", "")
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
-    
+
     label_fixed = label_fixed.replace("التصنيف:", "")
 
     if label.startswith("no"):

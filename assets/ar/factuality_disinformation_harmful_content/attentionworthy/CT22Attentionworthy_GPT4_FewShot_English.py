@@ -39,12 +39,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
     for example in examples:
         out_prompt = (
-            out_prompt
-            + "tweet: "
-            + example["input"]
-            + "\n"
-            + example["label"]
-            + "\n\n"
+            out_prompt + "tweet: " + example["input"] + "\n" + example["label"] + "\n\n"
         )
 
     # Append the sentence we want the model to predict for but leave the Label blank
@@ -58,7 +53,7 @@ def prompt(input_sample, examples):
     return [
         {
             "role": "system",
-            "content": "You are social media expert. You can annotate and classify tweets."
+            "content": "You are social media expert. You can annotate and classify tweets.",
         },
         {
             "role": "user",
@@ -79,10 +74,12 @@ def post_process(response):
 
     if "**Category:** " in label:
         label = label.split("**Category:** ")[-1]
-    if '**Annotation:** ' in label:
+    if "**Annotation:** " in label:
         label = label.split("**Annotation:** ")[-1]
 
-    label = label.lower().strip()  # Convert to lowercase and strip leading/trailing whitespace
+    label = (
+        label.lower().strip()
+    )  # Convert to lowercase and strip leading/trailing whitespace
 
     if label.startswith("no"):
         label_fixed = "no_not_interesting"
@@ -116,4 +113,3 @@ def post_process(response):
         label_fixed = None
 
     return label_fixed
-

@@ -2,6 +2,7 @@ from llmebench.datasets import CT22AttentionworthyDataset
 from llmebench.models import AzureModel
 from llmebench.tasks import AttentionworthyTask
 
+
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
@@ -42,14 +43,15 @@ def prompt(input_sample):
         f"label: \n"
     )
     return [
-        
         {
             "role": "user",
             "content": prompt_string,
         },
     ]
 
+
 import re
+
 
 def post_process(response):
     print(response)
@@ -61,9 +63,11 @@ def post_process(response):
     else:
         print("Response .. " + str(response))
         label = ""
-    
-    label_fixed = label.lower().strip()  # Convert to lowercase and strip leading/trailing whitespace
-    
+
+    label_fixed = (
+        label.lower().strip()
+    )  # Convert to lowercase and strip leading/trailing whitespace
+
     # Update conditions to match labels without surrounding whitespace
     if label_fixed.startswith("no"):
         label_fixed = "no_not_interesting"
@@ -72,7 +76,9 @@ def post_process(response):
     elif "yes_harmful" in label_fixed:
         label_fixed = "harmful"
     elif label_fixed.startswith("yes"):
-        label_fixed = label_fixed.strip()  # Keep the original label if it starts with "yes"
+        label_fixed = (
+            label_fixed.strip()
+        )  # Keep the original label if it starts with "yes"
     elif "yes_blame_authoritie" in label_fixed:
         label_fixed = "yes_blame_authoritie"
     elif "yes_discusses_action_taken" in label_fixed:

@@ -2,6 +2,7 @@ from llmebench.datasets import CT22AttentionworthyDataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import AttentionworthyTask
 
+
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
@@ -41,23 +42,23 @@ def prompt(input_sample):
         f"التصنيف: \n"
     )
     return [
-        
         {
             "role": "user",
             "content": prompt_string,
         },
     ]
 
+
 import re
+
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
     label = label.replace("label:", "").strip()
 
-
     label = label.replace("<s>", "").replace("</s>", "")
-    
+
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
 
     label_fixed = label_fixed.replace("التصنيف:", "")

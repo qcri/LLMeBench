@@ -65,6 +65,7 @@ def prompt(input_sample, examples):
 
 import re
 
+
 def post_process(response):
     print(response)
     if "output" in response:
@@ -75,9 +76,11 @@ def post_process(response):
     else:
         print("Response .. " + str(response))
         label = ""
-    
-    label_fixed = label.lower().strip()  # Convert to lowercase and strip leading/trailing whitespace
-    
+
+    label_fixed = (
+        label.lower().strip()
+    )  # Convert to lowercase and strip leading/trailing whitespace
+
     if label.startswith("no"):
         label_fixed = "no_not_interesting"
     elif "yes_discusses_covid-19_vaccine_side_effects" in label:
@@ -106,7 +109,7 @@ def post_process(response):
         label_fixed = "yes_contains_advice"
     elif "yes_calls_for_action" in label:
         label_fixed = "yes_calls_for_action"
-    else :
+    else:
         label_fixed = None
 
     return label_fixed

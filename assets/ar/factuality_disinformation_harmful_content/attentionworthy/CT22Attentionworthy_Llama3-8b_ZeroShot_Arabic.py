@@ -2,6 +2,7 @@ from llmebench.datasets import CT22AttentionworthyDataset
 from llmebench.models import AzureModel
 from llmebench.tasks import AttentionworthyTask
 
+
 def metadata():
     return {
         "author": "Arabic Language Technologies, QCRI, HBKU",
@@ -41,14 +42,15 @@ def prompt(input_sample):
         f"التصنيف: \n"
     )
     return [
-        
         {
             "role": "user",
             "content": prompt_string,
         },
     ]
 
+
 import re
+
 
 def post_process(response):
     print(response)
@@ -60,7 +62,7 @@ def post_process(response):
     else:
         print("استجابة .. " + str(response))
         label = ""
-    
+
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
 
     label_fixed = label_fixed.replace("التصنيف:", "")
@@ -94,5 +96,5 @@ def post_process(response):
         label_fixed = "yes_calls_for_action"
     else:
         label_fixed = None
-        
+
     return label_fixed

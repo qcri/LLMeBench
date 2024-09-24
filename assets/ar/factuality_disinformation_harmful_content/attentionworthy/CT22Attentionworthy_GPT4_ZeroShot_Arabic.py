@@ -61,7 +61,7 @@ def post_process(response):
         .replace(",", "")
         .replace(".", "")
         .replace("label:", "")
-        .replace("التصنيف: " ,"")
+        .replace("التصنيف: ", "")
     )
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
 
@@ -95,5 +95,5 @@ def post_process(response):
         label_fixed = "yes_calls_for_action"
     else:
         label_fixed = None
-        
+
     return label_fixed
