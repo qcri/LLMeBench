@@ -62,8 +62,8 @@ class MultiNativQADataset(DatasetBase):
                     "test": "nepali_np/NativQA_ne_NA_np_test.tsv",
                 },
                 "turkish_tr": {
-                    "dev": "english_qa/NativQA_tr_NA_tr_dev.tsv",
-                    "test": "english_qa/NativQA_tr_NA_tr_test.tsv",
+                    "dev": "turkish_tr/NativQA_tr_NA_tr_dev.tsv",
+                    "test": "turkish_tr/NativQA_tr_NA_tr_test.tsv",
                 },
                 "default": [
                     "assamese_in",
