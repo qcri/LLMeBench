@@ -90,7 +90,7 @@ class MultiNativQADataset(DatasetBase):
                 id = row[0]
                 question = row[3]
                 answer = row[4]
-                length = answer.split()
+                length = len(answer.split())
                 data.append(
                     {
                         "data_id": id,
