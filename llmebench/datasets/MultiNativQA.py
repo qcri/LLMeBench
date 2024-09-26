@@ -34,8 +34,8 @@ class MultiNativQADataset(DatasetBase):
                     "test": "arabic_qa/NativQA_ar_msa_qa_test.tsv",
                 },
                 "assamese_in": {
-                    "dev": "assamese_in/NativQA_asm_NA_as_dev.tsv",
-                    "test": "assamese_in/NativQA_asm_NA_as_test.tsv",
+                    "dev": "assamese_in/NativQA_asm_NA_in_dev.tsv",
+                    "test": "assamese_in/NativQA_asm_NA_in_test.tsv",
                 },
                 "bangla_bd": {
                     "dev": "bangla_bd/NativQA_bn_scb_bd_dev.tsv",
