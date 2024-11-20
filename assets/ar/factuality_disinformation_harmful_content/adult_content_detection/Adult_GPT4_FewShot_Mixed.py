@@ -3,17 +3,13 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import AdultTask
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -55,6 +51,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
     return out_prompt
 
+
 def prompt(input_sample, examples):
     base_prompt = f'بالنظر إلى التغريدة التالية، صنفها على أنها "ADULT" أو "NOT_ADULT" بناء على محتوى التغريدة'
     return [
@@ -68,6 +65,7 @@ def prompt(input_sample, examples):
         },
     ]
 
+
 def post_process(response):
     if not response:
         return None
@@ -80,7 +78,16 @@ def post_process(response):
     label = label.replace("<s>", "").replace("</s>", "")
     label = label.lower()
 
-    if "ليس" in label or "ليست" in label or "not" in label or "no" in label or "غير" in label or "لا" in label or "not_adult" in label or "not adult" in label:
+    if (
+        "ليس" in label
+        or "ليست" in label
+        or "not" in label
+        or "no" in label
+        or "غير" in label
+        or "لا" in label
+        or "not_adult" in label
+        or "not adult" in label
+    ):
         return "NOT_ADULT"
     elif "للبالغين" in label or "نعم" in label or "adult" in label:
         return "ADULT"

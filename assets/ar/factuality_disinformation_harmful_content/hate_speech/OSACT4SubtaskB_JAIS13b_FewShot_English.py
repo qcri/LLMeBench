@@ -3,15 +3,13 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import HateSpeechTask
 
 
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
 
 
 def config():
@@ -24,7 +22,7 @@ def config():
         },
     }
 
-    
+
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
     for example in examples:
@@ -40,17 +38,19 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
     return out_prompt
 
+
 def prompt(input_sample, examples):
-    base_prompt = ("Respond only with 'Hate speech' if it is hate speech and 'Not hate speech' if it is not hate speech from the following tweets. "
-        "Here are some examples to guide you:\n")
+    base_prompt = (
+        "Respond only with 'Hate speech' if it is hate speech and 'Not hate speech' if it is not hate speech from the following tweets. "
+        "Here are some examples to guide you:\n"
+    )
     return [
         {
             "role": "user",
-            "content": (
-                few_shot_prompt(input_sample, base_prompt, examples)
-            ),
+            "content": (few_shot_prompt(input_sample, base_prompt, examples)),
         }
     ]
+
 
 def post_process(response):
     print(response)

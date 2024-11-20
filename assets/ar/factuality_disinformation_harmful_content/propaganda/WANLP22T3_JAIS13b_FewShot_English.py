@@ -9,19 +9,13 @@ from llmebench.tasks import MultilabelPropagandaTask
 random.seed(1333)
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -55,6 +49,7 @@ def config():
             "max_tries": 3,
         },
     }
+
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n\n"
@@ -92,23 +87,21 @@ Review the following tweets and analyze the propaganda techniques used. Choose o
 "Whataboutism," "Black-and-white Fallacy/Dictatorship," "Thought-terminating cliché," or "Causal Oversimplification."
     """
     base_prompt = instruction.strip()
-    
+
     return [
         {
             "role": "user",
-            "content": (
-                few_shot_prompt(input_sample, base_prompt, examples)
-            ),
+            "content": (few_shot_prompt(input_sample, base_prompt, examples)),
         }
     ]
 
+
 def post_process(response):
-    
+
     label = response["choices"][0]["message"]["content"].lower()
 
-   
     label = label.replace("<s>", "").replace("</s>", "")
-    
+
     label_mapping = {
         "بدون تقنية": "no technique",
         "تشويه": "Smears",
@@ -128,7 +121,7 @@ def post_process(response):
         "ماذا عن": "Whataboutism",
         "مغالطة الأبيض والأسود/الديكتاتورية": "Black-and-white Fallacy/Dictatorship",
         "الكليشيه القاطع للفكر": "Thought-terminating cliché",
-        "التبسيط السببي": "Causal Oversimplification"
+        "التبسيط السببي": "Causal Oversimplification",
     }
     print("label: ", label)
     detected_labels = []
@@ -151,15 +144,30 @@ def post_process(response):
         detected_labels.append(label_mapping["التكرار"])
     if "Doubt" in label:
         detected_labels.append(label_mapping["الشك"])
-    if "Obfuscation, Intentional vagueness, Confusion" in label or "Obfuscation" in label or "Intentional vagueness" in label or "Confusion" in label:
+    if (
+        "Obfuscation, Intentional vagueness, Confusion" in label
+        or "Obfuscation" in label
+        or "Intentional vagueness" in label
+        or "Confusion" in label
+    ):
         detected_labels.append(label_mapping["التعمية/الغموض المتعمد/الارتباك"])
     if "Flag-waving" in label or "flag":
         detected_labels.append(label_mapping["التلويح بالعلم"])
-    if "Glittering generalities (Virtue)" in label or "الفضيلة" in label or "Glittering":
+    if (
+        "Glittering generalities (Virtue)" in label
+        or "الفضيلة" in label
+        or "Glittering"
+    ):
         detected_labels.append(label_mapping["التعميمات البراقة (الفضيلة)"])
-    if "Misrepresentation of Someone's Position (Straw Man)" in label or "تحريف موقف شخص" in label:
+    if (
+        "Misrepresentation of Someone's Position (Straw Man)" in label
+        or "تحريف موقف شخص" in label
+    ):
         detected_labels.append(label_mapping["تحريف موقف شخص (رجل القش)"])
-    if "Presenting Irrelevant Data (Red Herring)" in label or "عرض بيانات غير ذات صلة" in label:
+    if (
+        "Presenting Irrelevant Data (Red Herring)" in label
+        or "عرض بيانات غير ذات صلة" in label
+    ):
         detected_labels.append(label_mapping["عرض بيانات غير ذات صلة (السمكة الحمراء)"])
     if "Appeal to authority" in label:
         detected_labels.append(label_mapping["النداء إلى السلطة"])
@@ -172,7 +180,4 @@ def post_process(response):
     if "Causal Oversimplification" in label or "التبسيط" in label:
         detected_labels.append(label_mapping["التبسيط السببي"])
 
-
     return detected_labels
-
-

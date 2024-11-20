@@ -3,17 +3,13 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import AttentionworthyTask
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -61,13 +57,15 @@ def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
     label = (
-    label.replace(" - ", ", ")
-    .replace(",", "")
-    .replace(".", "")
-    .replace("label:", "")
+        label.replace(" - ", ", ")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("label:", "")
     )
 
-    label = label.lower().strip()  # Convert to lowercase and strip leading/trailing whitespace
+    label = (
+        label.lower().strip()
+    )  # Convert to lowercase and strip leading/trailing whitespace
 
     if label.startswith("no"):
         label_fixed = "no_not_interesting"

@@ -3,19 +3,13 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import ClaimDetectionTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -51,12 +45,15 @@ def post_process(response):
     label = label.replace("label:", "").strip()
     label = label.lower()
 
-
     if "label: " in label:
         arr = label.split("label: ")
         label = arr[1].strip()
 
-    if "yes" in label or "نعم" in label or "the sentence contains a factual claim" in label:
+    if (
+        "yes" in label
+        or "نعم" in label
+        or "the sentence contains a factual claim" in label
+    ):
         label_fixed = "1"
     if "no" in label or "لا" in label:
         label_fixed = "0"

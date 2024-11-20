@@ -3,17 +3,13 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import OffensiveTask
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -30,9 +26,9 @@ def config():
 
 def prompt(input_sample, examples):
     base_prompt = (
-            "إذا كانت التغريدة التالية تحتوي على أي درجة من الإساءة، قم بالرد بـ  'offensive' إذا لم تحتوي على أي محتوى مسيء أو مهين أو ضار، قم بالرد بـ 'not offensive'. هذه بعض الأمثلة: " + "\n"
+        "إذا كانت التغريدة التالية تحتوي على أي درجة من الإساءة، قم بالرد بـ  'offensive' إذا لم تحتوي على أي محتوى مسيء أو مهين أو ضار، قم بالرد بـ 'not offensive'. هذه بعض الأمثلة: "
+        + "\n"
     )
-
 
     return [
         {
@@ -54,7 +50,12 @@ def few_shot_prompt(input_sample, base_prompt, examples):
         label = "not offensive" if example["label"] == "NOT_OFF" else "offensive"
 
         out_prompt = (
-            out_prompt + "التغريدة: " + example["input"] + "\nالتصنيف: " + label + "\n\n"
+            out_prompt
+            + "التغريدة: "
+            + example["input"]
+            + "\nالتصنيف: "
+            + label
+            + "\n\n"
         )
 
     # Append the sentence we want the model to predict for but leave the Label blank
@@ -71,7 +72,9 @@ def post_process(response):
     label = out.strip().lower()
     if "غير" in label or "not" in label or "ليس" in label or "ليست" in label:
         return "NOT_OFF"
-    elif "مسيء" in label or "offensive" in label or "المساءاة" in label or "off" in label:
+    elif (
+        "مسيء" in label or "offensive" in label or "المساءاة" in label or "off" in label
+    ):
         return "OFF"
     else:
         return None

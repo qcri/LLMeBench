@@ -3,19 +3,13 @@ from llmebench.models import AzureModel
 from llmebench.tasks import SubjectivityTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "Llama-3.1-8B-Instruct",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -32,15 +26,14 @@ def config():
 
 
 def prompt(input_sample, examples):
-    base_prompt = (
-        'Classify the tweet as "Objective" or "Subjective". Provide the classification for the last tweet only, do not provide any additional justification:\n'
-    )
+    base_prompt = 'Classify the tweet as "Objective" or "Subjective". Provide the classification for the last tweet only, do not provide any additional justification:\n'
     return [
         {
             "role": "user",
             "content": few_shot_prompt(input_sample, base_prompt, examples),
         },
     ]
+
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
@@ -66,7 +59,7 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def post_process(response):
-    #print(response)
+    # print(response)
     if "output" in response:
         # if "content" in response["messages"]:
         label = response["output"].strip()

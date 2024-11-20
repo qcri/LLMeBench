@@ -3,17 +3,13 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import AttentionworthyTask
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -38,6 +34,7 @@ def config():
         "general_args": {"test_split": "ar", "fewshot": {"train_split": "ar"}},
     }
 
+
 # def few_shot_prompt(input_sample, examples):
 #     base_prompt = (
 #         'قم بتصنيف "التغريدة" التالية إلى واحدة من الفئات التالية: '
@@ -57,6 +54,7 @@ def config():
 #         f"التصنيف: "
 #     )
 #     return base_prompt
+
 
 # def prompt(input_sample, examples):
 #     return [
@@ -86,8 +84,8 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 def prompt(input_sample, examples):
     base_prompt = (
         'قم بتصنيف "التغريدة" التالية إلى واحدة من الفئات التالية: '
-        'yes_discusses_action_taken، harmful، yes_discusses_cure، yes_asks_question، no_not_interesting، yes_other، yes_blame_authorities، '
-        'yes_contains_advice، yes_calls_for_action. قدم التصنيف فقط.\n\n'
+        "yes_discusses_action_taken، harmful، yes_discusses_cure، yes_asks_question، no_not_interesting، yes_other، yes_blame_authorities، "
+        "yes_contains_advice، yes_calls_for_action. قدم التصنيف فقط.\n\n"
         "إليك بعض الأمثلة:\n\n"
     )
     return [
@@ -97,7 +95,9 @@ def prompt(input_sample, examples):
         },
     ]
 
+
 import re
+
 
 def post_process(response):
     print(response)
@@ -106,10 +106,9 @@ def post_process(response):
 
     label = label.replace("label:", "").strip()
 
-
     label = label.replace("<s>", "").replace("</s>", "")
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
-    
+
     label_fixed = label_fixed.replace("التصنيف:", "")
 
     if label.startswith("no"):

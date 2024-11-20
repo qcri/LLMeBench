@@ -9,19 +9,13 @@ from llmebench.tasks import MultilabelPropagandaTask
 random.seed(1333)
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -69,16 +63,13 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": (
-                "You are an expert social media content analyst."
-            ),  
+            "content": ("You are an expert social media content analyst."),
         },
         {
             "role": "user",
             "content": prompt_string,
         },
     ]
-
 
 
 def fix_label(pred_label):
@@ -170,7 +161,14 @@ def fix_label(pred_label):
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
-    if "لا يوجد في النص" in label or label == "'no technique'" or "doesn't" in label or "does not" in label or "لا يحتوي" in label or "لا يستخدم" in label:
+    if (
+        "لا يوجد في النص" in label
+        or label == "'no technique'"
+        or "doesn't" in label
+        or "does not" in label
+        or "لا يحتوي" in label
+        or "لا يستخدم" in label
+    ):
         return []
     pred_label = fix_label(label)
 

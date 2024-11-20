@@ -3,19 +3,13 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import ClaimDetectionTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -31,7 +25,9 @@ def config():
 
 
 def prompt(input_sample, examples):
-    base_prompt = "هل تحتوي هذه التغريدة على ادعاء؟ أجب فقط بـ 'نعم' أو 'لا'. قدم التصنيف فقط.\n"
+    base_prompt = (
+        "هل تحتوي هذه التغريدة على ادعاء؟ أجب فقط بـ 'نعم' أو 'لا'. قدم التصنيف فقط.\n"
+    )
     prompt = few_shot_prompt(input_sample, base_prompt, examples)
 
     return [
@@ -44,8 +40,6 @@ def prompt(input_sample, examples):
             "content": prompt,
         },
     ]
-
-
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
@@ -73,7 +67,8 @@ def post_process(response):
     if (
         "لا" in input_label
         or "لا تحتوي" in input_label
-        or "ليست" in input_label or "not" in input_label
+        or "ليست" in input_label
+        or "not" in input_label
         or "label: 0" in input_label
         or "label: no" in input_label
         or "not contain" in input_label
@@ -91,4 +86,3 @@ def post_process(response):
         return "1"
     else:
         return None
-

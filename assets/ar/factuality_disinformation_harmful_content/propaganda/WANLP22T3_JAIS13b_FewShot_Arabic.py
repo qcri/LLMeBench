@@ -8,17 +8,13 @@ from llmebench.tasks import MultilabelPropagandaTask
 random.seed(1333)
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -53,6 +49,7 @@ def config():
         },
     }
 
+
 def few_shot_prompt(input_sample, examples):
     instruction = """
     "من القائمة، اختر التقنية الدعائية الأنسب للتغريدة: "بدون تقنية"، "تشويه"، "مبالغة/تقليل"، "لغة محملة"، "النداء إلى الخوف/التحيز"، "التسمية/الملصقات"، "الشعارات"، "التكرار"، "الشك"،
@@ -78,16 +75,18 @@ def few_shot_prompt(input_sample, examples):
         "Whataboutism": "ماذا عن",
         "Black-and-white Fallacy/Dictatorship": "مغالطة الأبيض والأسود/الديكتاتورية",
         "Thought-terminating cliché": "الكليشيه القاطع للفكر",
-        "Causal Oversimplification": "التبسيط السببي"
+        "Causal Oversimplification": "التبسيط السببي",
     }
-    
+
     few_shot_text = instruction + "\n\nإليك بعض الأمثلة:\n\n"
     for index, example in enumerate(examples):
         print(f"Processing example {index + 1}")
         print(f"Example label: {example['label']}")
-        
+
         try:
-            labels = ", ".join(label_mapping[l] for l in example["label"] if example["label"])
+            labels = ", ".join(
+                label_mapping[l] for l in example["label"] if example["label"]
+            )
             print("Labels in few_shot:", labels)
         except KeyError as e:
             print(f"KeyError: {e} in example {index + 1}")
@@ -96,20 +95,17 @@ def few_shot_prompt(input_sample, examples):
     few_shot_text += f"الآن، قم بتقييم التغريدة الجديدة التالية:\nالتغريدة: '{input_sample}'\nالتصنيف: "
     return few_shot_text
 
+
 def prompt(input_sample, examples):
-    return [
-        {
-            "role": "user",
-            "content": few_shot_prompt(input_sample, examples)
-        }
-    ]
+    return [{"role": "user", "content": few_shot_prompt(input_sample, examples)}]
+
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
     label = label.lower()
-    label = re.sub(r'<[^>]+>', '', label)  # Remove any HTML-like tags
+    label = re.sub(r"<[^>]+>", "", label)  # Remove any HTML-like tags
     label = label.lower()
-    
+
     label_mapping = {
         "بدون تقنية": "no technique",
         "تشويه": "Smears",
@@ -129,7 +125,7 @@ def post_process(response):
         "ماذا عن": "Whataboutism",
         "مغالطة الأبيض والأسود/الديكتاتورية": "Black-and-white Fallacy/Dictatorship",
         "الكليشيه القاطع للفكر": "Thought-terminating cliché",
-        "التبسيط السببي": "Causal Oversimplification"
+        "التبسيط السببي": "Causal Oversimplification",
     }
 
     detected_labels = []

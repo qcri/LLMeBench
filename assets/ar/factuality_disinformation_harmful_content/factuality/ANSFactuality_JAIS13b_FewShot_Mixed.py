@@ -3,17 +3,13 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import FactualityTask
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -37,6 +33,7 @@ def prompt(input_sample, examples):
             "content": fs_prompt,
         },
     ]
+
 
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt
@@ -63,7 +60,6 @@ def post_process(response):
     label = response["choices"][0]["message"]["content"]
     label = label.replace(".", "").strip().lower()
 
-
     if (
         "لا" in label
         or "خطأ" in label
@@ -71,7 +67,6 @@ def post_process(response):
         or "false" in label
         or "label: 0" in label
         or "label: no" in label
-        
     ):
         pred_label = "false"
     elif (

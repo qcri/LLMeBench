@@ -3,19 +3,13 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import AttentionworthyTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -69,23 +63,13 @@ def few_shot_prompt(input_sample, base_prompt, examples):
     return out_prompt
 
 
-
-
-
-
-
-
-
-
-
-
 def prompt(input_sample, examples):
-    base_prompt =  f'هل تتطلب "التغريدة" انتباه الصحفيين، ومدققي الحقائق، والجهات الحكومية؟ قم بتصنيف "التغريدة" التالية إلى واحدة من الفئات التالية: تناقش_الإجراء_المتخذ، ضارة، تناقش_العلاج، تطرح_سؤال، غير_مثيرة_للاهتمام، آخر، تلوم_السلطات، تحتوي_على_نصيحة، تدعو_لإجراء. قدم التصنيف فقط.\n\n'
+    base_prompt = f'هل تتطلب "التغريدة" انتباه الصحفيين، ومدققي الحقائق، والجهات الحكومية؟ قم بتصنيف "التغريدة" التالية إلى واحدة من الفئات التالية: تناقش_الإجراء_المتخذ، ضارة، تناقش_العلاج، تطرح_سؤال، غير_مثيرة_للاهتمام، آخر، تلوم_السلطات، تحتوي_على_نصيحة، تدعو_لإجراء. قدم التصنيف فقط.\n\n'
 
     return [
         {
             "role": "system",
-            "content":  "أنت خبير في وسائل التواصل الاجتماعي. يمكنك تحليل و تصنيف التغريدات.",
+            "content": "أنت خبير في وسائل التواصل الاجتماعي. يمكنك تحليل و تصنيف التغريدات.",
         },
         {
             "role": "user",
@@ -98,11 +82,11 @@ def post_process(response):
     label = response["choices"][0]["message"]["content"]
 
     label = (
-    label.replace(" - ", ", ")
-    .replace(",", "")
-    .replace(".", "")
-    .replace("label:", "")
-    .replace("التصنيف: ", "")
+        label.replace(" - ", ", ")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("label:", "")
+        .replace("التصنيف: ", "")
     )
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
 

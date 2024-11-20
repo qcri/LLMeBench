@@ -3,17 +3,13 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import ClaimDetectionTask
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -43,7 +39,6 @@ def prompt(input_sample):
     ]
 
 
-
 def post_process(response):
     try:
         label = response["choices"][0]["message"]["content"]
@@ -51,18 +46,26 @@ def post_process(response):
         label = label.replace("الإجابة:", "").strip()
         label = label.lower()
         if "هذه التغريدة تحتوي" in label:
-            return "1" 
+            return "1"
 
-        if "لا يمكنني" in label or "I cannot" in label or "sorry" in label or "هذه المحادثة غير مناسبة" in label:
+        if (
+            "لا يمكنني" in label
+            or "I cannot" in label
+            or "sorry" in label
+            or "هذه المحادثة غير مناسبة" in label
+        ):
             return None
-        if "not a factual claim" in label or "لا يوجد" in label or "not" in label or "لا" in label:
+        if (
+            "not a factual claim" in label
+            or "لا يوجد" in label
+            or "not" in label
+            or "لا" in label
+        ):
             return "0"
 
-
-
-        if "نعم" in label or 'yes' in label:
+        if "نعم" in label or "yes" in label:
             pred_label = "1"
-        elif "لا" in label or 'no' in label:
+        elif "لا" in label or "no" in label:
             pred_label = "0"
         else:
             pred_label = ""

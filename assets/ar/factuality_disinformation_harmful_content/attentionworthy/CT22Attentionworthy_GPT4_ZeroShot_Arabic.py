@@ -3,19 +3,13 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import AttentionworthyTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -67,7 +61,7 @@ def post_process(response):
         .replace(",", "")
         .replace(".", "")
         .replace("label:", "")
-        .replace("التصنيف: " ,"")
+        .replace("التصنيف: ", "")
     )
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
 
@@ -101,5 +95,5 @@ def post_process(response):
         label_fixed = "yes_calls_for_action"
     else:
         label_fixed = None
-        
+
     return label_fixed

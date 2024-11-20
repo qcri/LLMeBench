@@ -3,17 +3,13 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import HateSpeechTask
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -26,6 +22,7 @@ def config():
             "max_tries": 3,
         },
     }
+
 
 def prompt(input_sample):
     return [
@@ -40,14 +37,21 @@ def prompt(input_sample):
         }
     ]
 
+
 def post_process(response):
     print(response)
-    label = (
-        response["choices"][0]["message"]["content"].lower()
-    )
+    label = response["choices"][0]["message"]["content"].lower()
     if "لا يمكنني" in label:
         return None
-    if "لا كراهية" in label or "لا تحتوي" in label or "ليست كراهية" in label or "ليس" in label or "ليست" in label or "not" in label or "لا" in label:
+    if (
+        "لا كراهية" in label
+        or "لا تحتوي" in label
+        or "ليست كراهية" in label
+        or "ليس" in label
+        or "ليست" in label
+        or "not" in label
+        or "لا" in label
+    ):
         return "NOT_HS"
     if "تحتوي على خطاب كراهية" in label:
         return "HS"

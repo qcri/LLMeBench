@@ -9,17 +9,13 @@ from llmebench.tasks import MultilabelPropagandaTask
 random.seed(1333)
 
 
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "GPT-4o-2024-05-22",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -62,18 +58,12 @@ def prompt(input_sample):
         f"قدم التصنيفات فقط كقائمة من النصوص.\n"
     )
 
-    prompt_string = (
-        base_prompt + 
-        f"التغريدة: {input_sample}\n\n"
-        f"التصنيف: \n"
-    )
+    prompt_string = base_prompt + f"التغريدة: {input_sample}\n\n" f"التصنيف: \n"
 
     return [
         {
             "role": "system",
-            "content": (
-                "أنت خبير في تحليل محتوى وسائل التواصل الاجتماعي."
-            ),
+            "content": ("أنت خبير في تحليل محتوى وسائل التواصل الاجتماعي."),
         },
         {
             "role": "user",
@@ -82,27 +72,45 @@ def prompt(input_sample):
     ]
 
 
-
 def post_process(response):
     label = response["choices"][0]["message"]["content"].lower()
     label = label.strip().lower()
-    if "لا يوجد في النص" in label or label == "'no technique'" or "doesn't" in label or "does not" in label or "لا يحتوي" in label or "لا يستخدم" in label:
+    if (
+        "لا يوجد في النص" in label
+        or label == "'no technique'"
+        or "doesn't" in label
+        or "does not" in label
+        or "لا يحتوي" in label
+        or "لا يستخدم" in label
+    ):
         return []
     label_mapping = {
-        "بدون تقنية": "no technique", "تشويه": "Smears", "مبالغة/تقليل": "Exaggeration/Minimisation",
-        "لغة محملة بالمشاعر": "Loaded Language", "الاحتكام إلى الخوف/التحيز": "Appeal to fear/prejudice",
-        "التسمية/الملصقات": "Name calling/Labeling", "الشعارات": "Slogans", "التكرار": "Repetition",
-        "الشك": "Doubt", "التعمية/الغموض المتعمد/الارتباك": "Obfuscation, Intentional vagueness, Confusion",
-        "التلويح بالعلم": "Flag-waving", "التعميمات البراقة (الفضيلة)": "Glittering generalities (Virtue)",
+        "بدون تقنية": "no technique",
+        "تشويه": "Smears",
+        "مبالغة/تقليل": "Exaggeration/Minimisation",
+        "لغة محملة بالمشاعر": "Loaded Language",
+        "الاحتكام إلى الخوف/التحيز": "Appeal to fear/prejudice",
+        "التسمية/الملصقات": "Name calling/Labeling",
+        "الشعارات": "Slogans",
+        "التكرار": "Repetition",
+        "الشك": "Doubt",
+        "التعمية/الغموض المتعمد/الارتباك": "Obfuscation, Intentional vagueness, Confusion",
+        "التلويح بالعلم": "Flag-waving",
+        "التعميمات البراقة (الفضيلة)": "Glittering generalities (Virtue)",
         "تحريف موقف شخص (مغالطة رجل القش)": "Misrepresentation of Someone's Position (Straw Man)",
         "عرض بيانات غير ذات صلة (السمكة الحمراء)": "Presenting Irrelevant Data (Red Herring)",
-        "الاحتكام إلى السلطة": "Appeal to authority", "ماذا عن": "Whataboutism",
+        "الاحتكام إلى السلطة": "Appeal to authority",
+        "ماذا عن": "Whataboutism",
         "مغالطة الأبيض والأسود/الديكتاتورية": "Black-and-white Fallacy/Dictatorship",
-        "الكليشيه القاطع للفكر": "Thought-terminating cliché", "التبسيط السببي": "Causal Oversimplification"
+        "الكليشيه القاطع للفكر": "Thought-terminating cliché",
+        "التبسيط السببي": "Causal Oversimplification",
     }
 
-    detected_labels = [english_label for arabic_label, english_label in label_mapping.items() if
-                       arabic_label in label or english_label.lower() in label]
+    detected_labels = [
+        english_label
+        for arabic_label, english_label in label_mapping.items()
+        if arabic_label in label or english_label.lower() in label
+    ]
     final_labels = [l for l in detected_labels if "no technique" not in l]
 
     return list(set(final_labels))

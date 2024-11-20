@@ -3,19 +3,13 @@ from llmebench.models import AzureModel
 from llmebench.tasks import FactualityTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "Llama-3.1-8B-Instruct",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -46,7 +40,6 @@ def prompt(input_sample):
     ]
 
 
-
 def post_process(response):
     if "output" in response:
         # if "content" in response["messages"]:
@@ -58,17 +51,9 @@ def post_process(response):
         label = ""
 
     label = label.replace(".", "").strip().lower()
-    if (
-        "true" in label
-        or "label: 1" in label
-        or "label: yes" in label
-    ):
+    if "true" in label or "label: 1" in label or "label: yes" in label:
         pred_label = "true"
-    elif (
-        "false" in label
-        or "label: 0" in label
-        or "label: no" in label
-    ):
+    elif "false" in label or "label: 0" in label or "label: no" in label:
         pred_label = "false"
     else:
         print("label problem!! " + label)

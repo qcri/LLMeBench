@@ -8,15 +8,13 @@ from llmebench.tasks import MultilabelPropagandaTask
 random.seed(1333)
 
 
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "Llama-3.1-8B-Instruct",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
 
 
 def config():
@@ -51,6 +49,7 @@ def config():
         },
     }
 
+
 def few_shot_prompt(input_sample, examples):
     instruction = """
     "من القائمة، اختر التقنية الدعائية الأنسب للتغريدة: "no technique"، "Smears"، "Exaggeration/Minimisation"، "Loaded Language"، "Appeal to fear/prejudice"، "Name calling/Labeling"، "Slogans"، "Repetition"، "Doubt"،
@@ -70,23 +69,20 @@ def few_shot_prompt(input_sample, examples):
     few_shot_text += f"الآن، قم بتقييم التغريدة الجديدة التالية:\nالتغريدة: '{input_sample}'\nالتصنيف: "
     return few_shot_text
 
+
 def prompt(input_sample, examples):
-    return [
-        {
-            "role": "user",
-            "content": few_shot_prompt(input_sample, examples)
-        }
-    ]
+    return [{"role": "user", "content": few_shot_prompt(input_sample, examples)}]
+
 
 def post_process(response):
-    if not response or 'error' in response or 'output' not in response:
+    if not response or "error" in response or "output" not in response:
         print("Error or missing output in response:", response)
         return "No respose"  # Safely default to NOT_ADULT when unsure
 
     label = response["output"].strip().lower()
     label = label.replace("<s>", "").replace("</s>", "")
     label = label.lower()
-    
+
     label_mapping = {
         "بدون تقنية": "no technique",
         "تشويه": "Smears",
@@ -106,7 +102,7 @@ def post_process(response):
         "ماذا عن": "Whataboutism",
         "مغالطة الأبيض والأسود/الديكتاتورية": "Black-and-white Fallacy/Dictatorship",
         "الكليشيه القاطع للفكر": "Thought-terminating cliché",
-        "التبسيط السببي": "Causal Oversimplification"
+        "التبسيط السببي": "Causal Oversimplification",
     }
 
     detected_labels = []
@@ -116,7 +112,7 @@ def post_process(response):
         elif english_label.lower() in label:
             detected_labels.append(english_label)
 
-    print("Detected labels:", detected_labels) 
+    print("Detected labels:", detected_labels)
 
     # Remove duplicates
     detected_labels = list(set(detected_labels))

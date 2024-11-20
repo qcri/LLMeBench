@@ -1,9 +1,8 @@
+import random
+
 from llmebench.datasets import CT22HarmfulDataset
 from llmebench.models import AzureModel
 from llmebench.tasks import HarmfulDetectionTask
-import random
-
-
 
 
 def metadata():
@@ -11,10 +10,8 @@ def metadata():
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "Llama-3.1-8B-Instruct",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
 
 
 def config():
@@ -28,6 +25,7 @@ def config():
         },
         "general_args": {"test_split": "ar"},
     }
+
 
 def prompt(input_sample):
     return [
@@ -44,16 +42,16 @@ def prompt(input_sample):
 
 
 def post_process(response):
-        # Extract the label from the response
+    # Extract the label from the response
     if "output" in response:
         label = response["output"].strip().lower()
-        
-    print("label: ",label)    
+
+    print("label: ", label)
 
     if "غير ضارة" in label or "لا" in label:
         return "0"
-    elif label==  "ضارة" or "ضارة" in label or "نعم" in label:
+    elif label == "ضارة" or "ضارة" in label or "نعم" in label:
         return "1"
-    
+
     else:
         return None

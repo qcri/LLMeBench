@@ -3,19 +3,13 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import AttentionworthyTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
-
-
 
 
 def config():
@@ -68,7 +62,9 @@ def prompt(input_sample, examples):
         },
     ]
 
+
 import re
+
 
 def post_process(response):
     print(response)
@@ -76,10 +72,9 @@ def post_process(response):
 
     label = label.replace("label:", "").strip()
 
-
     label = label.replace("<s>", "").replace("</s>", "")
     label_fixed = label.lower().strip()  # تحويل إلى أحرف صغيرة وإزالة الفراغات الزائدة
-    
+
     label_fixed = label_fixed.replace("التصنيف:", "")
     if label_fixed.startswith("لا"):
         label_fixed = "no_not_interesting"
@@ -111,5 +106,5 @@ def post_process(response):
         label_fixed = "yes_calls_for_action"
     else:
         label_fixed = None
-        
+
     return label_fixed

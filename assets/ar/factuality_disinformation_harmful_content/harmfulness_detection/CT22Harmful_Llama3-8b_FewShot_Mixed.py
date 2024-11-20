@@ -1,8 +1,8 @@
+import random
+
 from llmebench.datasets import CT22HarmfulDataset
 from llmebench.models import AzureModel
 from llmebench.tasks import HarmfulDetectionTask
-import random
-
 
 
 def metadata():
@@ -10,9 +10,8 @@ def metadata():
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "Llama-3.1-8B-Instruct",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
+        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
     }
-
 
 
 def config():
@@ -27,6 +26,7 @@ def config():
         "general_args": {"test_split": "ar", "fewshot": {"train_split": "ar"}},
     }
 
+
 def few_shot_prompt(input_sample, base_prompt, examples):
     out_prompt = base_prompt + "\n"
     for example in examples:
@@ -39,27 +39,28 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
     return out_prompt
 
+
 def prompt(input_sample, examples):
-    base_prompt =  "صنف التغريدة التالية على أنها 'harmful' أو 'not_harmful'. قدم التصنيف فقط.\n\n"
+    base_prompt = (
+        "صنف التغريدة التالية على أنها 'harmful' أو 'not_harmful'. قدم التصنيف فقط.\n\n"
+    )
     return [
         {
             "role": "user",
-            "content": (
-                few_shot_prompt(input_sample, base_prompt, examples)
-            ),
+            "content": (few_shot_prompt(input_sample, base_prompt, examples)),
         }
     ]
 
+
 def post_process(response):
-        # Extract the label from the response
+    # Extract the label from the response
     if "output" in response:
         label = response["output"].strip().lower()
-        
-    print("label: ",label)
+
+    print("label: ", label)
     if "لا أستطيع تقديم هذا النوع من الإجابات." in label:
         return None
     elif "غير" in label or "ليس" in label or "not" in label:
         return "0"
     else:
         return "1"
-    
