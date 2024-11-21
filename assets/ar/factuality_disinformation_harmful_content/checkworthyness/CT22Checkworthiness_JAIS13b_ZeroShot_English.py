@@ -3,19 +3,16 @@ from llmebench.models import FastChatModel
 from llmebench.tasks import CheckworthinessTask
 
 
-
-
-
 def metadata():
     return {
         "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
         "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
         "model": "jais-13b-chat",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054)."
-    }
-
-
-,
+        "description": (
+            "For a comprehensive analysis and results, refer to our peer-reviewed publication available at "
+            "[Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on "
+            "[arXiv](https://arxiv.org/abs/2409.07054)."
+        ),
     }
 
 
@@ -34,7 +31,8 @@ def config():
 
 def prompt(input_sample):
     base_prompt = (
-        f'Classify the tweet as "checkworthy" or "not checkworthy". Provide the classification only for the last tweet, without providing any additional justification:\n\n'
+        f'Classify the tweet as "checkworthy" or "not checkworthy". Provide the classification only for the last tweet, '
+        f"without providing any additional justification:\n\n"
         f"tweet: {input_sample}\n"
         f"label: \n"
     )
@@ -47,22 +45,12 @@ def prompt(input_sample):
 
 
 def post_process(response):
-    label = response["choices"][0]["message"]["content"]
+    label = response["choices"][0]["message"]["content"].strip().lower()
 
-    label = label.replace("label:", "").strip()
-    
-  
- 
-    label = label.lower()
-    if label == "checkworthy" or label == "Checkworthy":
-        label_fixed = "1"
-    elif label == "Not_checkworthy." or label == "not_checkworthy":
-        label_fixed = "0"
-    elif "not_checkworthy" in label or "label: not_checkworthy" in label:
-        label_fixed = "0"
-    elif "checkworthy" in label or "label: checkworthy" in label:
-        label_fixed = "1"
+    # Normalize labels
+    if "checkworthy" in label:
+        return "1"
+    elif "not_checkworthy" in label:
+        return "0"
     else:
-        label_fixed = None
-
-    return label_fixed
+        return None
