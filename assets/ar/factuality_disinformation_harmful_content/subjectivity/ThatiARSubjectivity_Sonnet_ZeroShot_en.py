@@ -29,7 +29,6 @@ def config():
 
 
 def prompt(input_sample):
-
     prompt = f"""
         Classify the following Arabic 'sentence' as subjective or objective. Provide only the label. 
         Provide your response in the following JSON format: {{"label": "your label"}}. 

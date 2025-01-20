@@ -24,7 +24,6 @@ def config():
 
 
 def prompt(input_sample):
-
     # Define the question prompt
     question_prompt = f"""
     Please use your expertise to answer the following Turkish question. Answer in Turkish and rate your confidence level from 1 to 10.
