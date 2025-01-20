@@ -27,7 +27,6 @@ def config():
 
 
 def prompt(input_sample):
-
     assistant_prompt = """
         I am an Arabic AI assistant specialized in classifying news article sentences into subjective or objective. 
         A subjective sentence expresses personal opinions, feelings, or beliefs, while an objective sentence presents facts, data, or unbiased information.
