@@ -25,7 +25,6 @@ def config():
 
 
 def prompt(input_sample):
-
     # Define the question prompt
     question_prompt = f"""
     Please use your expertise to answer the following Arabic question. Answer in Arabic and rate your confidence level from 1 to 10. Provide your response in the following JSON format: {{"answer": "your answer", "score": your confidence score}}. Please provide JSON output only. No additional text. Answer should be limited to less or equal to {input_sample['length']} words.

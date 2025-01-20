@@ -24,7 +24,6 @@ def config():
 
 
 def prompt(input_sample):
-
     # Define the question prompt
     # Provide your response in the following JSON format and provide JSON output only. No additional text.
     question_prompt = f"""
