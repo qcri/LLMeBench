@@ -33,6 +33,8 @@ from .Stance import StanceTask
 from .STS import STSTask
 from .Subjectivity import SubjectivityTask
 from .XNLI import XNLITask
+from .ArProSpan import ArProSpanTask
+from .ArPro import ArProTask
 
 TaskType = Enum(
     "TaskType",
