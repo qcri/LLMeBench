@@ -60,3 +60,12 @@ from .WikiNewsSegmentation import WikiNewsSegmentationDataset
 from .XGLUEPOS import XGLUEPOSDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
+from .HatefulMemes import HatefulMemesDataset
+from .ArProBinary import ArProBinaryDataset
+from .ArProCoarse import ArProCoarseDataset
+from .ArProMultilabel import ArProMultilabelDataset
+from .ArProSpan import ArProSpanDataset
+from .ProppyBinary import ProppyBinaryDataset
+from .ProppyMultilabel import ProppyMultilabelDataset
+from .ProppyCoarse import ProppyCoarseDataset
+from .ProppySpan import ProppySpanDataset
