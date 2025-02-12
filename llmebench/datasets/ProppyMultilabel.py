@@ -22,7 +22,7 @@ class ProppyMultilabelDataset(DatasetBase):
             "splits": {
                 "train": "Proppy_multilabel_train.jsonl",
                 "dev": "Proppy_multilabel_dev.jsonl",
-                "test": "Proppy_multilabel_test.jsonl",                                
+                "test": "Proppy_multilabel_test.jsonl",
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [

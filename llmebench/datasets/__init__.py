@@ -9,6 +9,10 @@ from .ArabGend import ArabGendDataset
 from .ArapTweet import ArapTweetDataset
 from .ARCD import ARCDDataset
 from .ArMemes import ArMemesDataset
+from .ArProBinary import ArProBinaryDataset
+from .ArProCoarse import ArProCoarseDataset
+from .ArProMultilabel import ArProMultilabelDataset
+from .ArProSpan import ArProSpanDataset
 from .ArSarcasm import ArSarcasmDataset
 from .ArSarcasm2 import ArSarcasm2Dataset
 from .ArSAS import ArSASDataset
@@ -26,6 +30,7 @@ from .CT22Claim import CT22ClaimDataset
 from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
+from .HatefulMemes import HatefulMemesDataset
 from .HuggingFace import HuggingFaceDataset
 from .JSONL import JSONLDataset
 from .Location import LocationDataset
@@ -36,6 +41,10 @@ from .NameInfo import NameInfoDataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
+from .ProppyBinary import ProppyBinaryDataset
+from .ProppyCoarse import ProppyCoarseDataset
+from .ProppyMultilabel import ProppyMultilabelDataset
+from .ProppySpan import ProppySpanDataset
 from .QADI import QADIDataset
 from .QCRIDialectalArabicPOS import QCRIDialectalArabicPOSDataset
 from .QCRIDialectalArabicSegmentation import QCRIDialectalArabicSegmentationDataset
@@ -60,12 +69,3 @@ from .WikiNewsSegmentation import WikiNewsSegmentationDataset
 from .XGLUEPOS import XGLUEPOSDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
-from .HatefulMemes import HatefulMemesDataset
-from .ArProBinary import ArProBinaryDataset
-from .ArProCoarse import ArProCoarseDataset
-from .ArProMultilabel import ArProMultilabelDataset
-from .ArProSpan import ArProSpanDataset
-from .ProppyBinary import ProppyBinaryDataset
-from .ProppyMultilabel import ProppyMultilabelDataset
-from .ProppyCoarse import ProppyCoarseDataset
-from .ProppySpan import ProppySpanDataset

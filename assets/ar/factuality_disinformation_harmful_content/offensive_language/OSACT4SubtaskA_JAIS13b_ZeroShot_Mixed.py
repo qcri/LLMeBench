@@ -36,7 +36,6 @@ def prompt(input_sample):
 
 
 def post_process(response):
-
     label = response["choices"][0]["message"]["content"]
 
     label = label.strip().lower()

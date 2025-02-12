@@ -45,7 +45,6 @@ def few_shot_prompt(input_sample, base_prompt, examples):
 
 
 def post_process(response):
-
     label = response["choices"][0]["message"]["content"]
 
     label = label.replace("label:", "").strip()

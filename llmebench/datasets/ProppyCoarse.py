@@ -22,7 +22,7 @@ class ProppyCoarseDataset(DatasetBase):
             "splits": {
                 "train": "Proppy_coarse_train.jsonl",
                 "dev": "Proppy_coarse_dev.jsonl",
-                "test": "Proppy_coarse_test.jsonl",                                
+                "test": "Proppy_coarse_test.jsonl",
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [

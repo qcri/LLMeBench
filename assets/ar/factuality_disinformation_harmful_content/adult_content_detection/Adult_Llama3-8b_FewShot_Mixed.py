@@ -47,7 +47,6 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
-
     label = response["output"].strip().lower()
     label = label.replace("التصنيف:", "").strip()
     label = label.replace("label:", "").strip()

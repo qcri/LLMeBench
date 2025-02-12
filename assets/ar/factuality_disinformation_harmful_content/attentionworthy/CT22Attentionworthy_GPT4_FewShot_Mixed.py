@@ -36,7 +36,6 @@ def config():
 
 
 def few_shot_prompt(input_sample, base_prompt, examples):
-
     out_prompt = base_prompt + "\n"
     for example in examples:
         out_prompt = (

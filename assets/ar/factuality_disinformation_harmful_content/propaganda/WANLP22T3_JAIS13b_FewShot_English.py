@@ -97,7 +97,6 @@ Review the following tweets and analyze the propaganda techniques used. Choose o
 
 
 def post_process(response):
-
     label = response["choices"][0]["message"]["content"].lower()
 
     label = label.replace("<s>", "").replace("</s>", "")

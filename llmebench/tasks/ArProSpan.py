@@ -1,5 +1,7 @@
-from llmebench.tasks.task_base import TaskBase
 import regex as re
+
+from llmebench.tasks.task_base import TaskBase
+
 
 class ArProSpanTask(TaskBase):
     def __init__(self, correct_span=False, **kwargs):
@@ -21,13 +23,17 @@ class ArProSpanTask(TaskBase):
         for labels in all_labels:
             per_par_labels = []
             for label in labels:
-                start = label['start']
-                end = label['end']
-                if 'par_txt' in label:
-                    par_txt = label['par_txt']
-                    per_par_labels.append((label['technique'], [start, end], label['text'], par_txt))
+                start = label["start"]
+                end = label["end"]
+                if "par_txt" in label:
+                    par_txt = label["par_txt"]
+                    per_par_labels.append(
+                        (label["technique"], [start, end], label["text"], par_txt)
+                    )
                 else:
-                    per_par_labels.append((label['technique'], [start, end], label['text']))
+                    per_par_labels.append(
+                        (label["technique"], [start, end], label["text"])
+                    )
 
             per_par_labels = self.sort_spans(per_par_labels)
             sorted_labels.append(per_par_labels)
@@ -38,19 +44,21 @@ class ArProSpanTask(TaskBase):
         return sorted_labels
 
     def reformatLabels(self, true_labels, predicted_labels):
-        #filtered_true_labels = []
-        #filtered_predicted_labels = []
+        # filtered_true_labels = []
+        # filtered_predicted_labels = []
 
         # if we apply this, we are like ignoring no technique case at all
         # to match the original scorer from wanlp22 task 2 we have to comment this line out
-        #true_labels, predicted_labels = zip(*filter(all, zip(true_labels, predicted_labels)))
+        # true_labels, predicted_labels = zip(*filter(all, zip(true_labels, predicted_labels)))
 
         filtered_true_labels = self.sort_labels(list(true_labels))
         filtered_predicted_labels = self.sort_labels(list(predicted_labels))
 
         return filtered_true_labels, filtered_predicted_labels
 
-    def compute_prec_rec_f1(self, prec_numerator, prec_denominator, rec_numerator, rec_denominator):
+    def compute_prec_rec_f1(
+        self, prec_numerator, prec_denominator, rec_numerator, rec_denominator
+    ):
         p, r, f1 = (0, 0, 0)
         if prec_denominator > 0:
             p = prec_numerator / prec_denominator
@@ -94,7 +102,7 @@ class ArProSpanTask(TaskBase):
         except:
             print("Error start end correction")
 
-        return [start,end]
+        return [start, end]
 
     def compute_span_score(self, gold_annots, pred_annots):
         # count total no of annotations
@@ -104,8 +112,12 @@ class ArProSpanTask(TaskBase):
         techniques = self.dataset.get_predefined_techniques()
         techniques.remove("no_technique")
 
-        technique_Spr_prec = {propaganda_technique: 0 for propaganda_technique in techniques}
-        technique_Spr_rec = {propaganda_technique: 0 for propaganda_technique in techniques}
+        technique_Spr_prec = {
+            propaganda_technique: 0 for propaganda_technique in techniques
+        }
+        technique_Spr_rec = {
+            propaganda_technique: 0 for propaganda_technique in techniques
+        }
         cumulative_Spr_prec, cumulative_Spr_rec = (0, 0)
         f1_articles = []
 
@@ -124,7 +136,9 @@ class ArProSpanTask(TaskBase):
                             pred_ann = list(pred_ann)
                             # We get the paragraph from the gold par (gold_ann[3]) and the
                             # predicted span text from pred_ann[2]
-                            pred_ann[1] = self.ammend_span(pred_ann[1], pred_ann[2], gold_ann[3])
+                            pred_ann[1] = self.ammend_span(
+                                pred_ann[1], pred_ann[2], gold_ann[3]
+                            )
                             pred_ann = tuple(pred_ann)
 
                         # s += "\tmatch %s %s-%s - %s %s-%s"%(sd[0],sd[1], sd[2], gd[0], gd[1], gd[2])
@@ -135,38 +149,64 @@ class ArProSpanTask(TaskBase):
                         Spr_prec = intersection / ann_length
                         document_cumulative_Spr_prec += Spr_prec
                         cumulative_Spr_prec += Spr_prec
-                        s += "\tmatch %s %s-%s - %s %s-%s: S(p,r)=|intersect(r, p)|/|p| = %d/%d = %f (cumulative S(p,r)=%f)\n" \
-                             % (pred_ann[0], pred_ann[1][0], pred_ann[1][1], gold_ann[0],
-                                gold_ann[1][0], gold_ann[1][1], intersection, ann_length, Spr_prec,
-                                cumulative_Spr_prec)
+                        s += (
+                            "\tmatch %s %s-%s - %s %s-%s: S(p,r)=|intersect(r, p)|/|p| = %d/%d = %f (cumulative S(p,r)=%f)\n"
+                            % (
+                                pred_ann[0],
+                                pred_ann[1][0],
+                                pred_ann[1][1],
+                                gold_ann[0],
+                                gold_ann[1][0],
+                                gold_ann[1][1],
+                                intersection,
+                                ann_length,
+                                Spr_prec,
+                                cumulative_Spr_prec,
+                            )
+                        )
                         technique_Spr_prec[gold_ann[0]] += Spr_prec
 
                         Spr_rec = intersection / s_ann_length
                         document_cumulative_Spr_rec += Spr_rec
                         cumulative_Spr_rec += Spr_rec
-                        s += "\tmatch %s %s-%s - %s %s-%s: S(p,r)=|intersect(r, p)|/|r| = %d/%d = %f (cumulative S(p,r)=%f)\n" \
-                             % (pred_ann[0], pred_ann[1][0], pred_ann[1][1], gold_ann[0],
-                                gold_ann[1][0], gold_ann[1][1], intersection, s_ann_length, Spr_rec,
-                                cumulative_Spr_rec)
+                        s += (
+                            "\tmatch %s %s-%s - %s %s-%s: S(p,r)=|intersect(r, p)|/|r| = %d/%d = %f (cumulative S(p,r)=%f)\n"
+                            % (
+                                pred_ann[0],
+                                pred_ann[1][0],
+                                pred_ann[1][1],
+                                gold_ann[0],
+                                gold_ann[1][0],
+                                gold_ann[1][1],
+                                intersection,
+                                s_ann_length,
+                                Spr_rec,
+                                cumulative_Spr_rec,
+                            )
+                        )
                         technique_Spr_rec[gold_ann[0]] += Spr_rec
 
-            p_article, r_article, f1_article = self.compute_prec_rec_f1(document_cumulative_Spr_prec,
-                                                                        len(pred_annot_obj),
-                                                                        document_cumulative_Spr_rec,
-                                                                        len(gold_annot_obj))
+            p_article, r_article, f1_article = self.compute_prec_rec_f1(
+                document_cumulative_Spr_prec,
+                len(pred_annot_obj),
+                document_cumulative_Spr_rec,
+                len(gold_annot_obj),
+            )
             f1_articles.append(f1_article)
 
-        p, r, f1 = self.compute_prec_rec_f1(cumulative_Spr_prec, prec_denominator, cumulative_Spr_rec, rec_denominator)
+        p, r, f1 = self.compute_prec_rec_f1(
+            cumulative_Spr_prec, prec_denominator, cumulative_Spr_rec, rec_denominator
+        )
 
         f1_per_technique = []
 
         for technique_name in technique_Spr_prec.keys():
-            prec_tech, rec_tech, f1_tech = self.compute_prec_rec_f1(technique_Spr_prec[technique_name],
-                                                                    self.compute_technique_frequency(pred_annots,
-                                                                                                     technique_name),
-                                                                    technique_Spr_prec[technique_name],
-                                                                    self.compute_technique_frequency(gold_annots,
-                                                                                                     technique_name))
+            prec_tech, rec_tech, f1_tech = self.compute_prec_rec_f1(
+                technique_Spr_prec[technique_name],
+                self.compute_technique_frequency(pred_annots, technique_name),
+                technique_Spr_prec[technique_name],
+                self.compute_technique_frequency(gold_annots, technique_name),
+            )
             f1_per_technique.append(f1_tech)
 
         return p, r, f1, f1_per_technique
@@ -177,13 +217,22 @@ class ArProSpanTask(TaskBase):
 
         # gold_labels_set = set(itertools.chain.from_iterable(true_labels))
 
-        true_labels, predicted_labels = self.reformatLabels(true_labels, predicted_labels)
+        true_labels, predicted_labels = self.reformatLabels(
+            true_labels, predicted_labels
+        )
 
         # for p in predicted_labels:
         # if p == None or len(p) == 0:
         # p = [self.get_random_prediction(gold_labels_set) for _ in range(len(t))]
 
-        precision, recall, micro_f1, f1_per_class = self.compute_span_score(true_labels, predicted_labels)
+        precision, recall, micro_f1, f1_per_class = self.compute_span_score(
+            true_labels, predicted_labels
+        )
         macro_f1 = sum(f1_per_class) / len(f1_per_class)
 
-        return {"Micro F1": micro_f1, "Macro F1": macro_f1, "Precision": precision, "Recall": recall}
+        return {
+            "Micro F1": micro_f1,
+            "Macro F1": macro_f1,
+            "Precision": precision,
+            "Recall": recall,
+        }

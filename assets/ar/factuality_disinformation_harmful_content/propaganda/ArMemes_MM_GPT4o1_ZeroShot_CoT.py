@@ -27,7 +27,7 @@ def config():
         "model_args": {
             "class_labels": ["not_propaganda", "propaganda", "not-meme", "other"],
             "max_tries": 30,
-            "max_tokens":1000,
+            "max_tokens": 1000,
         },
     }
 
@@ -125,7 +125,6 @@ def prompt(input_sample):
     prompt = (
         "You are an expert social media analyst specializing in identifying propaganda in Arabic contexts. "
         "I will provide you with an Arabic meme, and your task is to analyze it by following these steps:\n\n"
-        
         "1) Extract the 'text' from the meme.\n"
         "2) Generate a concise 'description' of the image in no more than 50 words.\n"
         "3) Identify and extract 'entity mentions' (e.g., PERSON, ORGANIZATION, LOCATION) if present.\n"
@@ -141,9 +140,7 @@ def prompt(input_sample):
         "   (a) hateful\n"
         "   (b) not-hateful\n"
         "   Provide a justification for your decision regarding hatefulness.\n\n"
-        
         "Your response should be formatted as a valid JSON object with the following structure:\n"
-        
         "{\n"
         '  "extracted_text": "text",\n'
         '  "description": "short description",\n'
@@ -171,19 +168,17 @@ def prompt(input_sample):
                     },
                 },
             ],
-            "response_format": {
-                        "type": "json"
-            },            
+            "response_format": {"type": "json"},
         }
     ]
 
 
 def post_process(response):
-    if response is None or response=="":
+    if response is None or response == "":
         return None
     data = response["choices"][0]["message"]["content"]
-    
-    if data is None or data=="":
+
+    if data is None or data == "":
         return None
     # data = re.search(r"```json\n(.*)\n```", data, re.DOTALL).group(1)
     data = json.loads(data)

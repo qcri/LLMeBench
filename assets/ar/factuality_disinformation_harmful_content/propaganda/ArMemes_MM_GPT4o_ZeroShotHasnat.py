@@ -27,7 +27,7 @@ def config():
         "model_args": {
             "class_labels": ["not_propaganda", "propaganda", "not-meme", "other"],
             "max_tries": 30,
-            "max_tokens":1000,
+            "max_tokens": 1000,
         },
     }
 
@@ -57,9 +57,9 @@ def prompt(input_sample):
     #     '"hatefulness_justification": "explanation"\n'
     #     "}"
     # )
-    explanation_length=100
+    explanation_length = 100
 
-    prompt = f'''
+    prompt = f"""
     You are a Propaganda Image Detection Expert specialized in analyzing images and memes from social media. Your goal is to determine whether an image is a meme and if it contains propagandistic elements. Follow these steps:
     1. Image Inspection: Examine all visual elements (people, symbols, objects, background, colors, etc.). Note any distinctive or potentially manipulative visuals. 
     2. Text Extraction and Analysis: Identify any text in the image (captions, banners, speech bubbles, etc.). Summarize the text. Check for loaded language, emotionally charged words, or misleading statements.
@@ -83,9 +83,9 @@ def prompt(input_sample):
       "class": "propaganda",
       "explanation": "The image text uses emotionally charged language aligned with the visual to incite fear, suggesting manipulative intent."
     }}
-  '''
-  # - "not-meme" (if the image contains no text)
-  # - "other" (if the content does not fit clearly into the above categories)
+  """
+    # - "not-meme" (if the image contains no text)
+    # - "other" (if the content does not fit clearly into the above categories)
 
     return [
         {
@@ -102,9 +102,7 @@ def prompt(input_sample):
                     },
                 },
             ],
-            "response_format": {
-                        "type": "json"
-            }, 
+            "response_format": {"type": "json"},
         }
     ]
 
