@@ -1,19 +1,22 @@
 import ast
-import re
 import codecs
+import re
 
 from llmebench.datasets import ArProMultilabelDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import MultilabelPropagandaTask
 
-ESCAPE_SEQUENCE_RE = re.compile(r'''
+ESCAPE_SEQUENCE_RE = re.compile(
+    r"""
     ( \\U........      # 8-digit hex escapes
     | \\u....          # 4-digit hex escapes
     | \\x..            # 2-digit hex escapes
     | \\[0-7]{1,3}     # Octal escapes
     | \\N\{[^}]+\}     # Unicode characters by name
     | \\[\\'"abfnrtv]  # Single-character escapes
-    )''', re.UNICODE | re.VERBOSE)
+    )""",
+    re.UNICODE | re.VERBOSE,
+)
 
 
 def metadata():
@@ -61,7 +64,7 @@ def prompt(input_sample):
 
 def decode_escapes(s):
     def decode_match(match):
-        return codecs.decode(match.group(0), 'unicode-escape')
+        return codecs.decode(match.group(0), "unicode-escape")
 
     return ESCAPE_SEQUENCE_RE.sub(decode_match, s)
 
@@ -74,11 +77,20 @@ def fix_single_label(label):
         label_fixed = "Loaded_Language"
     if "prejudice" in label or "fear" in label or "mongering" in label:
         label_fixed = "Appeal_to_Fear-Prejudice"
-    if "terminating" in label or "thought" in label or "conversation" in label or "killer" in label:
+    if (
+        "terminating" in label
+        or "thought" in label
+        or "conversation" in label
+        or "killer" in label
+    ):
         label_fixed = "Conversation_Killer"
     if "calling" in label or label == "name c" or "labeling" in label:
         label_fixed = "Name_Calling-Labeling"
-    if "minimisation" in label or label == "exaggeration minim" or "exaggeration" in label:
+    if (
+        "minimisation" in label
+        or label == "exaggeration minim"
+        or "exaggeration" in label
+    ):
         label_fixed = "Exaggeration-Minimisation"
     if "values" in label:
         label_fixed = "Appeal_to_Values"
@@ -117,42 +129,50 @@ def fix_single_label(label):
     if "hypocrisy" in label:
         label_fixed = "Appeal_to_Hypocrisy"
 
-    if ("no propaganda" in label or "no technique" in label
-            or label == ""
-            or label == "no"
-            or label == "appeal to history"
-            or label == "appeal to emotion"
-            or label == "appeal to"
-            or label == "appeal"
-            or label == "appeal to author"
-            or label == "emotional appeal"
-            or "no techn" in label
-            or "hashtag" in label
-            or "theory" in label
-            or "specific mention" in label
-            or "sarcasm" in label
-            or "frustration" in label
-            or "analogy" in label
-            or "metaphor" in label
-            or "religious" in label
-            or "gratitude" in label
-            or 'no_technique' in label
-            or "technique" in label):
+    if (
+        "no propaganda" in label
+        or "no technique" in label
+        or label == ""
+        or label == "no"
+        or label == "appeal to history"
+        or label == "appeal to emotion"
+        or label == "appeal to"
+        or label == "appeal"
+        or label == "appeal to author"
+        or label == "emotional appeal"
+        or "no techn" in label
+        or "hashtag" in label
+        or "theory" in label
+        or "specific mention" in label
+        or "sarcasm" in label
+        or "frustration" in label
+        or "analogy" in label
+        or "metaphor" in label
+        or "religious" in label
+        or "gratitude" in label
+        or "no_technique" in label
+        or "technique" in label
+    ):
         label_fixed = "no_technique"
 
-    #print(label_fixed)
+    # print(label_fixed)
 
     return label_fixed
+
 
 def fix_multilabel(pred_label):
     if "used in this text" in pred_label or "no technique" in pred_label:
         return ["no_technique"]
 
     labels_fixed = []
-    pred_label = pred_label.replace("'label: ","").replace("'label': ","").replace("\"\"","\"").replace("\'\'","\'")
+    pred_label = (
+        pred_label.replace("'label: ", "")
+        .replace("'label': ", "")
+        .replace('""', '"')
+        .replace("''", "'")
+    )
 
-
-    pred_label = decode_escapes(pred_label).replace("\'", "\"")
+    pred_label = decode_escapes(pred_label).replace("'", '"')
     if not pred_label.startswith("["):
         pred_label = "[" + pred_label + "]"
     pred_label = ast.literal_eval(pred_label)
@@ -171,6 +191,7 @@ def fix_multilabel(pred_label):
         return out_put_labels
 
     return labels_fixed
+
 
 def post_process(response):
     label = response["choices"][0]["message"]["content"]  # .lower()

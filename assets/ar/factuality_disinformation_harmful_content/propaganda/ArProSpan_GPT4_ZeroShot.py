@@ -1,20 +1,23 @@
 import ast
+import codecs
 import json
 import re
-import codecs
 
 from llmebench.datasets import ArProSpanDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import ArProSpanTask
 
-ESCAPE_SEQUENCE_RE = re.compile(r'''
+ESCAPE_SEQUENCE_RE = re.compile(
+    r"""
     ( \\U........      # 8-digit hex escapes
     | \\u....          # 4-digit hex escapes
     | \\x..            # 2-digit hex escapes
     | \\[0-7]{1,3}     # Octal escapes
     | \\N\{[^}]+\}     # Unicode characters by name
     | \\[\\'"abfnrtv]  # Single-character escapes
-    )''', re.UNICODE | re.VERBOSE)
+    )""",
+    re.UNICODE | re.VERBOSE,
+)
 
 
 def metadata():
@@ -56,8 +59,6 @@ def prompt(input_sample):
 
     out_prompt = out_prompt + "Paragraph: " + input_sample + "\n\nLabels: \n\n"
 
-
-
     return [
         {
             "role": "system",
@@ -72,7 +73,7 @@ def prompt(input_sample):
 
 def decode_escapes(s):
     def decode_match(match):
-        return codecs.decode(match.group(0), 'unicode-escape')
+        return codecs.decode(match.group(0), "unicode-escape")
 
     return ESCAPE_SEQUENCE_RE.sub(decode_match, s)
 
@@ -85,18 +86,18 @@ def fix_single_label(label):
     if "prejudice" in label or "fear" in label or "mongering" in label:
         label_fixed = "Appeal_to_Fear-Prejudice"
     if (
-            "terminating" in label
-            or "thought" in label
-            or "conversation" in label
-            or "killer" in label
+        "terminating" in label
+        or "thought" in label
+        or "conversation" in label
+        or "killer" in label
     ):
         label_fixed = "Conversation_Killer"
     if "calling" in label or label == "name c" or "labeling" in label:
         label_fixed = "Name_Calling-Labeling"
     if (
-            "minimisation" in label
-            or label == "exaggeration minim"
-            or "exaggeration" in label
+        "minimisation" in label
+        or label == "exaggeration minim"
+        or "exaggeration" in label
     ):
         label_fixed = "Exaggeration-Minimisation"
     if "values" in label:
@@ -137,29 +138,30 @@ def fix_single_label(label):
         label_fixed = "Appeal_to_Hypocrisy"
 
     if (
-            "no propaganda" in label
-            or "no technique" in label
-            or label == ""
-            or label == "no"
-            or label == "appeal to history"
-            or label == "appeal to emotion"
-            or label == "appeal to"
-            or label == "appeal"
-            or label == "appeal to author"
-            or label == "emotional appeal"
-            or "no techn" in label
-            or "hashtag" in label
-            or "theory" in label
-            or "specific mention" in label
-            or "sarcasm" in label
-            or "frustration" in label
-            or "analogy" in label
-            or "metaphor" in label
-            or "religious" in label
-            or "gratitude" in label
-            or 'no_technique' in label
-            or "technique" in label
-            or 'rhetorical' in label):
+        "no propaganda" in label
+        or "no technique" in label
+        or label == ""
+        or label == "no"
+        or label == "appeal to history"
+        or label == "appeal to emotion"
+        or label == "appeal to"
+        or label == "appeal"
+        or label == "appeal to author"
+        or label == "emotional appeal"
+        or "no techn" in label
+        or "hashtag" in label
+        or "theory" in label
+        or "specific mention" in label
+        or "sarcasm" in label
+        or "frustration" in label
+        or "analogy" in label
+        or "metaphor" in label
+        or "religious" in label
+        or "gratitude" in label
+        or "no_technique" in label
+        or "technique" in label
+        or "rhetorical" in label
+    ):
         label_fixed = "no_technique"
 
     return label_fixed
@@ -167,12 +169,22 @@ def fix_single_label(label):
 
 def fix_span(prediction):
     # print(prediction)
-    prediction = prediction.replace("},\n{", "}, {").replace("\\n", " ").replace("\n", " ").replace(
-        '[  ', '[').replace('[ ', '[').replace("  {", "{").replace(" ]", "]").replace('  ]', ']').strip()
+    prediction = (
+        prediction.replace("},\n{", "}, {")
+        .replace("\\n", " ")
+        .replace("\n", " ")
+        .replace("[  ", "[")
+        .replace("[ ", "[")
+        .replace("  {", "{")
+        .replace(" ]", "]")
+        .replace("  ]", "]")
+        .strip()
+    )
 
     # print(prediction)
 
-    if "provide the paragraph" in prediction: return []
+    if "provide the paragraph" in prediction:
+        return []
 
     try:
         pred_labels = ast.literal_eval(prediction)
@@ -185,12 +197,17 @@ def fix_span(prediction):
     # print(prediction)
     format_pred_label = []
     for i, label in enumerate(pred_labels):
-        if 'technique' not in label or 'start' not in label or 'end' not in label \
-                or "text" not in label or len(label["text"]) < 2:
+        if (
+            "technique" not in label
+            or "start" not in label
+            or "end" not in label
+            or "text" not in label
+            or len(label["text"]) < 2
+        ):
             continue
 
-        label['technique'] = label['technique'].strip().lower()
-        label['technique'] = fix_single_label(label['technique'])
+        label["technique"] = label["technique"].strip().lower()
+        label["technique"] = fix_single_label(label["technique"])
 
         format_pred_label.append(label)
 
@@ -199,7 +216,7 @@ def fix_span(prediction):
 
     final_labels = []
     for pred_label in format_pred_label:
-        if pred_label['technique'] != "no_technique":
+        if pred_label["technique"] != "no_technique":
             final_labels.append(pred_label)
 
     return final_labels
@@ -207,12 +224,12 @@ def fix_span(prediction):
 
 def post_process(response):
     labels = response["choices"][0]["message"]["content"].lower()
-    #labels1,labels2 = labels.split("final labels:")
-    #labels1 = labels1.replace('labels:','').split("\n")[0].strip()
-    #labels1 = fix_span(labels1)
-    #labels = fix_span(labels2)
+    # labels1,labels2 = labels.split("final labels:")
+    # labels1 = labels1.replace('labels:','').split("\n")[0].strip()
+    # labels1 = fix_span(labels1)
+    # labels = fix_span(labels2)
 
-    labels = labels.replace("labels:","")
+    labels = labels.replace("labels:", "")
     labels = fix_span(labels)
 
     # if labels1 != labels:

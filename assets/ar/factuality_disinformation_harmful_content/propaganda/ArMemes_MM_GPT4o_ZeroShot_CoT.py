@@ -27,7 +27,7 @@ def config():
         "model_args": {
             "class_labels": ["not_propaganda", "propaganda", "not-meme", "other"],
             "max_tries": 30,
-            "max_tokens":1000,
+            "max_tokens": 1000,
         },
     }
 
@@ -61,26 +61,20 @@ def prompt(input_sample):
     prompt = (
         "You are an expert social media analyst specializing in identifying propaganda in Arabic contexts. "
         "I will provide you with an Arabic meme, and your task is to analyze it step by step before reaching a final conclusion.\n\n"
-
         "Follow these steps carefully:\n\n"
-
         "### Step 1: Extract Text from the Meme\n"
         "1. Identify and extract any text present in the meme image.\n"
         "2. If there is no readable text, return an empty string.\n\n"
-
         "### Step 2: Generate a Description of the Image\n"
         "1. Describe the visual elements in the image in a concise manner (maximum 50 words).\n"
         "2. Focus on key elements such as people, objects, symbols, or emotions conveyed.\n\n"
-
         "### Step 3: Extract Entity Mentions\n"
         "1. Identify and extract any named entities present in the text or visible in the image (e.g., PERSON, ORGANIZATION, LOCATION).\n"
         "2. If no entities are detected, return an empty list.\n\n"
-
         "### Step 4: Identify Key Themes and Indicators\n"
         "1. Analyze the extracted text and image description together.\n"
         "2. Identify any potential themes related to propaganda (e.g., nationalism, disinformation, bias, exaggeration, hate speech, manipulation).\n"
         "3. Take into account **both textual and visual elements** to determine the intent behind the meme.\n\n"
-
         "### Step 5: Classify the Meme\n"
         "Based on the extracted information and themes identified:\n"
         "1. Classify the meme into one of the following categories:\n"
@@ -89,25 +83,20 @@ def prompt(input_sample):
         "   (c) other (if the meme does not clearly fit as propaganda or not_propaganda)\n"
         "   (d) not-meme (if it does not qualify as a meme)\n"
         "2. Explain your reasoning before finalizing the classification.\n\n"
-
         "### Step 6: Rate Your Confidence Level\n"
         "1. On a scale of 1 to 10, rate how confident you are in your classification decision.\n"
         "2. Justify your confidence level (e.g., was there ambiguity in the meme? Was the propaganda intent unclear?).\n\n"
-
         "### Step 7: Self-Verification Check\n"
         "1. Review your classification and explanation.\n"
         "2. Ask yourself: **Does my explanation align with my classification?**\n"
         "3. If there is an inconsistency, refine your explanation or reconsider the label.\n\n"
-
         "### Step 8: Assess Hateful Content\n"
         "1. Using all extracted information ('text', 'description', 'entity mentions', multimodal details, and classification label), determine if the meme is:\n"
         "   (a) hateful\n"
         "   (b) not-hateful\n"
         "2. Provide a **detailed justification** explaining why the meme is or is not hateful.\n\n"
-
         "### Final Output Format\n"
         "Your response must be formatted as a valid JSON object with the following structure:\n\n"
-
         "{\n"
         '  "extracted_text": "text",\n'
         '  "description": "short description",\n'
@@ -121,7 +110,6 @@ def prompt(input_sample):
         '  "hatefulness_justification": "explanation"\n'
         "}"
     )
-
 
     return [
         {
@@ -138,7 +126,6 @@ def prompt(input_sample):
                     },
                 },
             ],
-            
         }
     ]
 

@@ -28,7 +28,6 @@ class HatefulMemesDataset(DatasetBase):
                 "train": "train.jsonl",
                 "dev": "dev_unseen.jsonl",
                 "test": "test_unseen.jsonl",
-                
             },
             "task_type": TaskType.Classification,
             "class_labels": ["hateful", "not-hateful"],
@@ -56,7 +55,7 @@ class HatefulMemesDataset(DatasetBase):
                 text = json_object["text"]
                 img_path = base_dir + "/" + json_object["img"]
                 label = json_object["label"]
-                class_label = "hateful" if label==1 else "not-hateful" 
+                class_label = "hateful" if label == 1 else "not-hateful"
                 base64_image = self.encode_image(img_path)
                 data.append(
                     {

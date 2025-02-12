@@ -111,10 +111,17 @@ class ArProSpanDataset(DatasetBase):
 
                 # we need to par text at evaluation to do some matching against predicted spans
                 for l in label:
-                    l['par_txt'] = text
+                    l["par_txt"] = text
 
-                data.append({"input": text, "input_id": id, "label": label, "line_number": line_idx})
+                data.append(
+                    {
+                        "input": text,
+                        "input_id": id,
+                        "label": label,
+                        "line_number": line_idx,
+                    }
+                )
 
-        print('loaded %d docs from file...'%len(data))
+        print("loaded %d docs from file..." % len(data))
 
         return data

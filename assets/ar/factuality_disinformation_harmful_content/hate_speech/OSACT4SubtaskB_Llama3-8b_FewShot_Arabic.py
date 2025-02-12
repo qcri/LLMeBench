@@ -76,5 +76,4 @@ def post_process(response):
     elif "hate speech" in label or "hs" in label or "كراهية" in label or "hate_speech":
         return "HS"
     else:
-
         return None
