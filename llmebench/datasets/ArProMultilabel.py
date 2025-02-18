@@ -21,9 +21,9 @@ class ArProMultilabelDataset(DatasetBase):
             "link": "",
             "license": "",
             "splits": {
-                "test": "ArMPro_multilabel_test.jsonl",
-                "dev": "ArMPro_multilabel_dev.jsonl",
-                "train": "ArMPro_multilabel_train.jsonl",
+                "test": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/multilabel/ArMPro_multilabel_test_V2.jsonl",
+                "dev": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/multilabel/final_full_annot_clean_multilabel_dev.jsonl",
+                "train": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/multilabel/final_full_annot_clean_multilabel_train.jsonl",
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [
@@ -106,11 +106,11 @@ class ArProMultilabelDataset(DatasetBase):
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 line_data = json.loads(line)
-                id = line_data.get("paragraph_id", None)
-                text = line_data.get("paragraph", "")
-                label = line_data.get("labels", "")
-                if len(label) == 0:
-                    label = ["no_technique"]
-                data.append({"input": text, "label": label, "line_number": id})
+                id = line_data.get("paragraph_id") or line_data.get("tweet_id")
+                text = line_data.get("paragraph") or line_data.get("text")
+                labels = line_data.get("labels", "")
+                if len(labels) == 0:
+                    labels = ["no_technique"]
+                data.append({"input": text, "label": labels, "line_number": id})
 
         return data

@@ -18,9 +18,9 @@ class ArProBinaryDataset(DatasetBase):
             "link": "",
             "license": "",
             "splits": {
-                "test": "ArMPro_binary_test.jsonl",
-                "dev": "ArMPro_binary_dev.jsonl",
-                "train": "ArMPro_binary_train.jsonl",
+                "test": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/binary/ArMPro_binary_test_V2.jsonl",
+                "dev": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/binary/final_full_annot_clean_binary_dev.jsonl",
+                "train": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/binary/final_full_annot_clean_binary_train.jsonl",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["true", "false"],
@@ -37,8 +37,8 @@ class ArProBinaryDataset(DatasetBase):
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 line_data = json.loads(line)
-                id = line_data.get("paragraph_id", None)
-                text = line_data.get("paragraph", "")
+                id = line_data.get("paragraph_id") or line_data.get("tweet_id")
+                text = line_data.get("paragraph") or line_data.get("text")
                 label = line_data.get("label", "").lower()
                 data.append({"input": text, "label": label, "line_number": id})
 

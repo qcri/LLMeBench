@@ -20,31 +20,37 @@ class ProppyMultilabelDataset(DatasetBase):
             "link": "",
             "license": "Research Purpose Only",
             "splits": {
-                "train": "Proppy_multilabel_train.jsonl",
-                "dev": "Proppy_multilabel_dev.jsonl",
-                "test": "Proppy_multilabel_test.jsonl",
+                "test": "/Users/mhasanain/work/temp_propoganda/propaganda_detector/data/english_formatted/multilabel/EN_sentences_multilabel_test_no_clef_formatted.jsonl",
+                "dev": "/Users/mhasanain/work/temp_propoganda/propaganda_detector/data/english_formatted/multilabel/EN_sentences_multilabel_dev_no_clef_formatted.jsonl",
+                "train": "/Users/mhasanain/work/temp_propoganda/propaganda_detector/data/english_formatted/multilabel/EN_sentences_multilabel_train_no_clef_formatted.jsonl",
             },
             "task_type": TaskType.MultiLabelClassification,
             "class_labels": [
-                "no technique",
-                "Smears",
-                "Exaggeration/Minimisation",
-                "Loaded Language",
-                "Appeal to fear/prejudice",
-                "Name calling/Labeling",
-                "Slogans",
-                "Repetition",
+                "Appeal_to_Authority",
+                "Appeal_to_Fear-Prejudice",
+                "Appeal_to_Hypocrisy",
+                "Appeal_to_Popularity",
+                "Appeal_to_Time",
+                "Appeal_to_Pity",
+                "Appeal_to_Values",
+                "Causal_Oversimplification",
+                "Consequential_Oversimplification",
+                "Conversation_Killer",
                 "Doubt",
-                "Obfuscation, Intentional vagueness, Confusion",
-                "Flag-waving",
-                "Glittering generalities (Virtue)",
-                "Misrepresentation of Someone's Position (Straw Man)",
-                "Presenting Irrelevant Data (Red Herring)",
-                "Appeal to authority",
+                "Exaggeration-Minimisation",
+                "False_Dilemma-No_Choice",
+                "Flag_Waving",
+                "Guilt_by_Association",
+                "Loaded_Language",
+                "Name_Calling-Labeling",
+                "Obfuscation-Vagueness-Confusion",
+                "Questioning_the_Reputation",
+                "Red_Herring",
+                "Repetition",
+                "Slogans",
+                "Straw_Man",
                 "Whataboutism",
-                "Black-and-white Fallacy/Dictatorship",
-                "Thought-terminating cliché",
-                "Causal Oversimplification",
+                "no_technique",
             ],
         }
 
@@ -60,25 +66,31 @@ class ProppyMultilabelDataset(DatasetBase):
                 techniques = [label.strip() for label in f.readlines()]
         else:
             techniques = [
-                "no technique",
-                "Smears",
-                "Exaggeration/Minimisation",
-                "Loaded Language",
-                "Appeal to fear/prejudice",
-                "Name calling/Labeling",
-                "Slogans",
-                "Repetition",
+                "Appeal_to_Authority",
+                "Appeal_to_Fear-Prejudice",
+                "Appeal_to_Hypocrisy",
+                "Appeal_to_Popularity",
+                "Appeal_to_Time",
+                "Appeal_to_Pity",
+                "Appeal_to_Values",
+                "Causal_Oversimplification",
+                "Consequential_Oversimplification",
+                "Conversation_Killer",
                 "Doubt",
-                "Obfuscation, Intentional vagueness, Confusion",
-                "Flag-waving",
-                "Glittering generalities (Virtue)",
-                "Misrepresentation of Someone's Position (Straw Man)",
-                "Presenting Irrelevant Data (Red Herring)",
-                "Appeal to authority",
+                "Exaggeration-Minimisation",
+                "False_Dilemma-No_Choice",
+                "Flag_Waving",
+                "Guilt_by_Association",
+                "Loaded_Language",
+                "Name_Calling-Labeling",
+                "Obfuscation-Vagueness-Confusion",
+                "Questioning_the_Reputation",
+                "Red_Herring",
+                "Repetition",
+                "Slogans",
+                "Straw_Man",
                 "Whataboutism",
-                "Black-and-white Fallacy/Dictatorship",
-                "Thought-terminating cliché",
-                "Causal Oversimplification",
+                "no_technique",
             ]
 
         return techniques
@@ -87,11 +99,16 @@ class ProppyMultilabelDataset(DatasetBase):
         data_path = self.resolve_path(data_path)
 
         data = []
-        with open(data_path, mode="r", encoding="utf-8") as infile:
-            json_data = json.load(infile)
-            for index, tweet in enumerate(json_data):
-                text = tweet["text"]
-                label = tweet["labels"]
-                data.append({"input": text, "label": label, "line_number": index})
+        with open(data_path, "r") as fp:
+            for line_idx, line in enumerate(fp):
+                if len(line) < 1:
+                    continue
+                line_data = json.loads(line)
+                id = line_data.get("paragraph_id") or line_data.get("tweet_id")
+                text = line_data.get("paragraph") or line_data.get("text")
+                labels = line_data.get("labels", "")
+                if len(labels) == 0:
+                    labels = ["no_technique"]
+                data.append({"input": text, "label": labels, "line_number": id})
 
         return data
