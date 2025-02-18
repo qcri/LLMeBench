@@ -18,9 +18,9 @@ class ProppyBinaryDataset(DatasetBase):
             "link": "",
             "license": "",
             "splits": {
-                "test": "Proppy_binary_test.jsonl",
-                "dev": "Proppy_binary_dev.jsonl",
-                "train": "Proppy_binary_train.jsonl",
+                "test": "/Users/mhasanain/work/temp_propoganda/propaganda_detector/data/english_formatted/binary/EN_sentences_binary_test_no_clef_formatted.jsonl",
+                "dev": "/Users/mhasanain/work/temp_propoganda/propaganda_detector/data/english_formatted/binary/EN_sentences_binary_dev_no_clef_formatted.jsonl",
+                "train": "/Users/mhasanain/work/temp_propoganda/propaganda_detector/data/english_formatted/binary/EN_sentences_binary_train_no_clef_formatted.jsonl",
             },
             "task_type": TaskType.Classification,
             "class_labels": ["true", "false"],
@@ -37,8 +37,8 @@ class ProppyBinaryDataset(DatasetBase):
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 line_data = json.loads(line)
-                id = line_data.get("paragraph_id", None)
-                text = line_data.get("paragraph", "")
+                id = line_data.get("paragraph_id") or line_data.get("tweet_id")
+                text = line_data.get("paragraph") or line_data.get("text")
                 label = line_data.get("label", "").lower()
                 data.append({"input": text, "label": label, "line_number": id})
 
