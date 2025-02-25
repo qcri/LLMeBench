@@ -30,6 +30,9 @@ from .CT22Claim import CT22ClaimDataset
 from .CT22Harmful import CT22HarmfulDataset
 from .CT23Subjectivity import CT23SubjectivityDataset
 from .Emotion import EmotionDataset
+from .FinePropBinary import FinePropBinaryDataset
+from .FinePropMultilabel import FinePropMultilabelDataset
+from .FinePropSpan import FinePropSpanDataset
 from .HatefulMemes import HatefulMemesDataset
 from .HuggingFace import HuggingFaceDataset
 from .JSONL import JSONLDataset
@@ -41,9 +44,6 @@ from .NameInfo import NameInfoDataset
 from .OSACT4SubtaskA import OSACT4SubtaskADataset
 from .OSACT4SubtaskB import OSACT4SubtaskBDataset
 from .PADT import PADTDataset
-from .ProppyBinary import ProppyBinaryDataset
-from .ProppyCoarse import ProppyCoarseDataset
-from .ProppyMultilabel import ProppyMultilabelDataset
 from .ProppySpan import ProppySpanDataset
 from .QADI import QADIDataset
 from .QCRIDialectalArabicPOS import QCRIDialectalArabicPOSDataset

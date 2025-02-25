@@ -80,11 +80,17 @@ def post_process(response):
         "الشعارات": "Slogans",
         "التكرار": "Repetition",
         "الشك": "Doubt",
-        "التعمية/الغموض المتعمد/الارتباك": "Obfuscation, Intentional vagueness, Confusion",
+        "التعمية/الغموض المتعمد/الارتباك": (
+            "Obfuscation, Intentional vagueness, Confusion"
+        ),
         "التلويح بالعلم": "Flag-waving",
         "التعميمات البراقة (الفضيلة)": "Glittering generalities (Virtue)",
-        "تحريف موقف شخص (رجل القش)": "Misrepresentation of Someone's Position (Straw Man)",
-        "عرض بيانات غير ذات صلة (السمكة الحمراء)": "Presenting Irrelevant Data (Red Herring)",
+        "تحريف موقف شخص (رجل القش)": (
+            "Misrepresentation of Someone's Position (Straw Man)"
+        ),
+        "عرض بيانات غير ذات صلة (السمكة الحمراء)": (
+            "Presenting Irrelevant Data (Red Herring)"
+        ),
         "النداء إلى السلطة": "Appeal to authority",
         "ماذا عن": "Whataboutism",
         "مغالطة الأبيض والأسود/الديكتاتورية": "Black-and-white Fallacy/Dictatorship",

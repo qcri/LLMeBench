@@ -52,15 +52,32 @@ def post_process(response):
 
     if "i can't" in label or "i cannot" in label or "لا أستطيع" in label:
         return None
-    
-    splits = label.split("explanation:")
-    label = splits[0].replace("explanation","").replace('label',"").replace(':',"").strip()
-    explain = splits[1].replace("explanation","").replace('label',"").replace(':',"").strip()
 
-    if "true" in label or "نعم" in label or "label: 1" in label or "yes" in label \
-            or label == 'propagandistic' \
-            or label == 'دعائي'\
-            or "يعتبر النص من النوع الدعائي" in explain:
+    splits = label.split("explanation:")
+    label = (
+        splits[0]
+        .replace("explanation", "")
+        .replace("label", "")
+        .replace(":", "")
+        .strip()
+    )
+    explain = (
+        splits[1]
+        .replace("explanation", "")
+        .replace("label", "")
+        .replace(":", "")
+        .strip()
+    )
+
+    if (
+        "true" in label
+        or "نعم" in label
+        or "label: 1" in label
+        or "yes" in label
+        or label == "propagandistic"
+        or label == "دعائي"
+        or "يعتبر النص من النوع الدعائي" in explain
+    ):
         pred_label = "true"
     elif (
         "false" in label

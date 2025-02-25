@@ -1,22 +1,22 @@
 import re
 
-from llmebench.datasets import ProppyBinaryDataset
+from llmebench.datasets import FinePropBinaryDataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import ClassificationTask
 
 
 def metadata():
     return {
-        "author": "Arabic Language Technologies, QCRI, HBKU",
-        "model": "gpt-4-32k (version 0314)",
-        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
-        "scores": {"Micro-F1": "0.526"},
+        "author": "Maram Hasanain and Md Arid Hasan and Mohamed Bayan Kmainasi and Elisa Sartori and Ali Ezzat Shahroor and Giovanni Da San Martino and Firoj Alam",
+        "model": "GPT-4o zero shot",
+        "description": "https://arxiv.org/abs/2502.16550",
+        "scores": {},
     }
 
 
 def config():
     return {
-        "dataset": ProppyBinaryDataset,
+        "dataset": FinePropBinaryDataset,
         "task": ClassificationTask,
         "model": OpenAIModel,
         "model_args": {

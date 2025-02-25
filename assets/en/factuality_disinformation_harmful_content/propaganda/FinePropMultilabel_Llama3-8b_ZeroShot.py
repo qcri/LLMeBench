@@ -3,7 +3,7 @@ import codecs
 import random
 import re
 
-from llmebench.datasets import ProppyMultilabelDataset
+from llmebench.datasets import FinePropMultilabelDataset
 from llmebench.models import AzureModel
 from llmebench.tasks import MultilabelPropagandaTask
 
@@ -24,16 +24,16 @@ ESCAPE_SEQUENCE_RE = re.compile(
 
 def metadata():
     return {
-        "author": "Mohamed Bayan Kmainasi, Rakif Khan, Ali Ezzat Shahroor, Boushra Bendou, Maram Hasanain, and Firoj Alam",
-        "affiliation": "Arabic Language Technologies, Qatar Computing Research Institute (QCRI), Hamad Bin Khalifa University (HBKU)",
-        "model": "Llama-3.1-8B-Instruct",
-        "description": "For a comprehensive analysis and results, refer to our peer-reviewed publication available at [Springer](https://doi.org/10.1007/978-981-96-0576-7_30) or explore the preprint version on [arXiv](https://arxiv.org/abs/2409.07054).",
+        "author": "Maram Hasanain and Md Arid Hasan and Mohamed Bayan Kmainasi and Elisa Sartori and Ali Ezzat Shahroor and Giovanni Da San Martino and Firoj Alam",
+        "model": "Llama3-8b",
+        "description": "https://arxiv.org/abs/2502.16550",
+        "scores": {},
     }
 
 
 def config():
     return {
-        "dataset": ProppyMultilabelDataset,
+        "dataset": FinePropMultilabelDataset,
         "dataset_args": {"techniques_path": "classes.txt"},
         "task": MultilabelPropagandaTask,
         "model": AzureModel,

@@ -63,7 +63,7 @@ def prompt(input_sample):
     return [
         {
             "role": "system",
-            "content": ("You are an expert social media content analyst."),
+            "content": "You are an expert social media content analyst.",
         },
         {
             "role": "user",
