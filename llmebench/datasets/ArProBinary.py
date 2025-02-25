@@ -13,10 +13,29 @@ class ArProBinaryDataset(DatasetBase):
         return {
             "language": "ar",
             "citation": """
-                to add
+                @inproceedings{hasanain-etal-2024-gpt,
+                    title = "Can GPT-4 Identify Propaganda? Annotation and Detection of Propaganda Spans in News Articles",
+                    author = "Hasanain, Maram  and
+                    Ahmad, Fatema  and
+                    Alam, Firoj",
+                    editor = "Calzolari, Nicoletta  and
+                    Kan, Min-Yen  and
+                    Hoste, Veronique  and
+                    Lenci, Alessandro  and
+                    Sakti, Sakriani  and
+                    Xue, Nianwen",
+                    booktitle = "Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024)",
+                    month = may,
+                    year = "2024",
+                    address = "Torino, Italia",
+                    publisher = "ELRA and ICCL",
+                    url = "https://aclanthology.org/2024.lrec-main.244/",
+                    pages = "2724--2744",
+                    abstract = "The use of propaganda has spiked on mainstream and social media, aiming to manipulate or mislead users. While efforts to automatically detect propaganda techniques in textual, visual, or multimodal content have increased, most of them primarily focus on English content. The majority of the recent initiatives targeting medium to low-resource languages produced relatively small annotated datasets, with a skewed distribution, posing challenges for the development of sophisticated propaganda detection models. To address this challenge, we carefully develop the largest propaganda dataset to date, ArPro, comprised of 8K paragraphs from newspaper articles, labeled at the text span level following a taxonomy of 23 propagandistic techniques. Furthermore, our work offers the first attempt to understand the performance of large language models (LLMs), using GPT-4, for fine-grained propaganda detection from text. Results showed that GPT-4`s performance degrades as the task moves from simply classifying a paragraph as propagandistic or not, to the fine-grained task of detecting propaganda techniques and their manifestation in text. Compared to models fine-tuned on the dataset for propaganda detection at different classification granularities, GPT-4 is still far behind. Finally, we evaluate GPT-4 on a dataset consisting of six other languages for span detection, and results suggest that the model struggles with the task across languages. We made the dataset publicly available for the community."
+                }            
             """,
-            "link": "",
-            "license": "",
+            "link": "https://huggingface.co/datasets/QCRI/ArmPro",
+            "license": " https://creativecommons.org/licenses/by-nc-sa/4.0/",
             "splits": {
                 "test": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/binary/ArMPro_binary_test_V2.jsonl",
                 "dev": "/Users/mhasanain/work/temp_propoganda/data_annotation/final_full_annot/final_split/binary/final_full_annot_clean_binary_dev.jsonl",
