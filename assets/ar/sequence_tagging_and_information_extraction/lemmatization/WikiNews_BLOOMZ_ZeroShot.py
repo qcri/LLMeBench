@@ -24,10 +24,12 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": "for every word in the following Arabic sentence, write only the arabic lemma of the word separated by a single space without explanation.\n\n"
-        + "sentence: "
-        + input_sample
-        + "label: \n"
+        "prompt": (
+            "for every word in the following Arabic sentence, write only the arabic lemma of the word separated by a single space without explanation.\n\n"
+            + "sentence: "
+            + input_sample
+            + "label: \n"
+        )
     }
 
 

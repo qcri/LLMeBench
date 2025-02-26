@@ -5,9 +5,12 @@ from .ArabicDiacritization import ArabicDiacritizationTask
 from .ArabicParsing import ArabicParsingTask
 from .ArabicPOS import ArabicPOSTask
 from .ArabicSegmentation import ArabicSegmentationTask
+from .ArPro import ArProTask
+from .ArProSpan import ArProSpanTask
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
 from .ClaimDetection import ClaimDetectionTask
+from .Classification import ClassificationTask
 from .DemographyGender import DemographyGenderTask
 from .DemographyLocation import DemographyLocationTask
 from .DemographyNameInfo import DemographyNameInfoTask
@@ -19,6 +22,7 @@ from .HateSpeech import HateSpeechTask
 from .Lemmatization import LemmatizationTask
 from .MachineTranslation import MachineTranslationTask
 from .MultilabelPropaganda import MultilabelPropagandaTask
+from .MultiNativQA import MultiNativQATask
 from .NER import NERTask
 from .NewsCategorization import NewsCategorizationTask
 from .Offensive import OffensiveTask

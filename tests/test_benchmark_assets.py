@@ -4,6 +4,8 @@ import unittest
 
 from llmebench import Benchmark
 
+from llmebench.utils import is_fewshot_asset
+
 
 class TestBenchmarkAssets(unittest.TestCase):
     @classmethod
@@ -27,9 +29,11 @@ class TestBenchmarkAssets(unittest.TestCase):
 
         if "dataset_args" in config:
             self.assertIsInstance(config["dataset_args"], dict)
+
         self.assertIn("task", config)
         if "task_args" in config:
             self.assertIsInstance(config["task_args"], dict)
+
         self.assertIn("model", config)
         if "model_args" in config:
             self.assertIsInstance(config["model_args"], dict)
@@ -72,3 +76,42 @@ class TestBenchmarkAssets(unittest.TestCase):
                 self.assertIn("description", metadata)
                 self.assertIsInstance(metadata["description"], str)
                 self.assertIsInstance(metadata.get("scores", {}), dict)
+
+    def validate_splits(self, config, prompt_fn):
+        is_generic_dataset = config["dataset"].metadata().get("generic", False)
+
+        if not is_generic_dataset:
+            return
+
+        general_args = config.get("general_args", {})
+        self.assertIn(
+            "custom_test_split",
+            general_args,
+            "Asset with generic dataset must include `custom_test_split` in `general_args`",
+        )
+        if is_fewshot_asset(config, prompt_fn):
+            self.assertIn(
+                "fewshot",
+                general_args,
+                "Fewshot asset with generic dataset must include `custom_train_split` in `general_args`",
+            )
+            self.assertIn(
+                "custom_train_split",
+                general_args["fewshot"],
+                "Fewshot asset with generic dataset must include `custom_train_split` in `general_args`",
+            )
+
+    def test_config_generic_datasets(self):
+        "Test if assets using generic dataloaders have necessary splits"
+
+        for asset in self.assets:
+            with self.subTest(msg=asset["name"]):
+                config = asset["config"]
+
+                if isinstance(config, dict):
+                    self.validate_splits(config, asset["module"].prompt)
+                else:
+                    for subconfig in config:
+                        self.validate_splits(
+                            subconfig["config"], asset["module"].prompt
+                        )

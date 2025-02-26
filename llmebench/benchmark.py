@@ -1,5 +1,3 @@
-import argparse
-
 import importlib
 import json
 import logging
@@ -13,7 +11,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from llmebench import utils
+from llmebench import asset_utils, utils
 
 
 class SingleTaskBenchmark(object):
@@ -33,16 +31,15 @@ class SingleTaskBenchmark(object):
         self.name = name
 
         # Pipeline components
-        dataset_args = config.get("dataset_args", {})
-        if "data_dir" not in dataset_args:
-            dataset_args["data_dir"] = data_dir
-        self.dataset = config["dataset"](**dataset_args)
+        self.dataset_args = config.get("dataset_args", {})
+        self.data_dir = data_dir
+        self.dataset_cls = config["dataset"]
 
-        task_args = config.get("task_args", {})
-        self.task = config["task"](dataset=self.dataset, **task_args)
+        self.task_args = config.get("task_args", {})
+        self.task_cls = config["task"]
 
-        model_args = config.get("model_args", {})
-        self.model = config["model"](**model_args)
+        self.model_args = config.get("model_args", {})
+        self.model_cls = config["model"]
 
         general_args = config.get("general_args", {})
 
@@ -57,11 +54,13 @@ class SingleTaskBenchmark(object):
 
         # Data parameters
         self.data_paths = utils.get_data_paths(config, "test")
+        self.should_download = "custom_test_split" not in config
 
         self.zeroshot = True
         if utils.is_fewshot_asset(config, prompt_fn):
             self.zeroshot = False
             self.deduplicate = True
+            self.fewshot_embedding_model_name = None
             self.train_data_paths = utils.get_data_paths(config, "train")
 
             assert len(self.data_paths) == len(
@@ -69,12 +68,22 @@ class SingleTaskBenchmark(object):
             ), "A train split must be provided for every test split being run"
             if "fewshot" in general_args:
                 self.deduplicate = general_args["fewshot"].get("deduplicate", True)
+                self.fewshot_embedding_model_name = general_args["fewshot"].get(
+                    "embedding_model_name", None
+                )
 
         self.limit = limit
         self.n_shots = n_shots
 
     def is_zeroshot(self):
         return self.zeroshot
+
+    def initialize_pipeline(self):
+        if "data_dir" not in self.dataset_args:
+            self.dataset_args["data_dir"] = self.data_dir
+        self.dataset = self.dataset_cls(**self.dataset_args)
+        self.task = self.task_cls(dataset=self.dataset, **self.task_args)
+        self.model = self.model_cls(**self.model_args)
 
     def run_pipeline(
         self,
@@ -142,8 +151,16 @@ class SingleTaskBenchmark(object):
         return cache_payload, summarized_payload
 
     def run_benchmark(self, dry_run=False):
+        self.initialize_pipeline()
+
         base_name = self.name
         base_cache_dir = self.cache_dir
+
+        # Download dataset if not already present on disk and custom splits are not specified
+        if self.should_download:
+            self.dataset.download_dataset(
+                self.data_dir, default_url="https://llmebench.qcri.org/data/"
+            )
 
         # Create sub-directory for few shot experiments
         if not self.is_zeroshot():
@@ -173,7 +190,11 @@ class SingleTaskBenchmark(object):
                 train_data = self.dataset.load_data(train_data_path)
 
                 few_shots_data = self.dataset.prepare_fewshots(
-                    data, train_data, self.n_shots, deduplicate=self.deduplicate
+                    data,
+                    train_data,
+                    self.n_shots,
+                    embedding_model_name=self.fewshot_embedding_model_name,
+                    deduplicate=self.deduplicate,
                 )
 
             true_labels = []
@@ -190,7 +211,7 @@ class SingleTaskBenchmark(object):
             ):
                 if self.limit > 0 and sample_idx >= self.limit:
                     break
-                logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
+                # logging.info(f"Running sample {sample_idx}: {input_sample['input']}")
                 num_processed += 1
                 cache_path = cache_dir / f"{sample_idx}.json"
                 true_labels.append(input_sample["label"])
@@ -324,10 +345,18 @@ class Benchmark(object):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("benchmark_dir", type=Path)
-    parser.add_argument("results_dir", type=Path)
-    parser.add_argument(
+    parser = utils.ArgumentParserWithDefaultSubcommand()
+    parser.set_default_subparser("benchmark")
+    subparsers = parser.add_subparsers(
+        help="Defaults to 'benchmark'. Specify a command before the help flag to see detailed usage for each command.",
+        dest="subparser_name",
+    )
+
+    parser_main = subparsers.add_parser("benchmark", help="Run the benchmark")
+
+    parser_main.add_argument("benchmark_dir", type=Path)
+    parser_main.add_argument("results_dir", type=Path)
+    parser_main.add_argument(
         "-f",
         "--filter",
         default="*.py",
@@ -335,8 +364,8 @@ def main():
         " Examples are '*ZeroShot*', 'Demography*', '*.py' (default)."
         " The .py extension is added automatically if missing.",
     )
-    parser.add_argument("--ignore_cache", action="store_true")
-    parser.add_argument(
+    parser_main.add_argument("--ignore_cache", action="store_true")
+    parser_main.add_argument(
         "-l",
         "--limit",
         default=-1,
@@ -344,28 +373,19 @@ def main():
         help="Limit the number of input instances that will be processed",
     )
 
-    parser.add_argument(
+    parser_main.add_argument(
         "-e", "--env", type=Path, help="Path to an .env file to load model parameters"
     )
 
-    parser.add_argument(
+    parser_main.add_argument(
         "--dry-run",
         action="store_true",
         help="Do not run any actual models, but load all the data and process"
         " few shots. Existing cache will be ignored and overwritten.",
     )
 
-    group = parser.add_argument_group("Data")
-    group.add_argument(
-        "--data_dir",
-        default="data/",
-        type=Path,
-        help="Default path for data. All relative paths will be resolved by"
-        " using this as the base path",
-    )
-
-    group = parser.add_argument_group("Few Shot Experiments")
-    group.add_argument(
+    few_shot_args = parser_main.add_argument_group("Few Shot Experiments")
+    few_shot_args.add_argument(
         "-n",
         "--n_shots",
         default=0,
@@ -376,6 +396,55 @@ def main():
         " and when it is non-zero, only few shot experiments will be run.",
     )
 
+    parser_data = subparsers.add_parser("data", help="Dataset specific commands")
+
+    data_subparsers = parser_data.add_subparsers(
+        dest="data_subparser_name",
+    )
+
+    parser_data_download = data_subparsers.add_parser(
+        "download", help="Download specific dataset"
+    )
+
+    parser_data_download.add_argument(
+        "--download_server",
+        type=str,
+        default="https://llmebench.qcri.org/data/",
+        help="URL to server containing dataset archives",
+    )
+    parser_data_download.add_argument(
+        "dataset_name",
+        type=str,
+        help="Download the dataset with the given name (e.g Aqmar)",
+    )
+
+    parser_assets = subparsers.add_parser("assets", help="Assets specific commands")
+
+    assets_subparsers = parser_assets.add_subparsers(
+        dest="assets_subparser_name",
+    )
+
+    parser_assets_download = assets_subparsers.add_parser(
+        "download",
+        help="Download all assets. Will update if assets to latest version if they are already present.",
+    )
+    parser_assets_download.add_argument(
+        "--work_dir",
+        type=str,
+        default="./",
+        help="Default path for managing the benchmarking assets. Assets will be saved in `<work_dir>/assets`, and associated versioning files in `<work_dir>/.git`. Be default <work_dir> is set to the current working directory.",
+    )
+
+    # Common options
+    for subparser in [parser_main, parser_data_download]:
+        subparser.add_argument(
+            "--data_dir",
+            default="data/",
+            type=Path,
+            help="Default path for data. All relative paths will be resolved by"
+            " using this as the base path",
+        )
+
     args = parser.parse_args()
 
     logging.basicConfig(
@@ -384,8 +453,39 @@ def main():
         format="%(asctime)s %(levelname)s %(message)s",
     )
 
+    # Handle downloading of datasets
+    if args.subparser_name == "data":
+        if args.data_subparser_name == "download":
+            dataset_name = args.dataset_name
+            if not dataset_name.endswith("Dataset"):
+                dataset_name = f"{dataset_name}Dataset"
+            try:
+                mod = __import__("llmebench.datasets", fromlist=[dataset_name])
+                dataset = getattr(mod, dataset_name)
+            except AttributeError:
+                logging.error(f"{dataset_name} not found in llmebench.datasets)")
+                return
+            dataset.download_dataset(args.data_dir, default_url=args.download_server)
+        else:
+            parser_data.print_help()
+        return
+    elif args.subparser_name == "assets":
+        if args.assets_subparser_name == "download":
+            asset_utils.download_all(args.work_dir)
+        else:
+            parser_assets.print_help()
+        return
+
+    # We must be performing benchmarking now and not any subcommands
     if args.env:
-        load_dotenv(args.env)
+        load_dotenv(args.env, override=True)
+
+    if args.benchmark_dir is None or args.results_dir is None:
+        logging.error(parser.print_usage())
+        logging.error(
+            "The following arguments are required: benchmark_dir, results_dir"
+        )
+        return
 
     benchmark = Benchmark(args.benchmark_dir)
 

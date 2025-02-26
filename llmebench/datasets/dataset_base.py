@@ -6,11 +6,7 @@ import random
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.prompts.example_selector import MaxMarginalRelevanceExampleSelector
-from langchain.vectorstores import FAISS
-
-from pooch import Decompress, Pooch, retrieve, Untar, Unzip
+from pooch import Decompress, HTTPDownloader, Pooch, retrieve, Untar, Unzip
 
 import llmebench.utils as utils
 
@@ -54,7 +50,7 @@ class DatasetBase(ABC):
 
     """
 
-    def __init__(self, data_dir, **kwargs):
+    def __init__(self, data_dir="data/", **kwargs):
         self.data_dir = data_dir
 
     @staticmethod
@@ -234,7 +230,14 @@ class DatasetBase(ABC):
         new_sample["input"] = json.loads(new_sample["input"])
         return new_sample
 
-    def prepare_fewshots(self, target_data, train_data, n_shots, deduplicate=True):
+    def prepare_fewshots(
+        self,
+        target_data,
+        train_data,
+        n_shots,
+        embedding_model_name=None,
+        deduplicate=True,
+    ):
         """
         Returns a generator for fewshot samples _per test instance_
 
@@ -246,6 +249,9 @@ class DatasetBase(ABC):
             Train/Dev samples to pick few shot samples from
         n_shots : int
             Number of samples to pick for each test sample
+        embedding_model_name : str
+            The model to use for extracting embeddings to use for similarity computation.
+            Defaults to 'distiluse-base-multilingual-cased-v1'
         deduplicate : bool, defaults to True
             Whether the training samples should be de-duplicated (w.r.t test
             samples).
@@ -256,7 +262,15 @@ class DatasetBase(ABC):
             A generator that returns `n_shots` train samples for every
             test sample
         """
-        """"""
+
+        from langchain.embeddings import HuggingFaceEmbeddings
+        from langchain.prompts.example_selector import (
+            MaxMarginalRelevanceExampleSelector,
+        )
+        from langchain.vectorstores import FAISS
+
+        if embedding_model_name is None:
+            embedding_model_name = "distiluse-base-multilingual-cased-v1"
 
         # Stringify inputs for few shot
         deserialization_required = False
@@ -291,10 +305,7 @@ class DatasetBase(ABC):
                 )
 
         # TODO: MaxMarginalRelevanceExampleSelector should be generalized
-        # TODO: Need to handle not str inputs
-        embedding_model = HuggingFaceEmbeddings(
-            model_name="distiluse-base-multilingual-cased-v1"
-        )
+        embedding_model = HuggingFaceEmbeddings(model_name=embedding_model_name)
         example_selector = MaxMarginalRelevanceExampleSelector.from_examples(
             train_data, embedding_model, FAISS, input_keys=["input"], k=n_shots
         )
@@ -319,7 +330,7 @@ class DatasetBase(ABC):
             yield examples
 
     @classmethod
-    def download_dataset(cls, data_dir, download_url=None):
+    def download_dataset(cls, data_dir, download_url=None, default_url=None):
         """
         Utility method to download a dataset if not present locally on disk.
         Can handle datasets of types *.zip, *.tar, *.tar.gz, *.tar.bz2, *.tar.xz.
@@ -329,7 +340,9 @@ class DatasetBase(ABC):
         download_url : str
             The url to the dataset. If not provided, falls back to the `download_url`
             provided by the Dataset's metadata. If missing, falls back to a default
-            server specified by the environment variable `DEFAULT_DOWNLOAD_URL`
+            server specified by the `default_url` argument
+        default_url : str
+            Default server url to fall back to incase of missing download_urls
 
         Returns
         -------
@@ -411,7 +424,7 @@ class DatasetBase(ABC):
         # Priority:
         #   Fn Argument
         #   Dataset metadata["download_url"]
-        #   DEFAULT_DOWNLOAD_URL/Dataset_name.zip
+        #   default_url/Dataset_name.zip
         download_urls = []
         if download_url is not None:
             download_urls.append(download_url)
@@ -419,8 +432,11 @@ class DatasetBase(ABC):
         metadata_url = cls.metadata().get("download_url", None)
         if metadata_url is not None:
             download_urls.append(metadata_url)
+        else:
+            logging.warning(
+                f"No default download url specified for {dataset_name}, will try to download from LLMeBench servers."
+            )
 
-        default_url = os.getenv("DEFAULT_DOWNLOAD_URL")
         if default_url is not None:
             if default_url.endswith("/"):
                 default_url = default_url[:-1]
@@ -446,7 +462,10 @@ class DatasetBase(ABC):
                     extension = ext
                     break
             try:
-                logging.info(f"Trying {download_url}")
+                logging.info(f"Trying to fetch from {download_url}")
+                if (Path(data_dir) / f"{dataset_name}{extension}").exists():
+                    logging.info(f"Cached dataset found")
+                    return True
                 retrieve(
                     download_url,
                     known_hash=None,
@@ -454,18 +473,24 @@ class DatasetBase(ABC):
                     path=data_dir,
                     progressbar=True,
                     processor=decompress,
+                    downloader=HTTPDownloader(
+                        headers={"User-Agent": "curl/8.1.2", "Accept": "*/*"}
+                    ),
                 )
                 # If it was a *.tar.* file, we can safely delete the
                 # intermediate *.tar file
                 if extension in supported_extensions[:3]:
                     tar_file_path = Path(data_dir) / f"{dataset_name}.tar"
                     tar_file_path.unlink()
+                logging.info(f"Fetch successful")
                 return True
             except Exception as e:
                 logging.warning(f"Failed to download: {e}")
                 continue
 
-        logging.warning(f"Failed to download dataset")
+        logging.warning(
+            f"Failed to download dataset, tried the following urls: {', '.join(download_urls)}"
+        )
 
         return False
 

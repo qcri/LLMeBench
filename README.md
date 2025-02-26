@@ -1,6 +1,6 @@
 # LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
-This repository contains code for the LLMeBench framework (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using **three** model providers: OpenAI (e.g., [GPT](https://platform.openai.com/docs/guides/gpt)), [HuggingFace Inference API](https://huggingface.co/docs/api-inference/), and Petals (e.g., [BLOOMZ](https://huggingface.co/bigscience/bloomz)); it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+This repository contains code for the LLMeBench framework (described in <a href="https://aclanthology.org/2024.eacl-demo.23/" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using **three** model providers: OpenAI (e.g., [GPT](https://platform.openai.com/docs/guides/gpt)), [HuggingFace Inference API](https://huggingface.co/docs/api-inference/), and Petals (e.g., [BLOOMZ](https://huggingface.co/bigscience/bloomz)); it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
 
 <!---"https://github.com/qcri/LLMeBench/assets/3918663/15d989e0-edc7-489a-ba3b-36184a715383"--->
 
@@ -10,6 +10,9 @@ This repository contains code for the LLMeBench framework (described in <a href=
 </picture>
 </p>
 
+## Recent Updates
+- 20st January, 2025 -- New assets added. Updated versions for openai, anthropic and sentence_transformers.
+- 21st July, 2024 -- Multimodal capabilities have been added. Assets now include support for GPT-4 (OpenAI) and Sonet (Anthropic).
 
 ## Overview
 <p align="center">
@@ -20,60 +23,36 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/8
 </p>
 
 Developing **LLMeBench** is an ongoing effort and it will be continuously expanded. Currently, the framework features the following:
-- Supports 31 [tasks](llmebench/tasks) featuring 3 [model providers](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in **200 [benchmarking assets](assets/)** ready to run.
+- Supports 34 [tasks](llmebench/tasks) featuring 7 [model providers](llmebench/models). Tested with 66 [datasets](llmebench/datasets) associated with 16 languages, resulting in **800 [benchmarking assets](assets/)** ready to run.
+- Support for **text, speech, and multimodality**
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
-- On-the-fly datasets download and dataset caching. 
+- On-the-fly datasets download and dataset caching.
 - Open-source.
 
 ## Quick Start!
-1. [Install](https://github.com/qcri/LLMeBench/blob/main/README.md#installation) LLMeBench.
-2. Create a new folder "data", then [download ArSAS dataset](https://llmebench.qcri.org/data/ArSAS.zip) into "data" and unzip it.
-3. Evaluate!
+1. Install LLMeBench: `pip install 'llmebench[fewshot]'`
+2. Download the current assets: `python -m llmebench assets download`. This will fetch assets and place them in the current working directory.
+3. Download one of the dataset, e.g. ArSAS. `python -m llmebench data download ArSAS`. This will download the data to the current working directory inside the `data` folder.
+4. Evaluate!
 
-   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   For example, to evaluate the performance of a random baseline for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you can run:
    ```bash
    python -m llmebench --filter 'sentiment/ArSAS_Random*' assets/ results/
    ```
-   where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
-
-## Installation
-*pip package to be made available soon!*
-
-Clone this repository:
-```bash
-git clone https://github.com/qcri/LLMeBench.git
-cd LLMeBench
-```
-
-Create and activate virtual environment:
-```bash
-python -m venv .envs/llmebench
-source .envs/llmebench/bin/activate
-```
-
-Install the dependencies and benchmarking package:
-```bash
-pip install -e '.[dev,fewshot]'
-```
+   which uses the [ArSAS_random "asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate. Here, `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
 
 ## Get the Benchmark Data
-In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, download the benchmarking data from [here](https://llmebench.qcri.org/data/), an example command to download all these datasets:
-```bash
-mkdir data/
-cd data
-wget -r -np -nH --cut-dirs=3 -A zip -R index.html  https://llmebench.qcri.org/data/
-```
+In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, the framework *automatically* downloads the datasets when possible. Manually downloading them (for example to explore the data before running any assets) can be done as follows:
 
-Next, unzip the downloaded files to get a directory per dataset: 
 ```bash
-for i in *.zip; do unzip "$i" -d "${i%%.zip}"; done
+python -m llmebench data download <DatasetName>
 ```
 
 **_Voilà! all ready to start evaluation..._**
 
-**Note:** Some datasets and associated assets are implemented in LLMeBench but the dataset files can't be re-distributed, it is the responsibility of the framework user to acquaire them from their original sources. The metadata for each `Dataset` includes a link to the primary page for the dataset, which can be used to obtain the data.
+**Note:** Some datasets and associated assets are implemented in LLMeBench but the dataset files can't be re-distributed, it is the responsibility of the framework user to acquire them from their original sources. The metadata for each `Dataset` includes a link to the primary page for the dataset, which can be used to obtain the data. The data should be downloaded and present in a folder under `data/<DatasetName>`, where `<DatasetName>` is the same as implementation under `llmebench.datasets`. For instance, the `ADIDataset` should have it's data under `data/ADI/`.
 
 **Disclaimer:** The datasets associated with the current version of LLMeBench are either existing datasets or processed versions of them. We refer users to the original license accompanying each dataset as provided in the metadata for [each dataset script](https://github.com/qcri/LLMeBench/tree/main/llmebench/datasets). It is our understanding that these licenses allow for datasets use and redistribution for research or non-commercial purposes .
 
@@ -125,18 +104,49 @@ The [tutorials directory](docs/tutorials/) provides tutorials on the following: 
 - Task
 - Dataset
 - Asset
-   
+
 ## Citation
-Please cite our paper when referring to this framework:
+Please cite our papers when referring to this framework:
 
 ```
+@inproceedings{abdelali-2024-larabench,
+  title = "{{LAraBench}: Benchmarking Arabic AI with Large Language Models}",
+  author ={Ahmed Abdelali and Hamdy Mubarak and Shammur Absar Chowdhury and Maram Hasanain and Basel Mousi and Sabri Boughorbel and Samir Abdaljalil and Yassine El Kheir and Daniel Izham and Fahim Dalvi and Majd Hawasly and Nizi Nazar and Yousseif Elshahawy and Ahmed Ali and Nadir Durrani and Natasa Milic-Frayling and Firoj Alam},
+  booktitle = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: Volume 1, Long Papers},
+  month = mar,
+  year = {2024},
+  address = {Malta},
+  publisher = {Association for Computational Linguistics},
+}
+
 @article{dalvi2023llmebench,
-      title={LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking},
+      title={{LLMeBench}: A Flexible Framework for Accelerating LLMs Benchmarking},
       author={Fahim Dalvi and Maram Hasanain and Sabri Boughorbel and Basel Mousi and Samir Abdaljalil and Nizi Nazar and Ahmed Abdelali and Shammur Absar Chowdhury and Hamdy Mubarak and Ahmed Ali and Majd Hawasly and Nadir Durrani and Firoj Alam},
-      year={2023},
-      eprint={2308.04945},
-      journal={arXiv:2308.04945},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2308.04945}
+      booktitle = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations},
+      month = mar,
+      year = {2024},
+      address = {Malta},
+      publisher = {Association for Computational Linguistics},
+}
+
+```
+
+Please consider citing the following papers if you use the assets derived from them.
+
+```
+@inproceedings{kmainasi2024native,
+  title={Native vs non-native language prompting: A comparative analysis},
+  author={Kmainasi, Mohamed Bayan and Khan, Rakif and Shahroor, Ali Ezzat and Bendou, Boushra and Hasanain, Maram and Alam, Firoj},
+  booktitle={International Conference on Web Information Systems Engineering},
+  pages={406--420},
+  year={2024},
+  organization={Springer}
+}
+
+@article{hasan2024nativqa,
+  title={{NativQA}: Multilingual culturally-aligned natural query for {LLMs}},
+  author={Hasan, Md Arid and Hasanain, Maram and Ahmad, Fatema and Laskar, Sahinur Rahman and Upadhyay, Sunaya and Sukhadia, Vrunda N and Kutlu, Mucahid and Chowdhury, Shammur Absar and Alam, Firoj},
+  journal={arXiv preprint arXiv:2407.09823},
+  year={2024}
 }
 ```

@@ -1,3 +1,4 @@
+import argparse
 import importlib.util
 import sys
 
@@ -5,6 +6,32 @@ from inspect import signature
 
 from pathlib import Path
 from typing import TYPE_CHECKING
+
+
+# https://stackoverflow.com/a/4575792
+class ArgumentParserWithDefaultSubcommand(argparse.ArgumentParser):
+    __default_subparser = None
+
+    def set_default_subparser(self, name):
+        self.__default_subparser = name
+
+    def _parse_known_args(self, arg_strings, *args, **kwargs):
+        in_args = set(arg_strings)
+        d_sp = self.__default_subparser
+        if d_sp is not None and not {"-h", "--help"}.intersection(in_args):
+            for x in self._subparsers._actions:
+                subparser_found = isinstance(
+                    x, argparse._SubParsersAction
+                ) and in_args.intersection(x._name_parser_map.keys())
+                if subparser_found:
+                    break
+            else:
+                # insert default in first position, this implies no
+                # global options without a sub_parsers specified
+                arg_strings = [d_sp] + arg_strings
+        return super(ArgumentParserWithDefaultSubcommand, self)._parse_known_args(
+            arg_strings, *args, **kwargs
+        )
 
 
 # https://stackoverflow.com/a/41595552
@@ -51,7 +78,6 @@ def get_data_paths(config, split):
     assert split in ["train", "test"]
 
     dataset_args = config.get("dataset_args", {})
-    dataset_args["data_dir"] = ""
     dataset = config["dataset"](**dataset_args)
 
     if split == "test":
@@ -60,8 +86,13 @@ def get_data_paths(config, split):
         general_args = config.get("general_args", {})
         data_args = general_args.get("fewshot", {})
 
+    is_generic_dataset = dataset.metadata().get("generic", False)
+
     data_paths = []
-    if f"custom_{split}_split" in data_args:
+    if is_generic_dataset:
+        # custom_test/train_split _must_ be present for generic datasets
+        data_paths.append(("custom", data_args[f"custom_{split}_split"]))
+    elif f"custom_{split}_split" in data_args:
         data_paths.append(("custom", data_args[f"custom_{split}_split"]))
     elif f"{split}_split" in data_args:
         requested_splits = data_args[f"{split}_split"]

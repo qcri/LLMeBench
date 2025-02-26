@@ -53,11 +53,13 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": f'Label this "tweet" based on the following propaganda techniques:\n\n'
-        + f"'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
-        + f"\nGive the list of techniques seperated by a comma. Multiple techniques are allowed: \n"
-        + f"tweet: {input_sample}\n\n"
-        + f"labels: \n"
+        "prompt": (
+            f'Label this "tweet" based on the following propaganda techniques:\n\n'
+            + f"'no technique' , 'Smears' , 'Exaggeration/Minimisation' , 'Loaded Language' , 'Appeal to fear/prejudice' , 'Name calling/Labeling' , 'Slogans' , 'Repetition' , 'Doubt' , 'Obfuscation, Intentional vagueness, Confusion' , 'Flag-waving' , 'Glittering generalities (Virtue)' , 'Misrepresentation of Someone's Position (Straw Man)' , 'Presenting Irrelevant Data (Red Herring)' , 'Appeal to authority' , 'Whataboutism' , 'Black-and-white Fallacy/Dictatorship' , 'Thought-terminating cliché' , 'Causal Oversimplification'"
+            + f"\nGive the list of techniques seperated by a comma. Multiple techniques are allowed: \n"
+            + f"tweet: {input_sample}\n\n"
+            + f"labels: \n"
+        )
     }
 
 

@@ -1,6 +1,6 @@
 from llmebench.datasets import BanglaSentimentDataset
 from llmebench.models import PetalsModel
-from llmebench.tasks import SentimentTask
+from llmebench.tasks import ClassificationTask
 
 
 def metadata():
@@ -14,7 +14,7 @@ def metadata():
 def config():
     return {
         "dataset": BanglaSentimentDataset,
-        "task": SentimentTask,
+        "task": ClassificationTask,
         "model": PetalsModel,
         "model_args": {
             "class_labels": ["Positive", "Negative", "Neutral"],

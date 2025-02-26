@@ -13,12 +13,25 @@ Before you begin, please ensure you have the following installed:
 ## How to Contribute
 1. **Fork the repository:** Fork the repository to your own GitHub account.
 2. **Clone the fork:** Clone your fork locally on your computer.
-3. **Set up environment:** Follow the instructions in the [README](https://github.com/qcri/LLMeBench#installation) to set up your development environment.
+  ```bash
+  git clone <url-of-LLMeBench-fork>
+  cd LLMeBench
+  ```
+3. **Set up environment:
+  Create and activate virtual environment:
+  ```bash
+  python -m venv .envs/llmebench
+  source .envs/llmebench/bin/activate
+  ```
+
+  Install the dependencies and benchmarking package:
+  ```bash
+  pip install -e '.[dev,fewshot]'
+  ```
 4. **Create a new branch:** Create a new branch for your contribution.
 5. **Make changes:** Implement your changes, additions, or fixes.
 6. **Test:** Run tests to ensure your changes do not break existing functionality.
 7. **Submit a pull request:** Push your changes to your fork on GitHub and then create a pull request for review.
-
 
 ## Adding New Dataset, Task, Models or Features
 If you are adding [new dataset, task, models or features](docs/tutorials), please ensure:

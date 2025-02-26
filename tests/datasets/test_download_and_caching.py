@@ -37,7 +37,7 @@ class MockDataset(DatasetBase):
 class TestDatasetAutoDownload(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.httpd = SignalingHTTPServer(("", 0), ArchiveHandler)
+        cls.httpd = SignalingHTTPServer(("127.0.0.1", 0), ArchiveHandler)
         cls.port = cls.httpd.server_address[1]
 
         cls.test_server = threading.Thread(target=cls.httpd.serve_forever, daemon=True)
@@ -76,7 +76,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/Mock.zip",
+                download_url=f"http://127.0.0.1:{self.port}/Mock.zip",
             )
         )
 
@@ -92,7 +92,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/Mock.tar",
+                download_url=f"http://127.0.0.1:{self.port}/Mock.tar",
             )
         )
 
@@ -108,7 +108,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/Mock.tar.gz",
+                download_url=f"http://127.0.0.1:{self.port}/Mock.tar.gz",
             )
         )
 
@@ -124,7 +124,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/Mock.tar.bz2",
+                download_url=f"http://127.0.0.1:{self.port}/Mock.tar.bz2",
             )
         )
 
@@ -140,7 +140,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         self.assertTrue(
             dataset.download_dataset(
                 data_dir=data_dir.name,
-                download_url=f"http://localhost:{self.port}/Mock.tar.xz",
+                download_url=f"http://127.0.0.1:{self.port}/Mock.tar.xz",
             )
         )
 
@@ -153,13 +153,11 @@ class TestDatasetAutoDownload(unittest.TestCase):
         data_dir_path = Path(data_dir.name)
 
         dataset = MockDataset(data_dir=data_dir_path)
-        with patch.dict(
-            "os.environ",
-            {
-                "DEFAULT_DOWNLOAD_URL": f"http://localhost:{self.port}/",
-            },
-        ):
-            self.assertTrue(dataset.download_dataset(data_dir=data_dir.name))
+        self.assertTrue(
+            dataset.download_dataset(
+                data_dir=data_dir.name, default_url=f"http://127.0.0.1:{self.port}/"
+            )
+        )
 
         self.check_downloaded(data_dir_path, "Mock", "zip")
 
@@ -177,7 +175,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
 
         class MockDatasetWithDownloadURL(MockDataset):
             def metadata():
-                return {"download_url": f"http://localhost:{self.port}/Mock.zip"}
+                return {"download_url": f"http://127.0.0.1:{self.port}/Mock.zip"}
 
         dataset = MockDatasetWithDownloadURL(data_dir=data_dir_path)
         self.assertTrue(dataset.download_dataset(data_dir=data_dir.name))
@@ -199,7 +197,7 @@ class TestDatasetAutoDownload(unittest.TestCase):
         class MockDatasetWithDownloadURL(MockDataset):
             def metadata():
                 return {
-                    "download_url": f"http://localhost:{self.port}/InvalidDataset.zip"
+                    "download_url": f"http://127.0.0.1:{self.port}/InvalidDataset.zip"
                 }
 
         dataset = MockDatasetWithDownloadURL(data_dir=data_dir_path)

@@ -25,6 +25,14 @@ class SubjectivityTask(TaskBase):
         p_prec, p_rec, p_f1, p_s = precision_recall_fscore_support(
             gold_labels, pred_labels, labels=["SUBJ"]
         )
+        # Calculate weighted precision, recall, and F1 score
+        precision = precision_score(
+            gold_labels, pred_labels, average="weighted", labels=["SUBJ"]
+        )
+        recall = recall_score(
+            gold_labels, pred_labels, average="weighted", labels=["SUBJ"]
+        )
+        f1 = f1_score(gold_labels, pred_labels, average="weighted", labels=["SUBJ"])
         results = {
             "accuracy": acc,
             "macro_F1": m_f1,
@@ -33,6 +41,9 @@ class SubjectivityTask(TaskBase):
             "SUBJ_F1": p_f1[0],
             "SUBJ_P": p_prec[0],
             "SUBJ_R": p_rec[0],
+            "W_SUBJ_F1": precision,
+            "W_SUBJ_P": recall,
+            "W_SUBJ_R": f1,
             # "msg": "performance with respect to the macro average. Ref: CheckThat-2023"
         }
 

@@ -54,11 +54,13 @@ def config():
 
 def prompt(input_sample):
     return {
-        "prompt": f'Label the following "text" based on the following propaganda techniques:\n\n'
-        + f"'no_technique', 'Appeal_to_Authority', 'Appeal_to_Fear-Prejudice', 'Appeal_to_Hypocrisy', 'Appeal_to_Popularity', 'Appeal_to_Time', 'Appeal_to_Values', 'Causal_Oversimplification', 'Consequential_Oversimplification', 'Conversation_Killer', 'Doubt', 'Exaggeration-Minimisation', 'False_Dilemma-No_Choice', 'Flag_Waving', 'Guilt_by_Association', 'Loaded_Language', 'Name_Calling-Labeling', 'Obfuscation-Vagueness-Confusion', 'Questioning_the_Reputation', 'Red_Herring', 'Repetition', 'Slogans', 'Straw_Man', 'Whataboutism'"
-        + f"\nGive the list of techniques separated by a comma. Multiple techniques are allowed: \n"
-        + f"text: {input_sample}\n\n"
-        + f"labels: \n"
+        "prompt": (
+            f'Label the following "text" based on the following propaganda techniques:\n\n'
+            + f"'no_technique', 'Appeal_to_Authority', 'Appeal_to_Fear-Prejudice', 'Appeal_to_Hypocrisy', 'Appeal_to_Popularity', 'Appeal_to_Time', 'Appeal_to_Values', 'Causal_Oversimplification', 'Consequential_Oversimplification', 'Conversation_Killer', 'Doubt', 'Exaggeration-Minimisation', 'False_Dilemma-No_Choice', 'Flag_Waving', 'Guilt_by_Association', 'Loaded_Language', 'Name_Calling-Labeling', 'Obfuscation-Vagueness-Confusion', 'Questioning_the_Reputation', 'Red_Herring', 'Repetition', 'Slogans', 'Straw_Man', 'Whataboutism'"
+            + f"\nGive the list of techniques separated by a comma. Multiple techniques are allowed: \n"
+            + f"text: {input_sample}\n\n"
+            + f"labels: \n"
+        )
     }
 
 
