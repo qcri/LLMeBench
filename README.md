@@ -11,8 +11,10 @@ This repository contains code for the LLMeBench framework (described in <a href=
 </p>
 
 ## Recent Updates
+- 26st February, 2025 -- New features added: Assets for Spoken Native QA, Multilingual Native QA, and Propagandistic Content Classification, along with datasets for hateful and propagandistic memes.
 - 20st January, 2025 -- New assets added. Updated versions for openai, anthropic and sentence_transformers.
 - 21st July, 2024 -- Multimodal capabilities have been added. Assets now include support for GPT-4 (OpenAI) and Sonet (Anthropic).
+
 
 ## Overview
 <p align="center">

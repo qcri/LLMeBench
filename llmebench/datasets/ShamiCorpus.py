@@ -1,12 +1,14 @@
 from pathlib import Path
 
 from llmebench.datasets.dataset_base import DatasetBase
+from llmebench.tasks import TaskType
 
 
 class ShamiDataset(DatasetBase):
     def __init__(self, **kwargs):
         super(ShamiDataset, self).__init__(**kwargs)
 
+    @staticmethod
     def metadata():
         return {
             "language": "ar",
@@ -23,10 +25,18 @@ class ShamiDataset(DatasetBase):
             publisher = "European Language Resources Association (ELRA)",
             url = "https://aclanthology.org/L18-1576",
         }
-""",
+        """,
+            "link": "",
+            "license": "",
+            "splits": {
+                "test": "data/dialect-data/shami-corpus",
+            },
+            "task_type": TaskType.Classification,
+            "class_labels": ["Lebanese", "Jordanian", "Palestinian", "Syrian"],
         }
 
-    def get_data_sample(self):
+    @staticmethod
+    def get_data_sample():
         return {"input": "a sentence", "label": "dialect of sentence"}
 
     def load_data(self, data_path, no_labels=False):
