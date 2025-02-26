@@ -1,4 +1,5 @@
 import json
+import os
 
 from llmebench.datasets.dataset_base import DatasetBase
 from llmebench.tasks import TaskType
@@ -15,6 +16,7 @@ class SpokenNativQADataset(DatasetBase):
             "input": {
                 "question": "question to be answered",
                 "length": "number of words in answer",
+                "wav": "base64",
             },
             "label": "A long answer",
         }
@@ -67,11 +69,18 @@ class SpokenNativQADataset(DatasetBase):
                 question = obj["asr_text"]
                 answer = obj["answer"]
                 length = len(answer.split())
+                base_dir = os.path.dirname(data_path)
+                file_path = base_dir + "/" + obj["file_path"]
+                base64_wav = self.encode_wav(file_path)
                 data.append(
                     {
-                        "data_id": id,
-                        "input": {"question": question, "length": length},
+                        "input": {
+                            "question": question,
+                            "length": length,
+                            "wav": base64_wav,
+                        },
                         "label": answer,
+                        "line_number": id,
                     }
                 )
         return data

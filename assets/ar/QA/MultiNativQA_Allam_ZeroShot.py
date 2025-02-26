@@ -45,11 +45,4 @@ def prompt(input_sample):
 
 def post_process(response):
     content = response["output"].strip()
-    # content = content.replace("\n", "").strip()
-    # if "```json" in content:
-    #     # content = content.replace("```json", "").replace('```', '').replace("\n}", "}")
-    #     # content = content.replace("{\n", "{").replace("\",\n", "\",")
-    #
-    #     content = re.search(r"```json(.*)```", content).group(1)
-    # return json.loads(content)["answer"]
     return content

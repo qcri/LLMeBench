@@ -1,7 +1,7 @@
 import json
 import re
 
-from llmebench.datasets import SpokenNativQAAudioDataset
+from llmebench.datasets import SpokenNativQADataset
 from llmebench.models import OpenAIModel
 from llmebench.tasks import MultiNativQATask
 
@@ -17,7 +17,7 @@ def metadata():
 
 def config():
     return {
-        "dataset": SpokenNativQAAudioDataset,
+        "dataset": SpokenNativQADataset,
         "task": MultiNativQATask,
         "model": OpenAIModel,
         "general_args": {"test_split": "arabic_qa_azure"},
