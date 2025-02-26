@@ -83,6 +83,7 @@ class ArProSpanDataset(DatasetBase):
                     "start": 13,
                     "end": 52,
                     "text": "today's news headline",
+                    "par_txt": "paragraph"
                 }
             ],
             "line_number": 1,
@@ -131,19 +132,19 @@ class ArProSpanDataset(DatasetBase):
         with open(data_path, "r") as fp:
             for line_idx, line in enumerate(fp):
                 line_data = json.loads(line)
-                id = line_data.get("paragraph_id", "")
-                text = line_data.get("paragraph", "")
-                label = line_data.get("labels", [])
+                id = line_data.get("paragraph_id") or line_data.get("tweet_id")
+                text = line_data.get("paragraph") or line_data.get("text")
+                labels = line_data.get("labels")
 
                 # we need to par text at evaluation to do some matching against predicted spans
-                for l in label:
+                for l in labels:
                     l["par_txt"] = text
 
                 data.append(
                     {
                         "input": text,
                         "input_id": id,
-                        "label": label,
+                        "label": labels,
                         "line_number": line_idx,
                     }
                 )
