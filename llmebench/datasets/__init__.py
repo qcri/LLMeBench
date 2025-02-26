@@ -54,6 +54,7 @@ from .SANADAlKhaleej import SANADAlKhaleejDataset
 from .SemEval17T1STS import SemEval17T1STSDataset
 from .SemEval17T2STS import SemEval17T2STSDataset
 from .SemEval23T3Propaganda import SemEval23T3PropagandaDataset
+from .ShamiCorpus import ShamiDataset
 from .Spam import SpamDataset
 from .SpokenNativQA import SpokenNativQADataset
 from .STSQ2Q import STSQ2QDataset
