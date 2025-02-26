@@ -83,7 +83,7 @@ class ArProSpanDataset(DatasetBase):
                     "start": 13,
                     "end": 52,
                     "text": "today's news headline",
-                    "par_txt": "paragraph"
+                    "par_txt": "paragraph",
                 }
             ],
             "line_number": 1,
