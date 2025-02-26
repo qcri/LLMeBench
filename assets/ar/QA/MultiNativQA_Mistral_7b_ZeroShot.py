@@ -45,10 +45,6 @@ def prompt(input_sample):
             "role": "user",
             "content": question_prompt,
         },
-        # {
-        #     "role": "assistant",
-        #     "content": assistant_prompt,
-        # },
     ]
 
 
