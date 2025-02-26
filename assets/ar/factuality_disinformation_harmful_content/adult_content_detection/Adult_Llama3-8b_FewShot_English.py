@@ -63,7 +63,6 @@ def prompt(input_sample, examples):
 
 
 def post_process(response):
-
     if not response or "error" in response or "output" not in response:
         print("Error or missing output in response:", response)
         return "NOT_ADULT"  # Safely default to NOT_ADULT when unsure

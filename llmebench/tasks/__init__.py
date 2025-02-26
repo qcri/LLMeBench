@@ -5,6 +5,8 @@ from .ArabicDiacritization import ArabicDiacritizationTask
 from .ArabicParsing import ArabicParsingTask
 from .ArabicPOS import ArabicPOSTask
 from .ArabicSegmentation import ArabicSegmentationTask
+from .ArPro import ArProTask
+from .ArProSpan import ArProSpanTask
 from .Attentionworthy import AttentionworthyTask
 from .Checkworthiness import CheckworthinessTask
 from .ClaimDetection import ClaimDetectionTask
