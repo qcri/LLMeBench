@@ -28,7 +28,7 @@ class BanFakeNewsDataset(DatasetBase):
 
     @staticmethod
     def get_data_sample():
-        return {"input": "News", "label": "Fake", "article_id": 1}
+        return {"input": "News", "label": "Fake", "id": 1}
 
     def load_data(self, data_path):
         data_path = self.resolve_path(data_path)
@@ -43,7 +43,7 @@ class BanFakeNewsDataset(DatasetBase):
                     {
                         "input": headline + "\n" + content,
                         "label": label,
-                        "article_id": id,
+                        "id": id,
                     }
                 )
 

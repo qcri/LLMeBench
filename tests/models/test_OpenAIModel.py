@@ -48,17 +48,38 @@ class TestAssetsForOpenAIPrompts(unittest.TestCase):
                     self.assertIn("role", message)
                     self.assertIsInstance(message["role"], str)
                     self.assertIn("content", message)
-                    self.assertIsInstance(message["content"], str)
+                    self.assertIsInstance(message["content"], (str, list))
+
+                    # Multi-modal input
+                    if isinstance(message["content"], list):
+                        for elem in message["content"]:
+                            self.assertIsInstance(elem, dict)
+                            self.assertIn("type", elem)
+
+                            if elem["type"] == "text":
+                                self.assertIn("text", elem)
+                                self.assertIsInstance(elem["text"], str)
+                            elif elem["type"] == "image_url":
+                                self.assertIn("image_url", elem)
+                                self.assertIsInstance(elem["image_url"], dict)
+                                self.assertIn("url", elem["image_url"])
+                                self.assertIsInstance(elem["image_url"]["url"], str)
+                            elif elem["type"] == "input_audio":
+                                self.assertIn("input_audio", elem)
+                                self.assertIsInstance(elem["input_audio"], dict)
+
+                                self.assertIn("data", elem["input_audio"])
+                                self.assertIsInstance(elem["input_audio"]["data"], str)
+
+                                self.assertIn("format", elem["input_audio"])
+                                self.assertEqual(elem["input_audio"]["format"], "wav")
 
 
 class TestOpenAIConfig(unittest.TestCase):
     def test_openai_config(self):
         "Test if model config parameters passed as arguments are used"
-        model = OpenAIModel(
-            api_type="llmebench", api_key="secret-key", model_name="private-model"
-        )
+        model = OpenAIModel(api_key="secret-key", model_name="private-model")
 
-        self.assertEqual(openai.api_type, "llmebench")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(model.model_params["model"], "private-model")
 
@@ -75,7 +96,7 @@ class TestOpenAIConfig(unittest.TestCase):
         self.assertEqual(openai.api_type, "azure")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(openai.api_version, "v1")
-        self.assertEqual(model.model_params["engine"], "private-model")
+        self.assertEqual(model.model_params["model"], "private-model")
 
     @patch.dict(
         "os.environ",
@@ -96,7 +117,7 @@ class TestOpenAIConfig(unittest.TestCase):
         self.assertEqual(openai.api_type, "azure")
         self.assertEqual(openai.api_key, "secret-key")
         self.assertEqual(openai.api_version, "v1")
-        self.assertEqual(model.model_params["engine"], "private-model")
+        self.assertEqual(model.model_params["model"], "private-model")
 
     @patch.dict(
         "os.environ", {"OPENAI_API_KEY": "secret-key", "OPENAI_MODEL": "private-model"}

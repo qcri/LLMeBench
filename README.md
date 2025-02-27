@@ -1,6 +1,6 @@
 # LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
-This repository contains code for the LLMeBench framework (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using **three** model providers: OpenAI (e.g., [GPT](https://platform.openai.com/docs/guides/gpt)), [HuggingFace Inference API](https://huggingface.co/docs/api-inference/), and Petals (e.g., [BLOOMZ](https://huggingface.co/bigscience/bloomz)); it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+This repository contains code for the LLMeBench framework (described in <a href="https://aclanthology.org/2024.eacl-demo.23/" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using **three** model providers: OpenAI (e.g., [GPT](https://platform.openai.com/docs/guides/gpt)), [HuggingFace Inference API](https://huggingface.co/docs/api-inference/), and Petals (e.g., [BLOOMZ](https://huggingface.co/bigscience/bloomz)); it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
 
 <!---"https://github.com/qcri/LLMeBench/assets/3918663/15d989e0-edc7-489a-ba3b-36184a715383"--->
 
@@ -9,6 +9,11 @@ This repository contains code for the LLMeBench framework (described in <a href=
 <img alt = "The architecture of the LLMeBench framework." src="https://github.com/qcri/LLMeBench/assets/3918663/7f7a0da8-cd73-49d5-90d6-e5c62781b5c3" width="400" height="250"/>
 </picture>
 </p>
+
+## Recent Updates
+- 26st February, 2025 -- New features added: Assets for Spoken Native QA, Multilingual Native QA, and Propagandistic Content Classification, along with datasets for hateful and propagandistic memes.
+- 20st January, 2025 -- New assets added. Updated versions for openai, anthropic and sentence_transformers.
+- 21st July, 2024 -- Multimodal capabilities have been added. Assets now include support for GPT-4 (OpenAI) and Sonet (Anthropic).
 
 
 ## Overview
@@ -20,7 +25,8 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/8
 </p>
 
 Developing **LLMeBench** is an ongoing effort and it will be continuously expanded. Currently, the framework features the following:
-- Supports 31 [tasks](llmebench/tasks) featuring 3 [model providers](llmebench/models). Tested with 53 [datasets](llmebench/datasets) associated with 12 languages, resulting in **200 [benchmarking assets](assets/)** ready to run.
+- Supports 34 [tasks](llmebench/tasks) featuring 7 [model providers](llmebench/models). Tested with 66 [datasets](llmebench/datasets) associated with 16 languages, resulting in **800 [benchmarking assets](assets/)** ready to run.
+- Support for **text, speech, and multimodality**
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
@@ -28,41 +34,22 @@ Developing **LLMeBench** is an ongoing effort and it will be continuously expand
 - Open-source.
 
 ## Quick Start!
-1. [Install](https://github.com/qcri/LLMeBench/blob/main/README.md#installation) LLMeBench.
-2. Create a new folder "data", then [download ArSAS dataset](https://llmebench.qcri.org/data/ArSAS.zip) into "data" and unzip it.
-3. Evaluate!
+1. Install LLMeBench: `pip install 'llmebench[fewshot]'`
+2. Download the current assets: `python -m llmebench assets download`. This will fetch assets and place them in the current working directory.
+3. Download one of the dataset, e.g. ArSAS. `python -m llmebench data download ArSAS`. This will download the data to the current working directory inside the `data` folder.
+4. Evaluate!
 
-   For example, to evaluate the performance of a [random baseline](llmebench/models/RandomGPT.py) for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you need to create an ["asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate, then run the evaluation as follows:
+   For example, to evaluate the performance of a random baseline for Sentiment analysis on [ArSAS dataset](https://github.com/qcri/LLMeBench/blob/main/llmebench/datasets/ArSAS.py), you can run:
    ```bash
    python -m llmebench --filter 'sentiment/ArSAS_Random*' assets/ results/
    ```
-   where `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
-
-## Installation
-*pip package to be made available soon!*
-
-Clone this repository:
-```bash
-git clone https://github.com/qcri/LLMeBench.git
-cd LLMeBench
-```
-
-Create and activate virtual environment:
-```bash
-python -m venv .envs/llmebench
-source .envs/llmebench/bin/activate
-```
-
-Install the dependencies and benchmarking package:
-```bash
-pip install -e '.[dev,fewshot]'
-```
+   which uses the [ArSAS_random "asset"](assets/ar/sentiment_emotion_others/sentiment/ArSAS_random.py): a file that specifies the dataset, model and task to evaluate. Here, `ArSAS_Random` is the asset name referring to the `ArSAS` dataset name and the `Random` model, and `assets/ar/sentiment_emotion_others/sentiment/` is the directory where the benchmarking asset for the sentiment analysis task on Arabic ArSAS dataset can be found. Results will be saved in a directory called `results`.
 
 ## Get the Benchmark Data
 In addition to supporting the user to implement their own LLM evaluation and benchmarking experiments, the framework comes equipped with benchmarking assets over a large variety of datasets and NLP tasks. To benchmark models on the same datasets, the framework *automatically* downloads the datasets when possible. Manually downloading them (for example to explore the data before running any assets) can be done as follows:
 
 ```bash
-python -m llmebench download <DatasetName>
+python -m llmebench data download <DatasetName>
 ```
 
 **_Voilà! all ready to start evaluation..._**
@@ -142,5 +129,26 @@ Please cite our papers when referring to this framework:
       year = {2024},
       address = {Malta},
       publisher = {Association for Computational Linguistics},
+}
+
+```
+
+Please consider citing the following papers if you use the assets derived from them.
+
+```
+@inproceedings{kmainasi2024native,
+  title={Native vs non-native language prompting: A comparative analysis},
+  author={Kmainasi, Mohamed Bayan and Khan, Rakif and Shahroor, Ali Ezzat and Bendou, Boushra and Hasanain, Maram and Alam, Firoj},
+  booktitle={International Conference on Web Information Systems Engineering},
+  pages={406--420},
+  year={2024},
+  organization={Springer}
+}
+
+@article{hasan2024nativqa,
+  title={{NativQA}: Multilingual culturally-aligned natural query for {LLMs}},
+  author={Hasan, Md Arid and Hasanain, Maram and Ahmad, Fatema and Laskar, Sahinur Rahman and Upadhyay, Sunaya and Sukhadia, Vrunda N and Kutlu, Mucahid and Chowdhury, Shammur Absar and Alam, Firoj},
+  journal={arXiv preprint arXiv:2407.09823},
+  year={2024}
 }
 ```
