@@ -5,15 +5,21 @@ from llmebench.models import PetalsModel
 from llmebench.tasks import DialectIDTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "bloomz-176b (8bit quantized)",
+        "description": "Locally hosted BLOOMZ 176b model (8 bit quantized version) using the Petals.",
+        "scores": {"Macro-F1": ""},
+    }
+
+
 def config():
     return {
         "dataset": ShamiDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": PetalsModel,
         "model_args": {
-            "api_url": os.environ["API_URL"],
             "class_labels": ["Lebanese", "Jordanian", "Palestinian", "Syrian"],
             "max_tries": 22,
         },

@@ -5,19 +5,21 @@ from llmebench.models import OpenAIModel
 from llmebench.tasks import DialectIDTask
 
 
+def metadata():
+    return {
+        "author": "Arabic Language Technologies, QCRI, HBKU",
+        "model": "gpt-4-32k (version 0314)",
+        "description": "GPT4 32k tokens model hosted on Azure, using the ChatCompletion API. API version '2023-03-15-preview'.",
+        "scores": {"Macro-F1": ""},
+    }
+
+
 def config():
     return {
         "dataset": ShamiDataset,
-        "dataset_args": {},
         "task": DialectIDTask,
-        "task_args": {},
         "model": OpenAIModel,
         "model_args": {
-            "api_type": "azure",
-            "api_version": "2023-03-15-preview",
-            "api_base": os.environ["AZURE_API_URL"],
-            "api_key": os.environ["AZURE_API_KEY"],
-            "engine_name": os.environ["ENGINE_NAME"],
             "class_labels": ["Lebanese", "Jordanian", "Palestinian", "Syrian"],
             "max_tries": 3,
         },
