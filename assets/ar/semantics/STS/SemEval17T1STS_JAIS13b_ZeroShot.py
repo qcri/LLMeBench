@@ -1,3 +1,5 @@
+import re
+
 from llmebench.datasets import SemEval17T1STSDataset
 from llmebench.models import FastChatModel
 from llmebench.tasks import STSTask
