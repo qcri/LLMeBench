@@ -1,6 +1,6 @@
 # LLMeBench: A Flexible Framework for Accelerating LLMs Benchmarking
 
-This repository contains code for the LLMeBench framework (described in <a href="https://arxiv.org/abs/2308.04945" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using **three** model providers: OpenAI (e.g., [GPT](https://platform.openai.com/docs/guides/gpt)), [HuggingFace Inference API](https://huggingface.co/docs/api-inference/), and Petals (e.g., [BLOOMZ](https://huggingface.co/bigscience/bloomz)); it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
+This repository contains code for the LLMeBench framework (described in <a href="https://aclanthology.org/2024.eacl-demo.23/" target="_blank">this paper</a>). The framework currently supports evaluation of a variety of NLP tasks using **different** model providers such as OpenAI (e.g., [GPT](https://platform.openai.com/docs/guides/gpt)), [HuggingFace Inference API](https://huggingface.co/docs/api-inference/), Azure, and Petals (e.g., [BLOOMZ](https://huggingface.co/bigscience/bloomz)); it can be seamlessly customized for any NLP task, LLM model and dataset, regardless of language.
 
 <!---"https://github.com/qcri/LLMeBench/assets/3918663/15d989e0-edc7-489a-ba3b-36184a715383"--->
 
@@ -11,7 +11,10 @@ This repository contains code for the LLMeBench framework (described in <a href=
 </p>
 
 ## Recent Updates
-- 21st July, 2024 -- Multimodal capabilities have been added. Assets now include support for GPT-4 (OpenAI) and Sonet (Anthropic).
+- 26 February, 2025 -- New features added: Assets for Spoken Native QA, Multilingual Native QA, and Propagandistic Content Classification, along with datasets for hateful and propagandistic memes.
+- 20 January, 2025 -- New assets added. Updated versions for openai, anthropic and sentence_transformers.
+- 21 July, 2024 -- Multimodal capabilities have been added. Assets now include support for GPT-4 (OpenAI) and Sonet (Anthropic).
+
 
 ## Overview
 <p align="center">
@@ -22,8 +25,8 @@ validated in LLMeBench." src="https://github.com/qcri/LLMeBench/assets/3918663/8
 </p>
 
 Developing **LLMeBench** is an ongoing effort and it will be continuously expanded. Currently, the framework features the following:
-- Supports 34 [tasks](llmebench/tasks) featuring 7 [model providers](llmebench/models). Tested with 66 [datasets](llmebench/datasets) associated with 16 languages, resulting in **300 [benchmarking assets](assets/)** ready to run.
-- Support for **multimodality**
+- Supports 34 [tasks](llmebench/tasks) featuring 7 [model providers](llmebench/models). Tested with 80 [datasets](llmebench/datasets) associated with 16 languages, resulting in **~800 [benchmarking assets](assets/)** ready to run.
+- Support for **text, speech, and multimodality**
 - Easily extensible to new models accessible through APIs.
 - Extensive caching capabilities, to avoid costly API re-calls for repeated experiments.
 - Supports zero- and few-shot learning paradigms.
@@ -126,5 +129,26 @@ Please cite our papers when referring to this framework:
       year = {2024},
       address = {Malta},
       publisher = {Association for Computational Linguistics},
+}
+
+```
+
+Please consider citing the following papers if you use the assets derived from them.
+
+```
+@inproceedings{kmainasi2024native,
+  title={Native vs non-native language prompting: A comparative analysis},
+  author={Kmainasi, Mohamed Bayan and Khan, Rakif and Shahroor, Ali Ezzat and Bendou, Boushra and Hasanain, Maram and Alam, Firoj},
+  booktitle={International Conference on Web Information Systems Engineering},
+  pages={406--420},
+  year={2024},
+  organization={Springer}
+}
+
+@article{hasan2024nativqa,
+  title={{NativQA}: Multilingual culturally-aligned natural query for {LLMs}},
+  author={Hasan, Md Arid and Hasanain, Maram and Ahmad, Fatema and Laskar, Sahinur Rahman and Upadhyay, Sunaya and Sukhadia, Vrunda N and Kutlu, Mucahid and Chowdhury, Shammur Absar and Alam, Firoj},
+  journal={arXiv preprint arXiv:2407.09823},
+  year={2024}
 }
 ```

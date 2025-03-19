@@ -27,7 +27,6 @@ def config():
 
 
 def prompt(input_sample):
-
     assistant_prompt = """
         I am an Arabic AI assistant specialized in classifying sentences into subjective or objective.         
     """

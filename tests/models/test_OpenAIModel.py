@@ -64,6 +64,15 @@ class TestAssetsForOpenAIPrompts(unittest.TestCase):
                                 self.assertIsInstance(elem["image_url"], dict)
                                 self.assertIn("url", elem["image_url"])
                                 self.assertIsInstance(elem["image_url"]["url"], str)
+                            elif elem["type"] == "input_audio":
+                                self.assertIn("input_audio", elem)
+                                self.assertIsInstance(elem["input_audio"], dict)
+
+                                self.assertIn("data", elem["input_audio"])
+                                self.assertIsInstance(elem["input_audio"]["data"], str)
+
+                                self.assertIn("format", elem["input_audio"])
+                                self.assertEqual(elem["input_audio"]["format"], "wav")
 
 
 class TestOpenAIConfig(unittest.TestCase):

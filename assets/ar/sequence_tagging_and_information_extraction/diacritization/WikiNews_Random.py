@@ -30,24 +30,24 @@ def prompt(input_sample):
 
 def post_process(response):
     diacritics = [
-        "\u064E",  # Fatha
-        "\u064B",  # Fathatan
-        "\u064F",  # Damma
-        "\u064C",  # Dammatan
+        "\u064e",  # Fatha
+        "\u064b",  # Fathatan
+        "\u064f",  # Damma
+        "\u064c",  # Dammatan
         "\u0650",  # Kasra
-        "\u064D",  # Kasratan
+        "\u064d",  # Kasratan
         "\u0652",  # Sukun
         "\u0651",  # Shadda
         None,
     ]
 
     shadda_diacritics = [
-        "\u064E",  # Fatha
-        "\u064B",  # Fathatan
-        "\u064F",  # Damma
-        "\u064C",  # Dammatan
+        "\u064e",  # Fatha
+        "\u064b",  # Fathatan
+        "\u064f",  # Damma
+        "\u064c",  # Dammatan
         "\u0650",  # Kasra
-        "\u064D",  # Kasratan
+        "\u064d",  # Kasratan
         None,
     ]
 

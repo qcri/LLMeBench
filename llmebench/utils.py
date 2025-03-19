@@ -87,7 +87,6 @@ def get_data_paths(config, split):
         data_args = general_args.get("fewshot", {})
 
     is_generic_dataset = dataset.metadata().get("generic", False)
-
     data_paths = []
     if is_generic_dataset:
         # custom_test/train_split _must_ be present for generic datasets

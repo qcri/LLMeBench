@@ -251,3 +251,50 @@ class OpenAIModel(OpenAIModelBase):
         )
         response = json.loads(response.json())
         return response
+
+
+class OpenAIO1Model(OpenAIModelBase):
+    def __init__(self, *args, **kwargs):
+        # Remove 'temperature' and 'top_p' if they exist in kwargs,
+        kwargs.pop("temperature", None)
+        kwargs.pop("top_p", None)
+
+        # Call parent class __init__ without temperature and top_p
+        super().__init__(*args, **kwargs)
+
+    def summarize_response(self, response):
+        """Returns the first reply from the "assistant", if available"""
+        if (
+            "choices" in response
+            and isinstance(response["choices"], list)
+            and len(response["choices"]) > 0
+            and "message" in response["choices"][0]
+            and "content" in response["choices"][0]["message"]
+            and response["choices"][0]["message"]["role"] == "assistant"
+        ):
+            return response["choices"][0]["message"]["content"]
+
+        return response
+
+    def prompt(self, processed_input):
+        """
+        OpenAI API ChatCompletion implementation
+
+        Arguments
+        ---------
+        processed_input : list
+            Must be a list of dictionaries, where each dictionary has two keys;
+            "role" defines a role in the chat (e.g. "system", "user") and
+            "content" defines the actual message for that turn
+
+        Returns
+        -------
+        response : OpenAI API response
+            Response from the OpenAI Python library
+
+        """
+        response = self.client.chat.completions.create(
+            messages=processed_input, **self.model_params
+        )
+        response = json.loads(response.json())
+        return response
