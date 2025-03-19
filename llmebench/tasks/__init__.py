@@ -17,6 +17,7 @@ from .DemographyNameInfo import DemographyNameInfoTask
 from .DialectID import DialectIDTask
 from .Emotion import EmotionTask
 from .Factuality import FactualityTask
+from .Generation import NLGenerationTask
 from .HarmfulDetection import HarmfulDetectionTask
 from .HateSpeech import HateSpeechTask
 from .Lemmatization import LemmatizationTask
@@ -41,6 +42,7 @@ TaskType = Enum(
     "TaskType",
     [
         "Classification",
+        "NLGenerationTask",
         "MultiLabelClassification",
         "SequenceLabeling",
         "QuestionAnswering",
