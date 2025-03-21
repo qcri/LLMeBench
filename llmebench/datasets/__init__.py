@@ -74,5 +74,6 @@ from .WikiNewsLemmatization import WikiNewsLemmatizationDataset
 from .WikiNewsPOS import WikiNewsPOSDataset
 from .WikiNewsSegmentation import WikiNewsSegmentationDataset
 from .XGLUEPOS import XGLUEPOSDataset
+from .XLSum import XLSumDataset
 from .XNLI import XNLIDataset
 from .XQuAD import XQuADDataset
