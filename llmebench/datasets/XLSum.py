@@ -69,20 +69,23 @@ class XLSumDataset(DatasetBase):
 
     def load_data(self, data_path):
         data_path = self.resolve_path(data_path)
-        formatted_data = []
-        with open(data_path, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            for index, line in enumerate(data):
-                formatted_data.append(
-                    {
-                        "input": {
-                            "input": data["input"],
-                            "instruction": data["instruction"],
-                            "native_instruction": data["native_instruction"],
-                        },
-                        "label": data["output"],
-                        "line_number": data["id"],
-                    }
-                )
-        print("loaded %d data samples from file!" % len(formatted_data))
+
+        # Load JSON data into a pandas DataFrame
+        df = pd.read_json(data_path, encoding="utf-8")
+
+        # Format the data as required
+        df["formatted_data"] = df.apply(
+            lambda row: {
+                "input": {
+                    "input": row["input"],
+                    "instruction": row["instruction"],
+                },
+                "label": row["output"],
+                "line_number": row["id"],
+            },
+            axis=1,
+        )
+        formatted_data = df["formatted_data"].tolist()
+
+        print(f"Loaded {len(formatted_data)} data samples from file!")
         return formatted_data
