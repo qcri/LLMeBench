@@ -6,6 +6,7 @@ from .ANSStance import ANSStanceDataset
 from .Aqmar import AqmarDataset
 from .AraBench import AraBenchDataset
 from .ArabGend import ArabGendDataset
+from .ArabicLJP import ArabicLJPDataset
 from .ArAIEVAL231A import ArAIEVAL231A
 from .ArAIEVAL231B import ArAIEVAL231B
 from .ArAIEVAL232A import ArAIEVAL232A
