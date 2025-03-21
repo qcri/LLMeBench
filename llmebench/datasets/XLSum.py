@@ -85,7 +85,6 @@ class XLSumDataset(DatasetBase):
             },
             axis=1,
         )
-
         formatted_data = df["formatted_data"].tolist()
 
         print(f"Loaded {len(formatted_data)} data samples from file!")
