@@ -28,7 +28,7 @@ class GeminiFailure(Exception):
         )
 
 
-class Gemini(ModelBase):
+class GeminiModel(ModelBase):
     """
     Gemini Model interface.
 
@@ -92,7 +92,7 @@ class Gemini(ModelBase):
         self.top_p = top_p
         self.max_tokens = max_tokens
 
-        super(Gemini, self).__init__(
+        super(GeminiModel, self).__init__(
             retry_exceptions=(TimeoutError, GeminiFailure), **kwargs
         )
         vertexai.init(project=self.project_id, location="us-central1")

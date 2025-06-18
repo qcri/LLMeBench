@@ -2,7 +2,7 @@ import json
 import re
 
 from llmebench.datasets import MultiNativQADataset
-from llmebench.models import Gemini
+from llmebench.models import GeminiModel
 from llmebench.tasks import MultiNativQATask
 
 
@@ -19,7 +19,7 @@ def config():
     return {
         "dataset": MultiNativQADataset,
         "task": MultiNativQATask,
-        "model": Gemini,
+        "model": GeminiModel,
         "general_args": {"test_split": "english_bd"},
     }
 
