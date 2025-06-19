@@ -142,9 +142,9 @@ class GeminiModel(ModelBase):
         #     }
         # }
         generation_config = {
-            "max_output_tokens": 8192,
-            "temperature": 0,
-            "top_p": 0.95,
+            "max_output_tokens": self.max_tokens,
+            "temperature": self.temperature,
+            "top_p": self.top_p,
         }
 
         try:
