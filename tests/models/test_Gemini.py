@@ -53,7 +53,9 @@ class TestGeminiDepModelConfig(unittest.TestCase):
     def test_gemini_deployed_model_config(self):
         "Test if model config parameters passed as arguments are used"
         model = GeminiModel(
-            project_id="test_project_id", model_name="gemini-test", location="us-central1"
+            project_id="test_project_id",
+            model_name="gemini-test",
+            location="us-central1",
         )
 
         self.assertEqual(model.project_id, "test_project_id")
@@ -87,9 +89,11 @@ class TestGeminiDepModelConfig(unittest.TestCase):
     def test_gemini_deployed_model_config_priority(self):
         "Test if model config parameters passed directly get priority"
         model = GeminiModel(
-            project_id="test_project_id", model_name="gemini_test", location="us-central1"
+            project_id="test_project_id",
+            model_name="gemini_test",
+            location="us-central1",
         )
 
-        self.assertEqual(model.project_id, "test_project_id")        
+        self.assertEqual(model.project_id, "test_project_id")
         self.assertEqual(model.location, "us-central1")
         self.assertEqual(model.model_name, "gemini_test")
