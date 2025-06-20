@@ -53,18 +53,20 @@ class TestGeminiDepModelConfig(unittest.TestCase):
     def test_gemini_deployed_model_config(self):
         "Test if model config parameters passed as arguments are used"
         model = GeminiModel(
-            project_id="test_project_id", api_key="secret-key", model_name="gemini-test"
+            project_id="test_project_id",
+            model_name="gemini-test",
+            location="us-central1",
         )
 
         self.assertEqual(model.project_id, "test_project_id")
-        self.assertEqual(model.api_key, "secret-key")
+        self.assertEqual(model.location, "us-central1")
         self.assertEqual(model.model_name, "gemini-test")
 
     @patch.dict(
         "os.environ",
         {
             "GOOGLE_PROJECT_ID": "test_project_id",
-            "GOOGLE_API_KEY": "secret-key",
+            "LOCATION": "us-central1",
             "MODEL": "gemini-test",
         },
     )
@@ -73,23 +75,25 @@ class TestGeminiDepModelConfig(unittest.TestCase):
         model = GeminiModel()
 
         self.assertEqual(model.project_id, "test_project_id")
-        self.assertEqual(model.api_key, "secret-key")
+        self.assertEqual(model.location, "us-central1")
         self.assertEqual(model.model_name, "gemini-test")
 
     @patch.dict(
         "os.environ",
         {
             "GOOGLE_PROJECT_ID": "test_project_id",
-            "GOOGLE_API_KEY": "secret-env-key",
+            "LOCATION": "us-central1",
             "MODEL": "gemini-test",
         },
     )
     def test_gemini_deployed_model_config_priority(self):
         "Test if model config parameters passed directly get priority"
         model = GeminiModel(
-            project_id="test_project_id", api_key="secret-key", model_name="gemini_test"
+            project_id="test_project_id",
+            model_name="gemini_test",
+            location="us-central1",
         )
 
         self.assertEqual(model.project_id, "test_project_id")
-        self.assertEqual(model.api_key, "secret-key")
+        self.assertEqual(model.location, "us-central1")
         self.assertEqual(model.model_name, "gemini_test")
